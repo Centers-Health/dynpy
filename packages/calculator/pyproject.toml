@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "calculator"
+version = "0.1.0"
+description = ""
+authors = ["Avi Areman <avi.areman@gmail.com>"]
+readme = "README.md"
+packages = [{include = "calculator", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+arithmetic = { path = "../arithmetic", develop = true}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry-monorepo.deps]
