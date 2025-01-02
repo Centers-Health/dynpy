@@ -13,3 +13,6 @@ class Calculator:
 
     def mult(self, a, b):
         return a * b
+
+    def mul(self, a, b):
+        return self.mult(a, b)
