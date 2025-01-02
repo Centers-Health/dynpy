@@ -7,3 +7,6 @@ class Calculator:
 
     def sub(self, a, b):
         return sub(a, b)
+
+    def bus(self, a, b):
+        return sub(a, b)
