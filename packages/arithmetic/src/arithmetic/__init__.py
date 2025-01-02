@@ -4,3 +4,6 @@ def add(a, b):
 
 def double(a):
     return a + a
+
+def triple(a):
+    return a + a +a
