@@ -10,3 +10,6 @@ class Calculator:
 
     def bus(self, a, b):
         return bus(a, b)
+
+    def mult(self, a, b):
+        return a * b
