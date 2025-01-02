@@ -1,0 +1,4 @@
+{% load generic_filter_list_tags %}
+{% load crispy_forms_tags %}
+<div class="form-group col-md-2 mb-0"
+     {% if field|is_selectpicker %}@change.stop=' triggerChangeOnHide'{% endif %}>{{ field|as_crispy_field }}</div>

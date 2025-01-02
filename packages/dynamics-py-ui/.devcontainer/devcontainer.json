@@ -1,0 +1,23 @@
+{
+    "name": "Dynpy UI",
+    "dockerComposeFile": [
+        "../docker-compose.yml"
+    ],
+    "service": "dev",
+    "workspaceFolder": "/app",
+    "shutdownAction": "none",
+    "remoteUser": "docker",
+    "extensions": [
+        "batisteo.vscode-django",
+        "eamodio.gitlens",
+        "ms-python.python",
+        "GitHub.vscode-pull-request-github",
+        "ms-python.vscode-pylance"
+    ],
+    "settings": {
+        "python.formatting.provider": "black",
+        "python.formatting.blackPath": ".venv/bin/black",
+        "python.linting.flake8Enabled": true,
+        "python.linting.flake8Path": ".venv/bin/flake8heavened"
+    }
+}

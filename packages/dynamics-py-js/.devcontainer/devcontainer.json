@@ -1,0 +1,33 @@
+{
+    "name": "Dynpy JS",
+    "dockerComposeFile": [
+        "../docker-compose.yml"
+    ],
+    "service": "dev",
+    "workspaceFolder": "/app",
+    "shutdownAction": "none",
+    "remoteUser": "docker",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "batisteo.vscode-django",
+                "jdinhlife.gruvbox",
+                "eamodio.gitlens",
+                "ms-python.vscode-pylance",
+                "GitHub.vscode-pull-request-github",
+                "charliermarsh.ruff"
+            ],
+            "settings": {
+                "[python]": {
+                    "editor.formatOnSave": true,
+                    "editor.codeActionsOnSave": {
+                        "source.fixAll": "explicit",
+                        "source.organizeImports": "explicit"
+                    },
+                    "editor.defaultFormatter": "charliermarsh.ruff"
+                },
+                "python.venvPath": "."
+            }
+        }
+    }
+}

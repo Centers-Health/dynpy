@@ -1,0 +1,32 @@
+{# djlint:off #}
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="icon" href="data:image/svg+xml, <svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22> <text y=%22.9em%22 font-size=%2290%22>⚠️</text></svg>">
+        <title>JS Error</title>
+        <link rel="stylesheet" href="{% static 'dyn-erroneous/css/erroneous.css' %}">
+    </head>
+    <body>
+        <div class="js-error">
+            <h1 class="error-title">{{ message }}</h1>
+            <div class="traceback">
+            <!-- Keep these tags on the same line to prevent extra whitespace inside the <pre> tag -->
+            <pre><code>{{ stacktrace }}</code></pre>
+            </div>
+            <div class="traceback">
+            <pre><code>User Agent: {{user_agent}}</code></pre>
+            </div>
+            <div class="traceback">
+                <pre><code>window.location.href: {{window_location_href | pprint}}</code></pre>
+            </div>
+            <div class="traceback">
+                <pre><code>User: {{user}}</code></pre>
+            </div>
+            <div class="traceback">
+                <pre><code>Device width: {{device_width}} pixels; Device height: {{device_height}} pixels</code></pre>
+            </div>
+        </div>
+    </body>
+</html>
+{# djlint:on #}

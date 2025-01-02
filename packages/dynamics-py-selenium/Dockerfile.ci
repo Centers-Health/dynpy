@@ -1,0 +1,7 @@
+FROM ghcr.io/centers-health/dev:3
+
+COPY --chown=docker:docker pyproject.toml poetry.lock makefile ./
+
+RUN poetry install
+
+COPY --chown=docker:docker . .

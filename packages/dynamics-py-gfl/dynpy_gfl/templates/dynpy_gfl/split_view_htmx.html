@@ -1,0 +1,219 @@
+{% extends "dynpy_gfl/generic_filter_list_htmx.html" %}
+
+{% load dynpy_tags %}
+{% load generic_filter_list_tags %}
+{% load hx_tags %}
+{% load static %}
+
+{% block table_wrapper %}
+    <div x-init="initTableRowCounter()"
+         class="d-flex overflow-auto rounded position-relative h-100"
+         id="table_with_side_panel">
+        <div id="gfl_table_wrapper"
+             :style="{ '--table-width': $store.splitView.tableWidth, transition: $store.splitView.resizing ? 'none' : 'width .3s' }">
+            <span id="table-loader"
+                  class="overlay-spinner-indicator spinner-overlay-absolute h-100 w-100 bg-white rounded text-center">
+                <div class="d-flex align-items-center justify-content-center h-100">
+                    <div>
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status"></div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <span id="loading-message">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </span>
+            <div class="table_wrapper overflow-auto border rounded h-100
+                        {% if view.get_freeze_columns > 0 %}gfl-frozen{% endif %}
+                        {% if view.fixed_header %}fixed_header{% endif %}"
+                 id="gfl_table_wrapper">
+
+                {% block table %}
+                    <table id="gfl_table" class=" 
+                        {% block table_class %}table table-striped fixed_header table-hover min-width-max-content mb-0{% endblock table_class %}
+                         ">
+                        <thead>
+
+                            {% block table_head %}
+                                <tr>
+
+                                    {% block table_head_row %}
+                                        {% if view.include_index_column %}<th>ID</th>{% endif %}
+                                        {% for column in view.get_columns %}
+                                            <th>{% column_header_link sort_hx_name=view.sort_hx_name hx_target="#gfl_table" %}</th>
+                                        {% endfor %}
+                                    {% endblock table_head_row %}
+
+                                </tr>
+                            {% endblock table_head %}
+
+                        </thead>
+
+                        {% block table_tbody %}
+                            <tbody>
+
+                                {% block items %}
+                                    {% for item in object_list %}
+
+                                        {% block table_row_outer %}
+                                            {# djlint:off #}
+                                        <tr id="gfl_row_{{ item.pk }}" class="split-view-row cursor-pointer {% block table_row_classes %}{% endblock table_row_classes %}"
+                                            @click="$store.splitView.activateRow('{{ item.pk }}')" 
+                                            :class="$store.splitView.activeRowId == '{{ item.pk }}' && 'row-active'" 
+                                            
+                                                {% hx_get view.side_panel_hx_name %}
+                                                hx-vals='{"object_id": "{{ item.pk }}"}'
+                                                hx-swap="innerHTML settle:0" 
+                                                hx-target="#side_panel" 
+                                                hx-indicator="#side-panel-loader"
+                                                hx-trigger="click, refreshSidePanel{{ item.pk }} from:body"
+                                                hx-disinherit="hx-indicator"
+                                            {% block table_row_attributes %}{% endblock table_row_attributes %}>
+                                            {# djlint:on #}
+
+                                            {% block index_column %}
+                                                {% if view.include_index_column %}
+                                                    <td x-data="{index: $el.closest('tr').rowIndex}"
+                                                        @table-row-removed.window="index = $el.closest('tr').rowIndex">
+                                                        <span x-text="index"></span>
+                                                    </td>
+                                                {% endif %}
+                                            {% endblock index_column %}
+
+                                            {% block table_row %}
+                                                {% if paginator.per_page|divide:forloop.counter == 2 and paginator.has_next %}
+                                                    <td class="hidden-invisible"
+                                                        hx-trigger="intersect once delay:100ms"
+                                                        {% hx_get view.infinite_scroll_hx_name use_full_path=True %}
+                                                        hx-indicator="#tr-loader"
+                                                        hx-swap="afterend"
+                                                        hx-target="tbody tr:last-child"
+                                                        hx-vals="js:{ 'position': Alpine.store('tableRowCounter').total }">
+                                                    </td>
+                                                {% endif %}
+                                                <td class="hidden-invisible" {% hx_get view.row_refresh_hx_name use_full_path=True object=item %} hx-trigger="refreshRow{{ item.pk }} from:body" 
+                                                    {% block refresh_row_indicator %}{% endblock refresh_row_indicator %}
+                                                     hx-target='closest tr' hx-swap="outerHTML settle:0">
+                                                </td>
+                                            {% endblock table_row %}
+
+                                        </tr>
+                                    {% endblock table_row_outer %}
+
+                                {% endfor %}
+                            {% endblock items %}
+
+                        </tbody>
+                    {% endblock table_tbody %}
+
+                </table>
+            {% endblock table %}
+
+            {% block loader %}
+                {% comment %} Needed because table_wrapper is overridden and this is nested in there {% endcomment %}
+                {{ block.super }}
+            {% endblock loader %}
+
+            {% block no_objects %}
+                {% comment %} Needed because table_wrapper is overridden and this is nested in there {% endcomment %}
+                {{ block.super }}
+            {% endblock no_objects %}
+
+        </div>
+    </div>
+    <div class="resizer"
+         x-show="$store.splitView.sidePanelOpen"
+         id="table_panel_divider"></div>
+
+    {% block side_panel %}
+        <div class="card h-100 overflow-auto position-relative scroll-sensitive"
+             id="side_panel_wrapper"
+             x-show="$store.splitView.sidePanelOpen"
+             :style="{ '--side-panel-width': $store.splitView.sidePanelWidth}">
+            <i class="fa fa-times fa-lg cursor-pointer text-dark close-btn btn btn-sm p-1 btn-light"
+               title="Close panel (Esc)"
+               data-toggle="tooltip"
+               @click="$store.splitView.closeSidePanel()"
+               @keydown.window="if ($event.key === 'Escape') $store.splitView.closeSidePanel()"
+               id="close_panel_btn"></i>
+            <span id="side-panel-loader"
+                  class="overlay-spinner-indicator spinner-overlay-absolute h-100 w-100 bg-white rounded text-center">
+                <div class="d-flex align-items-center justify-content-center h-100">
+                    <div>
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status"></div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <span id="loading-message">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </span>
+            <div id="side_panel"
+                 {% hx_get view.side_panel_hx_name %}
+                 hx-vals='js:{ "object_id": Alpine.store("splitView").activeRowId }'
+                 hx-swap="innerHTML settle:0"
+                 hx-target="#side_panel"
+                 hx-indicator="#side-panel-loader"
+                 :hx-trigger="$store.splitView.activeRowId ? 'load' : ''"
+                 hx-disinherit="*"
+                 x-init="$nextTick(() => { htmx.process($el); $store.splitView.activeRowId ? $store.splitView.openSidePanel() : $store.splitView.closeSidePanel(); } )"
+                 :hx-disable="!$store.splitView.activeRowId"></div>
+        </div>
+    {% endblock side_panel %}
+
+</div>
+{% endblock table_wrapper %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'dynpy_gfl/js/resize_side_panel_manager.js' %}"></script>
+    <script>
+        document.addEventListener('alpine:initializing', () => {
+            Alpine.store('splitView', {
+                activeRowId: new URL(window.location.href).searchParams.get('object_id') || '',
+                sidePanelOpen: false,
+                tableWidth: '100%', 
+                sidePanelWidth: Alpine.$persist('25%'),
+                resizing: false,
+                
+                openSidePanel() {
+                    this.sidePanelOpen = true
+                    this.tableWidth = `${100 - Number(this.sidePanelWidth.slice(0, -1))}%`
+                },
+                closeSidePanel() {
+                    this.sidePanelOpen = false
+                    this.tableWidth = '100%'
+                },
+                setObjectIdParam() {
+                    const url = new URL(window.location.href)
+                    url.searchParams.set("object_id", this.activeRowId)
+                    history.pushState(null, '', url);
+                },
+                activateRow(id) {
+                    this.activeRowId = id
+                    this.setObjectIdParam()
+                    this.openSidePanel()
+                }
+            })
+        })
+
+        tablePanelResizeManager().initialize();
+        
+        document.addEventListener('htmx:afterRequest', () => {
+            Alpine.store('splitView').setObjectIdParam()
+        })
+
+        document.addEventListener('htmx:configRequest', e => {
+            e.detail.parameters['active_object_id'] = Alpine.store("splitView").activeRowId;
+            e.detail.parameters['side_panel_open'] = Alpine.store("splitView").sidePanelOpen;
+        })
+    
+    </script>
+{% endblock scripts %}
+
+{% block gfl_styles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'dynpy_gfl/css/split_view.css' %}"></link>
+{% endblock gfl_styles %}

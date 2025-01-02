@@ -1,0 +1,74 @@
+{% extends "dynpy_forms/widgets/multiselect.html" %}
+
+{% block widget_scripts %}
+    <script defer>
+        $(document).ready(() => {
+            class SelectPicker {
+                constructor() {
+                    this.select = document.querySelector("#{{random_id}}");
+                    this.$select = $(this.select);
+                    this.$select.selectpicker();
+                    this.search = this.select.parentElement.querySelector("input[type=search]");
+                    this.dropdownMenu = this.select.parentElement.querySelector('ul.dropdown-menu.inner');
+                }
+                refresh = () => {
+                    this.$select.selectpicker('refresh');
+                    this.dropdownMenu = this.select.parentElement.querySelector('ul.dropdown-menu.inner');
+                }
+            }
+
+            const selectPicker = new SelectPicker();
+            const noneResultsText = selectPicker.select.getAttribute('data-none-results-text') || 'No results matched {0}';
+            const searchQueryName = '{{query}}';
+            const searchQuery = `
+                query($searchTerm: String!, $count: Int!) {
+                    ${searchQueryName}(searchInput: { searchTerm: $searchTerm, count: $count }) {
+                        results {
+                            key
+                            value
+                        }
+                        count
+                    }
+
+                }
+            `;
+            const connector = GraphConnector();
+            let fetchCounter = 0;
+            let loading = false;
+            const search = makeDebounce((searchTerm, count) => {
+                const onSuccess = data => {
+                    results = data.data[searchQueryName].results;
+                    if(data.data[searchQueryName].count == fetchCounter) {
+                        loading = false;
+                        if(results.length) {
+                            results.forEach(result => {
+                                selectPicker.select.innerHTML += `<option value="${result.key}" data-content='${result.value}'>${result.value}</option>`;
+                            })
+                            selectPicker.refresh()
+                        }
+                        else {
+                            selectPicker.dropdownMenu.innerHTML = `<li class="no-results">${noneResultsText.replace('{0}', '"' + searchTerm + '"')}</li>`;
+                        }
+                    }
+                };
+                const onError = error => {
+                    console.log(error);
+                    selectPicker.dropdownMenu.innerHTML = getLoadingErrorInstance()
+                };
+                connector.execute(searchQuery, {searchTerm, count}, onSuccess, onError);
+            }, 300);
+            selectPicker.search.addEventListener('input', e => {
+                if (!loading) {
+                    selectPicker.select.innerHTML = '';
+                    selectPicker.refresh();
+                }
+                selectPicker.dropdownMenu.innerHTML = ''
+                if(e.target.value) {
+                    selectPicker.dropdownMenu.innerHTML = `<li>${getLoaderInstance('dots')}</li>`;
+                    search(e.target.value, ++fetchCounter);
+                    loading = true;
+                }
+            })
+        });
+    </script>
+{% endblock widget_scripts %}

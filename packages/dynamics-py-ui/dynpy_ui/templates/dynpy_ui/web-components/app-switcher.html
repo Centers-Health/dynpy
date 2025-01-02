@@ -1,0 +1,19 @@
+{% load static %}
+{% comment %}
+How to use the app-switcher:
+   - add a username property to the js window and set it to the user's CAS username
+   - add script tag with graph_connector.js <script defer src="{% static 'dyn-graphql/js/graph_connector.js' %}"></script>
+   - add empty <app-switcher></app-switcher> to use
+{% endcomment %}
+<link rel="stylesheet" href="{% static 'app-switcher/app-switcher.css' %}">
+<script src="{% static 'app-switcher/app-switcher.js' %}" defer></script>
+<template id="app-switcher">
+    <div class="app-switcher">
+        <div class="hamburger hamburger--spin">
+            <div class="hamburger-box">
+                <div class="hamburger-inner"></div>
+            </div>
+        </div>
+        <div class="app-switcher-menu"></div>
+    </div>
+</template>

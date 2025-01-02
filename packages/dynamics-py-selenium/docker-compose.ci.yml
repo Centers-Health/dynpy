@@ -1,0 +1,11 @@
+version: "3.3"
+
+services:
+  dev:
+    container_name: ${IMAGE_NAME}
+    build:
+      context: .
+      dockerfile: ./Dockerfile.ci
+    restart: unless-stopped
+    volumes:
+      - /home/enviro/pre_commit_cache:${HOME}/.cache/devcontainer/pre-commit

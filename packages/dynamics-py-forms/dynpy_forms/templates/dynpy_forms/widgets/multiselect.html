@@ -1,0 +1,32 @@
+{% load dynpy_tags %}
+{% comment %}
+    Here are the config options. To use them in the html you need to make them data-* attributes.
+    Example: "deselectAllText" ~> "data-deselect-all-text"
+    https://github.com/snapappointments/bootstrap-select/blob/v1.14-dev/js/bootstrap-select.js#L924-L966
+{% endcomment %}
+<select id="{{ random_id }}"
+        name="{{ widget.name }}"
+        {% include "django/forms/widgets/attrs.html" %}>
+    {% for group_name, group_choices, group_index in widget.optgroups %}
+        {% if group_name %}<optgroup label="{{ group_name }}" class="dropdown-item">{% endif %}
+        {% for option in group_choices %}
+            <option value="{{ option.value }}"
+                    {% if option.value|stringformat:"s" in widget.value %}
+                        selected
+                    {% endif %}
+                    data-content='{% if option_template and option_template|get_extension == ".html" %}
+                                      {% include option_template with choice=option.label %}
+                                  {% elif option_template %}
+                                      {{ option_template }}
+                                  {% else %}
+                                      {{ option.label }}
+                                  {% endif %}'>
+                {{ option.label }}
+            </option>
+        {% endfor %}
+        {% if group_name %}</optgroup>{% endif %}
+    {% endfor %}
+</select>
+
+{% block widget_scripts %}
+{% endblock widget_scripts %}

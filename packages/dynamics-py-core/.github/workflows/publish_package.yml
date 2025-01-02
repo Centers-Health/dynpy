@@ -1,0 +1,42 @@
+name: CD
+
+on:
+  push:
+    branches: [master]
+
+# Note: Introduce breaking change
+
+jobs:
+  release:
+    runs-on: [self-hosted, ciplus]
+    concurrency: release
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v3
+        with:
+          token: ${{secrets.ADMIN_TOKEN}}
+          fetch-depth: 0
+
+      - name: Configure CI Git User
+        run: |
+          git config user.name '@system-admin'
+          git config user.email 'system-admin@users.noreply.github.com'
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - uses: Gr1N/setup-poetry@v8
+
+      - name: Install semantic release
+        run: |
+          pip install -U pip
+          pip install python-semantic-release==7.31.2
+
+      - name: Generate version and commit / tag
+        run: semantic-release publish
+        env:
+          GH_TOKEN: ${{secrets.ADMIN_TOKEN}}
+
+      - name: Publish package to pypi.centershealthcare.org
+        run: poetry publish --build --repository=dynamics -u admin -p ${{secrets.PYPI_PASSWORD}} || echo

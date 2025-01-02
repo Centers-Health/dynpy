@@ -1,0 +1,22 @@
+<div class="dropdown">
+    <button {% include "django/forms/widgets/attrs.html" %}>{{ widget.label }}</button>
+    <div class="dropdown-menu
+                {% if drop_right %}
+                    dropdown-menu-right
+                {% endif %}">
+        {% for name, choice in widget.choices %}
+            {% if name == "------" %}
+                <div class="dropdown-divider"></div>
+            {% elif name|slice:"0:6" == "custom" %}
+                <span class="btn text-left pl-3">{{ choice }}</span>
+            {% elif name|first == "#" %}
+                <h6 class="dropdown-header">{{ choice }}</h6>
+            {% else %}
+                <button class="dropdown-item"
+                        type="submit"
+                        name="{{ widget.name }}"
+                        value="{{ name }}">{{ choice }}</button>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
