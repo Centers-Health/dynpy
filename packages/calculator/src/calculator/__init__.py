@@ -22,3 +22,6 @@ class Calculator:
 
     def perry(self):
         return "perry"
+
+    def terry(self):
+        return "terry"
