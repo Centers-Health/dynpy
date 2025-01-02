@@ -7,3 +7,6 @@ def double(a):
 
 def triple(a):
     return a + a +a
+
+def quad(a):
+    return a + a +a +a
