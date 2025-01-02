@@ -9,4 +9,4 @@ class Calculator:
         return sub(a, b)
 
     def bus(self, a, b):
-        return bus(b, a)
+        return bus(a, b)
