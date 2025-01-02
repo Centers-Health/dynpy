@@ -19,3 +19,6 @@ class Calculator:
 
     def perry(self, a, b):
         return self.mult(a, b)
+
+    def perry(self, a, b):
+        return "perry"
