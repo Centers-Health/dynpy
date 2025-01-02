@@ -1,4 +1,4 @@
-from arithmetic import add, sub
+from arithmetic import add, sub, bus
 
 
 class Calculator:
@@ -9,4 +9,4 @@ class Calculator:
         return sub(a, b)
 
     def bus(self, a, b):
-        return sub(b, a)
+        return bus(b, a)
