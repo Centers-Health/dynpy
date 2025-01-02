@@ -3,8 +3,4 @@ in-project = true
 
 [repositories]
 [repositories.dynamics]
-url = "https://pypi.centershealthcare.org"
-
-[repositories]
-[repositories.dynamics]
 url = "http://localhost:8999"
