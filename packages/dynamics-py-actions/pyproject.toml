@@ -62,8 +62,6 @@ line_length = 105
 python = "^3.11"
 django = "^4.2"
 django-crispy-forms = "^1.9.2"
-dynpy-js = {version = "^4.0.0", source = "dynamics"}
-dynpy = {version = "^17.0.0", source = "dynamics"}
 
 [tool.poetry.group.dev.dependencies]
 pytest-describe = "^2.0.1"

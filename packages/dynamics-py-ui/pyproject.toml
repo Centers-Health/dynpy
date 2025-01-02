@@ -76,7 +76,7 @@ exclude = '''
 [tool.poetry.dependencies]
 python = "^3.11"
 django = "^4.2"
-dynpy-js = {develop = true, source="../dynamics-py-js/"}
+dynpy-js = {develop = true, path="../dynamics-py-js/"}
 
 [tool.poetry.group.dev.dependencies]
 pytest-describe = "^2.0.1"

@@ -78,10 +78,9 @@ priority = "primary"
 python = "^3.11"
 django = "^4.2"
 django-filter = "^2.4.0"
-dynpy-actions = {version = "^6.0.0", source = "dynamics"}
-dynpy-js = {version = "^4.0.0", source = "dynamics"}
-dynpy-forms = {version = "^6.0.0", source = "dynamics"}
-dynpy = {version = "^17.0.0", source = "dynamics"}
+dynpy-actions = {develop=true, path="../dynamics-py-actions"}
+dynpy-forms = {develop=true, path="../dynamics-py-forms"}
+dynpy = {develop=true, path="../dynamics-py-core"}
 hx-requests = "*"
 django-js-asset = "^2.2.0"
 openpyxl = "^3.1.5"

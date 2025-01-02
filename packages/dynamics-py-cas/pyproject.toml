@@ -71,7 +71,7 @@ python-dateutil = "^2.8.2"
 premailer = "^3.10.0"
 html2text = "^2020.1.16"
 pyodbc = "^4.0.32"
-dynpy = {version = "^17.0.0", source = "dynamics"}
+dynpy = { develop= true, path="../dynamics-py-core"}
 
 [tool.poetry.group.dev.dependencies]
 pytest-watch = "^4.2.0"
