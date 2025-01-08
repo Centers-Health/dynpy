@@ -16,3 +16,7 @@ def triple(a):
 
 def quad(a):
     return a + a + a + a
+
+
+def bob(a):
+    return a + "bob"
