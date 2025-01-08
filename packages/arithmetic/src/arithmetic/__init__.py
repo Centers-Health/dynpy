@@ -20,3 +20,7 @@ def quad(a):
 
 def bob(a):
     return a + "bob"
+
+
+def jack(a):
+    return a + "jack"
