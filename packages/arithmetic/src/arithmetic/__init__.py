@@ -24,3 +24,7 @@ def bob(a):
 
 def jack(a):
     return a + "jack"
+
+
+def mult(a, b):
+    return a * b
