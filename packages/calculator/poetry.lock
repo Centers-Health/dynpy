@@ -2,7 +2,7 @@
 
 [[package]]
 name = "arithmetic"
-version = "1.2.0"
+version = "2.1.13"
 description = ""
 optional = false
 python-versions = "^3.10"
