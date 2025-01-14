@@ -40,3 +40,7 @@ def new():
 
 def new():
     return "new"
+
+
+def new():
+    return "new"
