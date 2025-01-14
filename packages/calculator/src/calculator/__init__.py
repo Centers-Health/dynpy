@@ -25,3 +25,5 @@ class Calculator:
 
     def terry(self):
         return "terry"
+
+
