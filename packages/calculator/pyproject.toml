@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "calculator"
-version = "2.1.25"
+version = "2.1.26"
 description = ""
 authors = ["Avi Areman <avi.areman@gmail.com>"]
 readme = "README.md"
