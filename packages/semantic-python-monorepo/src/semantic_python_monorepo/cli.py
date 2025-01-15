@@ -318,27 +318,27 @@ def get_commits() -> list[Commit]:
                 "log",
                 "--name-only",
                 "--oneline",
-                f'--format="{commit_format}"',
+                f"--format={commit_format}",
                 f"{last_managed_commit}..HEAD",
             ],
             "Getting log since last process",
         )
     else:
         output = log_run(
-            ["git", "log", "--name-only", "--oneline", f'--format="{commit_format}"'],
+            ["git", "log", "--name-only", "--oneline", f"--format={commit_format}"],
             "Initial Run",
         )
     files = []
     packages = set()
     sha = msg = ""
-    lines = output.stdout.replace('"', "").splitlines()
+    lines = output.stdout.splitlines()
     log.info("Parsing commit log")
     log.info(f"Number of Files affected by recent commits: {len(files)}")
     log.debug(f"Files affected by recent commits: {files}")
     for index, line in enumerate(lines):
         if line == "":
             continue
-        if line.find(">>") == -1:
+        if line.find(">>") != -1:
             # A commit line
             if sha and msg:
                 # finish old commit
