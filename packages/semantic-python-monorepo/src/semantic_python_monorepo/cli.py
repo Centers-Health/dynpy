@@ -308,7 +308,7 @@ def get_commits() -> list[Commit]:
     """return list of all commits that haven't been built"""
     last_managed_commit = read_lock_file()
     log.info(f"Latest processed commit: {last_managed_commit}")
-    commit_format = "%H<++>%B"
+    commit_format = ">>%H<++>%B"
     output = []
     commits = []
     if last_managed_commit:
@@ -316,7 +316,7 @@ def get_commits() -> list[Commit]:
             [
                 "git",
                 "log",
-                "--name-status",
+                "--name-only",
                 "--oneline",
                 f'--format="{commit_format}"',
                 f"{last_managed_commit}..HEAD",
@@ -325,7 +325,7 @@ def get_commits() -> list[Commit]:
         )
     else:
         output = log_run(
-            ["git", "log", "--name-status", "--oneline", f'--format="{commit_format}"'],
+            ["git", "log", "--name-only", "--oneline", f'--format="{commit_format}"'],
             "Initial Run",
         )
     files = []
@@ -338,17 +338,17 @@ def get_commits() -> list[Commit]:
     for index, line in enumerate(lines):
         if line == "":
             continue
-        if line.find("\t") == -1:
+        if line.find(">>") == -1:
             # A commit line
             if sha and msg:
                 # finish old commit
                 commits.append(Commit(sha=sha, msg=msg, files=files, packages=packages))
                 files = []
                 packages = set()
-            sha, msg = line.split("<++>")
+            sha, msg = line.replace(">>", "").split("<++>")
         else:
             # file line
-            _, file = line.split("\t")
+            file = line
             files.append(file)
             if len(file.split("/")) >= 2:
                 # part of a package
