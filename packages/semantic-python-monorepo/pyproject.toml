@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "semantic-python-monorepo"
+version = "0.1.0"
+description = "A tool to manage a monorepo of poetry packages"
+authors = ["CHC, Technology"]
+readme = "README.md"
+packages = [{include = "semantic_python_monorepo", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+rich = "^13.9.4"
+
+[tool.poetry.scripts]
+spm = "semantic_python_monorepo.cli:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry-monorepo.deps]
