@@ -15,7 +15,6 @@ INSTALLED_APPS = (
     "crispy_forms",
     "dynpy",
     "dynpy_actions",
-    "dynpy_js",
     "tests",
 )
 ROOT_URLCONF = "tests.urls"

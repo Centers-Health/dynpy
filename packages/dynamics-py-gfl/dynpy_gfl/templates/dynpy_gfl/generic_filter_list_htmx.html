@@ -188,7 +188,7 @@
                             </div>
 
                             {% block table %}
-                                <table id="gfl_table" x-init="initTableRowCounter()" class=" 
+                                <table id="gfl_table" x-init="initTableRowCounter()" class="
                                     {% block table_class %}table table-striped fixed_header{% endblock table_class %}
                                      ">
                                     <thead>
@@ -240,7 +240,7 @@
                                                                         hx-target="tbody tr:last-child">
                                                                     </td>
                                                                 {% endif %}
-                                                                <td class="hidden-invisible" {% hx_get view.row_refresh_hx_name use_full_path=True object=item %} hx-trigger="refreshRow{{ item.pk }} from:body" 
+                                                                <td class="hidden-invisible" {% hx_get view.row_refresh_hx_name use_full_path=True object=item %} hx-trigger="refreshRow{{ item.pk }} from:body"
                                                                     {% block refresh_row_indicator %}{% endblock refresh_row_indicator %}
                                                                      hx-target='closest tr' hx-swap="outerHTML">
                                                                 </td>

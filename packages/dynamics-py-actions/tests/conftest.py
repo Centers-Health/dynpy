@@ -17,7 +17,9 @@ pytest_plugins = [
 
 @pytest.fixture(autouse=True)
 def _override_settings_for_testing():
-    settings.STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
+    settings.STATICFILES_STORAGE = (
+        "django.contrib.staticfiles.storage.StaticFilesStorage"
+    )
     settings.SECRET_KEY = "test"
     settings.MEDIA_ROOT = "/tmp/django_test"
     settings.PASSWORD_HASHERS = [
@@ -58,7 +60,6 @@ def test_action(test_form):
     """
 
     class TestAction(ViewActions):
-
         element = test_form
         name = "test_action"
         embed_type = EmbedType.MODAL
@@ -77,7 +78,6 @@ def test_model_action(test_form):
     """
 
     class TestAction(ModelViewActions):
-
         element = test_form
         name = "test_model_action"
         embed_type = EmbedType.MODAL
@@ -96,7 +96,6 @@ def test_action_with_scripts(test_form):
     """
 
     class TestAction(ViewActions):
-
         element = test_form
         name = "test_action_with_scripts"
         embed_type = EmbedType.MODAL
@@ -109,7 +108,9 @@ def test_action_with_scripts(test_form):
 
 
 @pytest.fixture()
-def test_view_with_actions(test_action, test_form, test_model_action, test_action_with_scripts):
+def test_view_with_actions(
+    test_action, test_form, test_model_action, test_action_with_scripts
+):
     """
     Returns a View that has actions. Simple createView
     that has a template,form and actions.

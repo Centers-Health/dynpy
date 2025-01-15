@@ -1,6 +1,4 @@
-#!/usr/bin/env nix-shell
-#!nix-shell -i python3 -p python311 python311Packages.rich
-# vim: ft=python
+import inspect
 import re
 import pathlib
 import graphlib
@@ -9,30 +7,72 @@ import shutil
 import subprocess
 from dataclasses import dataclass
 import sys
+import argparse
 import tomllib
 import logging
+import traceback
 from typing import Any, Callable
 from rich.console import Console
 from rich.logging import RichHandler
+from rich.padding import Padding
+from rich.rule import Rule
+from rich.tree import Tree
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "-v",
+    "--verbose",
+    action="count",
+    default=0,
+    help="Increase verbosity level (use -v for verbose, -vv for very verbose)",
+)
+parser.add_argument(
+    "-n",
+    "--dry-run",
+    action="store_true",
+    help="A flag whether to check if Rehab Optima is refreshed",
+)
+
+args = parser.parse_args()
+if args.verbose == 0:
+    LOGGING_LEVEL = logging.ERROR
+elif args.verbose == 1:
+    LOGGING_LEVEL = logging.INFO
+elif args.verbose == 2:
+    LOGGING_LEVEL = logging.DEBUG
 
 # NOTE: OPTIONS
-DRY_RUN = False
+DRY_RUN = args.dry_run
 FAIL_FAST = True
 LOCK_FILE = "semantic-python-monorepo.lock"
-LOGGING_LEVEL = logging.ERROR
 
 logging.basicConfig(
     level=LOGGING_LEVEL,
     format="%(message)s",
     datefmt="[%X]",
-    handlers=[RichHandler(rich_tracebacks=True, show_time=False, show_path=False)],
+    handlers=[
+        RichHandler(
+            rich_tracebacks=True,
+            markup=True,
+            show_time=True,
+        )
+    ],
 )
 
 log = logging.getLogger(
     "rich",
 )
 
-console = Console()
+console = Console(force_terminal=True)
+
+
+def li(li: str | list[str], padding: int = 0) -> None:
+    if isinstance(li, str):
+        console.print(Padding(f"• {li}", (0, padding)))
+    else:
+        for item in li:
+            li(item, padding=padding)
 
 
 def fail_fast():
@@ -45,9 +85,6 @@ class CommandWithRollback:
     apply: Callable
 
     name: str
-    start_msg: str | Callable
-    success_msg: str | Callable
-    fail_msg: str | Callable
 
     rollback: Callable = None
     validate: Callable = None
@@ -59,9 +96,13 @@ class CommandWithRollback:
 # NOTE: New Type
 CommandResult = Any
 
+h1 = lambda msg: console.print(Padding(Rule(msg), (0, 0)))
+h2 = lambda msg: console.print(Padding(Rule(msg), (0, 4)))
+h3 = lambda msg: console.print(Padding(Rule(msg), (0, 8)))
+
 
 class CommandQueue:
-    _stack: list
+    _stack: list[tuple[CommandWithRollback, Any]]
 
     def __init__(self):
         self._stack = []
@@ -69,54 +110,60 @@ class CommandQueue:
     def execute(self, cmd: CommandWithRollback) -> CommandResult:
         log.info(f"Applying: {cmd.name}")
         result = None
-        with console.status(self.print_msg(cmd.start_msg, None), spinner="dots"):
-            self._stack.append(cmd)
-            try:
-                console.print(
-                    f"[red][bold]<({len(self._stack)})>[/bold] Running {cmd.name}"
-                )
-                result = cmd.apply()
-                log.debug(result)
-                if callable(cmd.validate) and not cmd.validate(result):
-                    raise Exception(f"Invalid Result {result}")
+        try:
+            log.info(f"[red][bold]<({len(self._stack)})>[/bold] Running {cmd.name}")
+            result = cmd.apply()
+            log.debug(f"result: {result}")
+            if not self.call_with_var_args(cmd.validate, result):
+                raise Exception(f"Invalid Result {result}")
 
-                self.print_msg(cmd.success_msg, result)
-
-            except Exception:
-                self.print_msg(cmd.fail_msg, result)
-                self.rollback()
-            else:
-                pass
-        console.print(self._stack, result)
+        except Exception as e:
+            self._stack.append((cmd, result))
+            self.rollback(e)
+        self._stack.append((cmd, result))
+        # log.debug(f"{self._stack}, {result}")
         return result
 
-    def rollback(self):
+    def rollback(self, exception):
+        log.debug(exception)
+        log.debug(traceback.format_exc())
         self._stack.reverse()
-        for index, cmd in enumerate(self._stack):
-            console.print(
-                f"[red][bold]<({len(self._stack) - index})>[/bold] Rolling Back {cmd.name}"
+        for index, item in enumerate(self._stack):
+            log.info(
+                f"[red][bold]<({len(self._stack) - index})>[/bold] Rolling Back {item[0].name}"
             )
-            if callable(cmd.rollback):
-                cmd.rollback()
+            self.call_with_var_args(item[0].rollback, item[1])
         fail_fast()
 
-    def print_msg(
-        self,
-        msg: str | Callable,
-        result: CommandResult = None,
-    ) -> None:
-        if callable(msg):
-            console.print(msg(result))
-        else:
-            console.print(msg)
+    def call_with_var_args(self, fn, *args, **kwargs):
+        if callable(fn):
+            spec = inspect.getfullargspec(fn)
+            # log.debug(f"{spec} {(*args,)} {{**kwargs,}}")
+            if len(spec.args) > 0 and spec.varargs and len(list(spec.varargs.items())):
+                return fn(*args, **kwargs)
+            elif len(spec.args) > 0:
+                return fn(*args)
+            elif spec.varargs and len(list(spec.varargs.items())):
+                return fn(**args)
+            else:
+                return fn()
+        return True
 
 
 def log_run(
     cmd: str | list, msg: str = None, *args, **kwargs
 ) -> subprocess.CompletedProcess:
-    log.info(f"{msg if msg else 'Calling cmd'}")
-    log.info(cmd)
-    result = subprocess.run(cmd, *args, **kwargs)
+    log.debug(f"{msg if msg else 'Calling cmd'}")
+    log.debug(cmd)
+    result = subprocess.run(
+        cmd,
+        *args,
+        capture_output=True,
+        encoding="utf-8",
+        **kwargs,
+    )
+    log.info(result.stdout)
+    log.info(result.stderr)
     return result
 
 
@@ -219,8 +266,16 @@ class PackageRegistry:
             list(self._packages.values()), key=lambda package: package.index
         )
 
+    def get_tree(self):
+        tree = Tree(f"Package Registry ({self.registry_path})")
+        for pname, p in self._packages.items():
+            ptree = tree.add(f"[bold blue]{pname}")
+            for name in p.dependencies:
+                ptree.add(f"[blue]{name}")
+        return tree
+
     @property
-    def packages_with_changes(self) -> dict[str, Package]:
+    def packages_with_bumps(self) -> dict[str, Package]:
         return {k: v for k, v in self._packages.items() if v.bump}
 
     @property
@@ -234,13 +289,17 @@ class PackageRegistry:
 
 def read_lock_file() -> str:
     """Get last commit that was managed"""
-    with open(f"./{LOCK_FILE}", "r") as f:
+    with open(f"./{LOCK_FILE}", "r" if os.path.exists(LOCK_FILE) else "a+") as f:
         return f.readline().rstrip()
 
 
-def git_tag(package_name: str, version: str) -> None:
+def format_git_tag(package_name: str, version: str) -> str:
+    return f"{package_name}-v{version}"
+
+
+def git_tag(tag: str) -> None:
     return log_run(
-        ["git", "tag", f"{package_name}-v{version}"],
+        ["git", "tag", tag],
         "Creating Git Tags",
     )
 
@@ -266,13 +325,13 @@ def get_commits() -> list[Commit]:
         )
     else:
         output = log_run(
-            f'git log --name-status --oneline --format="{commit_format}"',
+            ["git", "log", "--name-status", "--oneline", f'--format="{commit_format}"'],
             "Initial Run",
         )
     files = []
     packages = set()
     sha = msg = ""
-    lines = output.stdout.splitlines()
+    lines = output.stdout.replace('"', "").splitlines()
     log.info("Parsing commit log")
     log.info(f"Number of Files affected by recent commits: {len(files)}")
     log.debug(f"Files affected by recent commits: {files}")
@@ -327,10 +386,16 @@ def get_package_version(package: str) -> str:
 
 
 def get_package_repository(package: str) -> str:
-    with open(f"packages/{package}/poetry.toml", "rb") as f:
-        data = tomllib.load(f)
-        repositories = data["repositories"]
-        return list(repositories.keys())[0]
+    try:
+        with open(f"packages/{package}/poetry.toml", "rb") as f:
+            data = tomllib.load(f)
+            repositories = data["repositories"]
+            return list(repositories.keys())[0]
+    except FileNotFoundError as e:
+        console.print(
+            f"You need to define a repositories key in poetry.toml for package {package}"
+        )
+        raise e
 
 
 def get_package_dependencies(package: str) -> dict:
@@ -353,33 +418,23 @@ def apply_version_bump(package: Package):
     )
 
 
-def build(change: Package):
-    path = f"./packages/{change.package}/dist"
+def build(package: Package):
+    path = f"./packages/{package.package}/dist"
     if os.path.exists(path) and os.path.isdir(path):
         shutil.rmtree(path)
 
-    log_run(
-        "poetry lock --no-update",
-        shell=True,
-        cwd=f"packages/{change.package}",
-        stdout=sys.stdout,
-    )
-    log_run(
-        "poetry build",
-        shell=True,
-        cwd=f"packages/{change.package}",
-        stdout=sys.stdout,
+    return log_run(
+        ["poetry", "build"],
+        cwd=f"packages/{package.package}",
     )
 
 
-def publish(change: Package):
-    repository = get_package_repository(change.package)
-    log_run(
-        f"poetry publish --skip-existing --repository={repository}",
+def publish(package: Package):
+    repository = get_package_repository(package.package)
+    return log_run(
+        ["poetry", "publish", "--skip-existing", f"--repository={repository}"],
         "Publishing Package",
-        shell=True,
-        cwd=f"packages/{change.package}",
-        stdout=sys.stdout,
+        cwd=f"packages/{package.package}",
     )
 
 
@@ -436,7 +491,8 @@ def update_lockfile_with_latest_commit() -> str:
     """Returns the commit logged"""
     log.info("Changes detected")
     output = log_run(
-        ["git", "rev-parse", "HEAD"], "Getting most recent commit", always_run=True
+        ["git", "rev-parse", "HEAD"],
+        "Getting most recent commit",
     ).stdout.rstrip()
     with open(LOCK_FILE, "w") as f:
         f.seek(0)
@@ -457,142 +513,185 @@ def create_version_bump_commit() -> list[subprocess.CompletedProcess]:
             "Adding poetry.lock files",
         ),
         log_run(
-            ["git", "commit", "-m", "VERSION BUMP"],
+            ["git", "commit", "-m", "VERSION BUMP", "--no-verify"],
             "Adding VERSION BUMP commit",
         ),
     ]
 
 
 def push_version_commit_with_tags():
-    log_run(["git", "push"], "Pushing commit to origin")
-    log_run(["git", "push", "--follow-tags"], "Pushing Git Tags")
-    log_run(["git", "push", "--tags"], "Pushing unAnnotated Git Tags)")
+    return [
+        log_run(["git", "push", "--no-verify"], "Pushing commit to origin"),
+        log_run(["git", "push", "--no-verify", "--follow-tags"], "Pushing Git Tags"),
+        log_run(
+            ["git", "push", "--no-verify", "--tags"], "Pushing unAnnotated Git Tags)"
+        ),
+    ]
 
 
-if __name__ == "__main__":
+def main():
     if DRY_RUN:
-        log.warning("This is a Dry Run")
+        console.print("[bold yellow]This is a Dry Run")
 
     cq = CommandQueue()
-    # commits = cq.execute(
-    #     CommandWithRollback(
-    #         name="Get Commits",
-    #         apply=get_commits,
-    #         rollback=lambda: None,
-    #         start_msg="[bold yellow]Getting Commits...",
-    #         success_msg=lambda commmits: f"[bold green]✓ [white]{len(commits)} Commits Found!",
-    #         fail_msg="[bold yellow]No Commits Found. Exiting",
-    #         validate=lambda result: type(result) is list,
-    #     )
-    # )
+    h1("Collect Meta Data")
+    li("Get Commits")
+    commits = cq.execute(
+        CommandWithRollback(
+            name="Get Commits",
+            apply=get_commits,
+            rollback=lambda: None,
+            validate=lambda result: isinstance(result, list) and len(result) > 0,
+        )
+    )
 
-    commits = []
+    li("Build Package Registry")
     pr = cq.execute(
         CommandWithRollback(
             name="Build Package Registry",
             apply=lambda: build_package_registry(commits),
             rollback=lambda: None,
-            start_msg="[bold yellow]Building Package Registry...",
-            success_msg=lambda pr: f"[bold green]✓ [white]Package Registry Found (contains {len(list(pr._packages.values()))} package(s))!",
-            fail_msg="[bold yellow]Error Creating Package Registry!",
+            validate=lambda result: isinstance(result, PackageRegistry),
         )
     )
+    console.print(Padding(pr.get_tree(), (0, 4)))
 
     log.debug("Package Registry:")
     for p in pr._packages.values():
         log.debug(f"\t - {p.package} ({','.join(p.dependencies)})")
 
+    li("Calculate Version Bumps")
     packages_with_bumps = None
     cq.execute(
         CommandWithRollback(
             name="Calculate Version Bumps",
             apply=lambda: calculate_version_bumps_to_apply(pr, commits),
             rollback=None,
-            start_msg="[bold yellow]Calculating Version Bumps to Apply...",
-            success_msg=lambda: f"[bold green]✓ [white]{len(pr.packages_with_bumps)} Version Bumps(s) Found!",
-            fail_msg="[bold yellow]No Version Bumps Found. Exiting.",
-            validate=lambda: len(packages_with_bumps) == 0,
+            validate=lambda: len(pr.sorted_packages_with_bumps) > 0,
         )
     )
-    packages_with_bumps = pr.packages_with_bumps
+    packages_with_bumps = pr.sorted_packages_with_bumps
     log.debug(packages_with_bumps)
+    h1("Apply Changes")
+    li("Apply Version Bumps")
     cq.execute(
         CommandWithRollback(
             name="Apply Version Bumps",
             apply=lambda: [
                 apply_version_bump(package) for package in packages_with_bumps
             ],
-            rollback=lambda: log_run(["git", "reset", "--hard"]),
+            rollback=lambda: log_run(["git", "restore", "packages/**/pyproject.toml"]),
             validate=lambda result: all(r.returncode == 0 for r in result),
-            start_msg="[bold yellow]Calculating Version Bumps to Apply...",
-            success_msg=lambda: f"[bold green]✓ [white]{len(packages_with_bumps)} Version Bumps(s) Applied!",
-            fail_msg="[bold yellow]Unable to apply version bumps. Exiting.",
         )
     )
-
-    latest_commit = cq.execute(
-        CommandWithRollback(
-            name="Retrieve Latest Commit",
-            apply=update_lockfile_with_latest_commit,
-            rollback=None,
-            validate=lambda latest_commit: isinstance(latest_commit, str),
-            start_msg="[bold yellow]Updating lock file...",
-            success_msg=lambda latest_commit: f"[bold green]✓ [white]Saved {latest_commit} to lockfile!",
-            fail_msg="[bold yellow]Unable to retrieve latest commit. Exiting.",
-        )
-    )
-    log.debug(latest_commit)
-
+    li("Update Package Lock Files")
     cq.execute(
         CommandWithRollback(
-            name="Bump Versions",
-            apply=create_version_bump_commit,
-            rollback=lambda results: (
-                log_run(["git", "reset", "--hard", "HEAD^1"])
-                if any((r.statuscode != 0 and "commit" in r.args) for r in results)
-                else log_run(["git", "reset", "--hard"])
-            ),
-            validate=lambda results: all(r.statuscode == 0 for r in results),
-            start_msg="[bold yellow]Creating Version Bump Commit...",
-            success_msg="[bold green]✓ [white]VERSION BUMP commit created!",
-            fail_msg="[bold yellow]Unable to create VERSION BUMP commit. Exiting.",
+            name="Update Package Lock Files",
+            apply=lambda: [
+                log_run(
+                    ["poetry", "lock", "--no-update"],
+                    cwd=f"packages/{package.package}",
+                )
+                for package in packages_with_bumps
+            ],
+            rollback=lambda: log_run(["git", "restore", "packages/**/poetry.lock"]),
+            validate=lambda result: all(r.returncode == 0 for r in result),
         )
     )
 
-    for package in packages_with_bumps:
+    li("Update Lockfile with latest commit")
+    latest_commit = None
+    if not DRY_RUN:
+        latest_commit = cq.execute(
+            CommandWithRollback(
+                name="Update Lockfile with latest commit",
+                apply=update_lockfile_with_latest_commit,
+                rollback=None,
+                validate=lambda latest_commit: isinstance(latest_commit, str),
+            )
+        )
+    log.debug(latest_commit)
+
+    li("Bump Versions")
+    files = [
+        LOCK_FILE,
+        "packages/**/pyproject.toml",
+        "packages/**/poetry.toml",
+        "packages/**/poetry.lock",
+    ]
+    if not DRY_RUN:
         cq.execute(
             CommandWithRollback(
-                name=f"Tagging Package: {package.package}",
-                apply=lambda: git_tag(
-                    package_name=package.package,
-                    version=version_bump(version=package.version, _type=package.bump),
+                name="Bump Versions",
+                apply=create_version_bump_commit,
+                rollback=lambda results: (
+                    (
+                        log_run(["git", "reset", "HEAD^1"]),
+                        log_run(["git", "restore", *files]),
+                    )
+                    if any((r.returncode != 0 and "commit" in r.args) for r in results)
+                    else log_run(["git", "restore", *files]),
                 ),
-                rollback=None,
-                validate=None,
-                start_msg=f"[bold yellow]Tagging Package ({package.package})",
-                success_msg=f"[bold green]✓ [white]Tagged Package ({package.package})",
-                fail_msg=f"[bold yellow]Failed to tag Package ({package.package}). Exiting.",
+                validate=lambda results: all(r.returncode == 0 for r in results),
             )
         )
+
+    h1(
+        f"Build and Publish Packages ({', '.join(p.package for p in packages_with_bumps)})"
+    )
+    for package in packages_with_bumps:
+        package_slug = f"{package.package} ({version_bump(version=package.version, _type=package.bump)})"
+        li(f"{package_slug}")
+        tag = format_git_tag(
+            package_name=package.package,
+            version=version_bump(version=package.version, _type=package.bump),
+        )
+        li(f"Tagging with {tag}", padding=4)
+        if not DRY_RUN:
+            cq.execute(
+                CommandWithRollback(
+                    name=f"Tagging Package: {package.package}",
+                    apply=lambda: git_tag(tag),
+                    rollback=lambda: log_run(["git", "tag", "--delete", tag]),
+                    validate=lambda result: result.returncode == 0,
+                )
+            )
+        li("Building", padding=4)
+        if not DRY_RUN:
+            cq.execute(
+                CommandWithRollback(
+                    name=f"Building Package: {package.package}",
+                    apply=lambda: build(package),
+                    rollback=None,
+                    validate=lambda result: result.returncode == 0,
+                )
+            )
+        li("Publishing", padding=4)
+        if not DRY_RUN:
+            cq.execute(
+                CommandWithRollback(
+                    name=f"Publishing Package: {package.package}",
+                    apply=lambda: publish(package),
+                    rollback=None,
+                    validate=lambda result: result.returncode == 0,
+                )
+            )
+
+    h1("Push VERSION BUMP commit to origin")
+    if not DRY_RUN:
         cq.execute(
             CommandWithRollback(
-                name=f"Building Package: {package.package}",
-                apply=lambda: build(package),
+                name="Push VERSION BUMP commit to origin",
+                apply=push_version_commit_with_tags,
                 rollback=None,
-                validate=None,
-                start_msg=f"[bold yellow]Building Package ({package.package})",
-                success_msg=f"[bold green]✓ [white]Built Package ({package.package})",
-                fail_msg=f"[bold yellow]Failed to build Package ({package.package}). Exiting.",
+                validate=lambda results: all(r.returncode == 0 for r in results),
             )
         )
-        cq.execute(
-            CommandWithRollback(
-                name=f"Publishing Package: {package.package}",
-                apply=lambda: publish(package),
-                rollback=None,
-                validate=None,
-                start_msg=f"[bold yellow]Publishing Package ({package.package})",
-                success_msg=f"[bold green]✓ [white]Published Package ({package.package})",
-                fail_msg=f"[bold yellow]Failed to Publish Package ({package.package}). Exiting.",
-            )
-        )
+
+    if DRY_RUN:
+        console.print("[bold yellow]This was a Dry Run")
+
+
+if __name__ == "__main__":
+    main()

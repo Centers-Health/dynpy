@@ -30,7 +30,7 @@
                  id="gfl_table_wrapper">
 
                 {% block table %}
-                    <table id="gfl_table" class=" 
+                    <table id="gfl_table" class="
                         {% block table_class %}table table-striped fixed_header table-hover min-width-max-content mb-0{% endblock table_class %}
                          ">
                         <thead>
@@ -59,13 +59,13 @@
                                         {% block table_row_outer %}
                                             {# djlint:off #}
                                         <tr id="gfl_row_{{ item.pk }}" class="split-view-row cursor-pointer {% block table_row_classes %}{% endblock table_row_classes %}"
-                                            @click="$store.splitView.activateRow('{{ item.pk }}')" 
-                                            :class="$store.splitView.activeRowId == '{{ item.pk }}' && 'row-active'" 
-                                            
+                                            @click="$store.splitView.activateRow('{{ item.pk }}')"
+                                            :class="$store.splitView.activeRowId == '{{ item.pk }}' && 'row-active'"
+
                                                 {% hx_get view.side_panel_hx_name %}
                                                 hx-vals='{"object_id": "{{ item.pk }}"}'
-                                                hx-swap="innerHTML settle:0" 
-                                                hx-target="#side_panel" 
+                                                hx-swap="innerHTML settle:0"
+                                                hx-target="#side_panel"
                                                 hx-indicator="#side-panel-loader"
                                                 hx-trigger="click, refreshSidePanel{{ item.pk }} from:body"
                                                 hx-disinherit="hx-indicator"
@@ -92,7 +92,7 @@
                                                         hx-vals="js:{ 'position': Alpine.store('tableRowCounter').total }">
                                                     </td>
                                                 {% endif %}
-                                                <td class="hidden-invisible" {% hx_get view.row_refresh_hx_name use_full_path=True object=item %} hx-trigger="refreshRow{{ item.pk }} from:body" 
+                                                <td class="hidden-invisible" {% hx_get view.row_refresh_hx_name use_full_path=True object=item %} hx-trigger="refreshRow{{ item.pk }} from:body"
                                                     {% block refresh_row_indicator %}{% endblock refresh_row_indicator %}
                                                      hx-target='closest tr' hx-swap="outerHTML settle:0">
                                                 </td>
@@ -174,10 +174,10 @@
             Alpine.store('splitView', {
                 activeRowId: new URL(window.location.href).searchParams.get('object_id') || '',
                 sidePanelOpen: false,
-                tableWidth: '100%', 
+                tableWidth: '100%',
                 sidePanelWidth: Alpine.$persist('25%'),
                 resizing: false,
-                
+
                 openSidePanel() {
                     this.sidePanelOpen = true
                     this.tableWidth = `${100 - Number(this.sidePanelWidth.slice(0, -1))}%`
@@ -200,7 +200,7 @@
         })
 
         tablePanelResizeManager().initialize();
-        
+
         document.addEventListener('htmx:afterRequest', () => {
             Alpine.store('splitView').setObjectIdParam()
         })
@@ -209,7 +209,7 @@
             e.detail.parameters['active_object_id'] = Alpine.store("splitView").activeRowId;
             e.detail.parameters['side_panel_open'] = Alpine.store("splitView").sidePanelOpen;
         })
-    
+
     </script>
 {% endblock scripts %}
 
