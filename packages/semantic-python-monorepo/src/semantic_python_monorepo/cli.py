@@ -1,4 +1,5 @@
 import logging
+import re
 from rich.padding import Padding
 
 from .package_registry import build_package_registry, calculate_version_bumps_to_apply
@@ -48,9 +49,15 @@ def main():
         calculate_version_bumps_to_apply(pr, commits)
         console.print("[bold blue]Version bumps to apply")
         for p in pr.sorted_packages_with_bumps:
-            console.print(
-                f"{p.package} ({p.version} -> {version_bump(p.version, _type=p.bump)})"
-            )
+            li(f"{p.package} ({p.version} -> {version_bump(p.version, _type=p.bump)})")
+            for commit in p.relevant_commits:
+                li(
+                    "{} [green]({})".format(
+                        re.sub(r"^([^:]+):", "[cyan]\\1:[/]", commit.msg),
+                        commit.sha[:5],
+                    ),
+                    padding=8,
+                )
         fail_fast()
 
     cq = CommandQueue()
