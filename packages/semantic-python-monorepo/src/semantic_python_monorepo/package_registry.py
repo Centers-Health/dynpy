@@ -58,7 +58,7 @@ class PackageRegistry:
     def get_tree(self):
         tree = Tree(f"Package Registry ({self.registry_path})")
         for pname, p in self._packages.items():
-            ptree = tree.add(f"[bold blue]{pname}")
+            ptree = tree.add(f"[bold blue]{pname} [white]({p.version})")
             if p.dependencies:
                 for name in p.dependencies:
                     ptree.add(f"[blue]{name}")

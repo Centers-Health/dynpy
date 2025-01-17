@@ -1,17 +1,18 @@
 import logging
 from rich.padding import Padding
 
+from .package_registry import build_package_registry, calculate_version_bumps_to_apply
+
 from .arg_parser import parser
 from .commands import CommandLibrary as CL, CommandQueue
 from .logging import console, h1, li, log, logger_setup
-from .utils import version_bump
+from .utils import fail_fast, get_commits, version_bump
 
 # TODO: Finish implementing dry run (incomplete)
 # NOTE: Do we need rich?
 # TODO: add a cli build / publish
-# TODO: add a bump cli
+# TODO: add a bump cli ???
 # TODO: add tests
-# FIXME: fix broken imports from refactor
 # FIXME: dry run needs to be build into the runner
 # FIXME: printouts can be in CL instead of from the CommandQueue, this would allow more formatting options. But may scrap the formatter from rich and do a simpler linear one, though the tree is nice
 
@@ -34,6 +35,23 @@ DRY_RUN = args.dry_run
 def main():
     if DRY_RUN:
         console.print("[bold yellow]This is a Dry Run")
+
+    if args.registry:
+        pr = build_package_registry()
+        console.print(Padding(f"{len(pr._packages)} packages found", (0, 4)))
+        console.print(Padding(pr.get_tree(), (0, 4)))
+        fail_fast()
+
+    if args.analyze:
+        commits = get_commits()
+        pr = build_package_registry()
+        calculate_version_bumps_to_apply(pr, commits)
+        console.print("[bold blue]Version bumps to apply")
+        for p in pr.sorted_packages_with_bumps:
+            console.print(
+                f"{p.package} ({p.version} -> {version_bump(p.version, _type=p.bump)})"
+            )
+        fail_fast()
 
     cq = CommandQueue()
 

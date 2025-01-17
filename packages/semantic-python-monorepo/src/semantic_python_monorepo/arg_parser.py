@@ -14,3 +14,13 @@ parser.add_argument(
     action="store_true",
     help="A flag whether to check if Rehab Optima is refreshed",
 )
+parser.add_argument(
+    "--registry",
+    action="store_true",
+    help="View the current package registry as is",
+)
+parser.add_argument(
+    "--analyze",
+    action="store_true",
+    help="Show what version bumps would occur if run now",
+)
