@@ -6,7 +6,7 @@ on:
 
 env:
   DOCKER_CONFIG: /home/enviro/.docker/dynamics-py-actions-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}
-  DOCKER_CMD: docker-compose -f devops/ci/docker-compose.yml
+  DOCKER_CMD: docker compose -f devops/ci/docker-compose.yml
   COMPOSE_PROJECT_NAME: ${{ github.event.repository.name }}-monorepo-ci-${{ github.event.pull_request.number }}
   IMAGE_NAME: dynpy-monorepo-${{ github.ref_name }}
 
@@ -40,7 +40,7 @@ jobs:
 
       - name: Clean up docker env
         if: always()
-        run: docker-compose down -v
+        run: $DOCKER_CMD down -v
 
       - name: Remove docker credentials
         if: always()
