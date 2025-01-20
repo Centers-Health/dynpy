@@ -1,8 +1,0 @@
-<div class="mb-2">{{ widget.attrs.label }}</div>
-<div class="range-slider-widget p-1" {% include "django/forms/widgets/attrs.html" %}>
-    <div class="range-slider ui-slider ui-slider-horizontal ui-slider-range"></div>
-    <span class="range-slider-value_label" id="{{ widget.attrs.id }}-value_label">{{ widget.value_label }}</span>
-    {% for widget in widget.subwidgets %}
-    {% include widget.template_name %}
-    {% endfor %}
-</div>

@@ -1,6 +1,0 @@
-[virtualenvs]
-in-project = true
-
-[repositories]
-[repositories.dynamics]
-url = "http://localhost:8999"
