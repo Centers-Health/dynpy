@@ -11,10 +11,8 @@ ci: install
 	@for PACKAGE in $(PACKAGES); do \
 		(cd $$PACKAGE && \
 			echo ">> $$PACKAGE"&& \
-			poetry --directory $$PACKAGE lock --no-update &&  \
+			poetry lock --no-update &&  \
 			poetry --directory $$PACKAGE install && \
-			# poetry env info && \
-			# poetry show --tree && \
 			poetry --directory $$PACKAGE run python -m pytest -n 2 -ra -q --disable-warnings --tb=long \
 		); \
 	done

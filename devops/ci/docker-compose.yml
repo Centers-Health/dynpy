@@ -2,8 +2,8 @@ services:
   dev:
     container_name: ${IMAGE_NAME}
     build:
-      context: .
-      dockerfile: ./devops/ci/Dockerfile
+      context: ../..
+      dockerfile: devops/ci/Dockerfile
     restart: unless-stopped
     volumes:
       - /home/enviro/pre_commit_cache:${HOME}/.cache/devcontainer/pre-commit
