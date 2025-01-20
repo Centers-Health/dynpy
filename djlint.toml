@@ -1,0 +1,7 @@
+profile = "django"
+blank_line_before_tag="block"
+blank_line_after_tag="endblock,extends"
+format_attribute_template_tags=true
+max_line_length=105
+preserve_leading_space=false
+preserve_blank_lines=false
