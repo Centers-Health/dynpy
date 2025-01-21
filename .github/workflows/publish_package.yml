@@ -1,0 +1,49 @@
+name: CD
+
+on:
+  push:
+    branches:
+      [master]
+
+      # TODO: install python 3.11
+      # TODO: install poetry
+      # TODO: install spm
+env:
+  POETRY_HTTP_BASIC_DYNAMICS_USERNAME: admin
+  POETRY_HTTP_BASIC_DYNAMICS_PASSWORD: ${{secrets.PYPI_PASSWORD}}
+
+jobs:
+  release:
+    runs-on: [self-hosted, ciplus]
+    concurrency: release
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          token: ${{secrets.ADMIN_TOKEN}}
+          fetch-depth: 0
+
+      - name: Configure CI Git User
+        run: |
+          git config user.name '@system-admin'
+          git config user.email 'system-admin@users.noreply.github.com'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+
+      - uses: Gr1N/setup-poetry@v8
+        with:
+          poetry-version: "1.8.3"
+
+      - name: Install Poetry Plugins
+        run: |
+          poetry self add poetry-bumpversion
+          poetry self add poetry-plugin-mono-repo-deps
+
+      - name: Install SPM
+        run: |
+          pip install --index-url https://pypi.centershealthcare.org/simple/ semantic_python_monorepo
+
+      - name: Run SPM
+        run: spm
