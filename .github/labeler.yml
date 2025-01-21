@@ -26,8 +26,12 @@ Configs:
 
 arithmetic:
   - changed-files:
-      - any-glob-to-any-file: packages/arithmetic/**
+      - any-glob-to-any-file: "packages/arithmetic/**"
 
 calculator:
   - changed-files:
-      - any-glob-to-any-file: packages/calculator/**
+      - any-glob-to-any-file: "packages/calculator/**"
+
+semantic-python-monorepo:
+  - changed-files:
+      - any-glob-to-any-file: "packages/semantic-python-monorepo/**"
