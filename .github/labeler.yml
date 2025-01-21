@@ -1,37 +1,43 @@
 DevOps:
-  - changed-files:
-      - any-glob-to-any-file:
-          - "devops/**"
-          - ".github/**"
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - "devops/**"
+              - ".github/**"
 
 Packages:
-  - changed-files:
-      - any-glob-to-any-file:
-          - poetry.lock
-          - pyproject.toml
-          - yarn.lock
-          - package.json
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - poetry.lock
+              - pyproject.toml
+              - yarn.lock
+              - package.json
 
 Configs:
-  - changed-files:
-      - any-glob-to-any-file:
-          - .gitignore
-          - .prettierc
-          - .eslintrc.js
-          - docker-compose.yml
-          - poetry.toml
-          - pyproject.toml
-          - pytest.ini
-          - .coveragerc
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - .gitignore
+              - .prettierc
+              - .eslintrc.js
+              - docker-compose.yml
+              - poetry.toml
+              - pyproject.toml
+              - pytest.ini
+              - .coveragerc
 
 arithmetic:
-  - changed-files:
-      - any-glob-to-any-file: "packages/arithmetic/**"
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: packages/arithmetic/**
 
 calculator:
-  - changed-files:
-      - any-glob-to-any-file: "packages/calculator/**"
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: packages/calculator/**
 
 semantic-python-monorepo:
-  - changed-files:
-      - any-glob-to-any-file: "packages/semantic-python-monorepo/**"
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: packages/semantic-python-monorepo/**
