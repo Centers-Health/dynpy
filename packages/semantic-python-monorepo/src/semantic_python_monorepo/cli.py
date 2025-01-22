@@ -1,12 +1,13 @@
 import logging
 import re
+
 from rich.padding import Padding
 
-from .package_registry import build_package_registry, calculate_version_bumps_to_apply
-
 from .arg_parser import parser
-from .commands import CommandLibrary as CL, CommandQueue
+from .commands import CommandLibrary as CL
+from .commands import CommandQueue
 from .logging import console, h1, li, log, logger_setup
+from .package_registry import build_package_registry, calculate_version_bumps_to_apply
 from .utils import fail_fast, get_commits, version_bump
 
 # TODO: Finish implementing dry run (incomplete)
@@ -16,6 +17,7 @@ from .utils import fail_fast, get_commits, version_bump
 # TODO: add tests
 # FIXME: dry run needs to be build into the runner
 # FIXME: printouts can be in CL instead of from the CommandQueue, this would allow more formatting options. But may scrap the formatter from rich and do a simpler linear one, though the tree is nice
+# force bump
 
 
 LOGGING_LEVEL = logging.ERROR
@@ -91,9 +93,7 @@ def main():
     if not DRY_RUN:
         cq.execute(CL.create_bump_versions_commit())
 
-    h1(
-        f"Build and Publish Packages ({', '.join(p.package for p in packages_with_bumps)})"
-    )
+    h1(f"Build and Publish Packages ({', '.join(p.package for p in packages_with_bumps)})")
     for package in packages_with_bumps:
         package_slug = f"{package.package} ({version_bump(version=package.version, _type=package.bump)})"
         li(f"{package_slug}")
