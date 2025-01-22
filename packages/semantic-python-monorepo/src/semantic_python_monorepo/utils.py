@@ -166,6 +166,7 @@ def publish(package: Package):
         ["poetry", "publish", "--skip-existing", f"--repository={repository}"],
         "Publishing Package",
         cwd=f"packages/{package.package}",
+        env=os.environ.copy(),
     )
 
 
