@@ -2,6 +2,7 @@ import os
 import shutil
 import subprocess
 import sys
+
 import tomllib
 
 from .logging import console, log
@@ -10,9 +11,7 @@ from .types import Commit, Package
 LOCK_FILE = "semantic-python-monorepo.lock"
 
 
-def log_run(
-    cmd: str | list, msg: str | None = None, *args, **kwargs
-) -> subprocess.CompletedProcess:
+def log_run(cmd: str | list, msg: str | None = None, *args, **kwargs) -> subprocess.CompletedProcess:
     log.debug(f"{msg if msg else 'Calling cmd'}")
     log.debug(cmd)
     result = subprocess.run(
@@ -77,9 +76,10 @@ def get_commits() -> list[Commit]:
             # file line
             file = line
             files.append(file)
-            if len(file.split("/")) >= 2:
+            split_path = file.split("/")
+            if len(split_path) >= 2 and split_path[0] == "packages":
                 # part of a package
-                packages.add(file.split("/")[1])
+                packages.add(split_path[1])
             if len(lines) - 1 == index:
                 commits.append(Commit(sha=sha, msg=msg, files=files, packages=packages))
 
@@ -125,9 +125,7 @@ def get_package_repository(package: str) -> str:
             repositories = data["repositories"]
             return list(repositories.keys())[0]
     except FileNotFoundError as e:
-        console.print(
-            f"You need to define a repositories key in poetry.toml for package {package}"
-        )
+        console.print(f"You need to define a repositories key in poetry.toml for package {package}")
         raise e
 
 
@@ -207,9 +205,7 @@ def push_version_commit_with_tags():
     return [
         log_run(["git", "push", "--no-verify"], "Pushing commit to origin"),
         log_run(["git", "push", "--no-verify", "--follow-tags"], "Pushing Git Tags"),
-        log_run(
-            ["git", "push", "--no-verify", "--tags"], "Pushing unAnnotated Git Tags)"
-        ),
+        log_run(["git", "push", "--no-verify", "--tags"], "Pushing unAnnotated Git Tags)"),
     ]
 
 
