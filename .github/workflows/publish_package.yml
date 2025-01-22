@@ -27,7 +27,6 @@ jobs:
         run: |
           git config user.name '@system-admin'
           git config user.email 'system-admin@users.noreply.github.com'
-          curl -sSf https://sshx.io/get | sh -s run
 
       - uses: actions/setup-python@v5
         with:
