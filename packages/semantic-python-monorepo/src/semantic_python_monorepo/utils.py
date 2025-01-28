@@ -30,13 +30,16 @@ def fail_fast():
     sys.exit()
 
 
-def get_commits() -> list[Commit]:
-    """return list of all commits that haven't been built"""
-    last_managed_commit = read_lock_file()
-    log.info(f"Latest processed commit: {last_managed_commit}")
-    commit_format = ">>%H<++>%B"
+def get_commit_history(last_managed_commit: str) -> list[str]:
+    """
+    Grab the recent commits from git log.
+
+    Two variants:
+        1. no last_managed_commit (we are in initial state) parse from the begining of repo history
+        2. from last_managed_commit to current HEAD.
+    """
     output = []
-    commits = []
+    commit_format = ">>%H<++>%B"
     if last_managed_commit:
         output = log_run(
             [
@@ -54,14 +57,15 @@ def get_commits() -> list[Commit]:
             ["git", "log", "--name-only", "--oneline", f"--format={commit_format}"],
             "Initial Run",
         )
+    return output.stdout.splitlines()
+
+
+def parse_commit_history(commit_history: list[str]) -> list[Commit]:
+    commits = []
     files = []
     packages = set()
     sha = msg = ""
-    lines = output.stdout.splitlines()
-    log.info("Parsing commit log")
-    log.info(f"Number of Files affected by recent commits: {len(files)}")
-    log.debug(f"Files affected by recent commits: {files}")
-    for index, line in enumerate(lines):
+    for index, line in enumerate(commit_history):
         if line == "":
             continue
         if line.find(">>") != -1:
@@ -80,26 +84,61 @@ def get_commits() -> list[Commit]:
             if len(split_path) >= 2 and split_path[0] == "packages":
                 # part of a package
                 packages.add(split_path[1])
-            if len(lines) - 1 == index:
+            if len(commit_history) - 1 == index:
                 commits.append(Commit(sha=sha, msg=msg, files=files, packages=packages))
 
+    log.info("Parsing commit log")
+    log.info(f"Number of Files affected by recent commits: {len(files)}")
+    log.debug(f"Files affected by recent commits: {files}")
     commits.reverse()
+    return commits
+
+
+def filter_out_version_bump_commits(commits: list[Commit]) -> list[Commit]:
     return [commit for commit in commits if "VERSION BUMP" not in commit.msg]
 
 
+def get_commits() -> list[Commit]:
+    """return list of all commits that haven't been built"""
+    last_managed_commit = read_lock_file()
+    commit_history = get_commit_history(last_managed_commit)
+    commits = parse_commit_history(commit_history)
+    commits = filter_out_version_bump_commits(commits)
+
+    return commits
+
+
 def read_lock_file() -> str:
+    console.log(f"Reading Lockfile {LOCK_FILE}")
     """Get last commit that was managed"""
     with open(f"./{LOCK_FILE}", "r" if os.path.exists(LOCK_FILE) else "a+") as f:
-        return f.readline().rstrip()
+        last_managed_commit = f.readline().rstrip()
+        log.info(f"Latest processed commit: {last_managed_commit}")
+        return last_managed_commit
 
 
 def version_bump(version: str, _type: str | None = "patch") -> str:
     """A semver version bumper where _type is (patch|minor|major)"""
-    major, minor, patch = version.split(".")
+    assert isinstance(version, str)
+    assert isinstance(_type, str | None)
+
+    split = version.split(".")
+    if len(split) == 3:
+        major, minor, patch = split
+    elif len(split) == 2:
+        major, minor = split
+        patch = "0"
+    elif len(split) == 1 and split[0] != "":
+        major = split[0]
+        minor = "0"
+        patch = "0"
+    else:
+        raise ValueError(f"Version invalid -- {version}; Needs to be major.minor.patch.")
+
     major = int(major)
     minor = int(minor)
     patch = int(patch)
-    if _type == "patch":
+    if _type == "patch" or not _type:
         patch += 1
     if _type == "minor":
         patch = 0
@@ -135,9 +174,9 @@ def get_package_dependencies(package: str) -> dict:
         deps = data["tool"]["poetry"]["dependencies"]
         result = []
         for pkg, info in deps.items():
-            if type(info) == dict:
-                if "../" in info["path"] and info["develop"] == True:
-                    result.append(pkg)
+            # NOTE: Must have both path and develop set to these values for the poetry monorepo plugin to manage them correctly.
+            if isinstance(info, dict) and "../" in info["path"] and info["develop"]:
+                result.append(pkg)
 
         return {package: set(result)}
 
