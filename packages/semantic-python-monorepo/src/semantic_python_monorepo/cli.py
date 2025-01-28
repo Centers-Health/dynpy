@@ -7,7 +7,7 @@ from .arg_parser import parser
 from .commands import CommandLibrary as CL
 from .commands import CommandQueue
 from .logging import console, h1, li, log, logger_setup
-from .package_registry import build_package_registry, calculate_version_bumps_to_apply
+from .package_registry import PackageRegistry, build_package_registry, calculate_version_bumps_to_apply
 from .utils import fail_fast, get_commits, version_bump
 
 # TODO: Finish implementing dry run (incomplete)
@@ -40,12 +40,14 @@ def main():
         console.print("[bold yellow]This is a Dry Run")
 
     if args.registry:
+        console.print("Printing Registry")
         pr = build_package_registry()
         console.print(Padding(f"{len(pr._packages)} packages found", (0, 4)))
         console.print(Padding(pr.get_tree(), (0, 4)))
         fail_fast()
 
     if args.analyze:
+        console.print("Analyzing current state")
         commits = get_commits()
         pr = build_package_registry()
         calculate_version_bumps_to_apply(pr, commits)
@@ -64,20 +66,25 @@ def main():
 
     cq = CommandQueue()
 
-    h1("Collect Meta Data")
+    console.print("Collecting Meta Data")
+    console.print("Getting Commits")
     commits = cq.execute(CL.get_commits())
 
-    pr = cq.execute(CL.build_package_registry())
+    console.print("Builting Package Registry")
+    pr: PackageRegistry = cq.execute(CL.build_package_registry())
     console.print(Padding(pr.get_tree(), (0, 4)))
 
     log.debug("Package Registry:")
     for p in pr._packages.values():
-        log.debug(f"\t - {p.package} ({','.join(p.dependencies)})")
+        log.debug(f"\t - {p.package} ({','.join(p.dependencies or [])})")
 
     packages_with_bumps = None
     cq.execute(CL.calculate_version_bumps(pr, commits))
 
     packages_with_bumps = pr.sorted_packages_with_bumps
+    console.print(f"{len(packages_with_bumps)} packages found with bumps")
+    for p in packages_with_bumps:
+        console.print(Padding(p.package, (0, 4)))
     log.debug(packages_with_bumps)
 
     h1("Apply Changes")

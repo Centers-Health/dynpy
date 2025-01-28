@@ -1,12 +1,11 @@
-import re
 import graphlib
 import pathlib
 
 from rich.tree import Tree
 
-from .types import Package, Commit
 from .logging import log
-from .utils import get_package_dependencies, get_package_version
+from .types import Commit, Package
+from .utils import get_bump_from_commit_msg, get_package_dependencies, get_package_version, max_bump
 
 
 class PackageRegistry:
@@ -51,9 +50,7 @@ class PackageRegistry:
 
             # update bump type if dependency has a bump
 
-        self.sorted_packages = sorted(
-            list(self._packages.values()), key=lambda package: package.index
-        )
+        self.sorted_packages = sorted(list(self._packages.values()), key=lambda package: package.index)
 
     def get_tree(self):
         tree = Tree(f"Package Registry ({self.registry_path})")
@@ -82,32 +79,19 @@ def build_package_registry() -> PackageRegistry:
     return pr
 
 
-def calculate_version_bumps_to_apply(
-    pr: PackageRegistry, commits: list[Commit]
-) -> None:
-    """Updates the PackageRegistry passed in to have the correct version bumps.
-    This propogates upstream changes to packages that use them as dependencies."""
+def calculate_bumps_from_commits(pr: PackageRegistry, commits: list[Commit]) -> None:
+    """Update the package registry to bump each package based on most significant bump from a conventional commit"""
     for commit in commits:
-        if "VERSION BUMP" in commit.msg:
-            log.info("Skipping VERSION BUMP COMMIT")
-            continue
         log.info(f"Processing commit: {commit.msg}, ({commit.sha[:5]})")
         for package_name in commit.packages:
             pr._packages[package_name].relevant_commits.append(commit)
-            if "BREAKING" in commit.msg or re.search(r"^(\w|[)(])+!:", commit.msg):
-                pr._packages[package_name].bump = "major"
-            elif (
-                re.search("^(feat|perf):", commit.msg)
-                and pr._packages[package_name].bump != "major"
-            ):
-                pr._packages[package_name].bump = "minor"
-            elif (
-                re.search("^(bug|fix|regression|test):", commit.msg)
-                and pr._packages[package_name].bump != "major"
-                and pr._packages[package_name].bump != "minor"
-            ):
-                pr._packages[package_name].bump = "patch"
+            current_bump = pr._packages[package_name].bump
+            pr._packages[package_name].bump = max_bump(
+                get_bump_from_commit_msg(msg=commit.msg), current_bump
+            )
 
+
+def propagate_bumps_from_upstream_packages(pr: PackageRegistry) -> None:
     # version bumps based on downstream dependencies (Even without commits)
     for package_name, package in pr._packages.items():
         if package.bump:
@@ -117,10 +101,16 @@ def calculate_version_bumps_to_apply(
                 if p.dependencies and package_name in p.dependencies:
                     if package.bump == "major":
                         pr._packages[pname].bump = "major"
-                    elif package.bump:
-                        if package.bump in {"minor", "patch"} and not p.bump:
-                            pr._packages[pname].bump = package.bump
+                    elif package.bump and package.bump in {"minor", "patch"} and not p.bump:
+                        pr._packages[pname].bump = package.bump
 
                     log.info(
-                        f"Found downstream depency of {package_name} ({package.bump}): {pname} ({p.bump})"
+                        f"Found downstream dependency of {package_name} ({package.bump}): {pname} ({p.bump})"
                     )
+
+
+def calculate_version_bumps_to_apply(pr: PackageRegistry, commits: list[Commit]) -> None:
+    """Updates the PackageRegistry passed in to have the correct version bumps for each package and propogate upstream bumps to packages that use them as dependencies."""
+
+    calculate_bumps_from_commits(pr=pr, commits=commits)
+    propagate_bumps_from_upstream_packages(pr=pr)

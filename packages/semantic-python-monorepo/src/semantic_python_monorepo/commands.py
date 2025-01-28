@@ -1,9 +1,9 @@
-from dataclasses import dataclass
 import inspect
 import traceback
+from dataclasses import dataclass
 from typing import Any, Callable
 
-from .logging import li, log
+from .logging import console, log
 from .package_registry import (
     PackageRegistry,
     build_package_registry,
@@ -56,7 +56,7 @@ class CommandQueue:
         try:
             log.info(f"[red][bold]<({len(self._stack)})>[/bold] Running {cmd.name}")
 
-            li(cmd.name)
+            console.print(f"Running: {cmd.name}")
             result = cmd.apply()
             log.debug(f"result: {result}")
             if not self.call_with_var_args(cmd.validate, result):
@@ -74,9 +74,7 @@ class CommandQueue:
         log.debug(traceback.format_exc())
         self._stack.reverse()
         for index, item in enumerate(self._stack):
-            log.info(
-                f"[red][bold]<({len(self._stack) - index})>[/bold] Rolling Back {item[0].name}"
-            )
+            log.info(f"[red][bold]<({len(self._stack) - index})>[/bold] Rolling Back {item[0].name}")
             self.call_with_var_args(item[0].rollback, item[1])
         fail_fast()
 
@@ -118,9 +116,7 @@ class CommandLibrary:
         )
 
     @staticmethod
-    def calculate_version_bumps(
-        pr: PackageRegistry, commits: list[Commit]
-    ) -> CommandWithRollback:
+    def calculate_version_bumps(pr: PackageRegistry, commits: list[Commit]) -> CommandWithRollback:
         return CommandWithRollback(
             name="Calculate Version Bumps",
             apply=lambda: calculate_version_bumps_to_apply(pr, commits),
@@ -132,9 +128,7 @@ class CommandLibrary:
     def apply_version_bumps(packages_with_bumps: list[Package]) -> CommandWithRollback:
         return CommandWithRollback(
             name="Apply Version Bumps",
-            apply=lambda: [
-                apply_version_bump(package) for package in packages_with_bumps
-            ],
+            apply=lambda: [apply_version_bump(package) for package in packages_with_bumps],
             rollback=lambda: log_run(["git", "restore", "packages/**/pyproject.toml"]),
             validate=lambda result: all(r.returncode == 0 for r in result),
         )
