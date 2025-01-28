@@ -16,6 +16,7 @@ spm = "semantic_python_monorepo.cli:main"
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.4"
 pytest-xdist = "^3.6.1"
+pytest-watch = "^4.2.0"
 
 [build-system]
 requires = ["poetry-core"]
