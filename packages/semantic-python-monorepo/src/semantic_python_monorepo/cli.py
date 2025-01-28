@@ -8,7 +8,7 @@ from .commands import CommandLibrary as CL
 from .commands import CommandQueue
 from .logging import console, h1, li, log, logger_setup
 from .package_registry import PackageRegistry, build_package_registry, calculate_version_bumps_to_apply
-from .utils import fail_fast, get_commits, version_bump
+from .utils import LOCK_FILE, fail_fast, get_commits, version_bump
 
 # TODO: Finish implementing dry run (incomplete)
 # NOTE: Do we need rich?
@@ -84,17 +84,22 @@ def main():
     packages_with_bumps = pr.sorted_packages_with_bumps
     console.print(f"{len(packages_with_bumps)} packages found with bumps")
     for p in packages_with_bumps:
-        console.print(Padding(p.package, (0, 4)))
+        console.print(Padding(f"- {p.package}", (0, 4)))
     log.debug(packages_with_bumps)
 
-    h1("Apply Changes")
-    cq.execute(CL.apply_version_bumps(packages_with_bumps))
+    console.print("Applying bumps")
+    if not DRY_RUN:
+        cq.execute(CL.apply_version_bumps(packages_with_bumps))
 
-    cq.execute(CL.update_package_lock_files(packages_with_bumps))
+    console.print("Updating Package poetry.lock files")
+    if not DRY_RUN:
+        cq.execute(CL.update_package_lock_files(packages_with_bumps))
 
     latest_commit = None
+    console.print(f"Updating {LOCK_FILE} with latest commit")
     if not DRY_RUN:
         latest_commit = cq.execute(CL.update_lockfile_with_latest_commit())
+    console.print(f"Latest commit was {latest_commit}")
     log.debug(latest_commit)
 
     if not DRY_RUN:
