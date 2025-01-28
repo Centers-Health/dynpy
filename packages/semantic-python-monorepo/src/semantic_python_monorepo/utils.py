@@ -1,4 +1,5 @@
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -253,8 +254,43 @@ def format_git_tag(package_name: str, version: str) -> str:
     return f"{package_name}-v{version}"
 
 
+def max_bump(bump1: str | None, bump2: str | None) -> str | None:
+    """A max function that returns the more significant of two bumps."""
+    MAJOR = "major"
+    MINOR = "minor"
+    PATCH = "patch"
+    assert isinstance(bump1, str | None)
+    assert isinstance(bump2, str | None)
+
+    if bump1 == bump2:
+        return bump1
+    elif bump1 == MAJOR or bump2 == MAJOR:
+        return MAJOR
+    elif {bump1, bump2} == {MINOR, PATCH}:
+        return MINOR
+    elif not bump1:
+        return bump2
+    elif not bump2:
+        return bump1
+
+
 def git_tag(tag: str) -> subprocess.CompletedProcess:
     return log_run(
         ["git", "tag", tag],
         "Creating Git Tags",
     )
+
+
+def get_bump_from_commit_msg(
+    msg: str,
+) -> str | None:
+    """get a new bump type (major, minor, patch) based on the current bump as well as the commit message, using conventional commit standards. The objective here is not to superscede the current bump. So highest bump value wins. So if we run this on a 'feat' commit, but current bump is 'major' we leave at major."""
+    new_bump = None
+    if "BREAKING CHANGES" in msg or re.search(r"^(\w|[)(])+!:", msg):
+        new_bump = "major"
+    elif re.search(r"^(feat|perf)(\(\w+\))?:", msg):
+        new_bump = "minor"
+    elif re.search(r"^(bug|fix|regression|test)(\(\w+\))?:", msg):
+        new_bump = "patch"
+
+    return new_bump
