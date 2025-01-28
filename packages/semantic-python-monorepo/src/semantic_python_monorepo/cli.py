@@ -6,7 +6,7 @@ from rich.padding import Padding
 from .arg_parser import parser
 from .commands import CommandLibrary as CL
 from .commands import CommandQueue
-from .logging import console, h1, li, log, logger_setup
+from .logging import console, li, log, logger_setup
 from .package_registry import PackageRegistry, build_package_registry, calculate_version_bumps_to_apply
 from .utils import LOCK_FILE, fail_fast, get_commits, version_bump
 
@@ -87,6 +87,18 @@ def main():
         console.print(Padding(f"- {p.package}", (0, 4)))
     log.debug(packages_with_bumps)
 
+    console.print("[bold blue]Version bumps to apply")
+    for p in pr.sorted_packages_with_bumps:
+        li(f"{p.package} ({p.version} -> {version_bump(p.version, _type=p.bump)})")
+        for commit in p.relevant_commits:
+            li(
+                "{} [green]({})".format(
+                    re.sub(r"^([^:]+):", "[cyan]\\1:[/]", commit.msg),
+                    commit.sha[:5],
+                ),
+                padding=8,
+            )
+
     console.print("Applying bumps")
     if not DRY_RUN:
         cq.execute(CL.apply_version_bumps(packages_with_bumps))
@@ -99,16 +111,18 @@ def main():
     console.print(f"Updating {LOCK_FILE} with latest commit")
     if not DRY_RUN:
         latest_commit = cq.execute(CL.update_lockfile_with_latest_commit())
-    console.print(f"Latest commit was {latest_commit}")
-    log.debug(latest_commit)
+        console.print(f"Latest commit was {latest_commit}")
+        log.debug(latest_commit)
 
     if not DRY_RUN:
         cq.execute(CL.create_bump_versions_commit())
 
-    h1(f"Build and Publish Packages ({', '.join(p.package for p in packages_with_bumps)})")
+    console.print(f"Build and Publish Packages ({', '.join(p.package for p in packages_with_bumps)})")
     for package in packages_with_bumps:
-        package_slug = f"{package.package} ({version_bump(version=package.version, _type=package.bump)})"
-        li(f"{package_slug}")
+        package_slug = (
+            f"\t- {package.package} ({version_bump(version=package.version, _type=package.bump)})"
+        )
+        console.print(f"{package_slug}")
         if not DRY_RUN:
             cq.execute(CL.git_tag_package(package))
 
