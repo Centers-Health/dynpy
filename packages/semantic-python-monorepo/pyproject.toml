@@ -9,6 +9,7 @@ packages = [{include = "semantic_python_monorepo", from = "src"}]
 [tool.poetry.dependencies]
 python = "^3.11"
 rich = "^13.9.4"
+toml = "^0.10.2"
 
 [tool.poetry.scripts]
 spm = "semantic_python_monorepo.cli:main"
@@ -17,6 +18,7 @@ spm = "semantic_python_monorepo.cli:main"
 pytest = "^8.3.4"
 pytest-xdist = "^3.6.1"
 pytest-watch = "^4.2.0"
+pytest-sugar = "^1.0.0"
 
 [build-system]
 requires = ["poetry-core"]
