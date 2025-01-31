@@ -7,6 +7,7 @@ repos:
         name: "Yaml: Check"
       - id: end-of-file-fixer
         name: "General: Fix end of files"
+        exclude: "semantic-python-monorepo.lock"
       - id: trailing-whitespace
         name: "General: Fix Trailing whitespace"
 
