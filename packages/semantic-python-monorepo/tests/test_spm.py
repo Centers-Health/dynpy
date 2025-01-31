@@ -3,16 +3,17 @@ import pytest
 # NOTE: This testfile is like a smoketest / integration test of the whole suite
 
 
-@pytest.mark.skip(reason="Fixtures don't seem to work on CI environment")
+@pytest.mark.skipci(reason="Fixtures don't seem to work on CI environment")
 @pytest.mark.usefixtures("with_packages")
 def test_can_find_registry(spm):
     result = spm.registry()
     assert "3 packages found" in result
     assert "app1 (0.1.0)" in result
     assert "app2 (0.1.0)" in result
+    assert "app2 (0.1.0)" in result
 
 
-@pytest.mark.skip(reason="Fixtures don't seem to work on CI environment")
+@pytest.mark.skipci(reason="Fixtures don't seem to work on CI environment")
 @pytest.mark.usefixtures("with_packages")
 def test_can_analyze(spm):
     result = spm.analyze()
@@ -22,7 +23,7 @@ def test_can_analyze(spm):
     assert "feat: add app1" in result
 
 
-@pytest.mark.skip(reason="Fixtures don't seem to work on CI environment")
+@pytest.mark.skipci(reason="Fixtures don't seem to work on CI environment")
 @pytest.mark.usefixtures("with_packages")
 def test_full_run_through_dry(spm):
     result = spm.run(["--dry-run"])

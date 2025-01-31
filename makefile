@@ -13,7 +13,7 @@ ci: install
 			echo ">> $$PACKAGE"&& \
 			poetry lock --no-update &&  \
 			poetry --directory $$PACKAGE install && \
-			poetry --directory $$PACKAGE run python -m pytest -n 2 -ra -q --disable-warnings --tb=long \
+			poetry --directory $$PACKAGE run python -m pytest -n 2 -m "no skipci" -ra -q --disable-warnings --tb=long \
 		); \
 	done
 
