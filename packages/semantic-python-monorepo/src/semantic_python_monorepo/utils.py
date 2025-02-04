@@ -294,3 +294,11 @@ def get_bump_from_commit_msg(
         new_bump = "patch"
 
     return new_bump
+
+
+def verify_poetry_plugins_are_installed() -> bool:
+    result = subprocess.run(
+        ["poetry", "self", "show", "plugins"], capture_output=True, check=True, encoding="utf-8"
+    )
+    log.error(result.stdout)
+    return "poetry-plugin-mono-repo-deps" in result.stdout and "poetry-bumpversion" in result.stdout

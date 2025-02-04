@@ -43,7 +43,7 @@ def with_packages(origin_dir, work_dir, with_repos):
     packages_dir = work_dir / "packages"
     packages_dir.mkdir()
 
-    def create_new_package(package_name: str, dependencies: list[str] = None):
+    def create_new_package(package_name: str, dependencies: list[str] | None = None):
         subprocess.run(
             [
                 "poetry",
@@ -124,7 +124,15 @@ def with_packages(origin_dir, work_dir, with_repos):
 def spm(work_dir):
     def spm_run(cmd: list[str]):
         result = subprocess.run(
-            ["poetry", "-C", work_dir / "packages" / "semantic-python-monorepo", "run", "spm"] + cmd,
+            [
+                "poetry",
+                "-C",
+                work_dir / "packages" / "semantic-python-monorepo",
+                "run",
+                "sh",
+                "-c",
+                f"spm -vv {' '.join(cmd)}",
+            ],
             cwd=work_dir,
             capture_output=True,
             encoding="utf-8",

@@ -39,6 +39,10 @@ def main():
     if DRY_RUN:
         console.print("[bold yellow]This is a Dry Run")
 
+    if not verify_poetry_plugins_are_installed():
+        console.print("Missing Poetry Plugins (poetry-plugin-mono-repo-deps and poetry-bumpversion)")
+        raise Exception("Missing Poetry Plugins (poetry-plugin-mono-repo-deps and poetry-bumpversion)")
+
     if args.registry:
         console.print("Printing Registry")
         pr = build_package_registry()
