@@ -29,6 +29,10 @@ def update_changelog(package: Package) -> None:
     version = package.new_version
     current_date = datetime.datetime.today().strftime("%Y-%m-%d")
     name = package.package
+
+    if len(package.relevant_commits) == 0:
+        return
+
     for commit in package.relevant_commits:
         _type, text = categorize_commit(commit)
         commits_by_type[_type].append(text)
