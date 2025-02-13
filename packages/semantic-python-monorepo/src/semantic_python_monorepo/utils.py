@@ -249,17 +249,8 @@ def update_lockfile_with_latest_commit() -> str:
     return output
 
 
-def create_version_bump_commit() -> list[subprocess.CompletedProcess]:
-    return [
-        log_run(["git", "add", LOCK_FILE], "Adding lockfile"),
-        log_run(
-            ["git", "add", "packages/**/pyproject.toml"],
-            "Adding pyproject.toml files",
-        ),
-        log_run(
-            ["git", "add", "packages/**/poetry.lock"],
-            "Adding poetry.lock files",
-        ),
+def create_version_bump_commit(files: list[str]) -> list[subprocess.CompletedProcess]:
+    return [log_run(["git", "add", file]) for file in files] + [
         log_run(
             ["git", "commit", "-m", "VERSION BUMP", "--no-verify"],
             "Adding VERSION BUMP commit",
