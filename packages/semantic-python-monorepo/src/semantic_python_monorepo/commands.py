@@ -180,7 +180,7 @@ class CommandLibrary:
         ]
         return CommandWithRollback(
             name="Bump Versions",
-            apply=create_version_bump_commit,
+            apply=lambda: create_version_bump_commit(files),
             rollback=lambda results: (
                 (
                     log_run(["git", "reset", "HEAD^1"]),
