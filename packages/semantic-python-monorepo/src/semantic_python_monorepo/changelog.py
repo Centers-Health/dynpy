@@ -6,7 +6,7 @@ from .utils import create_or_open, get_bump_from_commit_msg
 
 
 def format_commit_msg(msg: str) -> str:
-    return re.sub("^[^:]+:", "", msg).capitalize()
+    return re.sub(r"^[^:]+:\s", "", msg).capitalize()
 
 
 def categorize_commit(commit: Commit) -> tuple[str, str]:
