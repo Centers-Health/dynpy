@@ -1,13 +1,19 @@
 import datetime
+import re
 
 from .types import Commit, Package
 from .utils import create_or_open, get_bump_from_commit_msg
+
+
+def format_commit_msg(msg: str) -> str:
+    return re.sub("^[^:]+:", "", msg).capitalize()
 
 
 def categorize_commit(commit: Commit) -> tuple[str, str]:
     """Categorize a commit based on its message and return the appropriate section"""
     bump_type = get_bump_from_commit_msg(commit.msg)
     commit_link = f"([`{commit.sha[:7]}`](https://github.com/Centers-health/dynpy/commit/{commit.sha}))"
+    msg = format_commit_msg(commit.msg)
 
     if bump_type == "major":  # noqa: SIM116
         return "Breaking", f"{commit.msg} {commit_link}"
