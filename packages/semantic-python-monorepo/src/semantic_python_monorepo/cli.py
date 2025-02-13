@@ -3,6 +3,8 @@ import re
 
 from rich.padding import Padding
 
+from semantic_python_monorepo.changelog import update_changelogs
+
 from .arg_parser import parser
 from .commands import CommandLibrary as CL
 from .commands import CommandQueue
@@ -61,6 +63,7 @@ def main():
                     ),
                     padding=8,
                 )
+        update_changelogs(pr.sorted_packages_with_bumps)
         fail_fast()
 
     cq = CommandQueue()
@@ -112,8 +115,9 @@ def main():
         latest_commit = cq.execute(CL.update_lockfile_with_latest_commit())
         console.print(f"Latest commit was {latest_commit}")
         log.debug(latest_commit)
+
     if not DRY_RUN:
-        cq.execute(CL.update_changelog(packages_with_bumps))
+        cq.execute(CL.update_changelogs(packages_with_bumps))
 
     if not DRY_RUN:
         cq.execute(CL.create_bump_versions_commit())

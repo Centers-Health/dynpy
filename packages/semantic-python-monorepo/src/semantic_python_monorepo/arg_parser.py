@@ -24,3 +24,9 @@ parser.add_argument(
     action="store_true",
     help="Show what version bumps would occur if run now",
 )
+
+parser.add_argument(
+    "--generate-changelogs",
+    action="store_true",
+    help="Generate and update CHANGELOGS.md",
+)

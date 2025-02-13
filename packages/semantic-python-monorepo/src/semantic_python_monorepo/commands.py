@@ -152,7 +152,7 @@ class CommandLibrary:
         )
 
     @staticmethod
-    def update_changelog(package_with_bumps: list[Package]) -> CommandWithRollback:
+    def update_changelogs(package_with_bumps: list[Package]) -> CommandWithRollback:
         return CommandWithRollback(
             name="Update CHANGELOG.md",
             apply=lambda: update_changelogs(package_with_bumps),
