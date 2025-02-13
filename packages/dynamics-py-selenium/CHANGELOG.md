@@ -1,17 +1,14 @@
 # Changelog
 
-
-
 <!--next-version-placeholder-->
 
 ## v1.1.0 (2025-02-13)
 ### Feature
 - feat: add dynpy selenium package ([`2e49311`](https://github.com/Centers-health/dynpy/commit/2e49311799da0e2726903a1c8b90365bf9a977ab))
 
+
 ## v1.0.0 (2023-12-12)
-
 ### Feature
-
 * Upgrade python 3.8 ~> 3.11 ([`1e11216`](https://github.com/Centers-Health/dynamics-py-selenium/commit/1e1121699943511edf3c7dc00ab017d3745ec3e6))
 
 
@@ -20,21 +17,15 @@
 
 * Pin semantic release to 7.31.2 ([`02e325e`](https://github.com/Centers-Health/dynamics-py-selenium/commit/02e325ec52e748ff82030e7757663a0ff7eb5a76))
 
-
-
 ### Breaking
 
 * upgrade python 3.8 ~> 3.11 ([`1e11216`](https://github.com/Centers-Health/dynamics-py-selenium/commit/1e1121699943511edf3c7dc00ab017d3745ec3e6))
-
-
 
 ## v0.1.1 (2023-09-11)
 
 ### Fix
 
 * Update out of date poetry lock file ([`a39adb4`](https://github.com/Centers-Health/dynamics-py-selenium/commit/a39adb40b4c8123c0d7b47036b5a14d36e4353c6))
-
-
 
 ## v0.1.0 (2023-09-11)
 
@@ -83,4 +74,3 @@
 * Change raw link to markdown link ([`0809b6e`](https://github.com/Centers-Health/dynamics-py-selenium/commit/0809b6e71989cbf9bfc18e2c239d5a7f1fb4bf24))
 
 * Add README ([`d9aaaaa`](https://github.com/Centers-Health/dynamics-py-selenium/commit/d9aaaaa14075a115564bc912a96d8351843d3bc1))
-
