@@ -16,13 +16,13 @@ def categorize_commit(commit: Commit) -> tuple[str, str]:
     msg = format_commit_msg(commit.msg)
 
     if bump_type == "major":  # noqa: SIM116
-        return "Breaking", f"{commit.msg} {commit_link}"
+        return "Breaking", f"{msg} {commit_link}"
     elif bump_type == "minor":
-        return "Feature", f"{commit.msg} {commit_link}"
+        return "Feature", f"{msg} {commit_link}"
     elif bump_type == "patch":
-        return "Fix", f"{commit.msg} {commit_link}"
+        return "Fix", f"{msg} {commit_link}"
     else:
-        return "Other", f"{commit.msg} {commit_link}"
+        return "Other", f"{msg} {commit_link}"
 
 
 def update_changelog(package: Package) -> None:
