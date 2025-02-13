@@ -3,6 +3,7 @@ import re
 import shutil
 import subprocess
 import sys
+from io import TextIOWrapper
 
 import tomllib
 
@@ -109,13 +110,36 @@ def get_commits() -> list[Commit]:
     return commits
 
 
+def create_or_open(file: str) -> TextIOWrapper:
+    return open(file, "r" if os.path.exists(file) else "a+")
+
+
 def read_lock_file() -> str:
     console.log(f"Reading Lockfile {LOCK_FILE}")
     """Get last commit that was managed"""
-    with open(f"./{LOCK_FILE}", "r" if os.path.exists(LOCK_FILE) else "a+") as f:
+    with create_or_open(f"./{LOCK_FILE}") as f:
         last_managed_commit = f.readline().rstrip()
         log.info(f"Latest processed commit: {last_managed_commit}")
         return last_managed_commit
+
+
+def categorize_commit(commit: Commit) -> dict[str, str]:
+    """Categorize a commit based on its message and return the appropriate section"""
+    bump_type = get_bump_from_commit_msg(commit.msg)
+    commit_link = f"([`{commit.sha[:7]}`](https://github.com/Centers-health/dynpy/commit/{commit.sha}))"
+
+    if bump_type == "major":  # noqa: SIM116
+        return {"Breaking": f"{commit.msg} {commit_link}"}
+    elif bump_type == "minor":
+        return {"Feature": f"{commit.msg} {commit_link}"}
+    elif bump_type == "patch":
+        return {"Fix": f"{commit.msg} {commit_link}"}
+    else:
+        return {"Other": f"{commit.msg} {commit_link}"}
+
+
+def update_changelog(version: str, commits: list[Commit], changelog_path: str) -> None:
+    pass
 
 
 def version_bump(version: str, _type: str | None = "patch") -> str:
@@ -139,15 +163,16 @@ def version_bump(version: str, _type: str | None = "patch") -> str:
     major = int(major)
     minor = int(minor)
     patch = int(patch)
-    if _type == "patch" or not _type:
-        patch += 1
-    if _type == "minor":
-        patch = 0
-        minor += 1
-    if _type == "major":
-        patch = 0
-        minor = 0
-        major += 1
+    match _type:
+        case "patch":
+            patch += 1
+        case "minor":
+            patch = 0
+            minor += 1
+        case "major":
+            patch = 0
+            minor = 0
+            major += 1
     return f"{major}.{minor}.{patch}"
 
 
@@ -300,5 +325,5 @@ def verify_poetry_plugins_are_installed() -> bool:
     result = subprocess.run(
         ["poetry", "self", "show", "plugins"], capture_output=True, check=True, encoding="utf-8"
     )
-    log.error(result.stdout)
+    log.debug(result.stdout)
     return "poetry-plugin-mono-repo-deps" in result.stdout and "poetry-bumpversion" in result.stdout
