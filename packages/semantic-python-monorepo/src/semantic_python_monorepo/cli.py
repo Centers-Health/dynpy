@@ -3,8 +3,6 @@ import re
 
 from rich.padding import Padding
 
-from semantic_python_monorepo.changelog import update_changelogs
-
 from .arg_parser import parser
 from .commands import CommandLibrary as CL
 from .commands import CommandQueue
@@ -63,7 +61,6 @@ def main():
                     ),
                     padding=8,
                 )
-        update_changelogs(pr.sorted_packages_with_bumps)
         fail_fast()
 
     cq = CommandQueue()
