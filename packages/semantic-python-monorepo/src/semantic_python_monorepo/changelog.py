@@ -43,7 +43,7 @@ def update_changelog(package: Package) -> None:
         lines = f.readlines()
 
     if len(lines) > 3:
-        header = lines[0:3]
+        header = lines[0:4]
         tail = lines[4:]
     else:
         header = [
