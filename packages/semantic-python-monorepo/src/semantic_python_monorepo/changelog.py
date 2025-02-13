@@ -70,8 +70,9 @@ def update_changelog(package: Package) -> None:
         for line in val:
             new_log.append(f"- {line}")
 
+    new_lines = header + new_log + tail
     with open(filename, "w") as f:
-        f.writelines(f"{line}\n" for line in (header + new_log + tail))
+        f.writelines([f"{line}\n" for line in new_lines[:-1]] + [new_lines[-1]])
 
 
 def update_changelogs(packages_with_bumps: list[Package]) -> None:
