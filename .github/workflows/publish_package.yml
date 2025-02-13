@@ -32,18 +32,15 @@ jobs:
         with:
           python-version: 3.11
 
-      - uses: Gr1N/setup-poetry@v8
-        with:
-          poetry-version: "1.8.3"
+      - name: Install SPM and poetry
+        run: |
+          pip install poetry==1.8.3
+          pip install --upgrade --index-url https://pypi.centershealthcare.org/simple/ semantic_python_monorepo
 
       - name: Install Poetry Plugins
         run: |
           poetry self add poetry-bumpversion
           poetry self add poetry-plugin-mono-repo-deps
-
-      - name: Install SPM
-        run: |
-          pip install --upgrade --index-url https://pypi.centershealthcare.org/simple/ semantic_python_monorepo
 
       - name: Run SPM
         run: spm -vvv
