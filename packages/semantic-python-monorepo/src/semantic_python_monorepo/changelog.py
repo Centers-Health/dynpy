@@ -51,7 +51,7 @@ def update_changelog(package: Package) -> None:
         tail = []
 
     new_log = []
-    new_log.append(f"## vf{version} ({current_date})")
+    new_log.append(f"## v{version} ({current_date})")
     for key, val in commits_by_type.items():
         new_log.append(f"### {key}")
         for line in val:
