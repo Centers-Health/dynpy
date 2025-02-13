@@ -33,7 +33,7 @@ jobs:
           types: "feat|fix|ci|docs|perf|refactor|build|test|chore"
 
       - name: Build image
-        run: $DOCKER_CMD build
+        run: $DOCKER_CMD build --pull
 
       - name: Run ci
         run: $DOCKER_CMD run --rm dev make ci
