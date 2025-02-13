@@ -63,7 +63,6 @@ def update_changelog(package: Package) -> None:
         new_log.append(f"### {key}")
         for line in val:
             new_log.append(f"- {line}")
-        new_log.append("")
 
     with open(filename, "w") as f:
         f.writelines(f"{line}\n" for line in (header + new_log + tail))
