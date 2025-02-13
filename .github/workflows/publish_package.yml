@@ -46,4 +46,4 @@ jobs:
           pip install --upgrade --index-url https://pypi.centershealthcare.org/simple/ semantic_python_monorepo
 
       - name: Run SPM
-        run: spm
+        run: spm -vvv
