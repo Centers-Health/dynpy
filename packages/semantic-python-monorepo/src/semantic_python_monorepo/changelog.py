@@ -53,6 +53,9 @@ def update_changelog(package: Package) -> None:
     new_log = []
     new_log.append(f"## v{version} ({current_date})")
     for key, val in commits_by_type.items():
+        if len(val) == 0:
+            # NOTE: no commits for this category, so skip
+            continue
         new_log.append(f"### {key}")
         for line in val:
             new_log.append(f"- {line}")
