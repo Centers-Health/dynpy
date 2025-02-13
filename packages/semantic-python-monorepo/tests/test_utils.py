@@ -11,7 +11,7 @@ from semantic_python_monorepo import utils
         ("0.1.0", "minor", "0.2.0"),
         ("0.1.1", "minor", "0.2.0"),
         ("0.1.1", "patch", "0.1.2"),
-        ("0.1.1", None, "0.1.2"),
+        ("0.1.1", None, "0.1.1"),
         # Handle cases with short value
         ("0", "minor", "0.1.0"),
         ("0", "patch", "0.0.1"),

@@ -8,7 +8,7 @@ from .commands import CommandLibrary as CL
 from .commands import CommandQueue
 from .logging import console, li, log, logger_setup
 from .package_registry import PackageRegistry, build_package_registry, calculate_version_bumps_to_apply
-from .utils import LOCK_FILE, fail_fast, get_commits, version_bump
+from .utils import LOCK_FILE, fail_fast, get_commits, verify_poetry_plugins_are_installed, version_bump
 
 # TODO: Finish implementing dry run (incomplete)
 # NOTE: Do we need rich?
@@ -20,7 +20,7 @@ from .utils import LOCK_FILE, fail_fast, get_commits, version_bump
 # force bump
 
 
-LOGGING_LEVEL = logging.ERROR
+LOGGING_LEVEL = logging.INFO
 args = parser.parse_args()
 if args.verbose == 0:
     LOGGING_LEVEL = logging.ERROR
@@ -117,6 +117,8 @@ def main():
         latest_commit = cq.execute(CL.update_lockfile_with_latest_commit())
         console.print(f"Latest commit was {latest_commit}")
         log.debug(latest_commit)
+    if not DRY_RUN:
+        cq.execute(CL.update_changelog(packages_with_bumps))
 
     if not DRY_RUN:
         cq.execute(CL.create_bump_versions_commit())

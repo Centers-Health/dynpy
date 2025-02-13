@@ -5,7 +5,12 @@ from rich.tree import Tree
 
 from .logging import log
 from .types import Commit, Package
-from .utils import get_bump_from_commit_msg, get_package_dependencies, get_package_version, max_bump
+from .utils import (
+    get_bump_from_commit_msg,
+    get_package_dependencies,
+    get_package_version,
+    max_bump,
+)
 
 
 class PackageRegistry:

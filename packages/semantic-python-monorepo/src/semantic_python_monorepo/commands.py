@@ -3,6 +3,7 @@ import traceback
 from dataclasses import dataclass
 from typing import Any, Callable
 
+from .changelog import update_changelogs
 from .logging import console, log
 from .package_registry import (
     PackageRegistry,
@@ -151,6 +152,15 @@ class CommandLibrary:
         )
 
     @staticmethod
+    def update_changelog(package_with_bumps: list[Package]) -> CommandWithRollback:
+        return CommandWithRollback(
+            name="Update CHANGELOG.md",
+            apply=lambda: update_changelogs(package_with_bumps),
+            rollback=None,
+            validate=lambda _: True,
+        )
+
+    @staticmethod
     def update_lockfile_with_latest_commit() -> CommandWithRollback:
         return CommandWithRollback(
             name="Update Lockfile with latest commit",
@@ -166,6 +176,7 @@ class CommandLibrary:
             "packages/**/pyproject.toml",
             "packages/**/poetry.toml",
             "packages/**/poetry.lock",
+            "packages/**/CHANGELOG.md",
         ]
         return CommandWithRollback(
             name="Bump Versions",

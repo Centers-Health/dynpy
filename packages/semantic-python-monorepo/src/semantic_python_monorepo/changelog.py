@@ -1,0 +1,67 @@
+import datetime
+
+from .types import Commit, Package
+from .utils import create_or_open, get_bump_from_commit_msg
+
+
+def categorize_commit(commit: Commit) -> tuple[str, str]:
+    """Categorize a commit based on its message and return the appropriate section"""
+    bump_type = get_bump_from_commit_msg(commit.msg)
+    commit_link = f"([`{commit.sha[:7]}`](https://github.com/Centers-health/dynpy/commit/{commit.sha}))"
+
+    if bump_type == "major":  # noqa: SIM116
+        return "Breaking", f"{commit.msg} {commit_link}"
+    elif bump_type == "minor":
+        return "Feature", f"{commit.msg} {commit_link}"
+    elif bump_type == "patch":
+        return "Fix", f"{commit.msg} {commit_link}"
+    else:
+        return "Other", f"{commit.msg} {commit_link}"
+
+
+def update_changelog(package: Package) -> None:
+    commits_by_type = {
+        "Breaking": [],
+        "Feature": [],
+        "Fix": [],
+        "Other": [],
+    }
+    version = package.new_version
+    current_date = datetime.datetime.today().strftime("%Y-%m-%d")
+    name = package.package
+    for commit in package.relevant_commits:
+        _type, text = categorize_commit(commit)
+        commits_by_type[_type].append(text)
+
+    filename = f"packages/{name}/CHANGELOG.md"
+    lines = []
+    with create_or_open(filename) as f:
+        lines = f.readlines()
+
+    if len(lines) > 3:
+        header = lines[0:3]
+        tail = lines[4:]
+    else:
+        header = [
+            "# Changelog",
+            "",
+            "<!--next-version-placeholder-->",
+            "",
+        ]
+        tail = []
+
+    new_log = []
+    new_log.append(f"## vf{version} ({current_date})")
+    for key, val in commits_by_type.items():
+        new_log.append(f"### {key}")
+        for line in val:
+            new_log.append(f"- {line}")
+        new_log.append("")
+
+    with open(filename, "w") as f:
+        f.writelines(header + new_log + tail)
+
+
+def update_changelogs(packages_with_bumps: list[Package]) -> None:
+    for package in packages_with_bumps:
+        update_changelog(package)

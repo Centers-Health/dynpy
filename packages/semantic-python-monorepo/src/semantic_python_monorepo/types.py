@@ -17,3 +17,9 @@ class Package:
     dependencies: list | None = None
     bump: str | None = None  # patch/minor/major
     index: int = 0
+
+    @property
+    def new_version(self) -> str:
+        from .utils import version_bump
+
+        return f"{version_bump(version=self.version, _type=self.bump)}"
