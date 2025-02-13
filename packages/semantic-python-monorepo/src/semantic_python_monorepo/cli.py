@@ -10,7 +10,6 @@ from .logging import console, li, log, logger_setup
 from .package_registry import PackageRegistry, build_package_registry, calculate_version_bumps_to_apply
 from .utils import LOCK_FILE, fail_fast, get_commits, verify_poetry_plugins_are_installed, version_bump
 
-# NOTE: Do we need rich?
 # FIXME: dry run needs to be build into the runner
 # FIXME: printouts can be in CL instead of from the CommandQueue, this would allow more formatting options. But may scrap the formatter from rich and do a simpler linear one, though the tree is nice
 # force bump
