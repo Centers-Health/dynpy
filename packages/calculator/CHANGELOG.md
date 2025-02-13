@@ -1,7 +1,16 @@
 # Changelog
 
+
+
 <!--next-version-placeholder-->
 
-## v2.2.2 (2025-02-13)
+
+
+## v2.2.3 (2025-02-13)
 ### Fix
+- fix: remove extra lines from changelog ([`665c01b`](https://github.com/Centers-health/dynpy/commit/665c01bde3068627ff31982edd4a2dc5f36b984c))
+## v2.2.2 (2025-02-13)
+
+### Fix
+
 - fix: add calculator to pypi.chc ([`3da87aa`](https://github.com/Centers-health/dynpy/commit/3da87aa4895b0923187b122b9ba555fb10d2718d))
