@@ -1,10 +1,24 @@
 SHELL:=/bin/bash
 PACKAGES := $(wildcard packages/*/)
 
-install:
+lock:
+	@for PACKAGE in $(PACKAGES); do \
+		(cd $$PACKAGE && \
+			echo ">> $$PACKAGE"&& \
+			poetry lock --no-update  \
+		); \
+	done
+
+install: lock
 	pre-commit install -t pre-commit -t pre-push -t commit-msg --overwrite
 	poetry self add poetry-bumpversion
 	poetry self add poetry-plugin-mono-repo-deps
+	@for PACKAGE in $(PACKAGES); do \
+		(cd $$PACKAGE && \
+			echo ">> $$PACKAGE"&& \
+			poetry --directory $$PACKAGE install \
+		); \
+	done
 
 ci: install
 	pre-commit run --show-diff-on-failure --color=always --all-files --hook-stage push
@@ -37,4 +51,4 @@ ci: install
 clean:
 	rm -rf .venv || echo
 
-.PHONY: test ci install clean
+.PHONY: test ci install lock clean
