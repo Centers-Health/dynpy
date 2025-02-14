@@ -35,7 +35,7 @@ jobs:
       - name: Install SPM and poetry
         run: |
           pip install poetry==1.8.3
-          pip install packages/semantic-python-monorepo
+          pip install --force-reinstall packages/semantic-python-monorepo
 
       - name: Install Poetry Plugins
         run: |
