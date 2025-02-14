@@ -2,7 +2,7 @@ from sys import version_info
 from unittest.mock import patch
 
 if version_info < (3, 8):
-    from mock import AsyncMock
+    from unittest.mock import AsyncMock
 else:
     from unittest.mock import AsyncMock
 
@@ -10,9 +10,9 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
 from django.test import RequestFactory
-
 from dynpy.strawberry_django_jwt.auth import authenticate
 from dynpy.strawberry_django_jwt.backends import JSONWebTokenBackend
+
 from tests.strawberry_django_jwt.testcases import AsyncTestCase
 
 

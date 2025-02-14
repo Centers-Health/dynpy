@@ -1,5 +1,4 @@
 from django.urls import reverse
-
 from dynpy.utils.urls import reverseplus
 
 

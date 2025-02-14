@@ -86,7 +86,6 @@ class BaseJSONWebTokenMiddleware(SchemaExtension):
             and jwt_settings.JWT_AUTHENTICATE_INTROSPECTION
             and self.authenticate_context(info, **kwargs)
         ):
-
             raise exceptions.PermissionDenied(_("The introspection query requires authentication."))
 
         return context, token_argument
@@ -99,7 +98,6 @@ class JSONWebTokenMiddleware(BaseJSONWebTokenMiddleware):
         if (_authenticate(context) or token_argument is not None) and self.authenticate_context(
             info, **kwargs
         ):
-
             user = authenticate(request=context, **kwargs)
 
             if user is not None:
@@ -118,7 +116,6 @@ class AsyncJSONWebTokenMiddleware(BaseJSONWebTokenMiddleware):
         if (_authenticate(context) or token_argument is not None) and self.authenticate_context(
             info, **kwargs
         ):
-
             user = await authenticate_async(request=context, **kwargs)
 
             if user is not None:

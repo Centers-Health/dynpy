@@ -1,7 +1,6 @@
 from datetime import datetime
 
 import pytest
-
 from dynpy.logger.enums import LogStatus
 from dynpy.logger.management.base import LoggingCommand
 from dynpy.logger.models import Watcher

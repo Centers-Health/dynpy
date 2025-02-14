@@ -1,5 +1,4 @@
 import pytest
-
 from dynpy.logger.base import BaseLogger
 from dynpy.logger.enums import LogStatus
 from dynpy.logger.models import Log

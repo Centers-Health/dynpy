@@ -1,5 +1,4 @@
 import pytest
-
 from dynpy.dw import DWConnector
 
 facilities_sp = "{CALL p_PayrollFacilityGetList}"

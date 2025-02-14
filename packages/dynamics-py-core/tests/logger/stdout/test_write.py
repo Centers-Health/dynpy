@@ -1,7 +1,6 @@
 import io
 
 import pytest
-
 from dynpy.logger.stdout import tee_stdout
 
 

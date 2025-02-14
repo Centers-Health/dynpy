@@ -1,8 +1,8 @@
 import io
 
 from django.core.management import call_command
-
 from dynpy.strawberry_django_jwt.shortcuts import create_refresh_token
+
 from tests.strawberry_django_jwt.testcases import UserTestCase
 
 

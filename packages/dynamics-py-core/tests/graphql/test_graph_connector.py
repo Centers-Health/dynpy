@@ -69,7 +69,7 @@ def describe_JWT_cookie():
         assert "JWT" not in mock_post.call_args_list[-1].kwargs["cookies"]
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_not_ok_response_raises_error(mocker):
     from dynpy.graphql.graph_connector import GraphConnector
 

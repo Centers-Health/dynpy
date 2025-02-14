@@ -1,7 +1,6 @@
 import pytest
 from django.core.management import call_command
 from django.core.management.base import CommandError
-
 from dynpy.logger.enums import LogStatus
 from dynpy.logger.loggers import DWErrorLogger
 from dynpy.logger.management.base import ExceptionLoggingCommand
@@ -29,7 +28,7 @@ def test_print_end_message_includes_errors_count(capsys):
     assert "error : 1" in end_message.out
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def describe_report_error():
     def uses_logger_passed_in_to_log_the_error():
         logging_command = ExceptionLoggingCommand()
@@ -66,7 +65,7 @@ def describe_report_error():
         assert logging_command.fail_errors_count == 1
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_command_fails_and_exits_if_fail_errors_count_exceeds_FAIL_TOLERANCE(mocker):
     mocker.patch("dynpy.logger.management.base.ExceptionLoggingCommand.FAIL_TOLERANCE", 1)
     with pytest.raises(CommandError):
@@ -74,7 +73,7 @@ def test_command_fails_and_exits_if_fail_errors_count_exceeds_FAIL_TOLERANCE(moc
     assert Log.objects.last().status == LogStatus.FAIL
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_can_set_FAIL_TOLERANCE_via_argument():
     """
     Default is 100 and setting to 1 via argument should cause the command to fail

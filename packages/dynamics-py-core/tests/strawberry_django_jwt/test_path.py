@@ -1,5 +1,4 @@
 from django.test import TestCase
-
 from dynpy.strawberry_django_jwt.path import PathDict, filter_strings
 
 

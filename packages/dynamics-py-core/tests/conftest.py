@@ -16,13 +16,13 @@ def _override_settings_for_testing(settings):
     settings.GRAPH_URL = "https://graph.localhost"
 
 
-@pytest.fixture()
+@pytest.fixture
 def test_user(django_user_model):
     return django_user_model.objects.create(
         username="test", password="123", first_name="John", last_name="Doe"
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def test_file():
     return SimpleUploadedFile("test.txt", b"file_content", content_type="text/plain")

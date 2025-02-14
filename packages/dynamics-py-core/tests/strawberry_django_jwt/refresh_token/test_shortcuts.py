@@ -1,5 +1,6 @@
 from dynpy.strawberry_django_jwt import shortcuts
 from dynpy.strawberry_django_jwt.exceptions import JSONWebTokenError
+
 from tests.strawberry_django_jwt.testcases import UserTestCase
 
 

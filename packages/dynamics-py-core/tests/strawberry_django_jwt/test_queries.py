@@ -5,9 +5,6 @@ import strawberry
 import strawberry_django
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
-from graphql import get_introspection_query
-from strawberry.types import Info
-
 from dynpy.strawberry_django_jwt.decorators import (
     dispose_extra_kwargs,
     login_required,
@@ -17,6 +14,9 @@ from dynpy.strawberry_django_jwt.mixins import JSONWebTokenMixin
 from dynpy.strawberry_django_jwt.model_object_types import UserType
 from dynpy.strawberry_django_jwt.settings import jwt_settings
 from dynpy.strawberry_django_jwt.shortcuts import get_token
+from graphql import get_introspection_query
+from strawberry.types import Info
+
 from tests.strawberry_django_jwt.decorators import OverrideJwtSettings
 from tests.strawberry_django_jwt.strawberry_types import MyTestModel
 from tests.strawberry_django_jwt.testcases import AsyncSchemaTestCase, SchemaTestCase
@@ -70,23 +70,21 @@ class QueriesTests(SchemaTestCase):
 
     @OverrideJwtSettings(JWT_ALLOW_ARGUMENT=True)
     def test_multiple_credentials(self):
-        query = """
+        query = f"""
         query Tests($token: String!, $otherToken: String!) {{
           testBegin: test {{
             username
           }}
-          testToken: test({0}: $token) {{
+          testToken: test({jwt_settings.JWT_ARGUMENT_NAME}: $token) {{
             username
           }}
-          testOtherToken: test({0}: $otherToken) {{
+          testOtherToken: test({jwt_settings.JWT_ARGUMENT_NAME}: $otherToken) {{
             username
           }}
           testEnd: test {{
             username
           }}
-        }}""".format(
-            jwt_settings.JWT_ARGUMENT_NAME
-        )
+        }}"""
 
         headers = {
             jwt_settings.JWT_AUTH_HEADER_NAME: f"{jwt_settings.JWT_AUTH_HEADER_PREFIX} {self.token}",
@@ -109,14 +107,12 @@ class QueriesTests(SchemaTestCase):
 
     @OverrideJwtSettings(JWT_ALLOW_ARGUMENT=True)
     def test_invalid_credentials(self):
-        query = """
+        query = f"""
         query Tests {{
-          testInvalidToken: test({0}: "invalid") {{
+          testInvalidToken: test({jwt_settings.JWT_ARGUMENT_NAME}: "invalid") {{
             username
           }}
-        }}""".format(
-            jwt_settings.JWT_ARGUMENT_NAME
-        )
+        }}"""
 
         self.client.authenticate(self.token)
 
@@ -327,23 +323,21 @@ class AsyncQueriesTests(AsyncSchemaTestCase):
 
     @OverrideJwtSettings(JWT_ALLOW_ARGUMENT=True)
     async def test_multiple_credentials(self):
-        query = """
+        query = f"""
         query Tests($token: String!, $otherToken: String!) {{
           testBegin: test {{
             username
           }}
-          testToken: test({0}: $token) {{
+          testToken: test({jwt_settings.JWT_ARGUMENT_NAME}: $token) {{
             username
           }}
-          testOtherToken: test({0}: $otherToken) {{
+          testOtherToken: test({jwt_settings.JWT_ARGUMENT_NAME}: $otherToken) {{
             username
           }}
           testEnd: test {{
             username
           }}
-        }}""".format(
-            jwt_settings.JWT_ARGUMENT_NAME
-        )
+        }}"""
 
         self.client.authenticate(self.token)
 
@@ -364,14 +358,12 @@ class AsyncQueriesTests(AsyncSchemaTestCase):
 
     @OverrideJwtSettings(JWT_ALLOW_ARGUMENT=True)
     async def test_invalid_credentials(self):
-        query = """
+        query = f"""
         query Tests {{
-          testInvalidToken: test({0}: "invalid") {{
+          testInvalidToken: test({jwt_settings.JWT_ARGUMENT_NAME}: "invalid") {{
             username
           }}
-        }}""".format(
-            jwt_settings.JWT_ARGUMENT_NAME
-        )
+        }}"""
 
         self.client.authenticate(self.token)
 

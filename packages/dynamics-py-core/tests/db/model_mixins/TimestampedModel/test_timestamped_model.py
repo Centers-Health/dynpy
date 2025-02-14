@@ -1,6 +1,5 @@
 import pytest
 from django.utils import timezone
-
 from tests.models import TestTimestampedModel
 
 pytestmark = pytest.mark.django_db

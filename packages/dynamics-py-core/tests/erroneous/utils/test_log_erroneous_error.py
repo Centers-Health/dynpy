@@ -2,7 +2,6 @@ import pytest
 from dateutil.relativedelta import relativedelta
 from django.test.utils import override_settings
 from django.utils import timezone
-
 from dynpy.erroneous.models import Error
 from dynpy.erroneous.utils import log_erroneous_error
 

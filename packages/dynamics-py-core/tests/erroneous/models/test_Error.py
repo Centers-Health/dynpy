@@ -3,7 +3,6 @@ from datetime import date
 import pytest
 from django.db import transaction
 from django.db.utils import IntegrityError
-
 from dynpy.erroneous.models import Error
 
 

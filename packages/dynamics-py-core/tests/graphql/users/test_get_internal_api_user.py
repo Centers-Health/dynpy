@@ -1,5 +1,4 @@
 import pytest
-
 from dynpy.graphql.users import INTERNAL_API_USER_USERNAME, get_internal_api_user
 
 pytestmark = pytest.mark.django_db

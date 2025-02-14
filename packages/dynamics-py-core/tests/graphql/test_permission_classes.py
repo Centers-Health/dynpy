@@ -2,9 +2,6 @@ import pytest
 import strawberry
 from django.contrib.auth.models import Permission
 from django.http import HttpRequest, HttpResponse
-from graphql import ExecutionResult, GraphQLError
-from strawberry.django.context import StrawberryDjangoContext
-
 from dynpy.graphql.permission_classes import (
     HasCASPerm,
     IsAnonymous,
@@ -12,6 +9,8 @@ from dynpy.graphql.permission_classes import (
     IsSuperuser,
     UserPermission,
 )
+from graphql import ExecutionResult, GraphQLError
+from strawberry.django.context import StrawberryDjangoContext
 
 pytestmark = pytest.mark.django_db
 

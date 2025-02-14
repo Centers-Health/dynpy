@@ -1,6 +1,6 @@
+import dynpy.strawberry_django_jwt.mutations
 import strawberry
 
-import dynpy.strawberry_django_jwt.mutations
 from tests.strawberry_django_jwt.refresh_token import mixins
 from tests.strawberry_django_jwt.refresh_token.testcases import AsyncCookieTestCase, CookieTestCase
 from tests.strawberry_django_jwt.testcases import AsyncSchemaTestCase, SchemaTestCase

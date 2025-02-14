@@ -3,10 +3,10 @@ from typing import List
 import pytest
 import strawberry
 import strawberry_django
-
 from dynpy.strawberry_django_jwt.decorators import login_required
 from dynpy.strawberry_django_jwt.mixins import JSONWebTokenMixin
 from dynpy.strawberry_django_jwt.settings import jwt_settings
+
 from tests.strawberry_django_jwt.decorators import OverrideJwtSettings
 from tests.strawberry_django_jwt.strawberry_types import MyTestModel
 from tests.strawberry_django_jwt.testcases import SchemaTestCase

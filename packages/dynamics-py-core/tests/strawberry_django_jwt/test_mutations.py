@@ -2,18 +2,18 @@ import json
 from importlib import reload
 from unittest import mock
 
+import dynpy.strawberry_django_jwt.mutations
 import strawberry.django
 from django.contrib.auth import get_user_model
 from django_mock_queries.query import MockModel, MockSet  # type: ignore
-from strawberry import auto
-from strawberry.django import mutations
-from strawberry.types import Info
-
-import dynpy.strawberry_django_jwt.mutations
 from dynpy.strawberry_django_jwt.decorators import dispose_extra_kwargs, login_field, login_required
 from dynpy.strawberry_django_jwt.mixins import JSONWebTokenMixin
 from dynpy.strawberry_django_jwt.settings import jwt_settings
 from dynpy.strawberry_django_jwt.shortcuts import get_token
+from strawberry import auto
+from strawberry.django import mutations
+from strawberry.types import Info
+
 from tests.strawberry_django_jwt import mixins
 from tests.strawberry_django_jwt.decorators import OverrideJwtSettings
 from tests.strawberry_django_jwt.models import MyTestModel

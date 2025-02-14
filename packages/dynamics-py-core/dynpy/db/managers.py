@@ -1,5 +1,4 @@
 from django.db import models
-
 from dynpy.db.querysets import SoftDeleteQuerySet
 
 

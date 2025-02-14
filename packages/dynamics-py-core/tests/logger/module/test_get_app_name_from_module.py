@@ -1,6 +1,5 @@
 import pytest
 from django.conf import settings
-
 from dynpy.logger.module import get_app_name_from_module
 
 

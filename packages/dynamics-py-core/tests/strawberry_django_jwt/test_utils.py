@@ -5,14 +5,14 @@ from importlib import reload
 from types import ModuleType
 from unittest import mock
 
+import dynpy.strawberry_django_jwt.object_types
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import rsa
-
-import dynpy.strawberry_django_jwt.object_types
 from dynpy.strawberry_django_jwt import exceptions, utils
 from dynpy.strawberry_django_jwt.object_types import TokenPayloadType
 from dynpy.strawberry_django_jwt.settings import jwt_settings
 from dynpy.strawberry_django_jwt.shortcuts import get_user_by_token_async
+
 from tests.strawberry_django_jwt.decorators import OverrideJwtSettings
 from tests.strawberry_django_jwt.testcases import AsyncTestCase, TestCase
 

@@ -1,5 +1,4 @@
 import pytest
-
 from dynpy.db.model_mixins import SoftDeleteModelMixin, TimestampedModelMixin
 from tests.models import TestActiveRecordModel
 

@@ -1,8 +1,8 @@
 from django.contrib.admin import site
-
 from dynpy.strawberry_django_jwt.refresh_token import admin
 from dynpy.strawberry_django_jwt.refresh_token.utils import get_refresh_token_model
 from dynpy.strawberry_django_jwt.shortcuts import create_refresh_token
+
 from tests.strawberry_django_jwt.testcases import TestCase
 
 

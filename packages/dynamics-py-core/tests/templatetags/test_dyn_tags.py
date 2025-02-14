@@ -5,7 +5,6 @@ from django.conf import settings
 from django.template import Context, Template
 from django.test.client import RequestFactory
 from django.utils.http import urlencode
-
 from dynpy.templatetags.dynpy_tags import (
     env,
     field_name_to_label,

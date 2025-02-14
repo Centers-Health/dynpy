@@ -1,5 +1,4 @@
 from django.core.management.base import CommandParser
-
 from dynpy.logger.management.base import LoggingCommand
 
 

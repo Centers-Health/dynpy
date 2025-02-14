@@ -1,11 +1,10 @@
 from typing import List
 
-import strawberry
-from strawberry import Schema
-
 import dynpy.strawberry_django_jwt.mutations as jwt_mutations
+import strawberry
 from dynpy.strawberry_django_jwt.decorators import login_required
 from dynpy.strawberry_django_jwt.middleware import AsyncJSONWebTokenMiddleware, JSONWebTokenMiddleware
+from strawberry import Schema
 
 
 @strawberry.type

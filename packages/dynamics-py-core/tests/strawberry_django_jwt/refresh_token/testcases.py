@@ -1,5 +1,6 @@
 from dynpy.strawberry_django_jwt.settings import jwt_settings
 from dynpy.strawberry_django_jwt.shortcuts import create_refresh_token
+
 from tests.strawberry_django_jwt import testcases
 
 

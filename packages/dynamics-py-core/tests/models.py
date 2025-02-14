@@ -1,5 +1,4 @@
 from django.db import models
-
 from dynpy.db.model_mixins import ActiveRecordModelMixin, SoftDeleteModelMixin, TimestampedModelMixin
 
 

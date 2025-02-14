@@ -1,6 +1,5 @@
 import pytest
 from django.urls import reverse
-
 from dynpy.erroneous.models import Error
 
 pytestmark = pytest.mark.django_db

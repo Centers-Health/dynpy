@@ -2,8 +2,6 @@ import json
 
 import strawberry
 from django.contrib.auth import get_user_model
-from strawberry.types import Info
-
 from dynpy.strawberry_django_jwt.decorators import login_required
 from dynpy.strawberry_django_jwt.middleware import AsyncJSONWebTokenMiddleware, JSONWebTokenMiddleware
 from dynpy.strawberry_django_jwt.mixins import JSONWebTokenMixin
@@ -11,6 +9,8 @@ from dynpy.strawberry_django_jwt.settings import jwt_settings
 from dynpy.strawberry_django_jwt.shortcuts import get_token
 from dynpy.strawberry_django_jwt.testcases import AsyncJSONWebTokenClient, JSONWebTokenClient
 from dynpy.strawberry_django_jwt.views import AsyncStatusHandlingGraphQLView, StatusHandlingGraphQLView
+from strawberry.types import Info
+
 from tests.strawberry_django_jwt.testcases import AsyncSchemaTestCase, SchemaTestCase
 
 

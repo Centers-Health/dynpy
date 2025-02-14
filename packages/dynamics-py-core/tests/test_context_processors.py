@@ -1,5 +1,4 @@
 from django.template import Context, Template
-
 from dynpy.context_processors import env
 
 

@@ -1,15 +1,15 @@
 from django.contrib.auth.models import AnonymousUser, Permission
-
 from dynpy.strawberry_django_jwt import decorators, exceptions
+
 from tests.strawberry_django_jwt.decorators import OverrideJwtSettings
 from tests.strawberry_django_jwt.testcases import TestCase
 
 
 class UserPassesTests(TestCase):
     def test_user_passes_test(self):
-        result = decorators.user_passes_test(lambda u: u.pk == self.user.pk,)(
-            lambda src, info: None
-        )(None, info=self.info(self.user))
+        result = decorators.user_passes_test(
+            lambda u: u.pk == self.user.pk,
+        )(lambda src, info: None)(None, info=self.info(self.user))
 
         self.assertIsNone(result)
 

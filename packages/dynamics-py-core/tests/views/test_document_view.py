@@ -1,7 +1,6 @@
 import pytest
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.http import FileResponse
-
 from dynpy.views import MediaFileView
 from tests.models import DocumentTestModel
 

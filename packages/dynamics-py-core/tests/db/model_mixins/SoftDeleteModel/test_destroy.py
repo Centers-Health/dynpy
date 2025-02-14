@@ -1,5 +1,4 @@
 import pytest
-
 from tests.models import TestSoftDeleteModel
 
 pytestmark = pytest.mark.django_db

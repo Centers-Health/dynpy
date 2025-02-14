@@ -1,7 +1,6 @@
 from datetime import timedelta
 
 from django.test import TestCase
-
 from dynpy.strawberry_django_jwt import settings
 
 
