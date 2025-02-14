@@ -1,0 +1,15 @@
+{% extends "dynpy/base_error_template.html" %}
+
+{% load static %}
+
+{% block title %}
+    403: Permission Denied
+{% endblock title %}
+
+{% block error_code %}
+    403
+{% endblock error_code %}
+
+{% block message %}
+    {{ exception|default:"You don't have permission to view this page." }}
+{% endblock message %}
