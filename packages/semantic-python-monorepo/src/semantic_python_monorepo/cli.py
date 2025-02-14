@@ -17,12 +17,12 @@ from .utils import LOCK_FILE, fail_fast, get_commits, verify_poetry_plugins_are_
 
 LOGGING_LEVEL = logging.INFO
 args = parser.parse_args()
-if args.verbose == 0:
-    LOGGING_LEVEL = logging.ERROR
-elif args.verbose == 1:
-    LOGGING_LEVEL = logging.INFO
-elif args.verbose == 2:
+if args.verbose >= 2:
     LOGGING_LEVEL = logging.DEBUG
+elif args.verbose >= 1:
+    LOGGING_LEVEL = logging.INFO
+else:
+    LOGGING_LEVEL = logging.ERROR
 
 
 logger_setup(LOGGING_LEVEL)
