@@ -23,7 +23,7 @@ def work_dir(root_dir):
 
 
 @pytest.fixture(scope="session")
-def with_repos(origin_dir, work_dir):
+def _with_repos(origin_dir, work_dir):
     subprocess.run(["git", "init", "--bare"], cwd=origin_dir)
     subprocess.run(["git", "init", "--initial-branch", "master"], cwd=work_dir)
     subprocess.run(["git", "config", "user.email", "test@example.com"], cwd=work_dir)
@@ -39,7 +39,7 @@ def with_repos(origin_dir, work_dir):
 
 
 @pytest.fixture(scope="session")
-def with_packages(origin_dir, work_dir, with_repos):
+def _with_packages(origin_dir, work_dir, with_repos):
     packages_dir = work_dir / "packages"
     packages_dir.mkdir()
 

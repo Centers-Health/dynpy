@@ -17,9 +17,6 @@ class Calculator:
     def mul(self, a, b):
         return self.mult(a, b)
 
-    def perry(self, a, b):
-        return self.mult(a, b)
-
     def perry(self):
         return "perry"
 

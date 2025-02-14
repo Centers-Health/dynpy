@@ -42,9 +42,7 @@ class SeleniumHelper(ABC):
     def click_by_selector(self, selector: str) -> None:
         self.driver.find_element(By.CSS_SELECTOR, selector).click()
 
-    def send_keys_by_selector(
-        self, selector: str, keys: str, overwrite: bool = False
-    ) -> None:
+    def send_keys_by_selector(self, selector: str, keys: str, overwrite: bool = False) -> None:
         elem = self.driver.find_element(By.CSS_SELECTOR, selector)
         if overwrite:
             elem.clear()
@@ -56,9 +54,7 @@ class SeleniumHelper(ABC):
                 EC.presence_of_element_located((By.CSS_SELECTOR, selector))
             )
         except TimeoutException as e:
-            raise TimeoutException(
-                f"Loading element `{selector}` took too much time!"
-            ) from e
+            raise TimeoutException(f"Loading element `{selector}` took too much time!") from e
 
 
 class ChromeSeleniumHelper(SeleniumHelper):
@@ -67,6 +63,4 @@ class ChromeSeleniumHelper(SeleniumHelper):
     def _generate_driver(self) -> WebDriver:
         chrome_options = Options()
         chrome_options.add_argument("--headless")
-        return webdriver.Chrome(
-            service=Service(ChromeDriverManager().install()), options=chrome_options
-        )
+        return webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)

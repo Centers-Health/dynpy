@@ -1,6 +1,6 @@
-import graphlib
 import pathlib
 
+import graphlib
 from rich.tree import Tree
 
 from .logging import log
@@ -47,7 +47,7 @@ class PackageRegistry:
     def sort_packages_and_update_indexes(self) -> None:
         graph = graphlib.TopologicalSorter(graph=self._g)
         sorted_deps = tuple(graph.static_order())
-        for package_name in self._packages.keys():
+        for package_name in self._packages:
             # Update index to sort later by
             index = sorted_deps.index(package_name)
             if index >= 0:
@@ -55,7 +55,7 @@ class PackageRegistry:
 
             # update bump type if dependency has a bump
 
-        self.sorted_packages = sorted(list(self._packages.values()), key=lambda package: package.index)
+        self.sorted_packages = sorted(self._packages.values(), key=lambda package: package.index)
 
     def get_tree(self):
         tree = Tree(f"Package Registry ({self.registry_path})")
