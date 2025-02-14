@@ -111,8 +111,7 @@ def get_commits() -> list[Commit]:
 
 
 def create_or_open(file: str) -> TextIOWrapper:
-    with open(file, "r" if os.path.exists(file) else "a+") as f:
-        return f
+    return open(file, "r" if os.path.exists(file) else "a+")
 
 
 def read_lock_file() -> str:
