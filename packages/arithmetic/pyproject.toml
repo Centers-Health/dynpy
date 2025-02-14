@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "arithmetic"
-version = "2.1.46"
+version = "2.1.47"
 description = ""
 authors = ["Avi Areman <avi.areman@gmail.com>"]
 readme = "README.md"

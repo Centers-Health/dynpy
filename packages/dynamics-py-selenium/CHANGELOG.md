@@ -2,16 +2,39 @@
 
 
 
+
+
+
+
+## v1.1.2 (2025-02-14)
+### Fix
+- Full ruff lint and fix ([`a8014a6`](https://github.com/Centers-health/dynpy/commit/a8014a6e364900bf9be1c52c054c425b05595360))
+- Remove pyproject configs for unused tools ([`1df8b56`](https://github.com/Centers-health/dynpy/commit/1df8b565139cbba562523aa3d20c6086a9796cac))
+- Remove version from __init__.py files ([`a4b9e0b`](https://github.com/Centers-health/dynpy/commit/a4b9e0b83d686c4caaf60ff93a44fde315992595))
+### Other
+- Remove makefile and semantic_release config ([`fd24a2f`](https://github.com/Centers-health/dynpy/commit/fd24a2f0f3e4f751f0eb4ff0fa8343e8a1878955))
+- Remove unused flake8_baseline file ([`012ec34`](https://github.com/Centers-health/dynpy/commit/012ec34480665855396ad89cff032de65f7ef403))
 <!--next-version-placeholder-->
 
 
 
+
+
+
+
 ## v1.1.1 (2025-02-13)
+
 ### Fix
+
 - fix: remove extra lines from changelog ([`665c01b`](https://github.com/Centers-health/dynpy/commit/665c01bde3068627ff31982edd4a2dc5f36b984c))
+
 ## v1.1.0 (2025-02-13)
 
+
+
 ### Feature
+
+
 
 - feat: add dynpy selenium package ([`2e49311`](https://github.com/Centers-health/dynpy/commit/2e49311799da0e2726903a1c8b90365bf9a977ab))
 
@@ -19,9 +42,19 @@
 
 
 
+
+
+
+
+
+
 ## v1.0.0 (2023-12-12)
 
+
+
 ### Feature
+
+
 
 * Upgrade python 3.8 ~> 3.11 ([`1e11216`](https://github.com/Centers-Health/dynamics-py-selenium/commit/1e1121699943511edf3c7dc00ab017d3745ec3e6))
 
@@ -31,7 +64,19 @@
 
 
 
+
+
+
+
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -39,7 +84,15 @@
 
 
 
+
+
+
+
 ### Breaking
+
+
+
+
 
 
 
@@ -47,7 +100,15 @@
 
 
 
+
+
+
+
 ## v0.1.1 (2023-09-11)
+
+
+
+
 
 
 
@@ -55,7 +116,15 @@
 
 
 
+
+
+
+
 * Update out of date poetry lock file ([`a39adb4`](https://github.com/Centers-Health/dynamics-py-selenium/commit/a39adb40b4c8123c0d7b47036b5a14d36e4353c6))
+
+
+
+
 
 
 
@@ -63,7 +132,15 @@
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -75,11 +152,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v0.0.4 (2023-03-22)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -91,11 +184,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v0.0.3 (2023-03-10)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -107,11 +216,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v0.0.2 (2022-11-03)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -123,11 +248,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v0.0.1 (2022-09-19)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -139,7 +280,19 @@
 
 
 
+
+
+
+
+
+
+
+
 ### Documentation
+
+
+
+
 
 
 
@@ -147,7 +300,15 @@
 
 
 
+
+
+
+
 * Change raw link to markdown link ([`0809b6e`](https://github.com/Centers-Health/dynamics-py-selenium/commit/0809b6e71989cbf9bfc18e2c239d5a7f1fb4bf24))
+
+
+
+
 
 
 
