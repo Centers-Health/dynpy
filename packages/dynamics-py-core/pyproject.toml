@@ -1,0 +1,56 @@
+[tool.poetry]
+name = "dynpy"
+version = "19.0.0"
+description = ""
+authors = ["Team Dynamics"]
+
+[[tool.poetry.source]]
+name = "dynamics"
+url = "https://pypi.centershealthcare.org/simple"
+priority = "supplemental"
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "primary"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^4.2"
+python-dateutil = "^2.8.2"
+premailer = "^3.10.0"
+html2text = "^2020.1.16"
+pyodbc = "^4.0.32"
+strawberry-graphql = "0.235.2" #TODO: pinned because breaks on 0.237.0
+strawberry-graphql-django = ">=0.20.0,<1.0.0"
+PyJWT = ">=1.7.1,<3.0"
+django-admin-display = "^1.3.0"
+cryptography = ">=38.0"
+packaging = "^23.1"
+typing-extensions = "^4.5.0"
+djangorestframework = "^3.12.4"
+
+[tool.poetry.group.dev.dependencies]
+asgiref = ">=3.3.2,<4"
+pytest = "^7.4.3"
+pytest-watch = "^4.2.0"
+pytest-spec = "^3.1.0"
+pytest-testmon = "^1.0.3"
+pytest-django = "^4.5.2"
+pytest-describe = "^2.0.1"
+pytest-mock = "*"
+bs4 = "^0.0.1"
+pytest-xdist = "*"
+pdbpp = "*"
+pytest-flakefinder = "^1.0.0"
+django-types = "^0.17.0"
+djangorestframework-stubs = "^1.4.0"
+django-mock-queries = "^2.1.7"
+freezegun = "^1.5.1"
+
+
+[build-system]
+requires = ["poetry-core=^1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry-monorepo.deps]

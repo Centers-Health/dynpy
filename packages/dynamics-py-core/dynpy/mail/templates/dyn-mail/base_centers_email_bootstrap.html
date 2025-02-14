@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% load inline_static_tags %}
+
+{% block load_extras %}
+{% endblock load_extras %}
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <style type="text/css">
+            {# Move boostrap css to style block so premailer can find it #}
+            {% inline_style 'dyn-core/css/centers-bootstrap-theme.min.css' %}
+        </style>
+    </head>
+    <body>
+        <div class="bg-light">
+            <div class="container py-5 w-75">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">
+                            <img class="text-center"
+                                 height="55px"
+                                 alt="Centers Logo"
+                                 src="cid:centers-header-logo"/>
+                        </h5>
+                        <p class="card-text">
+
+                            {% block content %}
+                            {% endblock content %}
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
