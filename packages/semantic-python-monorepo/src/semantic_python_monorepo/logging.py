@@ -1,4 +1,5 @@
 import logging
+
 from rich.console import Console
 from rich.logging import RichHandler
 from rich.padding import Padding
@@ -31,10 +32,17 @@ def li(item: str | list[str], padding: int = 0) -> None:
     if isinstance(item, str):
         console.print(Padding(f"• {item}", (0, padding)))
     else:
-        for item in item:
-            li(item, padding=padding)
+        for it in item:
+            li(it, padding=padding)
 
 
-h1 = lambda msg: console.print(Padding(Rule(msg), (0, 0)))
-h2 = lambda msg: console.print(Padding(Rule(msg), (0, 4)))
-h3 = lambda msg: console.print(Padding(Rule(msg), (0, 8)))
+def h1(msg: str) -> None:
+    console.print(Padding(Rule(msg), (0, 0)))
+
+
+def h2(msg: str) -> None:
+    console.print(Padding(Rule(msg), (0, 4)))
+
+
+def h3(msg: str) -> None:
+    console.print(Padding(Rule(msg), (0, 8)))

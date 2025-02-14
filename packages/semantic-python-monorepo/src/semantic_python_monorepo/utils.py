@@ -111,7 +111,8 @@ def get_commits() -> list[Commit]:
 
 
 def create_or_open(file: str) -> TextIOWrapper:
-    return open(file, "r" if os.path.exists(file) else "a+")
+    with open(file, "r" if os.path.exists(file) else "a+") as f:
+        return f
 
 
 def read_lock_file() -> str:
@@ -136,10 +137,6 @@ def categorize_commit(commit: Commit) -> dict[str, str]:
         return {"Fix": f"{commit.msg} {commit_link}"}
     else:
         return {"Other": f"{commit.msg} {commit_link}"}
-
-
-def update_changelog(version: str, commits: list[Commit], changelog_path: str) -> None:
-    pass
 
 
 def version_bump(version: str, _type: str | None = "patch") -> str:

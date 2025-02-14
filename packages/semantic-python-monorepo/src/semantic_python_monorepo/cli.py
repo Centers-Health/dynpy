@@ -30,7 +30,7 @@ logger_setup(LOGGING_LEVEL)
 DRY_RUN = args.dry_run
 
 
-def main():
+def main():  # noqa: C901
     if DRY_RUN:
         console.print("[bold yellow]This is a Dry Run")
 
