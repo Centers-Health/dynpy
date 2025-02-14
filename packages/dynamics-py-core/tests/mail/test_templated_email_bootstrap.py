@@ -1,6 +1,5 @@
 import cssutils
 from bs4 import BeautifulSoup
-
 from dynpy.mail.templated_email import TemplatedEmailBootstrap
 
 

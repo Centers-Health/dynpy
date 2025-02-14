@@ -3,7 +3,6 @@ import contextlib
 import pyodbc
 import pytest
 from django.db import models
-
 from dynpy.dw import DWConnector
 from dynpy.erroneous.models import Error
 
@@ -27,14 +26,14 @@ def test_runs_sp_with_args(mock_sp):
     assert type(namis) == list
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_run_sp_raises_connection_errors(mocker):
     mocker.patch("pyodbc.connect", side_effect=pyodbc.Error("1234", "Error 1234"))
     with pytest.raises(pyodbc.Error):
         DWConnector().run_sp(SP.NAMIS, (1, 1))
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_run_sp_logs_connection_errors(mocker):
     mocker.patch("pyodbc.connect", side_effect=pyodbc.Error("1234", "Error 1234"))
     with contextlib.suppress(pyodbc.Error):
@@ -43,14 +42,14 @@ def test_run_sp_logs_connection_errors(mocker):
     assert "Error 1234" in log.data
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_run_sp_raises_execute_errors(mocker):
     mocker.patch("pyodbc.connect", side_effect=pyodbc.Error("1234", "Error 1234"))
     with pytest.raises(pyodbc.Error):
         DWConnector().run_sp(SP.NAMIS, (1))
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_run_sp_logs_execute_errors(mocker):
     mocker.patch("pyodbc.connect", side_effect=pyodbc.Error("1234", "Error 1234"))
     with contextlib.suppress(pyodbc.Error):

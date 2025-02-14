@@ -6,9 +6,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission, User
 from django.contrib.contenttypes.models import ContentType
 from django.test import AsyncRequestFactory, RequestFactory, testcases  # type: ignore
-from graphql.execution.execute import GraphQLResolveInfo
-from strawberry.django.views import AsyncGraphQLView, GraphQLView
-
 from dynpy.strawberry_django_jwt.decorators import jwt_cookie
 from dynpy.strawberry_django_jwt.settings import jwt_settings
 from dynpy.strawberry_django_jwt.testcases import (
@@ -18,6 +15,9 @@ from dynpy.strawberry_django_jwt.testcases import (
     JSONWebTokenTestCase,
 )
 from dynpy.strawberry_django_jwt.utils import jwt_encode, jwt_payload
+from graphql.execution.execute import GraphQLResolveInfo
+from strawberry.django.views import AsyncGraphQLView, GraphQLView
+
 from tests.strawberry_django_jwt.models import MyTestModel
 
 

@@ -1,5 +1,4 @@
 import pytest
-
 from tests.management.commands.success_logging_command import Command as SuccessLoggingCommand
 
 

@@ -2,9 +2,8 @@ from datetime import date, datetime
 
 import pytest
 from django.forms import ValidationError
-from freezegun import freeze_time
-
 from dynpy.db.validators import FourDigitYearValidator
+from freezegun import freeze_time
 
 
 @pytest.mark.parametrize(

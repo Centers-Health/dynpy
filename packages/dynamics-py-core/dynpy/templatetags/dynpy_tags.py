@@ -134,7 +134,6 @@ def render_tawkto(context, manual_mode=True):
 
 @register.simple_tag(takes_context=False)
 def hash_hmac(data: str, key: str = "") -> str:
-
     import hashlib
     import hmac
 

@@ -2,7 +2,6 @@ from datetime import datetime
 
 import pytest
 from django.utils import timezone
-
 from tests.models import TestSoftDeleteModel
 
 pytestmark = pytest.mark.django_db

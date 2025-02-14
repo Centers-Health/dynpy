@@ -3,7 +3,6 @@ from datetime import timedelta
 import pytest
 from django.core.management import call_command
 from django.utils import timezone
-
 from dynpy.logger.models import Log
 
 pytestmark = pytest.mark.django_db
@@ -17,8 +16,7 @@ def create_log(days_old: int = 10):
     # Using update() to override auto_now on updated_at field
     Log.objects.filter(pk=log.pk).update(
         # Subtracting 1 to include today in count
-        updated_at=timezone.now()
-        - timedelta(days=days_old - 1)
+        updated_at=timezone.now() - timedelta(days=days_old - 1)
     )
     return Log.objects.get(id=log.pk)
 

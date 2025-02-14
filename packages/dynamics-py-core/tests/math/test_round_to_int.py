@@ -1,5 +1,4 @@
 import pytest
-
 from dynpy.enums import RoundingDirection
 from dynpy.math import round_to_int
 

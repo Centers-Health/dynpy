@@ -1,5 +1,4 @@
 from django.core.management.base import CommandParser
-
 from dynpy.logger.enums import LogStatus
 from dynpy.logger.loggers import UnexpectedErrorLogger
 from dynpy.logger.management.base import ExceptionLoggingCommand

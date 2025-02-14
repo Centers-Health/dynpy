@@ -44,7 +44,7 @@ def tee_stdout(new_target, is_timestamped: bool = False):
     ```
     buf = io.StringIO()
     with tee_stdout(buf):
-        print("foo") # this will print to the terminal and write to buf
+        print("foo")  # this will print to the terminal and write to buf
     ```
 
     Based on StackOverflow answer here: https://stackoverflow.com/a/41580373/11278892

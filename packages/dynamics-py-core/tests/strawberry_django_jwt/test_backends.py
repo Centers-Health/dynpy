@@ -4,11 +4,11 @@ import pytest
 from django.contrib.auth.models import User
 from django.test import Client
 from django.test import TestCase as DjangoTestCase
-from rest_framework.test import APIClient
-
 from dynpy.strawberry_django_jwt.backends import JSONWebTokenBackend
 from dynpy.strawberry_django_jwt.exceptions import JSONWebTokenError
 from dynpy.strawberry_django_jwt.settings import jwt_settings
+from rest_framework.test import APIClient
+
 from tests.strawberry_django_jwt.testcases import AsyncTestCase, TestCase
 
 

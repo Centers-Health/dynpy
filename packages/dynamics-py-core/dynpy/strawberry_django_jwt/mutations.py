@@ -34,7 +34,7 @@ class JSONWebTokenMutation(mixins.JSONWebTokenMixin):
         super().__init_subclass__()
         user = get_user_model().USERNAME_FIELD
         field: StrawberryField
-        for (_name, field) in inspect.getmembers(cls, lambda f: isinstance(f, StrawberryField)):
+        for _name, field in inspect.getmembers(cls, lambda f: isinstance(f, StrawberryField)):
             field.arguments.extend(
                 [
                     create_strawberry_argument(user, user, str),

@@ -2,7 +2,6 @@ import io
 from datetime import datetime
 
 import pytest
-
 from dynpy.logger.stdout import tee_stdout
 
 """

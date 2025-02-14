@@ -4,6 +4,7 @@ from dynpy.strawberry_django_jwt.refresh_token.models import AbstractRefreshToke
 from dynpy.strawberry_django_jwt.refresh_token.signals import refresh_token_revoked
 from dynpy.strawberry_django_jwt.settings import jwt_settings
 from dynpy.strawberry_django_jwt.shortcuts import create_refresh_token
+
 from tests.strawberry_django_jwt.context_managers import catch_signal, refresh_expired
 from tests.strawberry_django_jwt.testcases import UserTestCase
 
@@ -40,7 +41,6 @@ class AbstractRefreshTokenTests(UserTestCase):
 
     def test_revoke(self):
         with catch_signal(refresh_token_revoked) as refresh_token_revoked_handler:
-
             self.refresh_token.revoke()
 
         self.assertIsNotNone(self.refresh_token.revoked)

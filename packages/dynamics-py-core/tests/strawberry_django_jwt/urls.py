@@ -1,14 +1,14 @@
 from django.contrib.auth.models import User
 from django.urls import include, path, re_path
+from dynpy.strawberry_django_jwt.decorators import jwt_cookie
+from dynpy.strawberry_django_jwt.views import AsyncStatusHandlingGraphQLView as AGQLView
+from dynpy.strawberry_django_jwt.views import StatusHandlingGraphQLView as GQLView
 from rest_framework import serializers, viewsets
 from rest_framework.permissions import IsAuthenticated
 
 # Serializers define the API representation.
 from rest_framework.routers import DefaultRouter
 
-from dynpy.strawberry_django_jwt.decorators import jwt_cookie
-from dynpy.strawberry_django_jwt.views import AsyncStatusHandlingGraphQLView as AGQLView
-from dynpy.strawberry_django_jwt.views import StatusHandlingGraphQLView as GQLView
 from tests.strawberry_django_jwt.example_app.schema import schema, sync_schema
 
 

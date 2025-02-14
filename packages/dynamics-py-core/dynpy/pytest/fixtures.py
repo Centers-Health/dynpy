@@ -2,7 +2,6 @@ import pytest
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db.models.signals import m2m_changed, post_delete, post_save, pre_delete, pre_save
-
 from dynpy.dw import DWConnector
 from dynpy.pytest.ncs_mockers import Cursor
 
@@ -13,7 +12,7 @@ from dynpy.pytest.ncs_mockers import Cursor
 """
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_sp(mocker):
     """
     Mock an sp by name.
@@ -43,7 +42,7 @@ def mock_sp(mocker):
     return _mock_sp
 
 
-@pytest.fixture()
+@pytest.fixture
 def add_middleware_to_request():
     def _add_middleware_to_request(request):
         request.session = "session"
@@ -56,7 +55,7 @@ def add_middleware_to_request():
 
 
 # source: https://www.cameronmaske.com/muting-django-signals-with-a-pytest-fixture/
-@pytest.fixture()
+@pytest.fixture
 def _dynpy_mute_signals(request):
     # Skip applying, if marked with `enabled_signals` (@pytest.mark.enable_signals)
     if "enable_signals" in request.keywords:
@@ -79,13 +78,13 @@ def _dynpy_mute_signals(request):
         restore_signals()
 
 
-@pytest.fixture()
+@pytest.fixture
 def test_file():
     return SimpleUploadedFile("test.txt", b"file_content", content_type="text/plain")
 
 
-@pytest.fixture()
-@pytest.mark.django_db()
+@pytest.fixture
+@pytest.mark.django_db
 def dyn_superuser(django_user_model):
     # authenticated_client vars
     username = "test_superuser"

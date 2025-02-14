@@ -1,6 +1,5 @@
 import pytest
 from django.core.management import call_command
-
 from dynpy.logger.models import Log
 
 pytestmark = pytest.mark.django_db

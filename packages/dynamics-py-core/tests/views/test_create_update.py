@@ -1,6 +1,5 @@
 import pytest
 from django.http.response import Http404
-
 from dynpy.views import CreateUpdateView
 from tests.models import CreateUpdateModel
 

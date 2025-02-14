@@ -2,7 +2,6 @@ import json
 
 import pytest
 from django.urls import reverse
-
 from dynpy.erroneous.ajax_views import JSErrorView
 from dynpy.erroneous.models import Error
 

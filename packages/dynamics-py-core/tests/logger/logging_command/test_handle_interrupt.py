@@ -1,6 +1,5 @@
 import pytest
 from django.core.management import call_command
-
 from dynpy.logger.enums import LogStatus
 from dynpy.logger.models import Log
 

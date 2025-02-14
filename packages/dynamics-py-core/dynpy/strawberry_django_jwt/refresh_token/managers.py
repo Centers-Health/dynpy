@@ -1,7 +1,6 @@
 from django.db import models
-from django.db.models import Case
+from django.db.models import Case, When
 from django.db.models import Value as Val
-from django.db.models import When
 from django.utils import timezone
 
 from dynpy.strawberry_django_jwt.settings import jwt_settings

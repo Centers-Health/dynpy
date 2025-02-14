@@ -1,5 +1,4 @@
 import pytest
-
 from dynpy.logger.enums import LogStatus
 from dynpy.logger.models import Log
 from tests.management.commands.success_logging_command import Command as SuccessLoggingCommand

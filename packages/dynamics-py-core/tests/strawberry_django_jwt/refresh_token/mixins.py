@@ -1,10 +1,9 @@
 from importlib import reload
 from typing import Any
 
+import dynpy.strawberry_django_jwt
 import strawberry
 from asgiref.sync import sync_to_async
-
-import dynpy.strawberry_django_jwt
 from dynpy.strawberry_django_jwt.refresh_token.signals import (
     refresh_token_revoked,
     refresh_token_rotated,
@@ -12,6 +11,7 @@ from dynpy.strawberry_django_jwt.refresh_token.signals import (
 from dynpy.strawberry_django_jwt.settings import jwt_settings
 from dynpy.strawberry_django_jwt.shortcuts import create_refresh_token, get_refresh_token
 from dynpy.strawberry_django_jwt.signals import token_issued
+
 from tests.strawberry_django_jwt.context_managers import (
     back_to_the_future,
     catch_signal,

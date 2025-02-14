@@ -2,7 +2,6 @@ from unittest import mock
 
 from asgiref.sync import sync_to_async
 from django.contrib.auth.models import AnonymousUser
-
 from dynpy.strawberry_django_jwt.exceptions import JSONWebTokenError
 from dynpy.strawberry_django_jwt.middleware import (
     AsyncJSONWebTokenMiddleware,
@@ -10,6 +9,7 @@ from dynpy.strawberry_django_jwt.middleware import (
     allow_any,
 )
 from dynpy.strawberry_django_jwt.settings import jwt_settings
+
 from tests.strawberry_django_jwt.decorators import OverrideJwtSettings
 from tests.strawberry_django_jwt.testcases import AsyncTestCase, TestCase
 
