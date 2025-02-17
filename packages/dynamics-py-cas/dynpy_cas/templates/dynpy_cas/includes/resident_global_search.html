@@ -1,6 +1,5 @@
 {% load static %}
 {% load permission_tags %}
-
 {% comment %}
 
 How to use:
@@ -11,7 +10,6 @@ How to use:
     space+ctrl. This will only work for superusers and resident app users.
 
 {% endcomment %}
-
 {% if request.user.is_authenticated %}
     {% if request.user|has_global_search_access %}
         <script defer

@@ -1,10 +1,12 @@
 {% load static %}
 {% load dynpy_tags %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="An Error Page">
+        <meta name="keywords" content="dynamics,error-page">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <link rel='shortcut icon'
               type='image/x-icon'
@@ -12,11 +14,9 @@
         <link rel="stylesheet"
               href="{% static 'dynpy/css/centers-bootstrap-theme.min.css' %}">
         <title>
-
             {% block title %}
                 Error
             {% endblock title %}
-
         </title>
         <style type="text/css">
             .sign {
@@ -37,30 +37,29 @@
                 left:-32px;
                 transform:scale(-1, 1);
             }
+            body {
+                background: #eee;
+            }
         </style>
     </head>
-    <body style="background:#eee;">
+    <body>
         <img src='{% static "dynpy/img/centersLogo3d.png" %}'
              class="p-2"
-             width="150">
+             width="150"
+             alt="Centers logo 3d">
         <div class="text-center">
-            <img src='{% static "dynpy/img/oops.webp" %}' width="300">
+            <img src="{% static 'dynpy/img/oops.webp' %}" width="300" alt="Oops logo">
         </div>
         <div class="sign">
             <div class="card d-inline-block p-4 m-4 text-center">
                 <h1 class="text-danger">
-
                     {% block error_code %}
                     {% endblock error_code %}
-
                 </h1>
                 <h4>
-
                     {% block message %}
                     {% endblock message %}
-
                 </h4>
-
                 {% block links %}
                     <div>
                         <h5>
@@ -69,7 +68,6 @@
                         <a href="/">Home</a>
                     </div>
                 {% endblock links %}
-
             </div>
         </div>
         {% render_tawkto manual_mode=False %}
