@@ -1,0 +1,22 @@
+{% load static %}
+{% load permission_tags %}
+
+{% comment %}
+
+How to use:
+    Include this template to enable the global resident search feature:
+        {% include "dynpy_cas/includes/resident_global_search.html" %}
+
+    After including, the global search window will open when the user presses
+    space+ctrl. This will only work for superusers and resident app users.
+
+{% endcomment %}
+
+{% if request.user.is_authenticated %}
+    {% if request.user|has_global_search_access %}
+        <script defer
+                type="module"
+                src="{% static 'dynpy_cas/web-components/resident-global-search/resident-global-search.js'%}"></script>
+        <resident-global-search></resident-global-search>
+    {% endif %}
+{% endif %}
