@@ -23,12 +23,15 @@ repos:
         stages: [commit-msg]
         args: [] # optional: list of Conventional Commits types to allow e.g. [feat, fix, ci, chore, test]
 
-  - repo: https://github.com/Riverside-Healthcare/djLint
-    rev: v1.32.1
+  - repo: https://github.com/djlint/djLint
+    rev: v1.36.4
     hooks:
+      - id: djlint-reformat-django
+        files: "\\.html"
+        types_or: ["html"]
       - id: djlint-django
-        name: Django djLint
-        files: '.*\.html$'
+        files: "\\.html"
+        types_or: ["html"]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.7.3
