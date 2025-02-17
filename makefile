@@ -25,8 +25,6 @@ ci: install
 	@for PACKAGE in $(PACKAGES); do \
 		(cd $$PACKAGE && \
 			echo ">> $$PACKAGE"&& \
-			poetry lock --no-update &&  \
-			poetry --directory $$PACKAGE install && \
 			poetry --directory $$PACKAGE run python -m pytest -n 2 -m "not skipci" -ra -q --disable-warnings --tb=long \
 		); \
 	done
