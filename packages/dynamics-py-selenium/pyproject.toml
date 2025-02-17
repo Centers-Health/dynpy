@@ -27,7 +27,7 @@ pytest-describe = "^2.0.1"
 django-types = "^0.17.0"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry-monorepo.deps]
