@@ -1,5 +1,6 @@
 from unittest import mock
 
+import pytest
 from asgiref.sync import sync_to_async
 from django.contrib.auth.models import AnonymousUser
 from dynpy.strawberry_django_jwt.exceptions import JSONWebTokenError
@@ -32,7 +33,7 @@ class AuthenticateByHeaderTests(TestCase):
         middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_called_once_with(None, info_mock)
-        self.assertEqual(info_mock.context.user, self.user)
+        assert info_mock.context.user == self.user
 
     @OverrideJwtSettings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
     @mock.patch("dynpy.strawberry_django_jwt.middleware.authenticate", return_value=None)
@@ -49,7 +50,7 @@ class AuthenticateByHeaderTests(TestCase):
 
         next_mock.assert_called_once_with(None, info_mock)
         authenticate_mock.assert_called_once_with(request=info_mock.context)
-        self.assertIsInstance(info_mock.context.user, AnonymousUser)
+        assert isinstance(info_mock.context.user, AnonymousUser)
 
     @OverrideJwtSettings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
     def test_invalid_token(self):
@@ -61,7 +62,7 @@ class AuthenticateByHeaderTests(TestCase):
         info_mock = self.info(AnonymousUser(), **headers)
 
         middleware = self.middleware(execution_context=info_mock.context)
-        with self.assertRaises(JSONWebTokenError):
+        with pytest.raises(JSONWebTokenError):
             middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_not_called()
@@ -94,7 +95,7 @@ class AuthenticateByHeaderTests(TestCase):
         middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_called_once_with(None, info_mock)
-        self.assertIsInstance(info_mock.context.user, AnonymousUser)
+        assert isinstance(info_mock.context.user, AnonymousUser)
 
     def test_authenticate_context(self):
         info_mock = self.info()
@@ -103,7 +104,7 @@ class AuthenticateByHeaderTests(TestCase):
         middleware.cached_allow_any.add("test")
         authenticate_context = middleware.authenticate_context(info_mock)
 
-        self.assertFalse(authenticate_context)
+        assert not authenticate_context
 
 
 class AuthenticateByArgumentTests(TestCase):
@@ -125,10 +126,10 @@ class AuthenticateByArgumentTests(TestCase):
         middleware.resolve(next_mock, None, info_mock, **kwargs)
 
         next_mock.assert_called_once_with(None, info_mock, **kwargs)
-        self.assertEqual(info_mock.context.user, self.user)
+        assert info_mock.context.user == self.user
 
         user = middleware.cached_authentication[tuple(info_mock.path)]
-        self.assertEqual(user, self.user)
+        assert user == self.user
 
     @OverrideJwtSettings(JWT_ALLOW_ARGUMENT=True)
     def test_authenticate_parent(self):
@@ -141,7 +142,7 @@ class AuthenticateByArgumentTests(TestCase):
         middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_called_once_with(None, info_mock)
-        self.assertEqual(info_mock.context.user, self.user)
+        assert info_mock.context.user == self.user
 
     @OverrideJwtSettings(JWT_ALLOW_ARGUMENT=True)
     def test_clear_authentication(self):
@@ -152,7 +153,7 @@ class AuthenticateByArgumentTests(TestCase):
         middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_called_once_with(None, info_mock)
-        self.assertIsInstance(info_mock.context.user, AnonymousUser)
+        assert isinstance(info_mock.context.user, AnonymousUser)
 
     @OverrideJwtSettings(JWT_ALLOW_ARGUMENT=True)
     def test_clear_session_authentication(self):
@@ -164,7 +165,7 @@ class AuthenticateByArgumentTests(TestCase):
         middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_called_once_with(None, info_mock)
-        self.assertIsInstance(info_mock.context.user, AnonymousUser)
+        assert isinstance(info_mock.context.user, AnonymousUser)
 
     @OverrideJwtSettings(JWT_ALLOW_ARGUMENT=True)
     def test_context_has_not_attr_user(self):
@@ -175,7 +176,7 @@ class AuthenticateByArgumentTests(TestCase):
         middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_called_once_with(None, info_mock)
-        self.assertFalse(hasattr(info_mock.context, "user"))
+        assert not hasattr(info_mock.context, "user")
 
 
 class AllowAnyTests(TestCase):
@@ -210,19 +211,19 @@ class AllowAnyTests(TestCase):
         info_mock = self.info_with_type_mock(self.user, TestCase)
         allowed = allow_any(info_mock)
 
-        self.assertFalse(allowed)
+        assert not allowed
 
     def test_unknown_field(self):
         info_mock = self.info_with_field_mock(self.user)
         allowed = allow_any(info_mock)
 
-        self.assertFalse(allowed)
+        assert not allowed
 
     def test_unknown_type(self):
         info_mock = self.info_with_type_mock(self.user)
         allowed = allow_any(info_mock)
 
-        self.assertFalse(allowed)
+        assert not allowed
 
 
 class AuthenticateByHeaderTestsAsync(AsyncTestCase):
@@ -245,7 +246,7 @@ class AuthenticateByHeaderTestsAsync(AsyncTestCase):
         await middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_called_once_with(None, info_mock)
-        self.assertEqual(info_mock.context.user, self.user)
+        assert info_mock.context.user == self.user
 
     @OverrideJwtSettings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
     async def test_not_authenticate_async(self):
@@ -269,7 +270,7 @@ class AuthenticateByHeaderTestsAsync(AsyncTestCase):
 
         next_mock.assert_called_once_with(None, info_mock)
         authenticate_mock.assert_called_once_with(request=info_mock.context)
-        self.assertIsInstance(info_mock.context.user, AnonymousUser)
+        assert isinstance(info_mock.context.user, AnonymousUser)
 
     @OverrideJwtSettings(JWT_ALLOW_ANY_HANDLER=lambda *args: False)
     async def test_invalid_token_async(self):
@@ -283,7 +284,7 @@ class AuthenticateByHeaderTestsAsync(AsyncTestCase):
         info_mock = self.info(AnonymousUser(), **headers)
 
         middleware = self.middleware(execution_context=info_mock.context)
-        with self.assertRaises(JSONWebTokenError):
+        with pytest.raises(JSONWebTokenError):
             await middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_not_called()
@@ -318,7 +319,7 @@ class AuthenticateByHeaderTestsAsync(AsyncTestCase):
         await middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_called_once_with(None, info_mock)
-        self.assertIsInstance(info_mock.context.user, AnonymousUser)
+        assert isinstance(info_mock.context.user, AnonymousUser)
 
 
 class AuthenticateByArgumentTestsAsync(AsyncTestCase):
@@ -340,10 +341,10 @@ class AuthenticateByArgumentTestsAsync(AsyncTestCase):
         await middleware.resolve(next_mock, None, info_mock, **kwargs)
 
         next_mock.assert_called_once_with(None, info_mock, **kwargs)
-        self.assertEqual(info_mock.context.user, self.user)
+        assert info_mock.context.user == self.user
 
         user = middleware.cached_authentication[tuple(info_mock.path)]
-        self.assertEqual(user, self.user)
+        assert user == self.user
 
     @OverrideJwtSettings(JWT_ALLOW_ARGUMENT=True)
     async def test_authenticate_parent_async(self):
@@ -356,7 +357,7 @@ class AuthenticateByArgumentTestsAsync(AsyncTestCase):
         await middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_called_once_with(None, info_mock)
-        self.assertEqual(info_mock.context.user, self.user)
+        assert info_mock.context.user == self.user
 
     @OverrideJwtSettings(JWT_ALLOW_ARGUMENT=True)
     async def test_clear_authentication_async(self):
@@ -367,7 +368,7 @@ class AuthenticateByArgumentTestsAsync(AsyncTestCase):
         await middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_called_once_with(None, info_mock)
-        self.assertIsInstance(info_mock.context.user, AnonymousUser)
+        assert isinstance(info_mock.context.user, AnonymousUser)
 
     @OverrideJwtSettings(JWT_ALLOW_ARGUMENT=True)
     async def test_clear_session_authentication_async(self):
@@ -379,7 +380,7 @@ class AuthenticateByArgumentTestsAsync(AsyncTestCase):
         await middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_called_once_with(None, info_mock)
-        self.assertIsInstance(info_mock.context.user, AnonymousUser)
+        assert isinstance(info_mock.context.user, AnonymousUser)
 
     @OverrideJwtSettings(JWT_ALLOW_ARGUMENT=True)
     async def test_context_has_not_attr_user_async(self):
@@ -390,4 +391,4 @@ class AuthenticateByArgumentTestsAsync(AsyncTestCase):
         await middleware.resolve(next_mock, None, info_mock)
 
         next_mock.assert_called_once_with(None, info_mock)
-        self.assertFalse(hasattr(info_mock.context, "user"))
+        assert not hasattr(info_mock.context, "user")

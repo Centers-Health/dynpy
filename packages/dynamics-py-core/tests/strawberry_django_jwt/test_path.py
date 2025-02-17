@@ -6,8 +6,8 @@ class FilterStringsTests(TestCase):
     def test_filter_strings(self):
         items = filter_strings(["0", "1", 0, "2"])
 
-        self.assertIsInstance(items, tuple)
-        self.assertNotIn(0, items)
+        assert isinstance(items, tuple)
+        assert 0 not in items
 
 
 class PathDictTests(TestCase):
@@ -16,14 +16,14 @@ class PathDictTests(TestCase):
 
     def test_repr(self):
         path_dict_repr = f"<{self.path_dict.__class__.__name__}: {{}}>"
-        self.assertEqual(repr(self.path_dict), path_dict_repr)
+        assert repr(self.path_dict) == path_dict_repr
 
     def test_insert(self):
         self.path_dict.insert(["0", 0, "1"], True)
-        self.assertTrue(self.path_dict[("0", "1")])
+        assert self.path_dict["0", "1"]
 
     def test_parent(self):
-        self.assertIsNone(self.path_dict.parent(["0"]))
+        assert self.path_dict.parent(["0"]) is None
 
         parent_path = ["0", "1"]
         self.path_dict.insert(parent_path, True)
@@ -31,5 +31,5 @@ class PathDictTests(TestCase):
         current_path = parent_path + ["2", 0, "3"]
         value = self.path_dict.parent(current_path)
 
-        self.assertTrue(value)
-        self.assertTrue(self.path_dict[("0", "1", "2")])
+        assert value
+        assert self.path_dict["0", "1", "2"]

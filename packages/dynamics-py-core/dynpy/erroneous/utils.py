@@ -29,7 +29,7 @@ def log_erroneous_error(kind: str, html: str, info: str, data: str, path: str) -
 
         return err
     else:
-        print("%s: %s" % (kind, info))
+        print(f"{kind}: {info}")
 
 
 def localize_css(html: str):

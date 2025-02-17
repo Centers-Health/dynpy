@@ -8,4 +8,4 @@ class ShortcutsTests(UserTestCase):
         token = shortcuts.get_token(self.user)
         user = shortcuts.get_user_by_token(token)
 
-        self.assertEqual(user, self.user)
+        assert user == self.user

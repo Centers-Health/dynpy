@@ -39,7 +39,7 @@ repos:
         files: '.*\.html$'
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.4
+    rev: v0.7.3
     hooks:
       # Run the linter.
       - id: ruff

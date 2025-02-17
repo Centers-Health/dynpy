@@ -177,18 +177,18 @@ class RefreshTokenMixin(JSONWebTokenMixin):
         )
 
 
-base_class: Type[Union[RefreshTokenMixin, KeepAliveRefreshMixin]] = (
+base_class: Type[Union[RefreshTokenMixin, KeepAliveRefreshMixin]] = (  # noqa: UP006
     RefreshTokenMixin if settings.jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN else KeepAliveRefreshMixin
 )
 
 
-class RefreshMixin(base_class, JSONWebTokenMixin):  # type: ignore
+class RefreshMixin(base_class, JSONWebTokenMixin):  # type: ignore  # noqa: PGH003
     """RefreshMixin"""
 
     refresh = strawberry.mutation(base_class.refresh)
 
 
-class AsyncRefreshMixin(base_class, JSONWebTokenMixin):  # type: ignore
+class AsyncRefreshMixin(base_class, JSONWebTokenMixin):  # type: ignore  # noqa: PGH003
     """Async version of RefreshMixin"""
 
     refresh = strawberry.mutation(base_class.refresh_async)

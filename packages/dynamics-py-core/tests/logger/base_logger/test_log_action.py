@@ -34,7 +34,7 @@ def test_that_log_properties_are_set_correctly():
     assert log.service_name == "command"
     assert log.body == "action performed"
     assert log.status == LogStatus.PASS
-    assert type(log.completed_at) == datetime
+    assert isinstance(log.completed_at, datetime)
 
 
 def test_that_completed_at_is_not_None():

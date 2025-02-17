@@ -16,14 +16,14 @@ def test_runs_sp_without_args(mock_sp):
     mock_sp(sp=SP.FACILITIES, data=[])
     dw = DWConnector()
     facilities = dw.run_sp(SP.FACILITIES).fetchall()
-    assert type(facilities) == list
+    assert isinstance(facilities, list)
 
 
 def test_runs_sp_with_args(mock_sp):
     mock_sp(sp=SP.NAMIS, data=[])
     dw = DWConnector()
     namis = dw.run_sp(SP.NAMIS, (1, 1)).fetchall()
-    assert type(namis) == list
+    assert isinstance(namis, list)
 
 
 @pytest.mark.django_db

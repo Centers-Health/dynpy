@@ -1,10 +1,4 @@
-from sys import version_info
-from unittest.mock import patch
-
-if version_info < (3, 8):
-    from unittest.mock import AsyncMock
-else:
-    from unittest.mock import AsyncMock
+from unittest.mock import AsyncMock, patch
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -59,7 +53,7 @@ class AsyncAuthTests(AsyncTestCase):
         ):
             result = await authenticate(request)
 
-        self.assertEqual(result, self.user)
+        assert result == self.user
 
     async def test_permission_denied(self):
         settings.AUTHENTICATION_BACKENDS = ["tests.strawberry_django_jwt.test_auth.PermissionDeniedAuth"]
@@ -67,7 +61,7 @@ class AsyncAuthTests(AsyncTestCase):
 
         result = await authenticate(request)
 
-        self.assertIsNone(result)
+        assert result is None
 
     async def test_invalid_signature(self):
         settings.AUTHENTICATION_BACKENDS = ["tests.strawberry_django_jwt.test_auth.EmptyAuth"]
@@ -75,7 +69,7 @@ class AsyncAuthTests(AsyncTestCase):
 
         result = await authenticate(request)
 
-        self.assertIsNone(result)
+        assert result is None
 
     async def test_async_authenticate_signature(self):
         settings.AUTHENTICATION_BACKENDS = ["tests.strawberry_django_jwt.test_auth.AsyncDefaultAuth"]
@@ -91,7 +85,7 @@ class AsyncAuthTests(AsyncTestCase):
         ):
             result = await authenticate(request)
 
-        self.assertEqual(result, self.user)
+        assert result == self.user
 
     async def test_wsgi_authenticate_async(self):
         settings.AUTHENTICATION_BACKENDS = ["tests.strawberry_django_jwt.test_auth.SyncDefaultAuth"]
@@ -103,4 +97,4 @@ class AsyncAuthTests(AsyncTestCase):
         ):
             result = await authenticate(request)
 
-        self.assertEqual(result, self.user)
+        assert result == self.user

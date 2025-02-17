@@ -7,3 +7,6 @@ class MyTestModel(models.Model):
 
     class Meta:
         app_label = "tests"
+
+    def __str__(self) -> str:
+        return super().__str__()

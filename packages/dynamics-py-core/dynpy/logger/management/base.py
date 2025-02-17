@@ -107,10 +107,12 @@ class LoggingCommand(BaseCommand):
         if "no_logging" in options:
             self.is_logging = not options["no_logging"]
         with (
-            tee_stdout(new_target=self.body, is_timestamped=True)
-            if self.is_logging
-            else contextlib.suppress()
-        ):
+            (  # noqa: UP034
+                tee_stdout(new_target=self.body, is_timestamped=True)
+                if self.is_logging
+                else contextlib.suppress()  # noqa: B022
+            )  # noqa: B022
+        ):  # noqa: B022
             self.start()
             try:
                 self.run(*args, **options)

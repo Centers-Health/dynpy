@@ -1,3 +1,4 @@
+import pytest
 from django.contrib.auth.models import AnonymousUser, Permission
 from dynpy.strawberry_django_jwt import decorators, exceptions
 
@@ -11,14 +12,14 @@ class UserPassesTests(TestCase):
             lambda u: u.pk == self.user.pk,
         )(lambda src, info: None)(None, info=self.info(self.user))
 
-        self.assertIsNone(result)
+        assert result is None
 
     def test_permission_denied(self):
         func = decorators.user_passes_test(
             lambda u: u.pk == self.user.pk + 1,
         )(lambda src, info: None)
 
-        with self.assertRaises(exceptions.PermissionDenied):
+        with pytest.raises(exceptions.PermissionDenied):
             func(None, info=self.info(self.user))
 
 
@@ -28,19 +29,19 @@ class LoginRequiredTests(TestCase):
             lambda src, info: None,
         )(None, info=self.info(self.user))
 
-        self.assertIsNone(result)
+        assert result is None
 
     def test_login_required_no_info(self):
         result = decorators.login_required(
             lambda src, info: None,
         )(None, info=self.info(self.user))
 
-        self.assertIsNone(result)
+        assert result is None
 
     def test_permission_denied(self):
         func = decorators.login_required(lambda src, info: None)
 
-        with self.assertRaises(exceptions.PermissionDenied):
+        with pytest.raises(exceptions.PermissionDenied):
             func(None, info=self.info(AnonymousUser()))
 
 
@@ -52,12 +53,12 @@ class StaffMemberRequiredTests(TestCase):
             lambda src, info: None,
         )(None, info=self.info(self.user))
 
-        self.assertIsNone(result)
+        assert result is None
 
     def test_permission_denied(self):
         func = decorators.staff_member_required(lambda src, info: None)
 
-        with self.assertRaises(exceptions.PermissionDenied):
+        with pytest.raises(exceptions.PermissionDenied):
             func(None, info=self.info(self.user))
 
 
@@ -69,12 +70,12 @@ class SuperuserRequiredTests(TestCase):
             lambda src, info: None,
         )(None, info=self.info(self.user))
 
-        self.assertIsNone(result)
+        assert result is None
 
     def test_permission_denied(self):
         func = decorators.superuser_required(lambda src, info: None)
 
-        with self.assertRaises(exceptions.PermissionDenied):
+        with pytest.raises(exceptions.PermissionDenied):
             func(None, info=self.info(self.user))
 
 
@@ -87,14 +88,14 @@ class PermissionRequiredTests(TestCase):
             lambda src, info: None,
         )(None, info=self.info(self.user))
 
-        self.assertIsNone(result)
+        assert result is None
 
     def test_permission_denied(self):
         func = decorators.permission_required(
             ["auth.add_user", "auth.change_user"],
         )(lambda src, info: None)
 
-        with self.assertRaises(exceptions.PermissionDenied):
+        with pytest.raises(exceptions.PermissionDenied):
             func(None, info=self.info(self.user))
 
 
@@ -105,7 +106,7 @@ class CSRFRotationTests(TestCase):
         decorators.csrf_rotation(
             lambda cls, info, *args, **kwargs: None,
         )(self, info_mock)
-        self.assertTrue(info_mock.context.META["CSRF_COOKIE_NEEDS_UPDATE"])
+        assert info_mock.context.META["CSRF_COOKIE_NEEDS_UPDATE"]
 
 
 class HelperDecoratorTests(TestCase):
@@ -117,4 +118,4 @@ class HelperDecoratorTests(TestCase):
         result = decorators.dispose_extra_kwargs(accept_fn)(self, 1, 2, x=5, y=6)
 
         # self is preserved, 1 is disposed as the "None" root object, args are [2, {**kwargs}]
-        self.assertDictEqual(result, {"self": self, "args": 2, "kwargs": 0})
+        self.assertDictEqual(result, {"self": self, "args": 2, "kwargs": 0})  # noqa: PT009

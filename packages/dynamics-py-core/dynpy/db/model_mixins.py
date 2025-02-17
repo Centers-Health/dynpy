@@ -8,13 +8,17 @@ class SoftDeleteModelMixin(models.Model):
     Mixin to make a model soft-deleteable
     """
 
+    # datetime when the record was soft-deleted
     deleted_at = models.DateTimeField(null=True, blank=True, default=None)
-    """datetime when the record was soft-deleted"""
 
-    objects = SoftDeleteManager()
-    """Object manager for records that have not been soft-deleted"""
+    # Object manager for all records, including soft-deleted. Uses Django's default object manager
     all_objects = models.Manager()
-    """Object manager for all records, including soft-deleted. Uses Django's default object manager"""
+
+    # Object manager for records that have not been soft-deleted
+    objects = SoftDeleteManager()
+
+    class Meta:
+        abstract = True
 
     def delete(self):
         """
@@ -46,9 +50,6 @@ class SoftDeleteModelMixin(models.Model):
             self.save()
         else:
             raise Exception("Cannot undelete - this record was never deleted.")
-
-    class Meta:
-        abstract = True
 
 
 class TimestampedModelMixin(models.Model):

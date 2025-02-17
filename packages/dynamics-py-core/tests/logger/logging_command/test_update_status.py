@@ -5,12 +5,12 @@ from tests.management.commands.success_logging_command import Command as Success
 
 def test_it_does_not_accept_invalid_statuses():
     slc = SuccessLoggingCommand()
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="status must be a valid LogStatus"):
         slc.update_status("invalid")
 
 
 @pytest.mark.parametrize(
-    "low_status,high_status",
+    ("low_status", "high_status"),
     [
         (LogStatus.PEND, LogStatus.PASS),
         (LogStatus.PASS, LogStatus.INFO),
@@ -26,7 +26,7 @@ def test_it_sets_the_status_to_higher_ranked_status(low_status, high_status):
 
 
 @pytest.mark.parametrize(
-    "low_status,high_status",
+    ("low_status", "high_status"),
     [
         (LogStatus.PEND, LogStatus.PASS),
         (LogStatus.PASS, LogStatus.INFO),

@@ -7,9 +7,9 @@ def get_app_name_from_module(module: str):
 
     app_name = ""
     split_module = module.split(".")
-    for i, val in enumerate(split_module):
+    for i, _ in enumerate(split_module):
         next_app_name = ".".join(split_module[0 : i + 1])
-        if any([name.startswith(next_app_name) for name in installed_app_names]):
+        if any(name.startswith(next_app_name) for name in installed_app_names):
             app_name = next_app_name
         elif app_name == "":
             return None

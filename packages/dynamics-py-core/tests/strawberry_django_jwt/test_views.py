@@ -67,8 +67,8 @@ class ViewsTests(SchemaTestCase):
         response = self.client.execute(query, **headers)
         data = response.data
 
-        self.assertEqual(data["test"], "TEST")
-        self.assertIsNone(response.errors)
+        assert data["test"] == "TEST"
+        assert response.errors is None
 
     def test_invalid_credentials(self):
         query = """
@@ -80,9 +80,9 @@ class ViewsTests(SchemaTestCase):
         response = self.client.execute(query)
         data = response.data
 
-        self.assertIsNone(data)
-        self.assertEqual(len(response.errors), 1)
-        self.assertEqual(response.status_code, 401)
+        assert data is None
+        assert len(response.errors) == 1
+        assert response.status_code == 401
 
     def test_invalid_query(self):
         query = """
@@ -94,9 +94,9 @@ class ViewsTests(SchemaTestCase):
         response = self.client.execute(query)
         data = response.data
 
-        self.assertIsNone(data)
-        self.assertEqual(len(response.errors), 1)
-        self.assertEqual(response.status_code, 200)
+        assert data is None
+        assert len(response.errors) == 1
+        assert response.status_code == 200
 
 
 class AsyncViewClient(AsyncJSONWebTokenClient):
@@ -154,8 +154,8 @@ class AsyncViewsTests(AsyncSchemaTestCase):
         response = await self.client.execute(query, **headers)
         data = response.data
 
-        self.assertEqual(data["test"], "TEST")
-        self.assertIsNone(response.errors)
+        assert data["test"] == "TEST"
+        assert response.errors is None
 
     async def test_invalid_credentials_async(self):
         query = """
@@ -167,9 +167,9 @@ class AsyncViewsTests(AsyncSchemaTestCase):
         response = await self.client.execute(query)
         data = response.data
 
-        self.assertIsNone(data)
-        self.assertEqual(len(response.errors), 1)
-        self.assertEqual(response.status_code, 401)
+        assert data is None
+        assert len(response.errors) == 1
+        assert response.status_code == 401
 
     async def test_invalid_query_async(self):
         query = """
@@ -181,6 +181,6 @@ class AsyncViewsTests(AsyncSchemaTestCase):
         response = await self.client.execute(query)
         data = response.data
 
-        self.assertIsNone(data)
-        self.assertEqual(len(response.errors), 1)
-        self.assertEqual(response.status_code, 200)
+        assert data is None
+        assert len(response.errors) == 1
+        assert response.status_code == 200

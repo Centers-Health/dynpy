@@ -12,15 +12,14 @@ class Cursor:
         self.data = data
 
     def __iter__(self):
-        for row in self.data:
-            yield row
+        yield from self.data
 
     def fetchall(self):
         return self.data
 
     @property
     def description(self):
-        return [[key] for key in self.data[0].__dict__.keys()]
+        return [[key] for key in self.data[0].__dict__]
 
 
 class NCSRow:
@@ -31,8 +30,7 @@ class NCSRow:
     """
 
     def __iter__(self):
-        for value in self.__dict__.values():
-            yield value
+        yield from self.__dict__.values()
 
     def get(self, key):
         return getattr(self, key, None)

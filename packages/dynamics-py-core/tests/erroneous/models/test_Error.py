@@ -13,7 +13,7 @@ def test_hash_unique_constraint_raises_integrity_error_if_two_hashes_are_same():
     the same hash. And therefore the entire block gets rolled back and
     there are 0 records in the Error table.
     """
-    with pytest.raises(IntegrityError), transaction.atomic():
+    with pytest.raises(IntegrityError), transaction.atomic():  # noqa: PT012
         Error.objects.create(info="test", when=date.today(), hash=1111)
         Error.objects.create(info="test2", when=date.today(), hash=1111)
     assert Error.objects.count() == 0

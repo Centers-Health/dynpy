@@ -22,7 +22,7 @@ def open_new_log(run_as="user", service_name="long-running command"):
 def test_that_it_updates_log_properties():
     log = open_new_log()
     log.update(body="completed body", is_completed=True, status=LogStatus.PASS)
-    assert type(log.completed_at) == datetime
+    assert isinstance(log.completed_at, datetime)
     assert log.body == "completed body"
     assert log.status == LogStatus.PASS
 
