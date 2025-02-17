@@ -1,25 +1,26 @@
 .js-error {
-    font-family: monospace;
+	font-family: monospace;
 }
 
-.js-error .error-title, .js-error .traceback {
-    padding: 10px;
-    margin-bottom: 10px;
+.js-error .error-title,
+.js-error .traceback {
+	padding: 10px;
+	margin-bottom: 10px;
 }
 
 .js-error .error-title {
-    background: var(--message-warning-bg);
+	background: var(--message-warning-bg);
 }
 
 .js-error .traceback {
-    background: var(--selected-bg);
+	background: var(--selected-bg);
 }
 
-.js-error .traceback pre{
-    margin: 0px;
+.js-error .traceback pre {
+	margin: 0px;
 }
 
-.js-error .traceback code{
-    color: var(--body-loud-color);
-    font-size: 14px;
+.js-error .traceback code {
+	color: var(--body-loud-color);
+	font-size: 14px;
 }
