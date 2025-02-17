@@ -38,5 +38,5 @@ class QueriesTests(SchemaTestCase):
         response = self.client.execute(query, **headers)
         data = response.data
 
-        self.assertEqual(data["testModel"], [])
-        self.assertIsNone(response.errors)
+        assert data["testModel"] == []
+        assert response.errors is None

@@ -42,4 +42,4 @@ class Error(models.Model):
         """
         String representation of the object.
         """
-        return "%s: %s" % (self.kind, self.info)
+        return f"{self.kind}: {self.info}"

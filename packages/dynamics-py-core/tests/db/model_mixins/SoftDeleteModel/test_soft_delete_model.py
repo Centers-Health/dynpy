@@ -71,7 +71,5 @@ def test_that_undelete_method_nullifies_deleted_at():
 
 def test_that_undelete_method_throws_error_if_deleted_at_is_none():
     tarm = TestSoftDeleteModel.objects.create()
-    with pytest.raises(Exception) as e:
+    with pytest.raises(Exception, match="Cannot undelete - this record was never deleted."):
         tarm.undelete()
-
-    assert str(e.value) == "Cannot undelete - this record was never deleted."

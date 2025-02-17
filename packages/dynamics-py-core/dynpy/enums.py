@@ -60,7 +60,7 @@ class ChoicesWithKwargsMeta(models.enums.ChoicesMeta):
             if not all(element.keys() == list_of_kwargs[0].keys() for element in list_of_kwargs):
                 raise KeyError(
                     "Keywords do not match. "
-                    + "When using kwargs all members of the Enum must have the same kwargs"
+                    "When using kwargs all members of the Enum must have the same kwargs"
                 )
             for kwarg in list_of_kwargs[0]:
 

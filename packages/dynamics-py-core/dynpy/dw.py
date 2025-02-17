@@ -39,10 +39,10 @@ class DatabaseConnector:
     def connstring(self) -> str:
         return (
             f"DRIVER={self._driver};"
-            + f"Server={self._server};"
-            + f"UID={self._username};"
-            + f"PWD={self._password};"
-            + f"DATABASE={self._database};"
+            f"Server={self._server};"
+            f"UID={self._username};"
+            f"PWD={self._password};"
+            f"DATABASE={self._database};"
         )
 
     def run_sp(self, sp: str, *args, **kwargs) -> pyodbc.Cursor:

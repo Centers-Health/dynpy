@@ -1,3 +1,4 @@
+import pytest
 from dynpy.strawberry_django_jwt import shortcuts
 from dynpy.strawberry_django_jwt.exceptions import JSONWebTokenError
 
@@ -9,8 +10,8 @@ class ShortcutsTests(UserTestCase):
         refresh_token = shortcuts.create_refresh_token(self.user)
         user = shortcuts.get_refresh_token(refresh_token).user
 
-        self.assertEqual(user, self.user)
+        assert user == self.user
 
     def test_get_refresh_token_error(self):
-        with self.assertRaises(JSONWebTokenError):
+        with pytest.raises(JSONWebTokenError):
             shortcuts.get_refresh_token("invalid")

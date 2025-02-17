@@ -7,7 +7,7 @@ namis_sp = "{CALL p_GetNamiAmountsByFacilityResidentMonth(?,?)}"
 
 
 @pytest.fixture(autouse=True)
-def add_settings_for_DWConnector(settings):
+def _add_settings_for_DWConnector(settings):
     settings.DW_SERVER = "server"
     settings.DW_DRIVER = "driver"
     settings.DW_USERNAME = "test"

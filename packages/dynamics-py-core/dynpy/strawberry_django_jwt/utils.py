@@ -15,7 +15,7 @@ from django.http import HttpRequest
 from django.utils.translation import gettext as _
 from graphql import GraphQLResolveInfo
 from packaging.version import parse as parse_ver
-from strawberry.annotation import StrawberryAnnotation  # type: ignore
+from strawberry.annotation import StrawberryAnnotation  # type: ignore  # noqa: PGH003
 from strawberry.arguments import StrawberryArgument
 from strawberry.django.context import StrawberryDjangoContext
 from strawberry.types import Info
@@ -39,7 +39,7 @@ def create_strawberry_argument(python_name: str, graphql_name: str, type_: type[
 
 def create_argument_type(type_: type[Any], **options):
     if options.get("is_optional"):
-        return Optional[type_]  # type: ignore
+        return Optional[type_]  # type: ignore  # noqa: PGH003
     return type_
 
 
@@ -74,7 +74,7 @@ def jwt_encode(payload: object_types.TokenPayloadType, _=None) -> str:
         jwt_settings.JWT_PRIVATE_KEY or jwt_settings.JWT_SECRET_KEY,
         jwt_settings.JWT_ALGORITHM,
     )
-    if parse_ver(jwt.__version__) < parse_ver("2.0.0"):  # type: ignore
+    if parse_ver(jwt.__version__) < parse_ver("2.0.0"):  # type: ignore  # noqa: PGH003
         return cast(bytes, token).decode("utf8")
     return cast(str, token)
 
@@ -261,7 +261,7 @@ async def create_user_token(user: User) -> object_types.TokenDataType:
     if jwt_settings.JWT_ALLOW_REFRESH:
         token_object.refresh_expires_in = token.exp - int(datetime.now().timestamp())
     if jwt_settings.JWT_LONG_RUNNING_REFRESH_TOKEN:
-        refresh_token = (  # type: ignore
+        refresh_token = (  # type: ignore  # noqa: PGH003
             (await sync_to_async(create_refresh_token)(user))
             if asyncio.get_event_loop().is_running()
             else create_refresh_token(user)

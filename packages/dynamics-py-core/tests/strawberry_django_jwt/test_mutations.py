@@ -5,7 +5,7 @@ from unittest import mock
 import dynpy.strawberry_django_jwt.mutations
 import strawberry.django
 from django.contrib.auth import get_user_model
-from django_mock_queries.query import MockModel, MockSet  # type: ignore
+from django_mock_queries.query import MockModel, MockSet  # type: ignore  # noqa: PGH003
 from dynpy.strawberry_django_jwt.decorators import dispose_extra_kwargs, login_field, login_required
 from dynpy.strawberry_django_jwt.mixins import JSONWebTokenMixin
 from dynpy.strawberry_django_jwt.settings import jwt_settings
@@ -92,11 +92,8 @@ class RefreshTests(mixins.RefreshMixin, SchemaTestCase):
         token = get_token(self.user)
         response = self.client.execute(query, {"token": token})
 
-        self.assertEqual(len(response.errors), 1)
-        self.assertEqual(
-            response.errors[0].message,
-            "Unknown argument 'token' on field 'Mutation.test'.",
-        )
+        assert len(response.errors) == 1
+        assert response.errors[0].message == "Unknown argument 'token' on field 'Mutation.test'."
 
     @OverrideJwtSettings(JWT_HIDE_TOKEN_FIELDS=False)
     def test_visible_token_fields(self):
@@ -120,9 +117,8 @@ class RefreshTests(mixins.RefreshMixin, SchemaTestCase):
         token = get_token(self.user)
         response = self.client.execute(query, {"token": token})
 
-        self.assertEqual(
-            response.data.get("test").replace('"', "'"),
-            json.dumps({"token": token}).replace('"', "'"),
+        assert response.data.get("test").replace('"', "'") == json.dumps({"token": token}).replace(
+            '"', "'"
         )
 
 
@@ -166,11 +162,8 @@ class RefreshAsyncTests(mixins.AsyncRefreshMixin, AsyncSchemaTestCase):
         token = get_token(self.user)
         response = await self.client.execute(query, {"token": token})
 
-        self.assertEqual(len(response.errors), 1)
-        self.assertEqual(
-            response.errors[0].message,
-            "Unknown argument 'token' on field 'Mutation.test'.",
-        )
+        assert len(response.errors) == 1
+        assert response.errors[0].message == "Unknown argument 'token' on field 'Mutation.test'."
 
     @OverrideJwtSettings(JWT_HIDE_TOKEN_FIELDS=False)
     async def test_visible_token_fields(self):
@@ -194,9 +187,8 @@ class RefreshAsyncTests(mixins.AsyncRefreshMixin, AsyncSchemaTestCase):
         token = get_token(self.user)
         response = await self.client.execute(query, {"token": token})
 
-        self.assertEqual(
-            response.data.get("test").replace('"', "'"),
-            json.dumps({"token": token}).replace('"', "'"),
+        assert response.data.get("test").replace('"', "'") == json.dumps({"token": token}).replace(
+            '"', "'"
         )
 
 
@@ -232,7 +224,7 @@ class CookieTokenAuthTests(mixins.CookieTokenAuthMixin, CookieTestCase):
         response = self.execute()
 
         # Invalid mutation, only testing if ExtendedStrawberryField can handle fields without base_resolver
-        self.assertEqual(len(response.errors), 1)
+        assert len(response.errors) == 1
 
 
 class CookieRefreshTests(mixins.CookieRefreshMixin, CookieTestCase):
@@ -306,8 +298,8 @@ class LoginLogoutTest(SchemaTestCase):
                 "password": "wrongpassword",
             }
         )
-        self.assertIsNone(response.data)
-        self.assertEqual(len(response.errors), 1)
+        assert response.data is None
+        assert len(response.errors) == 1
 
     @OverrideJwtSettings(JWT_ALLOW_ARGUMENT=True)
     def test_login_logout(self):
@@ -320,8 +312,8 @@ class LoginLogoutTest(SchemaTestCase):
             }
         )
 
-        self.assertIsNone(response.errors)
-        self.assertEqual(response.data["tokenAuth"]["payload"]["username"], self.user.get_username())
+        assert response.errors is None
+        assert response.data["tokenAuth"]["payload"]["username"] == self.user.get_username()
         token = response.data["tokenAuth"]["token"]
 
         # Verify with headers
@@ -330,11 +322,8 @@ class LoginLogoutTest(SchemaTestCase):
         self.client.authenticate(token)
         response = self.execute({"token": token})
 
-        self.assertIsNone(response.errors)
-        self.assertEqual(
-            response.data["verifyToken"]["payload"]["username"],
-            self.user.get_username(),
-        )
+        assert response.errors is None
+        assert response.data["verifyToken"]["payload"]["username"] == self.user.get_username()
 
         # Check login
 
@@ -342,8 +331,8 @@ class LoginLogoutTest(SchemaTestCase):
         self.client.authenticate(token)
         response = self.execute()
 
-        self.assertIsNone(response.errors)
-        self.assertEqual(response.data["mutate"], "OK")
+        assert response.errors is None
+        assert response.data["mutate"] == "OK"
 
         # Logout
 
@@ -351,8 +340,8 @@ class LoginLogoutTest(SchemaTestCase):
         self.client.logout()
         response = self.execute()
 
-        self.assertIsNone(response.data)
-        self.assertEqual(len(response.errors), 1)
+        assert response.data is None
+        assert len(response.errors) == 1
 
 
 @strawberry.django.type(MyTestModel)
@@ -386,8 +375,8 @@ class MutationFieldTests(SchemaTestCase):
 
         response = self.execute()
 
-        self.assertIs(len(response.errors), 1)
-        self.assertIsNone(response.data)
+        assert len(response.errors) == 1
+        assert response.data is None
 
     @objects
     def test_create_field(self):
@@ -403,8 +392,8 @@ class MutationFieldTests(SchemaTestCase):
 
         data = response.data.get("testCreate")
 
-        self.assertIsNone(response.errors)
-        self.assertEqual(data["test"], "test")
+        assert response.errors is None
+        assert data["test"] == "test"
 
 
 class AsyncLoginLogoutTest(AsyncSchemaTestCase):
@@ -448,8 +437,8 @@ class AsyncLoginLogoutTest(AsyncSchemaTestCase):
                 "password": "wrongpassword",
             }
         )
-        self.assertIsNone(response.data)
-        self.assertEqual(len(response.errors), 1)
+        assert response.data is None
+        assert len(response.errors) == 1
 
     async def test_login_logout_async(self):
         self.client.schema(query=self.Query, mutation=self.Mutation)
@@ -462,11 +451,8 @@ class AsyncLoginLogoutTest(AsyncSchemaTestCase):
             }
         )
 
-        self.assertIsNone(response.errors)
-        self.assertEqual(
-            response.data["tokenAuth"]["payload"]["username"],
-            self.user.get_username(),
-        )
+        assert response.errors is None
+        assert response.data["tokenAuth"]["payload"]["username"] == self.user.get_username()
         token = response.data["tokenAuth"]["token"]
 
         # Verify with headers
@@ -475,11 +461,8 @@ class AsyncLoginLogoutTest(AsyncSchemaTestCase):
         self.client.authenticate(token)
         response = await self.execute({"token": token})
 
-        self.assertIsNone(response.errors)
-        self.assertEqual(
-            response.data["verifyToken"]["payload"]["username"],
-            self.user.get_username(),
-        )
+        assert response.errors is None
+        assert response.data["verifyToken"]["payload"]["username"] == self.user.get_username()
 
         # Check login
 
@@ -487,8 +470,8 @@ class AsyncLoginLogoutTest(AsyncSchemaTestCase):
         self.client.authenticate(token)
         response = await self.execute()
 
-        self.assertIsNone(response.errors)
-        self.assertEqual(response.data["mutate"], "OK")
+        assert response.errors is None
+        assert response.data["mutate"] == "OK"
 
         # Logout
 
@@ -496,5 +479,5 @@ class AsyncLoginLogoutTest(AsyncSchemaTestCase):
         self.client.logout()
         response = await self.execute()
 
-        self.assertIsNone(response.data)
-        self.assertEqual(len(response.errors), 1)
+        assert response.data is None
+        assert len(response.errors) == 1

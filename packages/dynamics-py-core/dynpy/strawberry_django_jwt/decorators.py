@@ -47,7 +47,7 @@ def with_info(target):
 
     # Create a fake target function with info argument
     target_inspection = inspect.signature(target)
-    if "info" not in target_inspection.parameters.keys():
+    if "info" not in target_inspection.parameters:
         signature_add_fn.__signature__ = inspect.Signature(
             [
                 *target_inspection.parameters.values(),
@@ -104,10 +104,7 @@ def login_field(fn=None):
 
 def permission_required(perm):
     def check_perms(user):
-        if isinstance(perm, str):
-            perms = (perm,)
-        else:
-            perms = perm
+        perms = (perm,) if isinstance(perm, str) else perm
         return user.has_perms(perms)
 
     return user_passes_test(check_perms)

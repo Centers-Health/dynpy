@@ -17,10 +17,19 @@ class TestActiveRecordModel(ActiveRecordModelMixin):
 class DocumentTestModel(models.Model):
     file = models.FileField()
 
+    def __str__(self) -> str:
+        return super().__str__()
+
 
 class DocumentTestModel2(models.Model):
     document = models.FileField()
 
+    def __str__(self) -> str:
+        return super().__str__()
+
 
 class CreateUpdateModel(models.Model):
     text_field = models.CharField(max_length=255, null=True, blank=True)
+
+    def __str__(self) -> str:
+        return super().__str__()

@@ -2,7 +2,7 @@ import strawberry
 from django.contrib.auth.models import AnonymousUser
 from django.core.handlers.asgi import ASGIRequest
 from django.core.handlers.wsgi import WSGIRequest
-from django.test import (  # type: ignore
+from django.test import (  # type: ignore  # noqa: PGH003
     AsyncClient,
     AsyncRequestFactory,
     Client,

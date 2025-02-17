@@ -49,7 +49,7 @@ class BackendsTests(TestCase):
         request = self.request_factory.get("/", **headers)
         user = self.backend.authenticate(request=request)
 
-        self.assertEqual(user, self.user)
+        assert user == self.user
 
     def test_authenticate_fail(self):
         headers = {
@@ -58,22 +58,22 @@ class BackendsTests(TestCase):
 
         request = self.request_factory.get("/", **headers)
 
-        with self.assertRaises(JSONWebTokenError):
+        with pytest.raises(JSONWebTokenError):
             self.backend.authenticate(request=request)
 
     def test_authenticate_null_request(self):
         user = self.backend.authenticate(request=None)
-        self.assertIsNone(user)
+        assert user is None
 
     def test_authenticate_missing_token(self):
         request = self.request_factory.get("/")
         user = self.backend.authenticate(request=request)
 
-        self.assertIsNone(user)
+        assert user is None
 
     def test_get_user(self):
         user = self.backend.get_user(self.user.pk)
-        self.assertIsNone(user)
+        assert user is None
 
 
 class AsyncBackendsTests(AsyncTestCase):
@@ -91,7 +91,7 @@ class AsyncBackendsTests(AsyncTestCase):
         request = self.request_factory.get("/", **headers)
         user = await self.backend.authenticate_async(request=request)
 
-        self.assertEqual(user, self.user)
+        assert user == self.user
 
     async def test_authenticate_fail_async(self):
         headers = {
@@ -102,15 +102,15 @@ class AsyncBackendsTests(AsyncTestCase):
 
         request = self.request_factory.get("/", **headers)
 
-        with self.assertRaises(JSONWebTokenError):
+        with pytest.raises(JSONWebTokenError):
             await self.backend.authenticate_async(request=request)
 
     async def test_authenticate_null_request_async(self):
         user = await self.backend.authenticate_async(request=None)
-        self.assertIsNone(user)
+        assert user is None
 
     async def test_authenticate_missing_token_async(self):
         request = self.request_factory.get("/")
         user = await self.backend.authenticate_async(request=request)
 
-        self.assertIsNone(user)
+        assert user is None

@@ -65,8 +65,8 @@ class QueriesTests(SchemaTestCase):
         response = self.client.execute(query, **headers)
         data = response.data
 
-        self.assertEqual(data["test"], "TEST")
-        self.assertIsNone(response.errors)
+        assert data["test"] == "TEST"
+        assert response.errors is None
 
     @OverrideJwtSettings(JWT_ALLOW_ARGUMENT=True)
     def test_multiple_credentials(self):
@@ -98,12 +98,12 @@ class QueriesTests(SchemaTestCase):
         response = self.client.execute(query, variables, **headers)
         data = response.data
 
-        self.assertEqual(data["testBegin"].get("username"), self.user.username)
-        self.assertEqual(data["testEnd"].get("username"), self.user.username)
-        self.assertEqual(data["testToken"].get("username"), self.user.username)
-        self.assertEqual(data["testOtherToken"].get("username"), self.other_user.username)
+        assert data["testBegin"].get("username") == self.user.username
+        assert data["testEnd"].get("username") == self.user.username
+        assert data["testToken"].get("username") == self.user.username
+        assert data["testOtherToken"].get("username") == self.other_user.username
 
-        self.assertIsNone(response.errors)
+        assert response.errors is None
 
     @OverrideJwtSettings(JWT_ALLOW_ARGUMENT=True)
     def test_invalid_credentials(self):
@@ -119,8 +119,8 @@ class QueriesTests(SchemaTestCase):
         response = self.client.execute(query)
         data = response.data
 
-        self.assertIsNone(data)
-        self.assertEqual(len(response.errors), 1)
+        assert data is None
+        assert len(response.errors) == 1
 
     @OverrideJwtSettings(
         JWT_ALLOW_ARGUMENT=True,
@@ -145,10 +145,10 @@ class QueriesTests(SchemaTestCase):
 
         response = self.client.execute(query)
 
-        self.assertIsNone(response.data["testAllowAny"].get("id"), AnonymousUser)
-        self.assertEqual(response.data["testAllowAny"].get("username"), "")
-        self.assertIsNone(response.data["testInvalidToken"].get("id"), AnonymousUser)
-        self.assertEqual(response.data["testInvalidToken"].get("username"), "")
+        assert response.data["testAllowAny"].get("id") is None, AnonymousUser
+        assert response.data["testAllowAny"].get("username") == ""
+        assert response.data["testInvalidToken"].get("id") is None, AnonymousUser
+        assert response.data["testInvalidToken"].get("username") == ""
 
     def test_strawberry_graphql_django_fields(self):
         @strawberry.type
@@ -184,8 +184,8 @@ class QueriesTests(SchemaTestCase):
         response = self.client.execute(query, **headers)
         data = response.data
 
-        self.assertEqual(data["test"], "TEST")
-        self.assertIsNone(response.errors)
+        assert data["test"] == "TEST"
+        assert response.errors is None
 
     @pytest.mark.django_db
     def test_strawberry_graphql_django_model_fields(self):
@@ -211,8 +211,8 @@ class QueriesTests(SchemaTestCase):
         response = self.client.execute(query, **headers)
         data = response.data
 
-        self.assertEqual(data["testModel"], [])
-        self.assertIsNone(response.errors)
+        assert data["testModel"] == []
+        assert response.errors is None
 
     def test_permission_required(self):
         @strawberry.type
@@ -243,8 +243,8 @@ class QueriesTests(SchemaTestCase):
         response = self.client.execute(query, **headers)
         data = response.data
 
-        self.assertEqual(data["test"], "TEST")
-        self.assertIsNone(response.errors)
+        assert data["test"] == "TEST"
+        assert response.errors is None
 
     def test_introspection(self):
         headers = {
@@ -253,12 +253,12 @@ class QueriesTests(SchemaTestCase):
 
         response = self.client.execute(get_introspection_query(), **headers)
 
-        self.assertIsNone(response.errors)
+        assert response.errors is None
 
     def test_introspection_no_header(self):
         response = self.client.execute(get_introspection_query())
 
-        self.assertIsNotNone(response.errors)
+        assert response.errors is not None
 
     @OverrideJwtSettings(JWT_AUTHENTICATE_INTROSPECTION=False)
     def test_introspection_no_auth(self):
@@ -268,13 +268,13 @@ class QueriesTests(SchemaTestCase):
 
         response = self.client.execute(get_introspection_query(), **headers)
 
-        self.assertIsNone(response.errors)
+        assert response.errors is None
 
     @OverrideJwtSettings(JWT_AUTHENTICATE_INTROSPECTION=False)
     def test_introspection_no_auth_no_header(self):
         response = self.client.execute(get_introspection_query())
 
-        self.assertIsNone(response.errors)
+        assert response.errors is None
 
 
 class AsyncQueriesTests(AsyncSchemaTestCase):
@@ -318,8 +318,8 @@ class AsyncQueriesTests(AsyncSchemaTestCase):
         response = await self.client.execute(query)
         data = response.data
 
-        self.assertEqual(data["test"], "TEST")
-        self.assertIsNone(response.errors)
+        assert data["test"] == "TEST"
+        assert response.errors is None
 
     @OverrideJwtSettings(JWT_ALLOW_ARGUMENT=True)
     async def test_multiple_credentials(self):
@@ -349,12 +349,12 @@ class AsyncQueriesTests(AsyncSchemaTestCase):
         response = await self.client.execute(query, variables)
         data = response.data
 
-        self.assertEqual(data["testBegin"].get("username"), self.user.username)
-        self.assertEqual(data["testEnd"].get("username"), self.user.username)
-        self.assertEqual(data["testToken"].get("username"), self.user.username)
-        self.assertEqual(data["testOtherToken"].get("username"), self.other_user.username)
+        assert data["testBegin"].get("username") == self.user.username
+        assert data["testEnd"].get("username") == self.user.username
+        assert data["testToken"].get("username") == self.user.username
+        assert data["testOtherToken"].get("username") == self.other_user.username
 
-        self.assertIsNone(response.errors)
+        assert response.errors is None
 
     @OverrideJwtSettings(JWT_ALLOW_ARGUMENT=True)
     async def test_invalid_credentials(self):
@@ -370,8 +370,8 @@ class AsyncQueriesTests(AsyncSchemaTestCase):
         response = await self.client.execute(query)
         data = response.data
 
-        self.assertIsNone(data)
-        self.assertEqual(len(response.errors), 1)
+        assert data is None
+        assert len(response.errors) == 1
 
     @OverrideJwtSettings(
         JWT_ALLOW_ARGUMENT=True,
@@ -396,7 +396,7 @@ class AsyncQueriesTests(AsyncSchemaTestCase):
 
         response = await self.client.execute(query)
 
-        self.assertIsNone(response.data["testAllowAny"].get("id"), AnonymousUser)
-        self.assertEqual(response.data["testAllowAny"].get("username"), "")
-        self.assertIsNone(response.data["testInvalidToken"].get("id"), AnonymousUser)
-        self.assertEqual(response.data["testInvalidToken"].get("username"), "")
+        assert response.data["testAllowAny"].get("id") is None, AnonymousUser
+        assert response.data["testAllowAny"].get("username") == ""
+        assert response.data["testInvalidToken"].get("id") is None, AnonymousUser
+        assert response.data["testInvalidToken"].get("username") == ""

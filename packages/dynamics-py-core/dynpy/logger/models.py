@@ -19,10 +19,13 @@ class Log(models.Model):
     status = models.CharField(max_length=255, choices=LogStatus.choices, default=LogStatus.PEND)
     service_name = models.CharField(max_length=255, null=True, default="")
 
+    def __str__(self) -> str:
+        return super().__str__()
+
     def save(self, *args, **kwargs):
         if self.completed_at == "auto_now":
             self.completed_at = timezone.now()
-        super(Log, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def update(self, body: str, status: str, is_completed: bool):
         self.body = body

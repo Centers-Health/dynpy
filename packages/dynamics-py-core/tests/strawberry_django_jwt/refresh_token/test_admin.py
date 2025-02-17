@@ -22,12 +22,12 @@ class AdminTests(AdminTestCase):
         self.refresh_token_admin.revoke(request, qs)
         self.refresh_token.refresh_from_db()
 
-        self.assertIsNotNone(self.refresh_token.revoked)
+        assert self.refresh_token.revoked is not None
 
     def test_is_expired(self):
         is_expired = self.refresh_token_admin.is_expired(self.refresh_token)
 
-        self.assertFalse(is_expired)
+        assert not is_expired
 
 
 class FiltersTests(AdminTestCase):
@@ -39,16 +39,16 @@ class FiltersTests(AdminTestCase):
 
     def test_revoked(self):
         qs = self.filter_queryset(revoked="yes")
-        self.assertFalse(qs)
+        assert not qs
 
     def test_not_revoked(self):
         qs = self.filter_queryset(revoked="no")
-        self.assertTrue(qs)
+        assert qs
 
     def test_expired(self):
         qs = self.filter_queryset(expired="yes")
-        self.assertFalse(qs)
+        assert not qs
 
     def test_not_expired(self):
         qs = self.filter_queryset(expired="no")
-        self.assertTrue(qs)
+        assert qs

@@ -25,9 +25,9 @@ class TokenAuthMixin:
 
         data = response.data["tokenAuth"]
 
-        self.assertEqual(token_issued_handler.call_count, 1)
+        assert token_issued_handler.call_count == 1
 
-        self.assertIsNone(response.errors)
+        assert response.errors is None
         self.assertUsernameIn(data["payload"])
 
     def test_token_auth_invalid_credentials(self):
@@ -38,7 +38,7 @@ class TokenAuthMixin:
             }
         )
 
-        self.assertIsNotNone(response.errors)
+        assert response.errors is not None
 
 
 class VerifyMixin:
@@ -51,7 +51,7 @@ class VerifyMixin:
 
         payload = response.data["verifyToken"]["payload"]
 
-        self.assertIsNone(response.errors)
+        assert response.errors is None
         self.assertUsernameIn(payload)
 
     def test_verify_invalid_token(self):
@@ -61,7 +61,7 @@ class VerifyMixin:
             }
         )
 
-        self.assertIsNotNone(response.errors)
+        assert response.errors is not None
 
 
 class RefreshMixin:
@@ -77,17 +77,17 @@ class RefreshMixin:
         token = data["token"]
         payload = data["payload"]
 
-        self.assertEqual(token_refreshed_handler.call_count, 1)
+        assert token_refreshed_handler.call_count == 1
 
-        self.assertIsNone(response.errors)
-        self.assertNotEqual(token, self.token)
+        assert response.errors is None
+        assert token != self.token
         self.assertUsernameIn(data["payload"])
-        self.assertEqual(payload["origIat"], self.payload.origIat)
-        self.assertGreater(payload["exp"], self.payload.exp)
+        assert payload["origIat"] == self.payload.origIat
+        assert payload["exp"] > self.payload.exp
 
     def test_missing_token(self):
         response = self.execute({})
-        self.assertIsNotNone(response.errors)
+        assert response.errors is not None
 
     def test_refresh_expired(self):
         with refresh_expired():
@@ -97,7 +97,7 @@ class RefreshMixin:
                 }
             )
 
-        self.assertIsNotNone(response.errors)
+        assert response.errors is not None
 
     @OverrideJwtSettings(JWT_ALLOW_REFRESH=False)
     def test_refresh_error(self):
@@ -109,7 +109,7 @@ class RefreshMixin:
             }
         )
 
-        self.assertIsNotNone(response.errors)
+        assert response.errors is not None
 
 
 class AsyncRefreshMixin:
@@ -125,17 +125,17 @@ class AsyncRefreshMixin:
         token = data["token"]
         payload = data["payload"]
 
-        self.assertEqual(token_refreshed_handler.call_count, 1)
+        assert token_refreshed_handler.call_count == 1
 
-        self.assertIsNone(response.errors)
-        self.assertNotEqual(token, self.token)
+        assert response.errors is None
+        assert token != self.token
         self.assertUsernameIn(data["payload"])
-        self.assertEqual(payload["origIat"], self.payload.origIat)
-        self.assertGreater(payload["exp"], self.payload.exp)
+        assert payload["origIat"] == self.payload.origIat
+        assert payload["exp"] > self.payload.exp
 
     async def test_missing_token(self):
         response = await self.execute({})
-        self.assertIsNotNone(response.errors)
+        assert response.errors is not None
 
     async def test_refresh_expired(self):
         with refresh_expired():
@@ -145,7 +145,7 @@ class AsyncRefreshMixin:
                 }
             )
 
-        self.assertIsNotNone(response.errors)
+        assert response.errors is not None
 
     @OverrideJwtSettings(JWT_ALLOW_REFRESH=False)
     async def test_refresh_error(self):
@@ -157,7 +157,7 @@ class AsyncRefreshMixin:
             }
         )
 
-        self.assertIsNotNone(response.errors)
+        assert response.errors is not None
 
 
 class CookieTokenAuthMixin:
@@ -172,8 +172,8 @@ class CookieTokenAuthMixin:
         data = response.data["tokenAuth"]
         token = response.cookies.get(jwt_settings.JWT_COOKIE_NAME).value
 
-        self.assertIsNone(response.errors)
-        self.assertEqual(token, data["token"])
+        assert response.errors is None
+        assert token == data["token"]
         self.assertUsernameIn(data["payload"])
 
 
@@ -187,8 +187,8 @@ class CookieRefreshMixin:
         data = response.data["refreshToken"]
         token = data["token"]
 
-        self.assertIsNone(response.errors)
-        self.assertNotEqual(token, self.token)
+        assert response.errors is None
+        assert token != self.token
         self.assertUsernameIn(data["payload"])
 
 
@@ -199,5 +199,5 @@ class DeleteCookieMixin:
         response = self.execute()
         data = response.data["deleteCookie"]
 
-        self.assertIsNone(response.errors)
-        self.assertTrue(data["deleted"])
+        assert response.errors is None
+        assert data["deleted"]

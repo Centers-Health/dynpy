@@ -24,7 +24,7 @@ def test_get_attribute_returns_None_if_attribute_is_none_and_no_default():
     obj3 = setup()
     obj3.obj2 = None
     attr = get_attribute(obj3, "obj2")
-    assert attr == None
+    assert attr is None
 
 
 def test_get_attribute_returns_default_if_attribute_is_none():

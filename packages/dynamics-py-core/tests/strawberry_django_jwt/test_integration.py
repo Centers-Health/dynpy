@@ -37,16 +37,16 @@ class LoginTestCase(IntegrationTestCase):
         }
         response = self.client.post(reverse("sync_graphql"), data=data, content_type="application/json")
         result = response.json()
-        self.assertEqual(result["status"], 200)
-        self.assertEqual(result["data"]["tokenAuth"]["payload"], {"username": "test"})
-        self.assertIsInstance(result["data"]["tokenAuth"]["token"], str)
+        assert result["status"] == 200
+        assert result["data"]["tokenAuth"]["payload"] == {"username": "test"}
+        assert isinstance(result["data"]["tokenAuth"]["token"], str)
 
     def test_read(self):
         data = {"query": self.read_query}
         response = self.client.post(reverse("sync_graphql"), data=data, content_type="application/json")
         result = response.json()
-        self.assertEqual(result["status"], 200)
-        self.assertEqual(result["data"]["value"], 1)
+        assert result["status"] == 200
+        assert result["data"]["value"] == 1
 
     async def test_login_asgi_request(self):
         """Test sync GraphQL View with an ASGIRequest"""
@@ -61,9 +61,9 @@ class LoginTestCase(IntegrationTestCase):
             reverse("sync_graphql"), data=data, content_type="application/json"
         )
         result = response.json()
-        self.assertEqual(result["status"], 200)
-        self.assertEqual(result["data"]["tokenAuth"]["payload"], {"username": "test"})
-        self.assertIsInstance(result["data"]["tokenAuth"]["token"], str)
+        assert result["status"] == 200
+        assert result["data"]["tokenAuth"]["payload"] == {"username": "test"}
+        assert isinstance(result["data"]["tokenAuth"]["token"], str)
 
     async def test_read_asgi_request(self):
         """
@@ -76,8 +76,8 @@ class LoginTestCase(IntegrationTestCase):
             reverse("sync_graphql"), data=data, content_type="application/json"
         )
         result = response.json()
-        self.assertEqual(result["status"], 200)
-        self.assertEqual(result["data"]["value"], 1)
+        assert result["status"] == 200
+        assert result["data"]["value"] == 1
 
 
 class AsyncLoginTestCase(IntegrationTestCase):
@@ -93,9 +93,9 @@ class AsyncLoginTestCase(IntegrationTestCase):
             reverse("graphql"), data=data, content_type="application/json"
         )
         result = response.json()
-        self.assertEqual(result["status"], 200)
-        self.assertEqual(result["data"]["tokenAuth"]["payload"], {"username": "test"})
-        self.assertIsInstance(result["data"]["tokenAuth"]["token"], str)
+        assert result["status"] == 200
+        assert result["data"]["tokenAuth"]["payload"] == {"username": "test"}
+        assert isinstance(result["data"]["tokenAuth"]["token"], str)
 
     async def test_async_read(self):
         data = {"query": self.read_query}
@@ -103,5 +103,5 @@ class AsyncLoginTestCase(IntegrationTestCase):
             reverse("sync_graphql"), data=data, content_type="application/json"
         )
         result = response.json()
-        self.assertEqual(result["status"], 200)
-        self.assertEqual(result["data"]["value"], 1)
+        assert result["status"] == 200
+        assert result["data"]["value"] == 1

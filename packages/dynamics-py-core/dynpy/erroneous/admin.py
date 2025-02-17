@@ -49,11 +49,14 @@ class ErrorAdmin(admin.ModelAdmin):
         """
         return False
 
-    def change_view(self, request, object_id, extra_context={}):
+    def change_view(self, request, object_id, extra_context=None):
         """
         The detail view of the error record.
         """
         obj = self.get_object(request, object_id)
+
+        if not extra_context:
+            extra_context = {}
 
         if obj:
             extra_context.update(
@@ -63,4 +66,4 @@ class ErrorAdmin(admin.ModelAdmin):
                 }
             )
 
-        return super(ErrorAdmin, self).change_view(request, object_id, extra_context=extra_context)
+        return super().change_view(request, object_id, extra_context=extra_context)

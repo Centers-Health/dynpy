@@ -30,7 +30,7 @@ class RefreshTokenMutationMixin:
         m = type(
             "jwt",
             (object,),
-            {**{name: mutation for name, mutation in self.refresh_token_mutations.items()}},
+            {**dict(self.refresh_token_mutations.items())},
         )
         self.Mutation = strawberry.type(m)
 
@@ -51,11 +51,11 @@ class TokenAuthMixin(RefreshTokenMutationMixin):
         data = response.data["tokenAuth"]
         refresh_token = get_refresh_token(data["refreshToken"])
 
-        self.assertEqual(token_issued_handler.call_count, 1)
+        assert token_issued_handler.call_count == 1
 
-        self.assertIsNone(response.errors)
+        assert response.errors is None
         self.assertUsernameIn(data["payload"])
-        self.assertEqual(refresh_token.user, self.user)
+        assert refresh_token.user == self.user
 
 
 class AsyncTokenAuthMixin(RefreshTokenMutationMixin):
@@ -72,12 +72,12 @@ class AsyncTokenAuthMixin(RefreshTokenMutationMixin):
             data = response.data["tokenAuth"]
             refresh_token = await sync_to_async(get_refresh_token)(data["refreshToken"])
 
-        self.assertEqual(token_issued_handler.call_count, 1)
+        assert token_issued_handler.call_count == 1
 
-        self.assertIsNone(response.errors)
+        assert response.errors is None
         self.assertUsernameIn(data["payload"])
         user = await sync_to_async(getattr)(refresh_token, "user")
-        self.assertEqual(user, self.user)
+        assert user == self.user
 
 
 class RefreshTokenMixin:
@@ -100,7 +100,7 @@ class RefreshMixin(RefreshTokenMutationMixin, RefreshTokenMixin):
         m = type(
             "jwt",
             (object,),
-            {**{name: mutation for name, mutation in self.refresh_token_mutations.items()}},
+            {**dict(self.refresh_token_mutations.items())},
         )
         self.Mutation = strawberry.type(m)
         self.client.schema(query=self.Query, mutation=self.Mutation)
@@ -118,16 +118,16 @@ class RefreshMixin(RefreshTokenMutationMixin, RefreshTokenMixin):
         refresh_token = get_refresh_token(data["refreshToken"])
         payload = data["payload"]
 
-        self.assertIsNone(response.errors)
-        self.assertEqual(refresh_token_rotated_handler.call_count, 1)
+        assert response.errors is None
+        assert refresh_token_rotated_handler.call_count == 1
 
         self.assertUsernameIn(payload)
-        self.assertNotEqual(token, self.token)
-        self.assertGreater(payload["exp"], self.payload.exp)
+        assert token != self.token
+        assert payload["exp"] > self.payload.exp
 
-        self.assertNotEqual(refresh_token.token, self.refresh_token.token)
-        self.assertEqual(refresh_token.user, self.user)
-        self.assertGreater(refresh_token.created, self.refresh_token.created)
+        assert refresh_token.token != self.refresh_token.token
+        assert refresh_token.user == self.user
+        assert refresh_token.created > self.refresh_token.created
 
     @OverrideJwtSettings(JWT_LONG_RUNNING_REFRESH_TOKEN=True, JWT_REUSE_REFRESH_TOKENS=True)
     def test_reuse_refresh_token(self):
@@ -139,7 +139,7 @@ class RefreshMixin(RefreshTokenMutationMixin, RefreshTokenMixin):
         m = type(
             "jwt",
             (object,),
-            {**{name: mutation for name, mutation in self.refresh_token_mutations.items()}},
+            {**dict(self.refresh_token_mutations.items())},
         )
         self.Mutation = strawberry.type(m)
         self.client.schema(query=self.Query, mutation=self.Mutation)
@@ -157,12 +157,12 @@ class RefreshMixin(RefreshTokenMutationMixin, RefreshTokenMixin):
         refresh_token = get_refresh_token(data["refreshToken"])
         payload = data["payload"]
 
-        self.assertIsNone(response.errors)
-        self.assertEqual(refresh_token_rotated_handler.call_count, 1)
+        assert response.errors is None
+        assert refresh_token_rotated_handler.call_count == 1
 
         self.assertUsernameIn(payload)
-        self.assertNotEqual(token, self.token)
-        self.assertNotEqual(refresh_token.token, self.refresh_token.token)
+        assert token != self.token
+        assert refresh_token.token != self.refresh_token.token
 
     @OverrideJwtSettings(JWT_LONG_RUNNING_REFRESH_TOKEN=True)
     def test_missing_refresh_token(self):
@@ -174,12 +174,12 @@ class RefreshMixin(RefreshTokenMutationMixin, RefreshTokenMixin):
         m = type(
             "jwt",
             (object,),
-            {**{name: mutation for name, mutation in self.refresh_token_mutations.items()}},
+            {**dict(self.refresh_token_mutations.items())},
         )
         self.Mutation = strawberry.type(m)
         self.client.schema(query=self.Query, mutation=self.Mutation)
         response = self.execute({})
-        self.assertIsNotNone(response.errors)
+        assert response.errors is not None
 
     @OverrideJwtSettings(JWT_LONG_RUNNING_REFRESH_TOKEN=True)
     def test_refresh_token_expired(self):
@@ -191,7 +191,7 @@ class RefreshMixin(RefreshTokenMutationMixin, RefreshTokenMixin):
         m = type(
             "jwt",
             (object,),
-            {**{name: mutation for name, mutation in self.refresh_token_mutations.items()}},
+            {**dict(self.refresh_token_mutations.items())},
         )
         self.Mutation = strawberry.type(m)
         self.client.schema(query=self.Query, mutation=self.Mutation)
@@ -202,7 +202,7 @@ class RefreshMixin(RefreshTokenMutationMixin, RefreshTokenMixin):
                 }
             )
 
-        self.assertIsNotNone(response.errors)
+        assert response.errors is not None
 
 
 class AsyncRefreshMixin(RefreshTokenMixin):
@@ -216,7 +216,7 @@ class AsyncRefreshMixin(RefreshTokenMixin):
         m = type(
             "jwt",
             (object,),
-            {**{name: mutation for name, mutation in self.refresh_token_mutations.items()}},
+            {**dict(self.refresh_token_mutations.items())},
         )
         self.Mutation = strawberry.type(m)
         self.client.schema(query=self.Query, mutation=self.Mutation)
@@ -234,16 +234,16 @@ class AsyncRefreshMixin(RefreshTokenMixin):
         refresh_token = await sync_to_async(get_refresh_token)(data["refreshToken"])
         payload = data["payload"]
 
-        self.assertIsNone(response.errors)
-        self.assertEqual(refresh_token_rotated_handler.call_count, 1)
+        assert response.errors is None
+        assert refresh_token_rotated_handler.call_count == 1
 
         self.assertUsernameIn(payload)
-        self.assertNotEqual(token, self.token)
-        self.assertGreater(payload["exp"], self.payload.exp)
+        assert token != self.token
+        assert payload["exp"] > self.payload.exp
 
-        self.assertNotEqual(refresh_token.token, self.refresh_token.token)
-        self.assertEqual(refresh_token.user_id, self.user.id)
-        self.assertGreater(refresh_token.created, self.refresh_token.created)
+        assert refresh_token.token != self.refresh_token.token
+        assert refresh_token.user_id == self.user.id
+        assert refresh_token.created > self.refresh_token.created
 
     @OverrideJwtSettings(JWT_LONG_RUNNING_REFRESH_TOKEN=True, JWT_REUSE_REFRESH_TOKENS=True)
     async def test_reuse_refresh_token(self):
@@ -255,7 +255,7 @@ class AsyncRefreshMixin(RefreshTokenMixin):
         m = type(
             "jwt",
             (object,),
-            {**{name: mutation for name, mutation in self.refresh_token_mutations.items()}},
+            {**dict(self.refresh_token_mutations.items())},
         )
         self.Mutation = strawberry.type(m)
         self.client.schema(query=self.Query, mutation=self.Mutation)
@@ -273,12 +273,12 @@ class AsyncRefreshMixin(RefreshTokenMixin):
         refresh_token = await sync_to_async(get_refresh_token)(data["refreshToken"])
         payload = data["payload"]
 
-        self.assertIsNone(response.errors)
-        self.assertEqual(refresh_token_rotated_handler.call_count, 1)
+        assert response.errors is None
+        assert refresh_token_rotated_handler.call_count == 1
 
         self.assertUsernameIn(payload)
-        self.assertNotEqual(token, self.token)
-        self.assertNotEqual(refresh_token.token, self.refresh_token.token)
+        assert token != self.token
+        assert refresh_token.token != self.refresh_token.token
 
     @OverrideJwtSettings(JWT_LONG_RUNNING_REFRESH_TOKEN=True)
     async def test_missing_refresh_token(self):
@@ -290,12 +290,12 @@ class AsyncRefreshMixin(RefreshTokenMixin):
         m = type(
             "jwt",
             (object,),
-            {**{name: mutation for name, mutation in self.refresh_token_mutations.items()}},
+            {**dict(self.refresh_token_mutations.items())},
         )
         self.Mutation = strawberry.type(m)
         self.client.schema(query=self.Query, mutation=self.Mutation)
         response = await self.execute({})
-        self.assertIsNotNone(response.errors)
+        assert response.errors is not None
 
     @OverrideJwtSettings(JWT_LONG_RUNNING_REFRESH_TOKEN=True)
     async def test_refresh_token_expired(self):
@@ -307,7 +307,7 @@ class AsyncRefreshMixin(RefreshTokenMixin):
         m = type(
             "jwt",
             (object,),
-            {**{name: mutation for name, mutation in self.refresh_token_mutations.items()}},
+            {**dict(self.refresh_token_mutations.items())},
         )
         self.Mutation = strawberry.type(m)
         self.client.schema(query=self.Query, mutation=self.Mutation)
@@ -318,7 +318,7 @@ class AsyncRefreshMixin(RefreshTokenMixin):
                 }
             )
 
-        self.assertIsNotNone(response.errors)
+        assert response.errors is not None
 
 
 class RevokeMixin(RefreshTokenMixin):
@@ -330,12 +330,12 @@ class RevokeMixin(RefreshTokenMixin):
                 }
             )
 
-        self.assertIsNone(response.errors)
-        self.assertEqual(refresh_token_revoked_handler.call_count, 1)
+        assert response.errors is None
+        assert refresh_token_revoked_handler.call_count == 1
 
         self.refresh_token.refresh_from_db()
-        self.assertIsNotNone(self.refresh_token.revoked)
-        self.assertIsNotNone(response.data["revokeToken"]["revoked"])
+        assert self.refresh_token.revoked is not None
+        assert response.data["revokeToken"]["revoked"] is not None
 
 
 class CookieTokenAuthMixin(RefreshTokenMutationMixin):
@@ -354,10 +354,10 @@ class CookieTokenAuthMixin(RefreshTokenMutationMixin):
             jwt_settings.JWT_REFRESH_TOKEN_COOKIE_NAME,
         ).value
 
-        self.assertEqual(token_issued_handler.call_count, 1)
+        assert token_issued_handler.call_count == 1
 
-        self.assertIsNone(response.errors)
-        self.assertEqual(token, response.data["tokenAuth"]["refreshToken"])
+        assert response.errors is None
+        assert token == response.data["tokenAuth"]["refreshToken"]
         self.assertUsernameIn(data["payload"])
 
 
@@ -377,10 +377,10 @@ class AsyncCookieTokenAuthMixin(RefreshTokenMutationMixin):
             jwt_settings.JWT_REFRESH_TOKEN_COOKIE_NAME,
         ).value
 
-        self.assertEqual(token_issued_handler.call_count, 1)
+        assert token_issued_handler.call_count == 1
 
-        self.assertIsNone(response.errors)
-        self.assertEqual(token, response.data["tokenAuth"]["refreshToken"])
+        assert response.errors is None
+        assert token == response.data["tokenAuth"]["refreshToken"]
         self.assertUsernameIn(data["payload"])
 
 
@@ -395,7 +395,7 @@ class CookieRefreshMixin(RefreshTokenMutationMixin):
         m = type(
             "jwt",
             (object,),
-            {**{name: mutation for name, mutation in self.refresh_token_mutations.items()}},
+            {**dict(self.refresh_token_mutations.items())},
         )
         self.Mutation = strawberry.type(m)
         self.client.schema(query=self.Query, mutation=self.Mutation)
@@ -409,10 +409,10 @@ class CookieRefreshMixin(RefreshTokenMutationMixin):
         data = response.data["refreshToken"]
         token = data["token"]
 
-        self.assertIsNone(response.errors)
-        self.assertEqual(refresh_token_rotated_handler.call_count, 1)
+        assert response.errors is None
+        assert refresh_token_rotated_handler.call_count == 1
 
-        self.assertNotEqual(token, self.token)
+        assert token != self.token
         self.assertUsernameIn(data["payload"])
 
 
@@ -423,5 +423,5 @@ class DeleteCookieMixin:
         response = self.execute()
         data = response.data["deleteCookie"]
 
-        self.assertIsNone(response.errors)
-        self.assertTrue(data["deleted"])
+        assert response.errors is None
+        assert data["deleted"]

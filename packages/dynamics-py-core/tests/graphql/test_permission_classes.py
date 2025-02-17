@@ -46,7 +46,7 @@ def test_raises_IsAuthenticated_error_when_user_is_not_authenticated(mocker):
     result = execute_query(schema, query_string)
 
     # Assert
-    assert type(result.errors[0]) == GraphQLError
+    assert isinstance(result.errors[0], GraphQLError)
     assert result.errors[0].message == "User is not authenticated"
 
 
@@ -63,7 +63,7 @@ def test_raises_IsAnonymous_error_when_user_is_logged_in(mocker):
     result = execute_query(schema, query_string)
 
     # Assert
-    assert type(result.errors[0]) == GraphQLError
+    assert isinstance(result.errors[0], GraphQLError)
     assert result.errors[0].message == "User is logged in"
 
 

@@ -1,5 +1,3 @@
-from typing import Dict
-
 import requests
 from django.conf import settings
 from django.http import HttpRequest
@@ -17,11 +15,14 @@ class GraphConnector:
     def __init__(self, request=None) -> None:
         self.request = request
 
-    def execute(self, gql: str, variables: Dict = {}, timeout=10) -> Dict:
+    def execute(self, gql: str, variables: dict | None = None, timeout=10) -> dict:
         """
         Wrapper for request to GraphQl endpoint.
         Takes in a query and variables and passes them along to the request.
         """
+        if not variables:
+            variables = {}
+
         data = {"query": gql, "variables": variables}
 
         response = requests.post(

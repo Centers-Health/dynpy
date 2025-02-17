@@ -5,7 +5,7 @@ import strawberry
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission, User
 from django.contrib.contenttypes.models import ContentType
-from django.test import AsyncRequestFactory, RequestFactory, testcases  # type: ignore
+from django.test import AsyncRequestFactory, RequestFactory, testcases  # type: ignore  # noqa: PGH003
 from dynpy.strawberry_django_jwt.decorators import jwt_cookie
 from dynpy.strawberry_django_jwt.settings import jwt_settings
 from dynpy.strawberry_django_jwt.testcases import (
@@ -72,7 +72,7 @@ class SchemaTestCase(TestCase, JSONWebTokenTestCase):
 
     def assertUsernameIn(self, payload):
         username = payload[self.user.USERNAME_FIELD]
-        self.assertEqual(self.user.get_username(), username)
+        assert self.user.get_username() == username
 
 
 class RelaySchemaTestCase(SchemaTestCase):
@@ -158,7 +158,7 @@ class AsyncSchemaTestCase(AsyncTestCase, AsyncJSONWebTokenTestCase):
 
     def assertUsernameIn(self, payload):
         username = payload[self.user.USERNAME_FIELD]
-        self.assertEqual(self.user.get_username(), username)
+        assert self.user.get_username() == username
 
 
 class AsyncCookieClient(AsyncJSONWebTokenClient):

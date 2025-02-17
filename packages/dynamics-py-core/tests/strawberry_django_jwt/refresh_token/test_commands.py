@@ -16,9 +16,9 @@ class ClearTokensTests(UserTestCase):
         self.refresh_token.revoke()
         call_command("cleartokens", stdout=self.f)
 
-        self.assertIn("deleted 1 token", self.f.getvalue())
+        assert "deleted 1 token" in self.f.getvalue()
 
     def test_clear_expired_tokens(self):
         call_command("cleartokens", expired=True, stdout=self.f)
 
-        self.assertIn("deleted 0 tokens", self.f.getvalue())
+        assert "deleted 0 tokens" in self.f.getvalue()
