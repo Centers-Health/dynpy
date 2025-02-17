@@ -28,12 +28,12 @@ repos:
     hooks:
     - id: djlint-reformat-django
       name: djLint formatting for Django
-      entry: djlint --reformat --profile=django --configuration=.djlintrc
+      entry: djlint --reformat --profile=django --configuration=djlint.toml
       types_or: [html]
       language: python
     - id: djlint-django
       name: djLint formatting for Django
-      entry: djlint --reformat --profile=django --configuration=.djlintrc
+      entry: djlint --reformat --profile=django --configuration=djlint.toml
       types_or: [html]
       language: python
 
