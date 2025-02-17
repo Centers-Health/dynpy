@@ -37,7 +37,7 @@ def has_global_search_access(user):
         Codename.AUTHORIZATIONS_USER,
         Codename.MEDICAID_USER,
         Codename.TRACKING_USER,
-        Codename.HMO_BILLING_USER
+        Codename.HMO_BILLING_USER,
     }
     all_perm_codenames = [perm.split(".")[1] for perm in user.get_all_permissions()]
     ext_app_user_codenames = [

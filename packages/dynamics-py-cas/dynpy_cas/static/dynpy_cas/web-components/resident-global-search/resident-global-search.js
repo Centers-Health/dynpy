@@ -220,8 +220,8 @@
       Array.isArray(tempState)
         ? (newState = [...this.state, ...tempState])
         : typeof tempState === "object"
-          ? (newState = { ...this.state, ...tempState })
-          : (newState = tempState);
+        ? (newState = { ...this.state, ...tempState })
+        : (newState = tempState);
 
       this.state = newState;
     };
@@ -391,7 +391,7 @@
     handleInfiniteScroll = () => {
       if (
         this.dropdown.scrollTop + this.dropdown.clientHeight + 500 >=
-        this.dropdown.scrollHeight &&
+          this.dropdown.scrollHeight &&
         this.state.canFetchMore
       ) {
         this.fetchMoreResidents();
@@ -419,9 +419,7 @@
               ${name}
             </div>
             <div>NCS Number: <b>${residentNumber}</b></div>
-            <div>
-              EMR ID: <b>${emrResidentId}</b>
-            </div>
+            <div>EMR ID: <b>${emrResidentId}</b></div>
           </div>
           <div class="col-12 col-md-6 col-lg-3">
             <div class="h3 text-secondary">
@@ -442,9 +440,9 @@
           </div>
           <div class="col-12 col-md-6 col-lg">
             ${links.map(({ url, name }) => {
-      const { apps } = this.state;
-      const app = apps.find((app) => app.label === name);
-      return html`
+              const { apps } = this.state;
+              const app = apps.find((app) => app.label === name);
+              return html`
                 <div
                   class="app-switcher-app-small d-inline-block mb-3"
                   data-toggle="tooltip"
@@ -454,10 +452,10 @@
                   <a href="${url}">
                     <div
                       class="app-switcher-icon app-switcher-icon-small ${window.location.pathname.includes(
-        url.split("?")[0]
-      )
-          ? "active"
-          : ""}"
+                        url.split("?")[0]
+                      )
+                        ? "active"
+                        : ""}"
                       style="background:${app.color}"
                     >
                       ${app.abbreviation}
@@ -465,7 +463,7 @@
                   </a>
                 </div>
               `;
-    })}
+            })}
           </div>
         </div>
       </li>
@@ -487,19 +485,19 @@
         search === ""
           ? ""
           : loading
-            ? html`
+          ? html`
               <li class="list-group-item h5">
                 <i class="fa fa-spinner fa-pulse fa-fw"></i>
                 Loading...
               </li>
             `
-            : results.length === 0
-              ? html` <li class="list-group-item h5">No Results.</li>`
-              : results
-                .map((resident, index) =>
-                  this.renderSearchItem(resident, index === selectedResult)
-                )
-                .join("");
+          : results.length === 0
+          ? html` <li class="list-group-item h5">No Results.</li>`
+          : results
+              .map((resident, index) =>
+                this.renderSearchItem(resident, index === selectedResult)
+              )
+              .join("");
 
       const selectedRow = this.dropdown.querySelector(".selected");
       if (selectedRow) {

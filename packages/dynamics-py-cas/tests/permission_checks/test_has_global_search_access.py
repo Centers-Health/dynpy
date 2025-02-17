@@ -1,5 +1,4 @@
 from django.contrib.auth.models import Permission
-
 from dynpy_cas.enums import Codename
 from dynpy_cas.permission_checks import has_global_search_access
 

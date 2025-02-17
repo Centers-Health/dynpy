@@ -4,7 +4,6 @@ from django.contrib.messages.api import get_messages
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.generic import View
-
 from dynpy_cas.decorators import default_message, user_passes_test
 
 

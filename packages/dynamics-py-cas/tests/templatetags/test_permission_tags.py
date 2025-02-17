@@ -1,9 +1,7 @@
 from unittest.mock import MagicMock
 
 from django.contrib.auth.models import Permission
-from django.contrib.contenttypes.models import ContentType
 from django.template import Context, Template
-
 from dynpy_cas.enums import Codename
 from dynpy_cas.templatetags.permission_tags import do_has_edit_permission
 
