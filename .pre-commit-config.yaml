@@ -18,11 +18,10 @@ repos:
         name: "JS> Prettier"
         files: '.*\.js$'
 
-  - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: "v7.25.0"
+  - repo: https://github.com/biomejs/pre-commit
+    rev: v1.9.4 # Use the sha / tag you want to point at
     hooks:
-      - id: eslint
-        name: "JS> Eslint"
+      - id: biome-check
 
   - repo: https://github.com/compilerla/conventional-pre-commit
     rev: "v2.0.0"
