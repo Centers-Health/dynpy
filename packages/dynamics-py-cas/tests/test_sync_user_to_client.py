@@ -1,6 +1,5 @@
 import pytest
 from django.contrib.auth import get_user_model
-
 from dynpy_cas.signals import sync_user_to_client
 
 User = get_user_model()

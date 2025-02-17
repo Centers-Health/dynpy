@@ -17,7 +17,7 @@ def _override_settings_for_testing(settings):
     settings.GRAPH_API_KEY = "abc123"
 
 
-@pytest.fixture()
+@pytest.fixture
 def test_ext_perm(django_user_model):
     content_type = ContentType.objects.get_for_model(django_user_model)
     name = "ext_perm1"
@@ -28,7 +28,7 @@ def test_ext_perm(django_user_model):
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def add_middleware_to_request():
     def _add_middleware_to_request(request):
         request.session = "session"

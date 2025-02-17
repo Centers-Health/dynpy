@@ -1,6 +1,6 @@
-import graphlib
 import pathlib
 
+import graphlib
 from rich.tree import Tree
 
 from .logging import log

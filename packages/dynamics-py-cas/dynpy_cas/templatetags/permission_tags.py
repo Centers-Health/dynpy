@@ -1,6 +1,5 @@
 from django.template import Library, Node
 from django.urls import resolve
-
 from dynpy_cas.permission_checks import has_edit_permission, has_global_search_access
 
 register = Library()

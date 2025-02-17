@@ -2,8 +2,6 @@ from unittest.mock import Mock
 
 import pytest
 from django.contrib.auth.models import Permission
-from django.contrib.contenttypes.models import ContentType
-
 from dynpy_cas.enums import Codename
 from dynpy_cas.middleware import OTPRequiredMiddleware
 

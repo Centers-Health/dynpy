@@ -7,7 +7,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
 from django.http.response import FileResponse, HttpResponse, JsonResponse
 from django.urls import reverse
-
 from dynpy_cas.enums import Codename
 from dynpy_cas.middleware import ReadOnlyMiddleware
 
@@ -28,14 +27,14 @@ def _mock_resolve(mocker):
     mocker.patch("dynpy_cas.middleware.resolve", return_value=mock_resolve)
 
 
-@pytest.fixture()
+@pytest.fixture
 def test_user_with_edit_permission(test_user):
     editor_perm = Permission.objects.get(codename=Codename.AGING_EDITOR)
     test_user.user_permissions.add(editor_perm)
     return test_user
 
 
-@pytest.fixture()
+@pytest.fixture
 def test_user_with_no_permissions(django_user_model):
     user = django_user_model.objects.create(username="test_username", first_name="John", last_name="Doe")
     user.set_password("test_password")
