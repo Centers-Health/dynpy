@@ -11,13 +11,6 @@ repos:
       - id: trailing-whitespace
         name: "General: Fix Trailing whitespace"
 
-  - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: "v2.2.1"
-    hooks:
-      - id: prettier
-        name: "JS> Prettier"
-        files: '.*\.js$'
-
   - repo: https://github.com/biomejs/pre-commit
     rev: v1.9.4 # Use the sha / tag you want to point at
     hooks:
