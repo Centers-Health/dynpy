@@ -15,6 +15,9 @@ repos:
     rev: v1.9.4 # Use the sha / tag you want to point at
     hooks:
       - id: biome-check
+      - id: biome-ci
+      - id: biome-lint
+      - id: biome-format
 
   - repo: https://github.com/compilerla/conventional-pre-commit
     rev: "v2.0.0"
@@ -32,8 +35,8 @@ repos:
         types_or: [html]
         language: python
       - id: djlint-django
-        name: djLint formatting for Django
-        entry: djlint --reformat --profile=django --configuration=djlint.toml
+        name: djLint Linting for Django
+        entry: djlint --profile=django --configuration=djlint.toml
         types_or: [html]
         language: python
 
