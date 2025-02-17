@@ -21,7 +21,7 @@ install: lock
 	done
 
 ci: install
-	pre-commit run --show-diff-on-failure --color=always --all-files --hook-stage push
+	pre-commit run --show-diff-on-failure --color=always --all-files
 	@for PACKAGE in $(PACKAGES); do \
 		(cd $$PACKAGE && \
 			echo ">> $$PACKAGE"&& \
