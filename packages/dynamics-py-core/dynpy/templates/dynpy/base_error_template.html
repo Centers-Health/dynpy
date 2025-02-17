@@ -14,9 +14,11 @@
         <link rel="stylesheet"
               href="{% static 'dynpy/css/centers-bootstrap-theme.min.css' %}">
         <title>
+
             {% block title %}
                 Error
             {% endblock title %}
+
         </title>
         <style type="text/css">
             .sign {
@@ -53,13 +55,18 @@
         <div class="sign">
             <div class="card d-inline-block p-4 m-4 text-center">
                 <h1 class="text-danger">
+
                     {% block error_code %}
                     {% endblock error_code %}
+
                 </h1>
                 <h4>
+
                     {% block message %}
                     {% endblock message %}
+
                 </h4>
+
                 {% block links %}
                     <div>
                         <h5>
@@ -68,6 +75,7 @@
                         <a href="/">Home</a>
                     </div>
                 {% endblock links %}
+
             </div>
         </div>
         {% render_tawkto manual_mode=False %}
