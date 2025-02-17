@@ -33,7 +33,7 @@ repos:
       language: python
     - id: djlint-django
       name: djLint formatting for Django
-      entry: djlint --reformat --profile=django --configuration=djlint.toml
+      entry: djlint --reformat --profile=django --configuration=djlint.toeml
       types_or: [html]
       language: python
 

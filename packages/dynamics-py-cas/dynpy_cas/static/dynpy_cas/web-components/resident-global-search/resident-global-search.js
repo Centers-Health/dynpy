@@ -217,11 +217,13 @@
 			let newState = {};
 			const tempState = typeof state === "function" ? state(this.state) : state;
 
-			Array.isArray(tempState)
-				? (newState = [...this.state, ...tempState])
-				: typeof tempState === "object"
-					? (newState = { ...this.state, ...tempState })
-					: (newState = tempState);
+			if (Array.isArray(tempState)) {
+				newState = [...this.state, ...tempState];
+			} else if (typeof tempState === "object") {
+				newState = { ...this.state, ...tempState };
+			} else {
+				newState = tempState;
+			}
 
 			this.state = newState;
 		};
@@ -260,11 +262,11 @@
 				if (Number.parseInt(queryResults.count) === this.state.fetchCount) {
 					// this.setState({ results: this.state.results.push(res.residents) });
 					// NOTE: don't refresh state as that will cause the whole box to rerender
-					queryResults.residents.forEach((resident) =>
+					for (const resident of queryResults.residents) {
 						this.dropdown.appendChild(
 							createElementFromString(this.renderSearchItem(resident, false)),
-						),
-					);
+						);
+					}
 					this.setState({
 						canFetchMore: true,
 						fetchStart: this.state.fetchStart + LIMIT,
@@ -378,7 +380,7 @@
 			}
 		};
 
-		handleButtonToggle = (e) => {
+		handleButtonToggle = (_) => {
 			if (!this.state.open) {
 				if (typeof plausible === "function") {
 					plausible("NewOmniSearch");
