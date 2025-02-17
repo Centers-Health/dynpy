@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 {% load inline_static_tags %}
+
 {% block load_extras %}
 {% endblock load_extras %}
+
 <html>
     <head>
         <meta charset="utf-8">
@@ -25,8 +27,10 @@
                                  src="cid:centers-header-logo" />
                         </h5>
                         <p class="card-text">
+
                             {% block content %}
                             {% endblock content %}
+
                         </p>
                     </div>
                 </div>

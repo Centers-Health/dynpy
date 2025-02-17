@@ -1,18 +1,24 @@
 {% extends "admin/base.html" %}
+
 {% load static %}
+
 {% block title %}
     Administration
 {% endblock title %}
+
 {% block extrastyle %}
     <link rel="shortcut icon"
           type="image/x-icon"
           href="{% static 'dynpy/img/favicon.ico' %}" />
 {% endblock extrastyle %}
+
 {% block extrahead %}
 {% endblock extrahead %}
+
 {% block stylesheet %}
     {% static "admin/css/base.css" %}
 {% endblock stylesheet %}
+
 {% block branding %}
     <a href="/">
         <img src="{% static 'dynpy/img/centersLogo3d.png' %}" width="100">
@@ -21,5 +27,6 @@
         <h1>Administration</h1>
     </a>
 {% endblock branding %}
+
 {% block content_title %}
 {% endblock content_title %}
