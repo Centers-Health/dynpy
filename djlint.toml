@@ -1,8 +1,8 @@
-blank_line_after_tag= "endblock,extends"
-blank_line_before_tag= "block"
-format_attribute_template_tags= true
-ignore= "H005,H006,H008,H013,H016,H021,H030,H031,D018"
-max_line_length= 80
-preserve_blank_lines= false
-preserve_leading_space= false
-profile= "django"
+blank_line_after_tag = "endblock,extends"
+blank_line_before_tag = "block"
+format_attribute_template_tags = true
+ignore = "H005,H006,H008,H013,H016,H021,H030,H031,D018"
+max_line_length = 80
+preserve_blank_lines = false
+preserve_leading_space = false
+profile = "django"

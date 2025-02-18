@@ -4,7 +4,7 @@ version = "2.1.47"
 description = ""
 authors = ["Avi Areman <avi.areman@gmail.com>"]
 readme = "README.md"
-packages = [{include = "arithmetic", from = "src"}]
+packages = [{ include = "arithmetic", from = "src" }]
 
 [tool.poetry.dependencies]
 python = "^3.10"

@@ -20,7 +20,7 @@ python-dateutil = "^2.8.2"
 premailer = "^3.10.0"
 html2text = "^2020.1.16"
 pyodbc = "^4.0.32"
-strawberry-graphql = "0.235.2" #TODO: pinned because breaks on 0.237.0
+strawberry-graphql = "0.235.2"                #TODO: pinned because breaks on 0.237.0
 strawberry-graphql-django = ">=0.20.0,<1.0.0"
 PyJWT = ">=1.7.1,<3.0"
 django-admin-display = "^1.3.0"
