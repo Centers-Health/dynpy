@@ -30,17 +30,3 @@ INSTALLED_APPS = [
     "dynpy_cas",
 ]
 ```
-
-
-# Contributing to this repository
-
-
-## Getting setup
-
-Just open the folder in vscode and launch in the dev container.
-Then run a `make install` and you should be good to go!!
-
-## Committing
-
-Must follow Conventional Commit
-https://www.conventionalcommits.org/en/v1.0.0/
