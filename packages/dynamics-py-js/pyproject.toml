@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "dynpy_js"
+version = "4.0.0"
+description = ""
+authors = ["Team Dynamics"]
+
+[[tool.poetry.source]]
+name = "dynamics"
+url = "https://pypi.centershealthcare.org/simple/"
+priority = "supplemental"
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "primary"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^4.2"
+
+[tool.poetry.group.dev.dependencies]
+beautifulsoup4 = "^4.11.1"
+pdbpp = "*"
+pytest-describe = "^2.0.1"
+pytest-django = "^4.5.2"
+pytest-flakefinder = "^1.0.0"
+pytest-mock = "*"
+pytest-spec = "^3.1.0"
+pytest-testmon = "^1.0.3"
+pytest-watch = "^4.2.0"
+pytest-xdist = "*"
+pytest = "^7.4.3"
+django-types = "^0.17.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry-monorepo.deps]
