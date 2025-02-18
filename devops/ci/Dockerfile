@@ -1,5 +1,8 @@
-FROM ghcr.io/centers-health/dev:3
+FROM ghcr.io/centers-health/ci-base:1
 
-RUN poetry self update -- 1.8.3
+ENV POETRY_CACHE_DIR=/cache/poetry
+COPY pyproject.toml poetry.lock ./
 
-COPY --chown=docker:docker . .
+RUN --mount=type=cache,target=/cache/poetry poetry install --no-root
+
+COPY . .
