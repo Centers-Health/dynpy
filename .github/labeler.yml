@@ -41,3 +41,43 @@ semantic-python-monorepo:
   - any:
       - changed-files:
           - any-glob-to-any-file: packages/semantic-python-monorepo/**
+
+dynamics-py-core:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: packages/dynamics-py-core/**
+
+dynamics-py-cas:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: packages/dynamics-py-cas/**
+
+dynamics-py-js:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: packages/dynamics-py-js/**
+
+dynamics-py-selenium:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: packages/dynamics-py-selenium/**
+
+dynamics-py-forms:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: packages/dynamics-py-forms/**
+
+dynamics-py-actions:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: packages/dynamics-py-actions/**
+
+dynamics-py-ui:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: packages/dynamics-py-ui/**
+
+dynamics-py-gfl:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: packages/dynamics-py-gfl/**
