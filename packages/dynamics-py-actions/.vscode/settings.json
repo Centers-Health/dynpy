@@ -1,0 +1,10 @@
+{
+    "python.formatting.provider": "black",
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Path": "flake8heavened",
+    "editor.formatOnSave": true,
+    "python.languageServer": "Pylance",
+    "python.linting.flake8Args": [
+        "--max-line-length=105"
+    ]
+}

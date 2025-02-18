@@ -1,0 +1,38 @@
+{% load static %}
+{% load crispy_forms_tags %}
+{% load actions_tags %}
+<button type="button"
+        data-action-id="{{ action_kwargs.action__id }}"
+        {% render_button_attributes action %}
+        data-toggle="modal"
+        data-target="#{{ action_kwargs.action__modal_target|default:action_kwargs.action__id }}">
+    {{ action.button_value|safe }}
+</button>
+<div class="modal fade"
+     id="{{ action_kwargs.action__id }}"
+     tabindex="-1"
+     role="dialog"
+     aria-hidden="true">
+    <div class="modal-dialog {{ action.modal_size.value }}"
+         role="document"
+         style="font-size: initial">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ action.modal_title|default_if_none:""|safe }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="actions_wrapper_{{ action_kwargs.action__id }}"
+                     class="action-wrapper"
+                     {% render_kwargs_as_data_attributes action_kwargs %}
+                     data-action-type="modal">
+                    {% if action.pre_render %}
+                        {% include action.form_template %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
