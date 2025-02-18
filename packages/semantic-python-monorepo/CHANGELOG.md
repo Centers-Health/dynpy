@@ -6,11 +6,38 @@
 
 
 
-## v0.6.4 (2025-02-14)
+## v0.6.5 (2025-02-18)
 ### Fix
+- Formatting / linting ([`1a39a72`](https://github.com/Centers-health/dynpy/commit/1a39a726ef82efdec045121fc34cbc4a47b12538))
+### Other
+- Add a new comment ([`9134c80`](https://github.com/Centers-health/dynpy/commit/9134c8016ab78b7c2e7d55fa19733c40f903d9c9))
+- Sort an import ([`f88eb03`](https://github.com/Centers-health/dynpy/commit/f88eb030f30c1d18c00d0ac249d93788417acadd))
+
+
+
+
+
+
+
+
+## v0.6.4 (2025-02-14)
+
+### Fix
+
 - Full ruff lint and fix ([`a8014a6`](https://github.com/Centers-health/dynpy/commit/a8014a6e364900bf9be1c52c054c425b05595360))
+
 - Verbosity greater than 2 not being set ([`0d1ab68`](https://github.com/Centers-health/dynpy/commit/0d1ab68ca3e3d934daff9637a095e050858cd7eb))
+
 - Broken file open ([`54763d7`](https://github.com/Centers-health/dynpy/commit/54763d703368b9de8a27637188c3dc4794e056cc))
+
+
+
+
+
+
+
+
+
 
 
 
@@ -21,9 +48,31 @@
 
 ## v0.6.3 (2025-02-13)
 
+
+
 ### Fix
 
+
+
 - Changelog not using formatted message ([`b0fa006`](https://github.com/Centers-health/dynpy/commit/b0fa0063a0fac4a05514d6e00a0a1a4b6dbf3a57))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -45,7 +94,15 @@
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -53,7 +110,43 @@
 
 
 
+
+
+
+
 <!--next-version-placeholder-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -93,7 +186,23 @@
 
 
 
+
+
+
+
+
+
+
+
 ### Fix
+
+
+
+
+
+
+
+
 
 
 
@@ -109,6 +218,14 @@
 
 
 
+
+
+
+
+
+
+
+
 - fix: don't add newline to end of CHANGELOG.md ([`c54ee1d`](https://github.com/Centers-health/dynpy/commit/c54ee1d437674f877de44b83e7999049178eab12))
 
 
@@ -117,7 +234,31 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v0.6.0 (2025-02-13)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -149,7 +290,55 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - feat: capitalize + strip convectional commit lead ([`5375372`](https://github.com/Centers-health/dynpy/commit/5375372ad95c2c71b6079f44199f0a63dc19990c))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -213,7 +402,71 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### Fix
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -277,7 +530,71 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - fix: remove extra line in changelogs ([`3e00ee7`](https://github.com/Centers-health/dynpy/commit/3e00ee74fd161edd4b2b2aebbab41523beea67fa))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -325,6 +642,22 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### Other
 
 
@@ -357,7 +690,103 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - chore: remove empty space from changelog ([`1b2542f`](https://github.com/Centers-health/dynpy/commit/1b2542fc9f64ac9424cb90139f7bebd526e60c26))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -469,7 +898,71 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### Fix
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -517,6 +1010,38 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## v0.5.4 (2025-02-13)
 
 
@@ -533,7 +1058,39 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### Fix
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -581,6 +1138,38 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## v0.5.4 (2025-02-13)
 
 
@@ -597,7 +1186,39 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### Fix
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
