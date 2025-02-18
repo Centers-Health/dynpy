@@ -65,7 +65,7 @@ const loadAjaxTemplate = (elem) => {
 				elem.outerHTML = data;
 			}
 		})
-		.catch((err) => {
+		.catch(() => {
 			const errorCallback = elem.dataset.errorCallback;
 			if (
 				errorCallback !== undefined &&
@@ -86,9 +86,9 @@ const loadAjaxTemplates = () => {
 	const templateLoaders = Array.from(
 		document.getElementsByClassName("js-ajax-template-load"),
 	);
-	templateLoaders.forEach((templateLoader) => {
+	for (const templateLoader of templateLoaders) {
 		loadAjaxTemplate(templateLoader);
-	});
+	}
 };
 
 const snakeToCamel = (str) =>
@@ -104,7 +104,7 @@ const makeDebounce = (fn, delay) => {
 
 const fetchModalContent = (modalBtn, params = {}) => {
 	const data = modalBtn.dataset;
-	const url = data.ajaxUrl + "?" + $.param(params);
+	const url = `${data.ajaxUrl}?${$.param(params)}`;
 	fetch(url)
 		.then((response) => response.text())
 		.then((response) => {
@@ -115,8 +115,14 @@ const fetchModalContent = (modalBtn, params = {}) => {
 		});
 };
 
-const enable = (elem) => (elem.disabled = false);
-const disable = (elem) => (elem.disabled = true);
+const enable = (elem) => {
+	elem.disabled = false;
+};
+
+const disable = (elem) => {
+	elem.disabled = true;
+};
+
 const toTitleCase = (str) => {
 	return str.replace(
 		/\w\S*/g,

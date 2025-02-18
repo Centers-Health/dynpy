@@ -9,8 +9,8 @@ export const resolve = (cond) => {
 	const left = document.querySelector(name).value;
 	const right = value;
 	return operator === "==" || typeof operator === "undefined"
-		? left == right
-		: left == "" || left === "" || left === undefined || left === false
+		? left === right
+		: left === "" || left === "" || left === undefined || left === false
 			? false
 			: operator === "==="
 				? left === right
