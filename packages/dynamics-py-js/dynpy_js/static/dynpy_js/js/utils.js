@@ -1,27 +1,27 @@
 const isValidDate = (dateValue) => {
-  if (dateValue === "") return true; // allow empty date elements
+	if (dateValue === "") return true; // allow empty date elements
 
-  const year = parseInt(dateValue.split("-")[0]);
-  const month = parseInt(dateValue.split("-")[1]);
-  const day = parseInt(dateValue.split("-")[2]);
+	const year = Number.parseInt(dateValue.split("-")[0]);
+	const month = Number.parseInt(dateValue.split("-")[1]);
+	const day = Number.parseInt(dateValue.split("-")[2]);
 
-  return isValidYear(year) && isValidMonth(month) && isValidDay(day);
+	return isValidYear(year) && isValidMonth(month) && isValidDay(day);
 };
 
 const isValidDay = (day) => {
-  return day >= 1 && day <= 31;
+	return day >= 1 && day <= 31;
 };
 
 const isValidMonth = (month) => {
-  return month >= 1 && month <= 12;
+	return month >= 1 && month <= 12;
 };
 
 const isValidYear = (year) => {
-  return year >= 1000 && year <= 9999;
+	return year >= 1000 && year <= 9999;
 };
 
 const loadAjaxTemplate = (elem) => {
-  /*
+	/*
         Handles ajax data loading.
 
         Can be used independently for loading ajax data on specific
@@ -42,83 +42,84 @@ const loadAjaxTemplate = (elem) => {
         6. data-error-message for message to be displayed if request fails
     */
 
-  const loaderStyle = elem.dataset.loaderStyle || "spinner";
-  const customLoadingMessage = elem.dataset.loadingMessage
-    ? elem.dataset.loadingMessage
-    : null;
-  elem.innerHTML = getLoaderInstance(loaderStyle, customLoadingMessage);
-  const url = elem.dataset.ajaxUrl;
-  fetch(url)
-    .then((response) => {
-      if (!response.ok) throw new Error();
-      return response.text();
-    })
-    .then((data) => {
-      const successCallback = elem.dataset.successCallback;
-      if (
-        successCallback !== undefined &&
-        typeof window[successCallback] === "function"
-      ) {
-        //if set success callback will use that on success
-        window[successCallback](data);
-      } else {
-        elem.outerHTML = data;
-      }
-    })
-    .catch((err) => {
-      const errorCallback = elem.dataset.errorCallback;
-      if (
-        errorCallback !== undefined &&
-        typeof window[errorCallback] === "function"
-      ) {
-        //if set error callback will use that on error
-        window[errorCallback]();
-      } else {
-        const customErrorMessage = elem.dataset.errorMessage
-          ? elem.dataset.errorMessage
-          : null;
-        elem.innerHTML = getLoadingErrorInstance(customErrorMessage);
-      }
-    });
+	const loaderStyle = elem.dataset.loaderStyle || "spinner";
+	const customLoadingMessage = elem.dataset.loadingMessage
+		? elem.dataset.loadingMessage
+		: null;
+	elem.innerHTML = getLoaderInstance(loaderStyle, customLoadingMessage);
+	const url = elem.dataset.ajaxUrl;
+	fetch(url)
+		.then((response) => {
+			if (!response.ok) throw new Error();
+			return response.text();
+		})
+		.then((data) => {
+			const successCallback = elem.dataset.successCallback;
+			if (
+				successCallback !== undefined &&
+				typeof window[successCallback] === "function"
+			) {
+				//if set success callback will use that on success
+				window[successCallback](data);
+			} else {
+				elem.outerHTML = data;
+			}
+		})
+		.catch((err) => {
+			const errorCallback = elem.dataset.errorCallback;
+			if (
+				errorCallback !== undefined &&
+				typeof window[errorCallback] === "function"
+			) {
+				//if set error callback will use that on error
+				window[errorCallback]();
+			} else {
+				const customErrorMessage = elem.dataset.errorMessage
+					? elem.dataset.errorMessage
+					: null;
+				elem.innerHTML = getLoadingErrorInstance(customErrorMessage);
+			}
+		});
 };
 
 const loadAjaxTemplates = () => {
-  const templateLoaders = Array.from(
-    document.getElementsByClassName("js-ajax-template-load")
-  );
-  templateLoaders.forEach((templateLoader) => {
-    loadAjaxTemplate(templateLoader);
-  });
+	const templateLoaders = Array.from(
+		document.getElementsByClassName("js-ajax-template-load"),
+	);
+	templateLoaders.forEach((templateLoader) => {
+		loadAjaxTemplate(templateLoader);
+	});
 };
 
 const snakeToCamel = (str) =>
-  str.replace(/([-_][a-z])/g, (group) => group.toUpperCase().replace("_", ""));
+	str.replace(/([-_][a-z])/g, (group) => group.toUpperCase().replace("_", ""));
 
 const makeDebounce = (fn, delay) => {
-  let timeout;
-  return (...args) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => fn(...args), delay);
-  };
+	let timeout;
+	return (...args) => {
+		clearTimeout(timeout);
+		timeout = setTimeout(() => fn(...args), delay);
+	};
 };
 
 const fetchModalContent = (modalBtn, params = {}) => {
-  const data = modalBtn.dataset;
-  let url = data.ajaxUrl + "?" + $.param(params);
-  fetch(url)
-    .then((response) => response.text())
-    .then((response) => {
-      const modalId = data.target;
-      document.querySelector(`${modalId} .modal-body`).innerHTML = response;
-      document.querySelector(`${modalId} .modal-title`).innerHTML =
-        data.modalTitle;
-    });
+	const data = modalBtn.dataset;
+	const url = data.ajaxUrl + "?" + $.param(params);
+	fetch(url)
+		.then((response) => response.text())
+		.then((response) => {
+			const modalId = data.target;
+			document.querySelector(`${modalId} .modal-body`).innerHTML = response;
+			document.querySelector(`${modalId} .modal-title`).innerHTML =
+				data.modalTitle;
+		});
 };
 
 const enable = (elem) => (elem.disabled = false);
 const disable = (elem) => (elem.disabled = true);
 const toTitleCase = (str) => {
-  return str.replace(/\w\S*/g, function (txt) {
-    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-  });
+	return str.replace(
+		/\w\S*/g,
+		(txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(),
+	);
 };

@@ -13,23 +13,23 @@
 const scrollSensitiveElems = document.querySelector(".scroll-sensitive");
 
 const isYScrollable = (elem) => {
-  return elem.scrollHeight > elem.clientHeight;
+	return elem.scrollHeight > elem.clientHeight;
 };
 
 const isXScrollable = (elem) => {
-  return elem.scrollWidth > elem.clientWidth;
+	return elem.scrollWidth > elem.clientWidth;
 };
 
-const resizeObserver = new ResizeObserver(function () {
-  scrollSensitiveElems.classList.toggle(
-    "y-scrollable",
-    isYScrollable(scrollSensitiveElems)
-  );
-  scrollSensitiveElems.classList.toggle(
-    "x-scrollable",
-    isXScrollable(scrollSensitiveElems)
-  );
+const resizeObserver = new ResizeObserver(() => {
+	scrollSensitiveElems.classList.toggle(
+		"y-scrollable",
+		isYScrollable(scrollSensitiveElems),
+	);
+	scrollSensitiveElems.classList.toggle(
+		"x-scrollable",
+		isXScrollable(scrollSensitiveElems),
+	);
 });
 if (scrollSensitiveElems) {
-  resizeObserver.observe(scrollSensitiveElems);
+	resizeObserver.observe(scrollSensitiveElems);
 }
