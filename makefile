@@ -16,10 +16,8 @@ endef
 
 define TEST_RULE
 	@for PACKAGE in $(PACKAGES); do \
-		(cd $$PACKAGE && \
-			echo ">> $$PACKAGE"&& \
-			poetry --directory $$PACKAGE run python -m pytest -n 2 -m "not skipci" -ra -q --disable-warnings --tb=long \
-		); \
+		echo ">> $$PACKAGE" && \
+		poetry --directory $$PACKAGE run python -m pytest -n 2 -m "not skipci" -ra -q --disable-warnings --tb=long \
 	done
 endef
 
