@@ -1,6 +1,19 @@
 SHELL:=/bin/bash
 PACKAGES := $(wildcard packages/*/)
 
+define PRE_COMMIT_RULE
+	pre-commit run --show-diff-on-failure --color=always --all-files
+endef
+
+define TEST_RULE
+	@for PACKAGE in $(PACKAGES); do \
+		(cd $$PACKAGE && \
+			echo ">> $$PACKAGE"&& \
+			poetry --directory $$PACKAGE run python -m pytest -n 2 -m "not skipci" -ra -q --disable-warnings --tb=long \
+		); \
+	done
+endef
+
 lock:
 	@for PACKAGE in $(PACKAGES); do \
 		(cd $$PACKAGE && \
@@ -21,14 +34,14 @@ install: lock
 	done
 
 ci: install
-	pre-commit run --show-diff-on-failure --color=always --all-files
-	@for PACKAGE in $(PACKAGES); do \
-		(cd $$PACKAGE && \
-			echo ">> $$PACKAGE"&& \
-			poetry --directory $$PACKAGE run python -m pytest -n 2 -m "not skipci" -ra -q --disable-warnings --tb=long \
-		); \
-	done
+	$(PRE_COMMIT_RULE)
+	$(TEST_RULE)
 
+precommit:
+	$(PRE_COMMIT_RULE)
+
+test:
+	$(TEST_RULE)
 # TODO: Implement
 # build:
 # 	@for PACKAGE in $(PACKAGES); do \

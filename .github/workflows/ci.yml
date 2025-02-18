@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  CI:
+  Build:
     runs-on: [self-hosted, ciplus]
     steps:
       - name: Login to GitHub Container Registry
@@ -27,21 +27,42 @@ jobs:
 
       - uses: actions/checkout@v4
 
+      - name: Build image
+        run: $DOCKER_CMD build --pull
+
+  PreCommit:
+    runs-on: [self-hosted, ciplus]
+    needs: [Build]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run ci
+        run: $DOCKER_CMD run --rm dev make precommit
+
+  Tests:
+    runs-on: [self-hosted, ciplus]
+    needs: [Build]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run ci
+        run: $DOCKER_CMD run --rm dev make test
+
+  ConventionalCommit:
+    runs-on: [self-hosted, ciplus]
+    steps:
+      - uses: actions/checkout@v4
       - name: Verify conventional commits
         uses: taskmedia/action-conventional-commits@v1.1.0
         with:
           types: "feat|fix|ci|docs|perf|refactor|build|test|chore"
 
-      - name: Build image
-        run: $DOCKER_CMD build --pull
-
-      - name: Run ci
-        run: $DOCKER_CMD run --rm dev make ci
-
+  Cleanup:
+    runs-on: [self-hosted, ciplus]
+    needs: [Tests, PreCommit]
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
       - name: Clean up docker env
         if: always()
         run: $DOCKER_CMD down -v
-
       - name: Remove docker credentials
-        if: always()
         run: rm -rf $DOCKER_CONFIG
