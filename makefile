@@ -16,8 +16,10 @@ endef
 
 define TEST_RULE
 	@for PACKAGE in $(PACKAGES); do \
-		echo ">> $$PACKAGE" && \
-		poetry --directory $$PACKAGE run python -m pytest -n 2 -m "not skipci" -ra -q --disable-warnings --tb=long
+		echo ">> $$PACKAGE"; \
+		pushd $$PACKAGE; \
+		poetry run python -m pytest -n 2 -m "not skipci" -ra -q --disable-warnings --tb=long; \
+		popd; \
 	done
 endef
 
@@ -48,6 +50,7 @@ precommit:
 
 test:
 	$(TEST_RULE)
+
 # TODO: Implement
 # build:
 # 	@for PACKAGE in $(PACKAGES); do \

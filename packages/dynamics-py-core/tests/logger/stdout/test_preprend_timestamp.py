@@ -36,5 +36,5 @@ def test_new_line_does_not_get_timestamped(capfd, mocker):
     with tee_stdout(buf, is_timestamped=True):
         print("\n")
     not_timestamp = get_message_timestamp(buf)
-    with pytest.raises(ValueError, match="Invalid isofomat string"):
+    with pytest.raises(ValueError, match=r"Invalid isoformat string:"):
         datetime.fromisoformat(not_timestamp)
