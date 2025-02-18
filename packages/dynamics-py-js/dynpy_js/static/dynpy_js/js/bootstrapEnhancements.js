@@ -14,10 +14,7 @@ $("html").click((e) => {
 	// If the element clicked on is a button that has the attribute
 	// data-toggle that starts with 'popover'(i.e. data-toggle='popover-form'),
 	// show the element that was clicked. i.e. the popover that's button was clicked.
-	if (
-		e.target.dataset.toggle &&
-		e.target.dataset.toggle.startsWith("popover")
-	) {
+	if (e.target.dataset.toggle?.startsWith("popover")) {
 		$(e.target).popover("show");
 	}
 });
@@ -33,8 +30,8 @@ $(".selectpicker")
 	.on("loaded.bs.select", enableBoostrapSelectOptgroup);
 
 function enableBoostrapSelectOptgroup() {
-	const that = $(this).data("selectpicker"),
-		inner = that.$menu.children(".inner");
+	const that = $(this).data("selectpicker");
+	const inner = that.$menu.children(".inner");
 
 	// Remove default event
 	inner.off("click", ".divider, .dropdown-header");
@@ -50,8 +47,9 @@ function enableBoostrapSelectOptgroup() {
 		}
 
 		// Extended functionality
-		const position0 = that.isVirtual() ? that.selectpicker.view.position0 : 0,
-			clickedData = that.selectpicker.current.data[$(this).index() + position0];
+		const position0 = that.isVirtual() ? that.selectpicker.view.position0 : 0;
+		const clickedData =
+			that.selectpicker.current.data[$(this).index() + position0];
 
 		// Copied parts from changeAll function
 		let selected = null;

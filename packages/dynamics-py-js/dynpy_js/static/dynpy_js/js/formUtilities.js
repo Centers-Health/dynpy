@@ -21,7 +21,7 @@ const setFormAutosubmitsOnChange = (form) => {
 	// If monthpicker stop onchange until click out of input
 	const monthpickers = Array.from(form.getElementsByClassName("monthpicker"));
 
-	monthpickers.forEach((monthpicker) => {
+	for (const monthpicker of monthpickers) {
 		monthpicker.onchange = (event) => {
 			event.stopPropagation();
 			const value = monthpicker.value;
@@ -46,11 +46,11 @@ const setFormAutosubmitsOnChange = (form) => {
 				monthpicker.parentElement.appendChild(span);
 			}
 		};
-	});
+	}
 
 	// If multiselect stop onchange until click off select element
 	const multiselects = Array.from(form.getElementsByClassName("selectpicker"));
-	multiselects.forEach((multiselect) => {
+	for (const multiselect of multiselects) {
 		const liveSearch = multiselect.parentNode.querySelector(".bs-searchbox");
 		if (liveSearch) {
 			liveSearch.onchange = (event) => {
@@ -63,19 +63,19 @@ const setFormAutosubmitsOnChange = (form) => {
 				form.dispatchEvent(new Event("change"));
 			});
 		};
-	});
+	}
 };
 
 const isValidSubmissionState = (form) => {
-	var hasOnlyValidInputs = true;
+	let hasOnlyValidInputs = true;
 	const formElements = Array.from(form.elements);
 
 	const dateElements = formElements.filter(
 		(element) => element.type === "date",
 	);
-	dateElements.forEach((dateElement) => {
+	for (const dateElement of dateElements) {
 		if (!isValidDate(dateElement.value)) hasOnlyValidInputs = false;
-	});
+	}
 
 	return hasOnlyValidInputs;
 };
@@ -90,7 +90,7 @@ const setupSubmitOnInputFields = () => {
 	const elements = Array.from(
 		document.getElementsByClassName("js-submit-on-input"),
 	);
-	elements.forEach((element) => {
+	for (const element of elements) {
 		element.addEventListener(
 			"input",
 			makeDebounce(() => {
@@ -99,7 +99,7 @@ const setupSubmitOnInputFields = () => {
 				}
 			}, 500),
 		);
-	});
+	}
 };
 
 const setFormsSubmissionHandlers = (elem = document) => {
@@ -114,7 +114,7 @@ const getSubmitButtons = (form) => {
 const disableSubmitButtons = (form, event) => {
 	// if we want the submit button to be sent to the back-end
 	// we have to capture it before disabling
-	if (event && event.submitter && event.submitter.name) {
+	if (event?.submitter?.name) {
 		const input = document.createElement("input");
 		input.type = "hidden";
 		input.name = event.submitter.name;
@@ -123,19 +123,19 @@ const disableSubmitButtons = (form, event) => {
 	}
 
 	// Forms can have multiple submit buttons
-	getSubmitButtons(form).forEach((button) => {
+	for (const button of getSubmitButtons(form)) {
 		// Do not disable if the button has a class name autosubmit-disabled
 		if (!button.classList.contains("autosubmit-disabled")) {
 			disable(button);
 			document.body.style.cursor = "wait";
 		}
-	});
+	}
 };
 
 const enableSubmitButtons = (form) => {
-	getSubmitButtons(form).forEach((button) => {
+	for (const button of getSubmitButtons(form)) {
 		enable(button);
-	});
+	}
 };
 
 const setFormSubmissionHandlers = (form) => {
@@ -197,7 +197,7 @@ const setFormSubmissionHandlers = (form) => {
 
 		// this is only reached if classList doesn't contain 'js-form-confirm'
 		if (formIsValid) {
-			submitForm(e.target, e, callbackFunctionString);
+			submitForm(e.target, callbackFunctionString);
 		}
 
 		if (!formIsValid && invalidCallbackFunction) {
@@ -212,25 +212,20 @@ const setFormSubmissionHandlers = (form) => {
 		}
 	});
 
-	["input", "change"].forEach((eventName) => {
+	for (const eventName of ["input", "change"]) {
 		form.addEventListener(eventName, (e) => {
 			enableSubmitButtons(e.currentTarget);
 		});
-	});
+	}
 };
 
-const confirmSubmission = (
-	confirmation_text,
-	form,
-	event,
-	callbackFunctionString,
-) => {
+const confirmSubmission = (confirmation_text, form, callbackFunctionString) => {
 	bootbox.confirm({
 		message: confirmation_text || "Are you sure?",
 		centerVertical: true,
 		callback: (confirmed) => {
 			if (confirmed) {
-				submitForm(form, event, callbackFunctionString);
+				submitForm(form, callbackFunctionString);
 			} else {
 				enableSubmitButtons(form);
 			}
@@ -240,7 +235,7 @@ const confirmSubmission = (
 
 /* All submission of forms go and should go through this function
     so any functionality before submission should be done in this function */
-const submitForm = (form, event, callbackFunctionString = null) => {
+const submitForm = (form, callbackFunctionString = null) => {
 	//If there is a modal, close modal before submit so that if, after redirect, the user navigates back, the modal will be closed.
 	$(form.closest(".modal")).modal("hide");
 
@@ -262,8 +257,8 @@ const setFormValidationHandler = (form) => {
 	 */
 
 	const validateOn = form.dataset.validateOn;
-	if (validateOn != "submit") {
-		const debounceInterval = validateOn == "input" ? 500 : 0;
+	if (validateOn !== "submit") {
+		const debounceInterval = validateOn === "input" ? 500 : 0;
 		form.addEventListener(
 			validateOn,
 			makeDebounce((e) => {
@@ -284,11 +279,13 @@ const setFormsValidationHandler = () => {
 			`[class*='js-async-validate'][data-validate-on]:not([data-validate-on='submit'])`,
 		),
 	);
-	forms.forEach(setFormValidationHandler);
+	for (const form in forms) {
+		setFormValidationHandler(form);
+	}
 };
 
-const handleConfirmation = (data, e, form) => {
-	const message = data["message"];
+const handleConfirmation = (data, form) => {
+	const message = data.message;
 
 	// Add async confirmation message
 	if (message) {
@@ -300,15 +297,15 @@ const handleConfirmation = (data, e, form) => {
 };
 
 const handleValidation = (data, form) => {
-	const formErrors = data["errors"] || {};
+	const formErrors = data.error || {};
 	// clear previous validation
-	form
-		.querySelectorAll(".is-invalid")
-		.forEach((e) => e.classList.remove("is-invalid"));
-	form
-		.querySelectorAll(".invalid-feedback, .form-errors")
-		.forEach((e) => e.remove());
-	Object.entries(formErrors).forEach(([name, errors]) => {
+	for (const e of form.querySelectorAll(".is-invalid")) {
+		e.classList.remove("is-invalid");
+	}
+	for (const e of form.querySelectorAll(".invalid-feedback, .form-errors")) {
+		e.remove();
+	}
+	for (const [name, errors] of Object.entries(formErrors)) {
 		if (name === "__all__") {
 			const formErrorsDiv = createFormErrors(errors);
 			form.insertBefore(formErrorsDiv, form.firstElementChild);
@@ -318,12 +315,12 @@ const handleValidation = (data, form) => {
 				inputField = inputField.parentElement;
 			}
 			inputField.classList.add("is-invalid");
-			errors.forEach((error) => {
+			for (const error in errors) {
 				const feedback = createInvalidFeedback(error.message);
 				inputField.after(feedback);
-			});
+			}
 		}
-	});
+	}
 	const invalidElem = form.querySelector(".is-invalid");
 	if (invalidElem) {
 		const getfirstInvalidElement = () => {
@@ -341,7 +338,7 @@ const handleValidation = (data, form) => {
 		}
 	}
 	document.body.style.cursor = "";
-	return data["success"];
+	return data.success;
 };
 
 const asyncFormHandler = async (e, form) => {
@@ -367,7 +364,7 @@ const asyncFormHandler = async (e, form) => {
 		})
 		.then((data) => {
 			isValid = handleValidation(data, form);
-			handleConfirmation(data, e, form);
+			handleConfirmation(data, form);
 		})
 		.catch((err) => {
 			console.error(err);
@@ -399,11 +396,11 @@ const createFormErrors = (errors) => {
 	);
 	const errorsList = document.createElement("ul");
 	errorsList.classList.add("m-0");
-	errors.forEach((error) => {
+	for (const error of errors) {
 		const errorItem = document.createElement("li");
 		errorItem.innerHTML = error.message;
 		errorsList.appendChild(errorItem);
-	});
+	}
 	errorsDiv.appendChild(errorsList);
 	return errorsDiv;
 };

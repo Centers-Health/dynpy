@@ -13,9 +13,9 @@ const setupDynamicForm = (selector, fields) => {
 
 	// Add event listener
 	form.addEventListener("change", () => {
-		form.querySelectorAll("input, select").forEach((input) => {
+		for (const input of form.querySelectorAll("input, select")) {
 			// console.log(`checking ${input.name}`);
-			const rulesForInput = fields.find((field) => field.name == input.name);
+			const rulesForInput = fields.find((field) => field.name === input.name);
 			if (rulesForInput) {
 				// Is a managed field
 				const isTriggered = Array.isArray(rulesForInput.triggers)
@@ -34,7 +34,7 @@ const setupDynamicForm = (selector, fields) => {
 			} else {
 				showElement(input);
 			}
-		});
+		}
 	});
 
 	// Trigger initial change
