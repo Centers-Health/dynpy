@@ -2,7 +2,6 @@ from bs4 import BeautifulSoup
 from django import forms
 from django.forms.widgets import HiddenInput
 from django.template import RequestContext
-
 from dynpy_actions.actions import ModelViewActions
 from dynpy_actions.enums import EmbedType
 from dynpy_actions.mixins import AutoFillFormFromKwargsMixin
@@ -16,7 +15,6 @@ class TestActionWithAutoFill(AutoFillFormFromKwargsMixin, ModelViewActions):
 
 
 def test_auto_fills_fields_with_same_name(rf):
-
     action = TestActionWithAutoFill()
     form_class = action.get_form_class()
     form_class.base_fields["new_field"] = forms.CharField(widget=HiddenInput())
@@ -50,7 +48,6 @@ def test_does_not_set_value_of_model_instance(rf, django_user_model):
 
 
 def test_works_when_there_is_no_model_instance(rf):
-
     action = TestActionWithAutoFill()
     form_class = action.get_form_class()
     form_class.base_fields["new_field"] = forms.CharField(widget=HiddenInput())

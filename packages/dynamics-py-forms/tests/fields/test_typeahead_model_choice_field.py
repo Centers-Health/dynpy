@@ -2,7 +2,6 @@ import pytest
 from bs4 import BeautifulSoup
 from django.contrib.auth import get_user_model
 from django.forms import Form
-
 from dynpy_forms.fields import TypeAheadModelChoiceField
 
 
@@ -15,7 +14,7 @@ class DummyForm(Form):
     )
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_validates_against_all_of_model_objects(django_user_model):
     user = django_user_model.objects.create(username="Test")
 
@@ -23,7 +22,7 @@ def test_validates_against_all_of_model_objects(django_user_model):
     assert form.is_valid()
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_uses_field_for_label_for_option_text(django_user_model):
     user = django_user_model.objects.create(username="Test")
 
@@ -33,7 +32,7 @@ def test_uses_field_for_label_for_option_text(django_user_model):
     assert str(user) in soup.find("option", selected=True, value=user.pk).text
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_uses_str_object_for_option_text_when_field_for_label_is_not_set(
     django_user_model,
 ):

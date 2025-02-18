@@ -97,7 +97,7 @@ class ViewActions:
                      See  https://valmardynamics.atlassian.net/browse/DYN-862
     """
 
-    _counter = cycle((i for i in range(100_000)))
+    _counter = cycle(i for i in range(100_000))
 
     element: Union[forms.Form, forms.Field]
     embed_type: EmbedType
@@ -220,11 +220,7 @@ class ViewActions:
         return form_data
 
     def get_force_initial_fields(self, request, **kwargs):
-        return (
-            [key for key in kwargs.keys()]
-            if self.force_initial_fields == "__all__"
-            else self.force_initial_fields
-        )
+        return list(kwargs) if self.force_initial_fields == "__all__" else self.force_initial_fields
 
     def assign_unique_ids_for_widgets(self, form):
         """
@@ -397,6 +393,7 @@ class ViewActions:
             warnings.warn(
                 "get_modal_button_value() is deprecated use get_button_value() instead",
                 PendingDeprecationWarning,
+                stacklevel=1,
             )
             return get_modal_button_value(request, **kwargs)
 
@@ -404,6 +401,7 @@ class ViewActions:
             warnings.warn(
                 "get_popover_button_value() is deprecated use get_button_value() instead",
                 PendingDeprecationWarning,
+                stacklevel=1,
             )
             return get_popover_button_value(request, **kwargs)
 
@@ -411,6 +409,7 @@ class ViewActions:
             warnings.warn(
                 "modal_button_value is deprecated use button_value instead",
                 PendingDeprecationWarning,
+                stacklevel=1,
             )
             return modal_button_value
 
@@ -418,6 +417,7 @@ class ViewActions:
             warnings.warn(
                 "popover_button_value is deprecated use button_value instead",
                 PendingDeprecationWarning,
+                stacklevel=1,
             )
             return popover_button_value
 
@@ -490,7 +490,7 @@ class ModelViewActions(ViewActions):
         """
         form_kwargs = super().get_form_kwargs(request, FormClass, **kwargs)
         if kwargs:
-            model_instance = kwargs.get("model_instance", None)
+            model_instance = kwargs.get("model_instance")
             if model_instance:
                 form_kwargs["initial"] = serialize_kwargs(
                     action_name=self.name,

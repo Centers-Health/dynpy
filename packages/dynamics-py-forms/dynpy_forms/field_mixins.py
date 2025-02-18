@@ -9,7 +9,7 @@ class GroupedChoicesMixin:
         ``group_by_field`` is the name of a field on the model to use as an optgroup.
         ``group_label`` is a function to return a label for each optgroup.
         """
-        super(GroupedChoicesMixin, self).__init__(queryset, *args, **kwargs)
+        super().__init__(queryset, *args, **kwargs)
         self.group_by_field = group_by_field
         self.group_label = group_label or (lambda group: group)
 

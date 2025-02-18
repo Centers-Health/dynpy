@@ -5,7 +5,6 @@ from bs4 import BeautifulSoup
 from django import forms
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.template import Context, Template
-
 from dynpy_actions.actions import ViewActions
 from dynpy_actions.enums import EmbedType, ModalSize
 from dynpy_actions.mixins import AutoFillFormFromKwargsMixin

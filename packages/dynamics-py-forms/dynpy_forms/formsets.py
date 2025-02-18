@@ -127,7 +127,6 @@ def set_dynamic_formset_attrs(formset, **kwargs):
 def dynamic_formset_factory(
     model, form, formset=DynModelFormset, extra=1, max_num=None, min_num=None, can_delete=False, **kwargs
 ):
-
     formset = modelformset_factory(
         model,
         form=form,
@@ -155,7 +154,6 @@ def dynamic_inlineformset_factory(
     min_num=None,
     **kwargs,
 ):
-
     formset = inlineformset_factory(
         parent_model,
         model,
@@ -205,7 +203,6 @@ class ModelChoiceFieldMixin(forms.BaseFormSet):
         super().__init__(*args, **kwargs)
         model_choice_fields_qs = {}
         if len(self.forms) > 0:
-
             # Store querysets of modelchoicefields
             first_form = self.forms[0]
             for key in first_form.fields:

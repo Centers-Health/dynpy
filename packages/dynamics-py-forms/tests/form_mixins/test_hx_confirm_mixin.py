@@ -1,5 +1,4 @@
 import pytest
-
 from dynpy_forms.form_mixins import HXConfirmMixin
 
 htmx_headers = {

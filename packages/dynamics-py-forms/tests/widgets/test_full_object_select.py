@@ -1,7 +1,6 @@
 from django import forms
 from django.template import Template
 from django.template.context import Context
-
 from dynpy_forms.fields import FullObjectSelectField
 from dynpy_forms.widgets import BootstrapSelect
 

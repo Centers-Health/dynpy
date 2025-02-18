@@ -7,7 +7,6 @@ from django.forms.fields import ChoiceField
 from django.http.request import HttpRequest
 from django.template import RequestContext
 from django.views.generic import View
-
 from dynpy_actions.actions import ViewActions
 from dynpy_actions.enums import EmbedType
 from dynpy_actions.exceptions import ConflictingConfirmationsException, TargetNotSpecifiedException
@@ -40,7 +39,6 @@ def test_render_template_works(rf, test_user, test_action):
 
 
 def test_can_render_action_with_form_field_as_element(rf, test_user, test_action):
-
     test_action.element = ChoiceField(choices=[(1, "a")])
 
     request = rf.get("")
@@ -316,7 +314,6 @@ def test_action_does_not_render_autosubmit_javascript_by_default(rf, test_action
 #                     Testing Dynamic Attributes                               #
 # ---------------------------------------------------------------------------- #
 def test_can_override_get_form_kwargs_to_dynamically_add_to_the_form(test_action, rf, test_user):
-
     test_action = test_action()
     request = rf.get("")
     context = RequestContext(request, {})
@@ -338,7 +335,6 @@ def test_can_override_get_button_attributes_to_dynamically_change_it(rf, test_fo
     context = RequestContext(request, {})
 
     class TestAction(ViewActions):
-
         element = test_form
         embed_type = EmbedType.MODAL
         pre_render = True
@@ -360,7 +356,6 @@ def test_can_override_get_addional_button_classes_to_dynamically_change_it(rf, t
     context = RequestContext(request, {})
 
     class TestAction(ViewActions):
-
         element = test_form
         embed_type = EmbedType.MODAL
         pre_render = True
@@ -378,7 +373,6 @@ def test_can_override_get_addional_button_classes_to_dynamically_change_it(rf, t
 
 
 def test_can_override_get_confirmation_text_to_dynamically_change_it(test_action, rf, test_user):
-
     test_action = test_action()
     test_action.needs_confirmation = True
 
@@ -395,7 +389,6 @@ def test_can_override_get_confirmation_text_to_dynamically_change_it(test_action
 
 
 def test_can_override_get_needs_confirmation_to_dynamically_change_it(test_action, rf, test_user):
-
     test_action = test_action()
     test_action.confirmation_text = "abcd"
 
@@ -412,7 +405,6 @@ def test_can_override_get_needs_confirmation_to_dynamically_change_it(test_actio
 
 
 def test_can_override_get_modal_button_value_to_dynamically_change_it(test_action, rf, test_user):
-
     test_action = test_action()
     test_action.embed_type = EmbedType.MODAL
 
@@ -429,7 +421,6 @@ def test_can_override_get_modal_button_value_to_dynamically_change_it(test_actio
 
 
 def test_can_override_get_validate_on_to_dynamically_change_it(test_action, rf, test_user):
-
     test_action = test_action()
     test_action.validate_on = "submit"
 
@@ -492,7 +483,6 @@ def test_overriding_get_popover_button_value_raises_warning(rf, test_action, tes
 
 def test_button_attributes_are_set_as_html_attributes_on_the_button_in_template(rf, test_form):
     class ActionWithButtonAttributes(ViewActions):
-
         element = test_form
         embed_type = EmbedType.MODAL
         pre_render = True
@@ -514,7 +504,6 @@ def test_button_attributes_are_set_as_html_attributes_on_the_button_in_template(
 
 def test_additional_button_classes_are_set_as_css_classes_on_the_button_in_template(rf, test_form):
     class ActionWithAdditionalButtonClasses(ViewActions):
-
         element = test_form
         embed_type = EmbedType.MODAL
         pre_render = True

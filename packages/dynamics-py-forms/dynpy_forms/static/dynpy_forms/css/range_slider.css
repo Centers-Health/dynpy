@@ -1,27 +1,27 @@
-
-.range-slider-widget .ui-draggable, .range-slider-widget .ui-droppable {
-  background-position: top;
+.range-slider-widget .ui-draggable,
+.range-slider-widget .ui-droppable {
+	background-position: top;
 }
 
 .range-slider-widget .ui-widget-header {
-  background: var(--primary);
+	background: var(--primary);
 }
 
 .range-slider-widget .value {
-  position: absolute;
-  top: 30px;
-  left: 50%;
-  margin: 0 0 0 -20px;
-  width: 40px;
-  text-align: center;
-  display: block;
-  font-weight: normal;
+	position: absolute;
+	top: 30px;
+	left: 50%;
+	margin: 0 0 0 -20px;
+	width: 40px;
+	text-align: center;
+	display: block;
+	font-weight: normal;
 }
 
 .range-slider-widget {
-  text-align: center;
+	text-align: center;
 }
 
 .range-slider-value_label {
-  text-align: center;
+	text-align: center;
 }

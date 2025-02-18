@@ -1,9 +1,9 @@
 <div class="dropdown">
-    <button {% include "django/forms/widgets/attrs.html" %}>{{ widget.label }}</button>
+    <button {% include "django/forms/widgets/attrs.html" %}>
+        {{ widget.label }}
+    </button>
     <div class="dropdown-menu
-                {% if drop_right %}
-                    dropdown-menu-right
-                {% endif %}">
+                {% if drop_right %}dropdown-menu-right{% endif %}">
         {% for name, choice in widget.choices %}
             {% if name == "------" %}
                 <div class="dropdown-divider"></div>

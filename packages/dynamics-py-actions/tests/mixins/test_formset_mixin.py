@@ -1,7 +1,6 @@
 import pytest
 from django.forms import modelformset_factory
 from django.forms.models import BaseModelFormSet
-
 from dynpy_actions.actions import ViewActions
 from dynpy_actions.mixins import FormsetMixin
 
@@ -9,9 +8,8 @@ from dynpy_actions.mixins import FormsetMixin
 # ---------------------------------------------------------------------------- #
 #                                    FIXTURES                                   #
 # ---------------------------------------------------------------------------- #
-@pytest.fixture()
+@pytest.fixture
 def action_with_formsets(test_form, django_user_model):
-
     formset = modelformset_factory(django_user_model, form=test_form)
 
     class TestActionWithFormsets(FormsetMixin, ViewActions):

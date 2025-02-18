@@ -4,27 +4,17 @@
 {% block form %}
     <form style="font-size:initial"
           action="{{ request.path|build_url_with_query:action_kwargs }}"
-          method="POST"
+          method="post"
           enctype="multipart/form-data"
           class="
-                 {% if action.async_validation %}
-                     js-async-validate
-                 {% endif %}
-                 {% if action.async_confirmation %}
-                     js-async-confirm
-                 {% endif %}
+                 {% if action.async_validation %}js-async-validate{% endif %}
+                 {% if action.async_confirmation %}js-async-confirm{% endif %}
                  {% if action.embed_type == action.embed_type.INLINE %}
                      form-inline d-inline-block
                  {% endif %}
-                 {% if action.needs_confirmation %}
-                     js-form-confirm
-                 {% endif %}
-                 {% if action.autosubmit %}
-                     js-form-autosubmit
-                 {% endif %}"
-          {% if action.callback %}
-              data-callback="{{ action.callback }}"
-          {% endif %}
+                 {% if action.needs_confirmation %}js-form-confirm{% endif %}
+                 {% if action.autosubmit %}js-form-autosubmit{% endif %}"
+          {% if action.callback %}data-callback="{{ action.callback }}"{% endif %}
           data-validate-on="{{ action.validate_on }}"
           {% if action.needs_confirmation %}
               data-message="{{ action.confirmation_text }}"

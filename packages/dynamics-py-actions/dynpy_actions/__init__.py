@@ -11,6 +11,7 @@ To install in a project:
     1. Load actions.js the base.html of the project
     2. Add dynpy_actions to the list of installed apps
 """
+
 from .generic_actions import DeleteAction, GenericCreateUpdateAction
 
 __all__ = ["DeleteAction", "GenericCreateUpdateAction"]

@@ -135,10 +135,10 @@ class MultiRelatedModelForm(BaseModelForm, metaclass=MultiRelatedModelFormMetacl
         """Get fk form lookups."""
         related_form_classes = self._meta.related_form_classes or {}
         if lookup == "":
-            return [lookup for lookup in related_form_classes.keys() if LOOKUP_SEP not in lookup]
+            return [lookup for lookup in related_form_classes if LOOKUP_SEP not in lookup]
         return [
             lookup
-            for lookup in related_form_classes.keys()
+            for lookup in related_form_classes
             if lookup.startswith(lookup) and lookup.count(LOOKUP_SEP) == lookup.count(LOOKUP_SEP) + 1
         ]
 
@@ -221,11 +221,11 @@ class MultiRelatedModelForm(BaseModelForm, metaclass=MultiRelatedModelFormMetacl
             if date is None:
                 continue
             if lookup_type == "date":
-                lookup_kwargs["%s__day" % unique_for] = date.day
-                lookup_kwargs["%s__month" % unique_for] = date.month
-                lookup_kwargs["%s__year" % unique_for] = date.year
+                lookup_kwargs[f"{unique_for}__day"] = date.day
+                lookup_kwargs[f"{unique_for}__month"] = date.month
+                lookup_kwargs[f"{unique_for}__year"] = date.year
             else:
-                lookup_kwargs["%s__%s" % (unique_for, lookup_type)] = getattr(date, lookup_type)
+                lookup_kwargs[f"{unique_for}__{lookup_type}"] = getattr(date, lookup_type)
             lookup_kwargs[field] = getattr(instance, field)
 
             filter_kwargs.update(lookup_kwargs)

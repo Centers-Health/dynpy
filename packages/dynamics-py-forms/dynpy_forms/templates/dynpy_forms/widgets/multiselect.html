@@ -8,23 +8,21 @@
         name="{{ widget.name }}"
         {% include "django/forms/widgets/attrs.html" %}>
     {% for group_name, group_choices, group_index in widget.optgroups %}
-        {% if group_name %}<optgroup label="{{ group_name }}" class="dropdown-item">{% endif %}
-        {% for option in group_choices %}
-            <option value="{{ option.value }}"
-                    {% if option.value|stringformat:"s" in widget.value %}
-                        selected
-                    {% endif %}
-                    data-content='{% if option_template and option_template|get_extension == ".html" %}
-                                      {% include option_template with choice=option.label %}
-                                  {% elif option_template %}
-                                      {{ option_template }}
-                                  {% else %}
-                                      {{ option.label }}
-                                  {% endif %}'>
-                {{ option.label }}
-            </option>
-        {% endfor %}
-        {% if group_name %}</optgroup>{% endif %}
+        {% if group_name %}
+            <optgroup label="{{ group_name }}" class="dropdown-item">
+            {% endif %}
+            {% for option in group_choices %}
+                <option value="{{ option.value }}"
+                        {% if option.value|stringformat:"s" in widget.value %}selected{% endif %}
+                        data-content='{% if option_template and option_template|get_extension == ".html" %}
+                                          {% include option_template with choice=option.label %}
+                                      {% elif option_template %}
+                                          {{ option_template }}
+                                      {% else %}
+                                          {{ option.label }}
+                                      {% endif %}'>{{ option.label }}</option>
+            {% endfor %}
+            {% if group_name %}</optgroup>{% endif %}
     {% endfor %}
 </select>
 

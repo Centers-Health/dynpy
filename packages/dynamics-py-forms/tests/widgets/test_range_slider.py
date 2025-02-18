@@ -1,5 +1,4 @@
 import pytest
-
 from dynpy_forms.widgets import RangeSliderWidget
 
 

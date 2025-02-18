@@ -1,5 +1,4 @@
-
 .popover:has(> .popover-body > .user-display) {
-    max-width:550px;
-    border-radius: 15px;
+	max-width: 550px;
+	border-radius: 15px;
 }

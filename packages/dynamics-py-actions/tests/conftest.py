@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.forms.models import ModelForm
 from django.http import response
 from django.views.generic.edit import CreateView
-
 from dynpy_actions.actions import ModelViewActions, ViewActions
 from dynpy_actions.enums import EmbedType
 from dynpy_actions.mixins import ViewActionsMixin
@@ -25,14 +24,14 @@ def _override_settings_for_testing():
     ]
 
 
-@pytest.fixture()
+@pytest.fixture
 def test_user(django_user_model):
     return django_user_model.objects.create(
         username="test", password="123", first_name="John", last_name="Doe"
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def test_form():
     """
     Returns an a basic form for the User model.
@@ -51,14 +50,13 @@ def test_form():
     return UserForm
 
 
-@pytest.fixture()
+@pytest.fixture
 def test_action(test_form):
     """
     Returns an action class with some basic attributes set.
     """
 
     class TestAction(ViewActions):
-
         element = test_form
         name = "test_action"
         embed_type = EmbedType.MODAL
@@ -70,14 +68,13 @@ def test_action(test_form):
     return TestAction
 
 
-@pytest.fixture()
+@pytest.fixture
 def test_model_action(test_form):
     """
     Returns a model action class with some basic attributes set.
     """
 
     class TestAction(ModelViewActions):
-
         element = test_form
         name = "test_model_action"
         embed_type = EmbedType.MODAL
@@ -89,14 +86,13 @@ def test_model_action(test_form):
     return TestAction
 
 
-@pytest.fixture()
+@pytest.fixture
 def test_action_with_scripts(test_form):
     """
     Returns an action class with some basic attributes set.
     """
 
     class TestAction(ViewActions):
-
         element = test_form
         name = "test_action_with_scripts"
         embed_type = EmbedType.MODAL
@@ -108,7 +104,7 @@ def test_action_with_scripts(test_form):
     return TestAction
 
 
-@pytest.fixture()
+@pytest.fixture
 def test_view_with_actions(test_action, test_form, test_model_action, test_action_with_scripts):
     """
     Returns a View that has actions. Simple createView

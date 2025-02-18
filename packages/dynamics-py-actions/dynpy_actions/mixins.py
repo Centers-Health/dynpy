@@ -46,7 +46,7 @@ class ViewActionsMixin:
         # 'action_' gets appended to all action kwargs.
         action_name = request.GET.get("action_action__name", None)
         if action_name:
-            action = next((a for a in self.actions if a.name == action_name))
+            action = next(a for a in self.actions if a.name == action_name)
             if action:
                 action.view = self
                 flattened_kwargs = flatten_kwargs(**request.GET)
@@ -72,7 +72,7 @@ class ViewActionsMixin:
             "action_name", None
         )
         if action_name:
-            action_class = next((a for a in self.actions if a.name == action_name))
+            action_class = next(a for a in self.actions if a.name == action_name)
             if action_class:
                 action_instance = action_class()
                 action_instance.view = self
@@ -159,8 +159,8 @@ class FormsetMixin:
     function.
     ie
         ```
-        def get_my_formset_kwargs(self,request,model_instance)->dict:
-            return {'prefix':'test_formset'}
+        def get_my_formset_kwargs(self, request, model_instance) -> dict:
+            return {"prefix": "test_formset"}
         ```
 
     Params:

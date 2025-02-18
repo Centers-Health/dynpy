@@ -1,6 +1,5 @@
 import pytest
 from django.template import RequestContext
-
 from dynpy_actions.exceptions import ActionNotFoundException
 from dynpy_actions.helpers import deserialize_kwargs, serialize_kwargs
 from dynpy_actions.templatetags.actions_tags import render_action_template
