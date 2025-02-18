@@ -14,8 +14,12 @@ etc.)
         font-weight: initial;
     }
 </style>
-<div class="modal fade font-initial" id="{{ modal_id }}" tabindex="-1" role="dialog"
-    aria-labelledby="{{ modal_id }}_label" aria-hidden="true">
+<div class="modal fade font-initial"
+     id="{{ modal_id }}"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="{{ modal_id }}_label"
+     aria-hidden="true">
     <div class="modal-dialog {{ modal_dialog_classes }}" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -26,7 +30,7 @@ etc.)
             </div>
             <div class="modal-body">
                 {% if modal_body_content_path %}
-                {% include modal_body_content_path %}
+                    {% include modal_body_content_path %}
                 {% endif %}
             </div>
         </div>

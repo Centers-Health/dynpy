@@ -11,7 +11,6 @@ from django_filters.widgets import DateRangeWidget, RangeWidget
 
 
 class MonthPicker(Widget):
-
     template_name = "dynpy_forms/widgets/month_picker.html"
 
     def render(self, name, value, attrs=None, renderer=None):
@@ -32,7 +31,7 @@ class MonthPicker(Widget):
 
     def value_from_datadict(self, data, files, name):
         monthyear = super().value_from_datadict(data, files, name)
-        return "{}-01".format(monthyear) if monthyear else monthyear
+        return f"{monthyear}-01" if monthyear else monthyear
 
 
 class BootstrapSelect(widgets.Select):
@@ -104,7 +103,9 @@ class TypeAheadSelect(BootstrapSelect):
     class Query:
         @gql.django.field(permission_classes=[HasAPIKey])
         def facilities(self, search_input: SearchInput) -> SearchResultSet:
-            facilities = Facility.objects.filter(name__istartswith=search_input.search_term)[:search_input.limit]
+            facilities = Facility.objects.filter(name__istartswith=search_input.search_term)[
+                : search_input.limit
+            ]
             result_list = [SearchResult(key=f.pk, value=f.name) for f in facilities]
             return SearchResultSet(count=search_input.count, results=result_list)
     ```
@@ -295,7 +296,6 @@ class SwitchWidget(widgets.CheckboxInput):
 
 
 class DateRangePicker(DateRangeWidget):
-
     template_name = "dynpy_forms/widgets/date_range_picker.html"
 
     def render(self, name, value, attrs=None, renderer=None):

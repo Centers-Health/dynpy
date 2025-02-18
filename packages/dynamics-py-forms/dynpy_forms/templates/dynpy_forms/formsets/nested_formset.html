@@ -6,9 +6,7 @@
     {% for form in formset.forms %}
         {% if forloop.counter == 1 and formset.show_header_row %}
             <div class="form-row
-                        {% if formset.remove_last_add_form == True %}
-                            d-none
-                        {% endif %}"
+                        {% if formset.remove_last_add_form == True %}d-none{% endif %}"
                  id="header_{{ formset.id }}">
                 {% for field in form.visible_fields %}
                     {% if field.name != "DELETE" %}

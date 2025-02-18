@@ -1,10 +1,9 @@
 import pytest
 from django.contrib.messages.api import get_messages
-
 from dynpy_actions.generic_actions import GenericCreateUpdateAction
 
 
-@pytest.fixture()
+@pytest.fixture
 def test_generic_action(test_form):
     class TestAction(GenericCreateUpdateAction):
         element = test_form
@@ -13,7 +12,7 @@ def test_generic_action(test_form):
     return TestAction
 
 
-@pytest.fixture()
+@pytest.fixture
 def django_user_model(django_user_model):
     django_user_model._meta.verbose_name = "User"
     return django_user_model

@@ -31,7 +31,7 @@ def _process_field_attributes(field, attr, process):
     # split attribute name and value from 'attr:value' string
     # params = attr.split(':', 1)
     # attribute = params[0]
-    params = re.split(r"(?<!=)=(?!=)", attr, 1)
+    params = re.split(r"(?<!=)=(?!=)", attr, maxsplit=1)
     attribute = params[0]
     value = params[1] if len(params) == 2 else True
     field = copy(field)
@@ -55,7 +55,7 @@ def _process_field_attributes(field, attr, process):
 @register.filter("attr")
 @silence_without_field
 def set_attr(field, attr):
-    def process(widget, attrs, attribute, value):  # pylint: disable=unused-argument
+    def process(widget, attrs, attribute, value):  # noqa: W291
         attrs[attribute] = value
 
     return _process_field_attributes(field, attr, process)
@@ -176,7 +176,7 @@ def render_field(parser, token):  # pylint: disable=too-many-locals
     )
     try:
         bits = token.split_contents()
-        tag_name = bits[0]  # noqa
+        tag_name = bits[0]  # noqa: F841
         form_field = bits[1]
         attr_list = bits[2:]
     except ValueError as exc:
@@ -216,7 +216,7 @@ class FieldAttributeNode(Node):
         bounded_field = self.field.resolve(context)
         field = getattr(bounded_field, "field", None)
         if getattr(bounded_field, "errors", None) and "WIDGET_ERROR_CLASS" in context:
-            bounded_field = append_attr(bounded_field, f'class={context["WIDGET_ERROR_CLASS"]}')
+            bounded_field = append_attr(bounded_field, f"class={context['WIDGET_ERROR_CLASS']}")
         if field and field.required and "WIDGET_REQUIRED_CLASS" in context:
             bounded_field = append_attr(bounded_field, f"class={context['WIDGET_REQUIRED_CLASS']}")
         for k, v in self.set_attrs:

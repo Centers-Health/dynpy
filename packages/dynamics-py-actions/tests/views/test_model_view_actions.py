@@ -2,20 +2,18 @@ import pytest
 from bs4 import BeautifulSoup
 from django.contrib.auth.models import User
 from django.template import RequestContext
-
 from dynpy_actions.helpers import serialize_kwargs
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_that_model_forms_have_instance_set_to_the_model_instance(rf, test_view_with_actions, test_user):
-
     request = rf.get("")
     response = test_view_with_actions.as_view()(request)
     expected_user = response.context_data["view"].actions[1]().get_form(test_user).instance
     assert test_user == expected_user
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_action_raises_exception_if_does_not_have_model_instance_id_and_allow_create_new_is_false(
     test_view_with_actions, rf, test_model_action
 ):
@@ -44,7 +42,7 @@ def test_action_raises_exception_if_does_not_have_model_instance_id_and_allow_cr
     assert User.objects.count() == 0
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_action_with_allow_create_new_as_true_can_be_used_also_as_an_update_action(
     test_view_with_actions, rf, test_user
 ):

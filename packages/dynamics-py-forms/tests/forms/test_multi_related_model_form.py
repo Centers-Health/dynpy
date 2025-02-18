@@ -1,7 +1,6 @@
 import pytest
 from django.contrib.contenttypes.forms import generic_inlineformset_factory
 from django.forms import inlineformset_factory, modelform_factory
-
 from dynpy_forms.forms import MultiRelatedModelForm
 from tests.models import Author, Book, Location, Publisher, Tag
 from tests.testing_helpers import get_formset_data

@@ -2,7 +2,6 @@ from datetime import datetime
 
 import pytest
 from django.core.exceptions import ValidationError
-
 from dynpy_forms.fields import ValidatedDateRangeField
 
 
@@ -14,14 +13,12 @@ from dynpy_forms.fields import ValidatedDateRangeField
     ],
 )
 def test_start_date_is_before_end_date_does_not_throw_exception(dates):
-
     field = ValidatedDateRangeField()
 
     field.validate(dates)
 
 
 def test_start_date_is_after_end_date_throws_exception():
-
     value = slice(datetime(2022, 7, 1, 0, 0), datetime(2022, 1, 1, 0, 0))
 
     field = ValidatedDateRangeField()

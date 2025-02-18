@@ -9,9 +9,7 @@
     }
 </style>
 <div class="switch-widget custom-control custom-switch
-            {% if css_classes %}
-                {{ css_classes }}
-            {% endif %}"
+            {% if css_classes %}{{ css_classes }}{% endif %}"
      style="{% if css_styles %}
                 {{ css_styles }}
             {% endif %}">
@@ -23,7 +21,7 @@
     <input type="checkbox"
            class="checkboxinput custom-control-input"
            name="{{ widget.name }}"
-           {% include "django/forms/widgets/attrs.html" %}/>
+           {% include "django/forms/widgets/attrs.html" %} />
     <label for="{{ widget.attrs.id }}" class="custom-control-label">
         {% if widget.attrs.label %}
             {{ widget.attrs.label }}

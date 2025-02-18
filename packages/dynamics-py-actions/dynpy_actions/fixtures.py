@@ -10,7 +10,7 @@ from django.db.models.base import Model
 """
 
 
-@pytest.fixture()
+@pytest.fixture
 def handle_action(rf, add_middleware_to_request):
     def _handle_action(action, user=None, additional_form_data: Optional[Dict] = None, **kwargs):
         additional_form_data = additional_form_data or {}

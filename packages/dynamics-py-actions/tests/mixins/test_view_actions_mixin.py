@@ -2,7 +2,6 @@ import json
 
 import pytest
 from bs4 import BeautifulSoup
-
 from dynpy_actions.exceptions import AsyncConfirmNotDefinedException
 
 
@@ -41,7 +40,6 @@ def test_GET_with_parameters_renders_out_the_form_html(rf, test_user, test_view_
 
 
 def test_post_with_action_calls_actions_handle_method(rf, test_view_with_actions):
-
     action = test_view_with_actions.actions[0]
     request = rf.post(
         "/",
@@ -54,7 +52,6 @@ def test_post_with_action_calls_actions_handle_method(rf, test_view_with_actions
 
 
 def test_post_without_action_calls_parent_post(rf, test_view_with_actions):
-
     request = rf.post(
         "/",
         {

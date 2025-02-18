@@ -7,7 +7,6 @@ from django.http.response import HttpResponseRedirect
 from django.template import RequestContext
 from django.test import RequestFactory
 from django.utils.safestring import mark_safe
-
 from dynpy_actions.actions import ViewActions
 from dynpy_actions.helpers import deserialize_kwargs, serialize_kwargs
 
@@ -24,12 +23,13 @@ def display_action(
     Example:
     ```
     def test_my_action_display(test_user, test_model_instance):
-       action = MyAction()
-       action_html = display_action(
-          action,
-          request_attrs={"user": test_user},
-          action_kwags={"model_instance": test_model_instance},
-       )
+        action = MyAction()
+        action_html = display_action(
+            action,
+            request_attrs={"user": test_user},
+            action_kwags={"model_instance": test_model_instance},
+        )
+
 
     # Add asserts here...
     ```
@@ -73,18 +73,19 @@ def handle_action(
     Example:
     ```
     def test_my_action_handle(test_user, test_model_instance, test_file):
-       action = MyAction()
-       action_html = handle_action(
-          action,
-          request_attrs={"user": test_user},
-          action_kwags={"model_instance": test_model_instance},
-          input={
-            "field_a": "aaaa",
-            "field_b": ["1", "2"],
-            "field_c": "on",
-            "field_d": test_file,
-          }
-       )
+        action = MyAction()
+        action_html = handle_action(
+            action,
+            request_attrs={"user": test_user},
+            action_kwags={"model_instance": test_model_instance},
+            input={
+                "field_a": "aaaa",
+                "field_b": ["1", "2"],
+                "field_c": "on",
+                "field_d": test_file,
+            },
+        )
+
 
     # Add asserts here...
     ```

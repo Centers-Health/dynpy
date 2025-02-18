@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup
 from django.forms import Form, ModelMultipleChoiceField, MultipleChoiceField
-
 from dynpy_forms.widgets import BootstrapMultiSelect
 
 

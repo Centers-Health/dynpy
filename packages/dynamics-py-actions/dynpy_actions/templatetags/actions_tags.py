@@ -2,7 +2,6 @@ import urllib.parse
 
 from django import template
 from django.utils.safestring import mark_safe
-
 from dynpy_actions import constants
 from dynpy_actions.helpers import serialize_kwargs, validate_action
 

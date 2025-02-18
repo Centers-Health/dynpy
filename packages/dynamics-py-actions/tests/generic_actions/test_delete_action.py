@@ -1,6 +1,5 @@
 import pytest
 from django.contrib.messages.api import get_messages
-
 from dynpy_actions.generic_actions import DeleteAction
 from dynpy_actions.helpers import serialize_kwargs
 from dynpy_actions.utils.testing_utils import handle_action
@@ -90,6 +89,6 @@ def test_no_model_name_field_still_works_and_returns_meta_verbose_name(
     request = add_middleware_to_request(request)
     action = DeleteAction()
     with pytest.raises(AttributeError):
-        action.model_name
+        action.model_name  # noqa: B018
     value = action.get_model_name(request, action_name="delete", model_instance=test_user)
     assert verbose_name == value

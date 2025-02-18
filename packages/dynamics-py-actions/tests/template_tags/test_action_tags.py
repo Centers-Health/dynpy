@@ -1,7 +1,6 @@
 import pytest
 from bs4 import BeautifulSoup
 from django.template import RequestContext
-
 from dynpy_actions import constants
 from dynpy_actions.enums import EmbedType
 from dynpy_actions.exceptions import ActionNotFoundException

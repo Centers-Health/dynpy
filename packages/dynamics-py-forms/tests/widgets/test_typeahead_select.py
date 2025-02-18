@@ -1,7 +1,6 @@
 import pytest
 from bs4 import BeautifulSoup
 from django.forms import CharField, Form, ModelChoiceField
-
 from dynpy_forms.widgets import TypeAheadSelect
 
 
@@ -21,7 +20,7 @@ def test_updates_choices_to_have_initial_value_for_char_field():
     assert soup.find("option", selected=True, value="abc")
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_updates_queryset_to_have_initial_value_for_model_field(django_user_model):
     user = django_user_model.objects.create(username="test")
 

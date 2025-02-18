@@ -1,10 +1,9 @@
 import pytest
 from django.db.models import CASCADE, CharField, ForeignKey, Model
-
 from dynpy_forms.utils import fk_to_model_fields
 
 
-@pytest.fixture()
+@pytest.fixture
 def this_model(that_model):
     class OtherModel(Model):
         class Meta:
@@ -22,7 +21,7 @@ def this_model(that_model):
     return ThisModel
 
 
-@pytest.fixture()
+@pytest.fixture
 def that_model():
     class ThatModel(Model):
         class Meta:

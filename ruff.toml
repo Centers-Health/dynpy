@@ -49,6 +49,7 @@ ignore = [
   "B026",   # Star-arg unpacking after a keyword argument is strongly discouraged
   "B904",   # 'assertRaises' should be used as a context manager
   "DJ001",  # Avoid using null=True on string-based fields such as CharField and TextField
+  "DJ008",  # Don't require __str__ method on models
 ]
 
 [lint.per-file-ignores]
