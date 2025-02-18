@@ -1,6 +1,15 @@
 SHELL:=/bin/bash
 PACKAGES := $(wildcard packages/*/)
 
+define INSTALL_PACKAGES
+	@for PACKAGE in $(PACKAGES); do \
+		(cd $$PACKAGE && \
+			echo ">> $$PACKAGE"&& \
+			poetry --directory $$PACKAGE install \
+		); \
+	done
+endef
+
 define PRE_COMMIT_RULE
 	pre-commit run --show-diff-on-failure --color=always --all-files
 endef
@@ -26,18 +35,17 @@ install: lock
 	pre-commit install -t pre-commit -t pre-push -t commit-msg --overwrite
 	poetry self add poetry-bumpversion
 	poetry self add poetry-plugin-mono-repo-deps
-	@for PACKAGE in $(PACKAGES); do \
-		(cd $$PACKAGE && \
-			echo ">> $$PACKAGE"&& \
-			poetry --directory $$PACKAGE install \
-		); \
-	done
+	$(INSTALL_PACKAGES)
+
+install-ci:
+	$(INSTALL_PACKAGES)
 
 ci: install
 	$(PRE_COMMIT_RULE)
 	$(TEST_RULE)
 
 precommit:
+	git config --global --add safe.directory /app
 	$(PRE_COMMIT_RULE)
 
 test:
