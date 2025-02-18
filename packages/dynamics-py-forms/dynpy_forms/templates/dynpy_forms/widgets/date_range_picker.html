@@ -1,0 +1,21 @@
+{% load dynpy_tags %}
+<input class="form-control bg-white"
+       id="daterangepicker"
+       data-picker="daterangepicker"
+       type="text"
+       name="{{ widget.name }}"
+       autocomplete="off"
+       placeholder="Search {{ widget.name|field_name_to_label }}"
+       readonly
+       {% if widget.start_date or widget.end_date %}
+           value="{{ widget.start_date }} - {{ widget.end_date }}"
+       {% endif %}
+       {% include "django/forms/widgets/attrs.html" %}>
+<input type="hidden"
+       class="date_range_after"
+       name="{{ widget.name }}_after"
+       value="{{ widget.start_date }}">
+<input type="hidden"
+       class="date_range_before"
+       name="{{ widget.name }}_before"
+       value="{{ widget.end_date }}">

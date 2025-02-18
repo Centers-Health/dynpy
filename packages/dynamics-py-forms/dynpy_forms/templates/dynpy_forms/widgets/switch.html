@@ -1,0 +1,34 @@
+{% load dynpy_tags %}
+{% comment %}
+    By default crispy forms puts in a label, and with a checkbox it renders out the actual checkbox
+    using the 'before' psudo class. This is to hide that checkbox.
+{% endcomment %}
+<style>
+    .switch-widget.custom-switch + label{
+        display:none;
+    }
+</style>
+<div class="switch-widget custom-control custom-switch
+            {% if css_classes %}
+                {{ css_classes }}
+            {% endif %}"
+     style="{% if css_styles %}
+                {{ css_styles }}
+            {% endif %}">
+    {% comment %}
+        Adding hidden input so value always gets sent over, even if checkbox is unselected
+        As suggested here: https://stackoverflow.com/a/1992745/11278892
+    {% endcomment %}
+    <input type='hidden' value='off' name='{{ widget.name }}'>
+    <input type="checkbox"
+           class="checkboxinput custom-control-input"
+           name="{{ widget.name }}"
+           {% include "django/forms/widgets/attrs.html" %}/>
+    <label for="{{ widget.attrs.id }}" class="custom-control-label">
+        {% if widget.attrs.label %}
+            {{ widget.attrs.label }}
+        {% else %}
+            {{ widget.name|field_name_to_label }}
+        {% endif %}
+    </label>
+</div>
