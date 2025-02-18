@@ -1,6 +1,10 @@
 SHELL:=/bin/bash
 PACKAGES := $(wildcard packages/*/)
 
+# TODO: Add these features into SPM. This is lowest priority since it would
+# complicate ci. But a fully robust monorepo tool should encompass this
+# behavior. Also, it make be helpful for dev as well.
+
 define INSTALL_PACKAGES
 	@for PACKAGE in $(PACKAGES); do \
 		(cd $$PACKAGE && \
