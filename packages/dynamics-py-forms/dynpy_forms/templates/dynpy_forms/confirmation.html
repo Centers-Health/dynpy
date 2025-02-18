@@ -1,0 +1,19 @@
+<script>
+    (function () {
+        const srcElem = document.querySelector('#{{ source_id }}');
+        const url = srcElem.getAttribute("hx-post") || '{{ url }}'
+        bootbox.confirm({
+            message: `{{ confirm_message }}`,
+            centerVertical: true,
+            callback: confirmed => {
+                if (confirmed) {
+                    htmx.ajax('POST', url, {
+                        source: srcElem,
+                        headers: { 'HX-Confirmed': true },
+                    });
+                }
+            },
+        });
+    }());
+    {% block js %}{% endblock js %}
+</script>

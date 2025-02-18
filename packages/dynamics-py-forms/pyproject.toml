@@ -1,0 +1,42 @@
+[tool.poetry]
+name = "dynpy_forms"
+version = "7.0.0"
+description = ""
+authors = ["Team Dynamics"]
+
+[[tool.poetry.source]]
+name = "dynamics"
+url = "https://pypi.centershealthcare.org/simple"
+priority = "supplemental"
+
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "primary"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^4.2"
+django-filter = "^2.4.0"
+django-crispy-forms = "^1.9.2"
+dynpy = { path = "../dynamics-py-core", develop = true }
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.3"
+pytest-describe = "^2.0.1"
+pytest-django = "^4.5.2"
+pytest-watch = "^4.2.0"
+pytest-spec = "^3.1.0"
+pytest-xdist = "*"
+pytest-mock = "*"
+beautifulsoup4 = "^4.11.1"
+pytest-testmon = "^1.0.3"
+pdbpp = "*"
+pytest-flakefinder = "^1.0.0"
+django-types = "^0.17.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry-monorepo.deps]

@@ -1,0 +1,55 @@
+{% load static %}
+{% load crispy_forms_tags %}
+{% load dynpy_tags %}
+<div id="{{ formset.id }}">
+    {{ formset.management_form }}
+    {% for form in formset.forms %}
+        {% if forloop.counter == 1 and formset.show_header_row %}
+            <div class="form-row
+                        {% if formset.remove_last_add_form == True %}
+                            d-none
+                        {% endif %}"
+                 id="header_{{ formset.id }}">
+                {% for field in form.visible_fields %}
+                    {% if field.name != "DELETE" %}
+                        <label class="{{ formset.label_classes|get_dict_value:field.name|default:'' }}">
+                            {{ field.label }}
+                            {% if field.field.required %}<span>*</span>{% endif %}
+                        </label>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% comment %} Using style not d-flex class because bootstrap adds !important and that messes with the JS {% endcomment %}
+        <div class="{{ formset.id }} {{ formset.instance.id }}">{% crispy form %}</div>
+    {% endfor %}
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        if ("{{ formset.is_repeatable }}" == "True") {
+            // Fixes issue where formset hasn't been rendered yet
+            const timeout = $('.{{ formset.id }}').is(":hidden") ? 50 : 0;
+            setTimeout(() => {
+                $(`.{{ formset.id }}`).formset({
+                    id:`{{formset.id}}` ,
+                    deleteText: `{{formset.delete_text}}` ,
+                    prefix: '{{ formset.prefix }}' ,
+                    itemName: '{{ formset.item_name }}',
+                    addCssClass: "text-primary",
+                    deleteContainerClass:`{{ formset.delete_container_class}}`,
+                    keepFieldValues:`{{ formset.keep_field_values}}`,
+                    canDelete: `{{ formset.can_delete}}` == "True" ? true : false,
+                    added:'{{ formset.added}}' ,
+                    showLabelsOnce:`{{ formset.show_labels_once}}`,
+                    removed:'{{ formset.removed}}' ,
+                    confirmationMessage:'{{ formset.confirmation_message}}',
+                    formCssClass:`{{ formset.form_css_class}}`,
+                    removeLastAddForm:'{{ formset.remove_last_add_form}}' == "True",
+                    removeLastAddFormUnlessIsOnlyForm:'{{ formset.remove_last_add_form_unless_is_only_form }}' == "True",
+                    showHeaderRow:'{{ formset.show_header_row}}' == "True"
+
+                });
+            }, timeout);
+        }
+    })
+</script>
