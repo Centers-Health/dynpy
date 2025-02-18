@@ -1,6 +1,6 @@
 const setFormsOnchangeHandlers = (elem = document) => {
 	const forms = Array.from(elem.getElementsByTagName("form"));
-	forms.forEach(setFormOnchangeHandlers);
+	for (const form of forms) setFormOnchangeHandlers(form);
 };
 
 const setFormOnchangeHandlers = (form) => {
@@ -104,7 +104,7 @@ const setupSubmitOnInputFields = () => {
 
 const setFormsSubmissionHandlers = (elem = document) => {
 	const forms = Array.from(elem.getElementsByTagName("form"));
-	forms.forEach(setFormSubmissionHandlers);
+	for (const form of forms) setFormSubmissionHandlers(form);
 };
 
 const getSubmitButtons = (form) => {

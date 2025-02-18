@@ -11,16 +11,16 @@ const initializeCopyElements = () => {
 		if (link.href.startsWith("http")) return link.href;
 		return `${link.protocol}//${link.host}${link.href}`;
 	};
-	document.querySelectorAll(".copyable").forEach((elem) => {
+	for (const elem of document.querySelectorAll(".copyable")) {
 		// copy inner text by default
 		// if data-copy-attr is set use it instead
 		let copyText = elem.getAttribute(elem.dataset.copyAttr) || elem.innerText;
 		const tooltipText = "Copy";
 
 		// copy absolute links
-		if (elem.dataset.copyAttr == "href") {
+		if (elem.dataset.copyAttr === "href") {
 			copyText = getAbsoluteUrl(elem);
-			tooltipText == "Copy Link";
+			tooltipText === "Copy Link";
 		}
 
 		// trim whitespace
@@ -63,6 +63,6 @@ const initializeCopyElements = () => {
 				{ once: true },
 			);
 		});
-	});
+	}
 };
 initializeCopyElements();

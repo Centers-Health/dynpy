@@ -1,5 +1,5 @@
 $(() => {
-	$(".range-slider").each(function (index, el) {
+	$(".range-slider").each(function () {
 		const $this = $(this);
 		const $parent = $this.parent();
 
@@ -20,7 +20,7 @@ $(() => {
 			$(`#${$parent.attr("id")}_max`).val(max);
 
 			// Set value label
-			var text = `${min} - ${max}`;
+			let text = `${min} - ${max}`;
 			if (numberFormatter) {
 				text = `${numberFormatter.format(min)} - ${numberFormatter.format(
 					max,
@@ -41,10 +41,13 @@ $(() => {
 			max: range_max,
 			step: step,
 			values: [cur_min, cur_max],
-			stop: (event, ui) => $this.trigger("change"),
-			slide: (event, ui) =>
-				setCurrentValues((min = ui.values[0]), (max = ui.values[1])),
+			stop: () => $this.trigger("change"),
+			slide: (_, ui) => {
+				const min = ui.values[0];
+				const max = ui.values[1];
+				setCurrentValues(min, max);
+			},
 		});
-		setCurrentValues((min = cur_min), (max = cur_max));
+		setCurrentValues(cur_min, cur_max);
 	});
 });

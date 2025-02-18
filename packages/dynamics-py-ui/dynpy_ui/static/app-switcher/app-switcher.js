@@ -108,7 +108,7 @@ class AppSwitcher extends HTMLElement {
 		}
 
 		const isAppSwitcherApp = (currentValue) => {
-			return currentValue.label.toLowerCase() != "contracts";
+			return currentValue.label.toLowerCase() !== "contracts";
 		};
 
 		const noAppsDisplay = '<p class="text-muted">No apps loaded</p>';

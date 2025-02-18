@@ -41,9 +41,9 @@
                     if(data.data[searchQueryName].count == fetchCounter) {
                         loading = false;
                         if(results.length) {
-                            results.forEach(result => {
+                            for (const result of results){
                                 selectPicker.select.innerHTML += `<option value="${result.key}" data-content='${result.value}'>${result.value}</option>`;
-                            })
+                            }
                             selectPicker.refresh()
                         }
                         else {
