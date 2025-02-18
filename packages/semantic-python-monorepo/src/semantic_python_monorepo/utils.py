@@ -302,7 +302,7 @@ def get_bump_from_commit_msg(
         new_bump = "major"
     elif re.search(r"^(feat|perf)(\(\w+\))?:", msg):
         new_bump = "minor"
-    elif re.search(r"^(bug|fix|regression|test)(\(\w+\))?:", msg):
+    elif re.search(r"^(bug|fix|refactor|test|revert)(\(\w+\))?:", msg):
         new_bump = "patch"
 
     return new_bump
