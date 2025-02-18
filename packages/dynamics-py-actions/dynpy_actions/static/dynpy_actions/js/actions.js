@@ -9,7 +9,7 @@ $(document).ready(() => {
 });
 
 const setupActions = (elem = document) => {
-	const actionsLoaders = elem.querySelectorAll(`[data-js-load-action-form]`);
+	const actionsLoaders = elem.querySelectorAll("[data-js-load-action-form]");
 
 	const setupActionFunction = {
 		target: setupTargetAction,
@@ -17,13 +17,13 @@ const setupActions = (elem = document) => {
 		modal: setupModalAction,
 	};
 
-	actionsLoaders.forEach((actionLoader) => {
+	for (const actionLoader of actionsLoaders) {
 		let actionType = actionLoader.dataset.actionType;
 		let actionDataset;
 		let formWrapper;
 
 		// Target data attrs live on the loader not the form wrapper
-		if (actionType == "target") {
+		if (actionType === "target") {
 			actionDataset = { ...actionLoader.dataset };
 			formWrapper = document.getElementById(
 				`${actionDataset.action_action__target_elem_id}`,
@@ -44,7 +44,7 @@ const setupActions = (elem = document) => {
 		};
 
 		action.setupActionFn(action);
-	});
+	}
 };
 
 /* ------------------ Setup functions for each action type ------------------ */
@@ -82,7 +82,7 @@ function setupModalAction(action) {
 		},
 		action.modalTargetManager.modalTarget ? {} : { once: true },
 	);
-	action.formWrapper.addEventListener("actionLoad", (e) => {
+	action.formWrapper.addEventListener("actionLoad", () => {
 		$(action.formWrapper.closest(".modal")).on("shown.bs.modal", (e) => {
 			const visibleformElements = Array.from(
 				e.target.querySelector("form").elements,
@@ -137,9 +137,8 @@ const fetchHtml = (action) => {
 			reloadWindowOnload(action.formWrapper);
 		})
 		.catch((err) => {
-			const errorMessageAttribute = action.actionDataset["errorMessage"];
-			const customErrorMessage =
-				errorMessageAttribute && errorMessageAttribute.value;
+			const errorMessageAttribute = action.actionDataset.errorMessage;
+			const customErrorMessage = errorMessageAttribute?.value;
 			action.formWrapper.innerHTML =
 				getLoadingErrorInstance(customErrorMessage);
 			console.error(err);
@@ -159,12 +158,11 @@ const getUrl = (actionDataset) => {
 };
 const getLoader = (action) => {
 	// Gets the loader that is displayed while the html is being fetched
-	const loaderStyle = action.actionDataset["loaderStyle"]
-		? action.actionDataset["loaderStyle"]
+	const loaderStyle = action.actionDataset.loaderStyle
+		? action.actionDataset.loaderStyle
 		: "spinner";
-	const loadingMessageAttribute = action.actionDataset["loadingMessage"];
-	const customLoadingMessage =
-		loadingMessageAttribute && loadingMessageAttribute.value;
+	const loadingMessageAttribute = action.actionDataset.loadingMessage;
+	const customLoadingMessage = loadingMessageAttribute?.value;
 
 	action.formWrapper.innerHTML = getLoaderInstance(
 		loaderStyle,
@@ -183,16 +181,16 @@ const reloadWindowOnload = (wrapper) => {
 	const form = wrapper.querySelector("form");
 	scripts = form.querySelectorAll("script");
 	// Run scripts
-	form.querySelectorAll("script").forEach((script) => {
+	for (const script of form.querySelectorAll("script")) {
 		if (!script.src) new Function(script.text)();
 		else {
-			fetch(script.src).then((response) => {
+			fetch(script.src).then(async (response) => {
 				return response.text().then((text) => {
 					new Function(text)();
 				});
 			});
 		}
-	});
+	}
 	setFormOnchangeHandlers(form);
 	setFormSubmissionHandlers(form);
 	setFormValidationHandler(form);
