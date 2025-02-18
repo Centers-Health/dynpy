@@ -1,0 +1,16 @@
+.copy-btn {
+    cursor: pointer;
+    color: blue;
+    opacity: 0;
+    transform: translate(-0.3em);
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.copyable:hover .copy-btn {
+    opacity: 1;
+    transform: translate(0.3em);
+}
+
+.copyable {
+    cursor: pointer;
+}

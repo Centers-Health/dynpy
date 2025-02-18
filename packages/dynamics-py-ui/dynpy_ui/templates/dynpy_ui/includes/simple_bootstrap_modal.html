@@ -1,0 +1,34 @@
+{% comment %}
+To use this template:
+- Provide a 'modal_id'
+- Provide a 'modal_title' (or have it set in fetchModalContent())
+- For the content:
+- Provide a 'modal_body_content_path' for the include
+- Use the fetchModalContent() function in base.js
+- Optionally provide 'modal_dialog_classes', additional classes to be added to the modal dialog (to set modal size,
+etc.)
+{% endcomment %}
+<style>
+    .font-initial {
+        font-size: initial;
+        font-weight: initial;
+    }
+</style>
+<div class="modal fade font-initial" id="{{ modal_id }}" tabindex="-1" role="dialog"
+    aria-labelledby="{{ modal_id }}_label" aria-hidden="true">
+    <div class="modal-dialog {{ modal_dialog_classes }}" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title ml-auto">{{ modal_title }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% if modal_body_content_path %}
+                {% include modal_body_content_path %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

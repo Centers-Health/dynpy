@@ -1,0 +1,35 @@
+{% comment %}
+    To use this template:
+        - Provide a 'user'
+        - Provide a 'placeholder' (Text that shows the popover when hovered on)
+
+    Example Usage:
+           {% include 'dynpy_ui/includes/user_card.html' with user=item placeholder=item.username%}
+
+    WARNING:
+        - Must provide the related user_card.css file in the base.html of the project you use this in:
+
+            <!-- Dynpy_UI User Card -->
+            <link rel="stylesheet" href={% static 'dynpy_ui/css/user_card.css'%}/>
+{% endcomment %}
+<div data-toggle="popover" data-placement="auto" data-boundary="viewport" data-trigger="hover" data-html="true" data-content='
+    <div class="d-flex align-items-center user-display">
+        <div>
+            <i class="fa fa-user-circle fa-3x mt-1"></i>
+        </div>
+        <div class="mt-4 ml-2">
+            <h6 class="font-weight-bold m-0">
+                {% if user.first_name and user.last_name %}
+                    {{ user.first_name }} {{ user.last_name }}
+                {% else %}
+                    {{ user.username }}
+                {% endif %}
+            </h6>
+            <p>
+                {{ user.email }}
+            </p>
+        </div>
+    </div>
+    '>
+    {{ placeholder|default:user.email }}
+</div>
