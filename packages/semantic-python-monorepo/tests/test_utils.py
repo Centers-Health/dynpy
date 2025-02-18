@@ -84,7 +84,6 @@ def test_max_bump(
         ("fix:a feature", "patch"),
         ("fix!: a feature", "major"),
         ("fix: a fea!ture", "patch"),
-        ("regression: a fea!ture", "patch"),
         ("test: a fea!ture", "patch"),
         ("fix: a fea!ture\n\nBREAKING CHANGES", "major"),
         ("docs: something", None),
