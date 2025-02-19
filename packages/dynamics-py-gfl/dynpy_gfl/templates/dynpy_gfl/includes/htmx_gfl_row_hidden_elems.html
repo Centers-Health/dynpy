@@ -1,0 +1,18 @@
+{% load generic_filter_list_tags %}
+{% load hx_tags %}
+{% if paginator.per_page|divide:forloop.counter == 2 and paginator.has_next  and not view.enable_virtual_scroll %}
+    <div class="hidden-invisible"
+        {# djlint:off #}
+{% comment %} Delay so that the alpine store is updated before the Htmx request{% endcomment %}
+        {# djlint:on #}
+        hx-trigger="intersect once delay:100ms"
+        {% hx_get view.infinite_scroll_hx_name %}
+        hx-include='#basicFilters'
+        hx-indicator="#tr-loader"
+        hx-vals="js:{ 'position': Alpine.store('tableRowCounter').total }"
+        hx-swap="afterend settle:0"
+        hx-target=".js-gfl-item:last-child"></div>
+{% endif %}
+<div class="hidden-invisible" {% hx_get view.row_refresh_hx_name object=item %} hx-include='#basicFilters' hx-trigger="refreshRow{{ item.pk }} from:body" 
+    {% block refresh_row_indicator %}{% endblock refresh_row_indicator %}
+     hx-target='closest .js-gfl-item' hx-swap="outerHTML"></div>

@@ -1,0 +1,48 @@
+[tool.poetry]
+name = "dynpy_gfl"
+version = "13.1.2"
+description = ""
+authors = ["Team Dynamics"]
+
+[[tool.poetry.source]]
+name = "dynamics"
+url = "https://pypi.centershealthcare.org/simple"
+priority = "supplemental"
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "primary"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^4.2"
+django-filter = "^2.4.0"
+dynpy-actions = { path = "../dynamics-py-actions", develop = true }
+dynpy-js = { path = "../dynamics-py-js", develop = true }
+dynpy-forms = { path = "../dynamics-py-forms", develop = true }
+dynpy = { path = "../dynamics-py-core", develop = true }
+hx-requests = "*"
+django-js-asset = "^2.2.0"
+openpyxl = "^3.1.5"
+pandas = "^2.2.3"
+
+[tool.poetry.group.dev.dependencies]
+pytest-watch = "^4.2.0"
+pytest-spec = "^3.1.0"
+pytest-testmon = "^1.0.3"
+pytest-django = "^4.5.2"
+pytest-describe = "^2.0.1"
+pytest-mock = "*"
+bs4 = "^0.0.1"
+pytest-xdist = "*"
+pdbpp = "*"
+pytest-flakefinder = "^1.0.0"
+pytest = "^7.4.3"
+django-types = "^0.17.0"
+pytest-random-order = "^1.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry-monorepo.deps]
