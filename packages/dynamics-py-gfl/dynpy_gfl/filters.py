@@ -80,7 +80,6 @@ class AllValuesRangeFilter(RangeFilter):
 
     @property
     def field(self):
-
         min_value = self.model.objects.aggregate(Min(self.field_name))[f"{self.field_name}__min"] or 0
 
         real_max = self.model.objects.aggregate(Max(self.field_name))[f"{self.field_name}__max"]

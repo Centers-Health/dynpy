@@ -3,7 +3,6 @@ import io
 import pandas as pd
 import pytest
 from dynpy_actions.utils.testing_utils import handle_action
-
 from dynpy_gfl.actions import GFLExportAction
 from dynpy_gfl.excel.exporters import GFLActionExporter
 from dynpy_gfl.filtersets import GenericFilterSet
@@ -34,7 +33,7 @@ class DummyGFLView(GenericFilterListWithActionsView):
     actions = [DummyExportAction]
 
 
-@pytest.fixture()
+@pytest.fixture
 def test_view(rf, test_user):
     view = DummyGFLView()
     request = rf.get("/")

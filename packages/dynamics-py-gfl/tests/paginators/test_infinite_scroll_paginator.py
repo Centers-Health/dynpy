@@ -1,5 +1,4 @@
 import pytest
-
 from dynpy_gfl.paginators import InfiniteScrollPaginator
 
 

@@ -2,7 +2,6 @@ import io
 from typing import Iterable
 
 import pandas as pd
-
 from dynpy_gfl.excel.exporters import Exporter
 
 

@@ -1,5 +1,4 @@
 import pytest
-
 from dynpy_gfl import constants
 from dynpy_gfl.filtersets import GenericFilterSet
 from dynpy_gfl.templatetags.generic_filter_list_tags import column_header_link
@@ -80,7 +79,7 @@ def test_link_order_is_not_flipped_for_other_columns(rf, test_filter_set, order)
 
 
 @pytest.mark.parametrize(
-    "order,arrow_direction",
+    ("order", "arrow_direction"),
     [
         (
             constants.ASC,

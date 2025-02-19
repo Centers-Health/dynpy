@@ -8,8 +8,8 @@ from dynpy_gfl.enums import FilterListOrder
 
 @dataclass
 class OrderHelper:
-    ASC: Expression  # type: ignore
-    DESC: Expression  # type: ignore
+    ASC: Expression
+    DESC: Expression
 
 
 class FieldOrderByClause:

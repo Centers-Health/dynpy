@@ -1,4 +1,5 @@
-from typing import Any, Dict, List, Sequence
+from collections.abc import Sequence
+from typing import Any
 
 from django.core.paginator import Paginator
 from django.forms import BoundField
@@ -14,7 +15,7 @@ from dynpy_gfl.paginators import InfiniteScrollPaginator
 
 
 class CustomFilterView(FilterView):
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         self.regenerate_filterset_form(context)
         return context
@@ -65,7 +66,7 @@ class GenericFilterListView(CustomFilterView):
     fixed_header: bool = False
     freeze_columns: int = 0
 
-    def get_columns(self) -> List[dict]:
+    def get_columns(self) -> list[dict]:
         """
         A method that returns a list of the column definitions.
         """
@@ -76,12 +77,12 @@ class GenericFilterListView(CustomFilterView):
             default_fields = list(default_fields.keys())
 
         fields = filterset_class.columns if filterset_class.columns is not None else default_fields
-        column_definitions = list(
-            map(lambda field: filterset_class.field_to_column_definition(self, field), fields)
-        )
+        column_definitions = [
+            filterset_class.field_to_column_definition(self, field) for field in fields
+        ]
         return column_definitions
 
-    def get_extra_filters(self) -> List[BoundField]:
+    def get_extra_filters(self) -> list[BoundField]:
         """
         A method that returns a list of extra form filters to be hidden by default
         """
@@ -196,7 +197,7 @@ class GFLSplitView(GenericFilterListView):
 
         return super().get(request, *args, **kwargs)
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context["split_view_object"] = self.get_object()
 
@@ -219,7 +220,7 @@ class GFLSplitView(GenericFilterListView):
         model = self.filterset._meta.model
         try:
             return model.objects.get(pk=self.object_pk) if self.object_pk else None
-        except:
+        except model.DoesNotExist:
             return None
 
     def get_side_panel_context_data(self, split_view_object, **kwargs):

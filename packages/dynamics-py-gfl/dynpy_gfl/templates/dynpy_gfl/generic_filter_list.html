@@ -12,7 +12,9 @@
             <h1 class="text-center">{{ view.title }}</h1>
         </div>
     {% endif %}
-    {% if view.subtitle %}<h4 class="text-center text-secondary">{{ view.subtitle }}</h4>{% endif %}
+    {% if view.subtitle %}
+        <h4 class="text-center text-secondary">{{ view.subtitle }}</h4>
+    {% endif %}
     <div>
 
         {% block top_content %}
@@ -70,7 +72,9 @@
                                 <select class="custom-select" id="paginate_by" name="paginate_by">
                                     {% for option in view.paginate_by_options %}
                                         <option {% if view.paginate_by|to_str == option|to_str %}selected="true"{% endif %}
-                                                value="{{ option }}">{{ option }}</option>
+                                                value="{{ option }}">
+                                            {{ option }}
+                                        </option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -79,7 +83,10 @@
                                 {% block hidden_filter_inputs %}
                                     <input type="hidden" name="order_by" value={{ request.GET.order_by }}>
                                     <input type="hidden" name="order" value={{ request.GET.order }}>
-                                    <input type="hidden" name="show_extra_filters" id="showExtraFilters" value={{ request.GET.show_extra_filters }}>
+                                    <input type="hidden"
+                                           name="show_extra_filters"
+                                           id="showExtraFilters"
+                                           value="{{ request.GET.show_extra_filters }}">
                                 {% endblock hidden_filter_inputs %}
 
                             </div>

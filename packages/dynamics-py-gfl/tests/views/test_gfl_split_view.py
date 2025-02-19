@@ -1,7 +1,6 @@
 import pytest
 from bs4 import BeautifulSoup
 from django.contrib.auth import get_user_model
-
 from dynpy_gfl.filtersets import GenericFilterSet
 from dynpy_gfl.views import GFLSplitView
 

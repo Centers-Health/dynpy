@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup
 from django.contrib.auth import get_user_model
-
 from dynpy_gfl.filtersets import GenericFilterSet
 from dynpy_gfl.hx_requests import RefreshRow
 from dynpy_gfl.views import GenericFilterListViewHX

@@ -1,5 +1,4 @@
 import re
-from typing import Dict
 
 import django_filters
 from django.utils.datastructures import MultiValueDict
@@ -56,8 +55,7 @@ class GenericFilterSet(django_filters.FilterSet):
         params_str = " ".join(dict(data).keys())
 
         return any(
-            re.search(r"\b({})_?(min|max|after|before)?\b".format(filter), params_str)
-            for filter in filters
+            re.search(rf"\b({filter})_?(min|max|after|before)?\b", params_str) for filter in filters
         )
 
     @cached_property
@@ -66,7 +64,7 @@ class GenericFilterSet(django_filters.FilterSet):
         if isinstance(default_fields, dict):
             default_fields = list(default_fields.keys())
         fields = self.columns or default_fields
-        return list(map(lambda field: self.field_to_column_definition(field), fields))
+        return [self.field_to_column_definition(field) for field in fields]
 
     def field_to_column_definition(self, field):
         """
@@ -102,7 +100,7 @@ class GenericFilterSet(django_filters.FilterSet):
         return {"field_name": field_name, "label": label, "allow_ordering": allow_ordering}
 
     @property
-    def order_by_overrides(self) -> Dict:
+    def order_by_overrides(self) -> dict:
         """
         The key should be the name of the column (not the label).
         The value should be a list of order_by fields.
