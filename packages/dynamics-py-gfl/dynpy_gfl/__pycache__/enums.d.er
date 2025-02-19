@@ -1,0 +1,5 @@
+##[pylyzer] failed /home/avraham/dev/dynamics-py-gfl/dynpy_gfl/enums.py 1679510203
+.___v155 = pyimport "enum"
+.Enum: Failure
+.___v156 = pyimport "django/db"
+.models: Failure

@@ -1,0 +1,14 @@
+##[pylyzer] failed /home/avraham/dev/dynamics-py-gfl/dynpy_gfl/templatetags/generic_filter_list_tags.py 1679510203
+.___v156 = pyimport "django"
+.template: Failure
+.___v157 = pyimport "django/utils/html"
+.format_html: Failure
+.___v158 = pyimport "django/utils/safestring"
+.mark_safe: Failure
+.___v159 = pyimport "dynpy_gfl/utils"
+.reverse_asc_desc_order: Failure
+.register: Failure
+.to_str: (value: Bool) -> Str
+.field_name_to_label: |Type_40 <: Structural({.title = (self: Type_40) -> Type_41}), Type_41: Type|(value: Type_40) -> Type_41
+.param_replace: |Type_58: Type, Type_17 <: Structural({.__getitem__ = (self: Type_17, Type_44) -> Type_45}), Type_45 <: Structural({.GET = Type_46}), Type_44 :> {"request", }, Type_47 <: Structural({.urlencode = (self: Type_47) -> Type_58}), Type_46 <: Structural({.copy = (self: Type_46) -> Type_47})|(context: Type_17) -> Type_58
+.column_header_link: |Type_110: Type, Type_47 <: Structural({.urlencode = (self: Type_47) -> Type_58}), Type_58: Type, Type_109 :> {"filter", }, Type_45 <: Structural({.GET = Type_46}), Type_44 :> {"request", }, Type_17 <: Structural({.get = (self: Type_17, Type_109) -> Type_110; .__getitem__ = (self: Type_17, Type_44) -> Type_45}), Type_46 <: Structural({.copy = (self: Type_46) -> Type_47})|(context: Type_17) -> Never
