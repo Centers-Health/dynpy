@@ -148,7 +148,7 @@ files = [
 
 [[package]]
 name = "dynpy-js"
-version = "4.0.0"
+version = "4.1.0"
 description = ""
 optional = false
 python-versions = "^3.11"
