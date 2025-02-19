@@ -41,7 +41,7 @@ class HXConfirmMixin:
             raise ValueError("Trigger element must have an id to use confirmation") from e
 
         url = headers["HX-Current-URL"]
-        headers = {"HX-Retarget": f"#{self.confirmation_placeholder_id}"}
+        headers = {"HX-Retarget": f"#{self.confirmation_placeholder_id}", "HX-Reswap": "innerHTML"}
         context = {
             "confirm_message": confirm_message,
             "url": url,
