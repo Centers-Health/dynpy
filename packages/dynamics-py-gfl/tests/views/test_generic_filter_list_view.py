@@ -5,7 +5,6 @@ from bs4 import BeautifulSoup
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.forms import ModelForm
-
 from dynpy_gfl.constants import DEFAULT_ARG
 from dynpy_gfl.filtersets import GenericFilterSet
 from dynpy_gfl.views import GenericFilterListView
@@ -52,7 +51,6 @@ Fixtures
 @pytest.fixture
 def create_generic_filter_list_class(django_user_model):
     def _create_generic_filter_list_class(fields=DEFAULT_ARG, skip_model=False, columns=DEFAULT_ARG):
-
         f = fields if fields != DEFAULT_ARG else []
         m = django_user_model if not skip_model else None
         qs = django_user_model.objects.all() if not skip_model else None
@@ -88,7 +86,7 @@ def test_that_paginate_by_is_overridden_by_get_value(rf, create_generic_filter_l
 
 
 @pytest.mark.parametrize(
-    "columns,fields,expected",
+    ("columns", "fields,expected"),
     [
         (
             None,
@@ -149,7 +147,7 @@ def test_get_columns(columns, fields, expected, create_generic_filter_list_class
 
 
 @pytest.mark.parametrize(
-    "fields,columns,error_message",
+    ("fields", "columns", "error_message"),
     [
         (
             ["first_name"],
@@ -178,9 +176,8 @@ def test_get_columns_with_bad_column_inputs(
 ):
     G = create_generic_filter_list_class(fields=fields, columns=columns)
 
-    with pytest.raises(Exception) as e:
+    with pytest.raises(Exception, match=error_message):
         G.get_columns()
-    assert str(e.value) == error_message
 
 
 def test_object_name_is_the_models_verbose_plural_name(

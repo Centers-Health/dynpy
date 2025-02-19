@@ -37,7 +37,7 @@
                         {% if close_side_panel %}d-none{% endif %}"
                  id="side_panel_wrapper">
                 <i class="fa fa-times fa-lg cursor-pointer text-dark close-btn btn btn-sm p-1 btn-light"
-                   style="z-index: 10;"
+                   style="z-index: 10"
                    title="Close panel (Esc)"
                    data-toggle="tooltip"
                    id="close_panel_btn"></i>
@@ -56,5 +56,6 @@
 
 {% block gfl_styles %}
     {{ block.super }}
-    <link rel="stylesheet" href="{% static 'dynpy_gfl/css/split_view.css' %}"></link>
+    <link rel="stylesheet" href="{% static 'dynpy_gfl/css/split_view.css' %}">
+</link>
 {% endblock gfl_styles %}

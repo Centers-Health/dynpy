@@ -1,7 +1,6 @@
 from decimal import Decimal
 
 import pytest
-
 from dynpy_gfl.enums import NumberFormat
 from dynpy_gfl.filters import AllValuesRangeFilter
 from tests.models import DecimalValueModel

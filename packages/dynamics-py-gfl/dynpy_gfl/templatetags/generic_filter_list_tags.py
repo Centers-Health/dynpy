@@ -3,7 +3,6 @@ from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from dynpy.templatetags.dynpy_tags import param_replace
 from dynpy_forms.widgets import MonthPicker
-
 from dynpy_gfl import constants
 from dynpy_gfl.utils import reverse_asc_desc_order
 
@@ -35,9 +34,9 @@ def column_header_link(context, sort_hx_name=None, hx_target=None):
     column_order_by_clauses = filterset.get_order_by([column_name], order)
 
     # Use `.expression` because the order by contains the order which when being flipped is not the same
-    is_order_by_column = column_order_by_clauses and set(
-        [order_by.expression for order_by in column_order_by_clauses]
-    ).issubset(set([order_by.expression for order_by in order_by]))
+    column_order_by_set = {order_by.expression for order_by in column_order_by_clauses}
+    order_by_set = {order_by.expression for order_by in order_by}
+    is_order_by_column = column_order_by_clauses and column_order_by_set <= order_by_set
 
     order = reverse_asc_desc_order(order) if is_order_by_column else order
     query_string = param_replace(context, order_by=column_name, order=order)

@@ -1,5 +1,4 @@
 from dynpy_actions.actions import ViewActions
-
 from dynpy_gfl.views import GenericFilterListWithActionsView
 
 

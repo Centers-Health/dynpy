@@ -1,9 +1,6 @@
-from typing import Dict
-
 import pytest
 from django.db.models import F
 from django.http import HttpRequest, QueryDict
-
 from dynpy_gfl import constants
 from dynpy_gfl.enums import FilterListOrder
 from dynpy_gfl.filtersets import GenericFilterSet
@@ -23,7 +20,7 @@ def dummy_user_filter(django_user_model):
         order_by_overrides_attr = None  # For testing purposes so can be overridden
 
         @property
-        def order_by_overrides(self) -> Dict:
+        def order_by_overrides(self) -> dict:
             return self.order_by_overrides_attr or {"last_name": ["first_name", "last_name"]}
 
         class Meta:
@@ -241,7 +238,7 @@ def test_order_by_overrides_invert_when_order_is_desc(dummy_user_filter, test_us
 
 
 @pytest.mark.parametrize(
-    "field,column_definition",
+    ("field", "column_definition"),
     [
         (
             "first_name",
@@ -263,7 +260,7 @@ def test_field_to_column_definition(field, column_definition, dummy_user_filter)
 
 
 @pytest.mark.parametrize(
-    "field,error_message",
+    ("field", "error_message"),
     [
         (
             (1, "Custom Label"),
@@ -305,16 +302,15 @@ def test_field_to_column_definition(field, column_definition, dummy_user_filter)
 )
 def test_field_to_column_definition_raises_errors(field, error_message, dummy_user_filter):
     duf = dummy_user_filter()
-    with pytest.raises(Exception) as e:
+    with pytest.raises(Exception, match=error_message):
         duf.field_to_column_definition(field)
-    assert str(e.value) == error_message
 
 
 def describe_is_filtered():
-    def it_is_filtered_when_params_overlap_filter_fields(rf, dummy_user_filter):
+    def it_is_filtered_when_params_overlap_filter_fields(dummy_user_filter):
         assert dummy_user_filter().is_filtered({"username": "bob"}) is True
 
-    def it_is_NOT_filtered_when_data_does_not_overlap_filter_fields(rf, dummy_user_filter):
+    def it_is_NOT_filtered_when_data_does_not_overlap_filter_fields(dummy_user_filter):
         """Data comes from the GET Params"""
         assert dummy_user_filter().is_filtered({"test": "bob"}) is False
 
@@ -328,12 +324,12 @@ def describe_is_filtered():
 
 
 def describe_default_filters():
-    def they_are_applied_when_the_filterset_is_not_filtered(dummy_user_filter, rf):
+    def they_are_applied_when_the_filterset_is_not_filtered(dummy_user_filter):
         dummy_user_filter.get_default_filters = lambda self, request: {"username": "bob"}
         duf = dummy_user_filter()
         assert duf.data["username"] == "bob"
 
-    def they_are_NOT_applied_when_the_filterset_is_filtered(dummy_user_filter, rf):
+    def they_are_NOT_applied_when_the_filterset_is_filtered(dummy_user_filter):
         dummy_user_filter.get_default_filters = lambda self, request: {"username": "bob"}
         duf = dummy_user_filter({"email": "dave"})
         assert duf.data.get("username", None) is None
@@ -483,6 +479,5 @@ def test_invalid_field_in_default_order_fields_raises_error(
     duf = dummy_user_filter
     duf.request = fake_request
     duf.default_order_fields = default_order_fields
-    with pytest.raises(ValueError) as e:
+    with pytest.raises(ValueError, match="invalid_field"):
         duf()
-    assert "invalid_field" in e.exconly()

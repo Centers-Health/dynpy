@@ -92,7 +92,7 @@ class TriggerRowRefreshMixin:
     def get_triggers(self, **kwargs) -> list:
         triggers = super().get_triggers(**kwargs) or []
         form_valid = self.form.is_valid() if hasattr(self, "form") else True
-        if self.is_post_request and kwargs.get("row_object", None) and form_valid:
+        if self.is_post_request and kwargs.get("row_object") and form_valid:
             item = kwargs.get("row_object")
             triggers.append(f"refreshRow{item.pk}")
         return triggers

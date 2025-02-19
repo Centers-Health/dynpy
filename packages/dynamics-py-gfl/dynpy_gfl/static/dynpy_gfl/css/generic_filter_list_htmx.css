@@ -1,16 +1,16 @@
 .overlay-spinner-indicator {
-    display: none;
+	display: none;
 }
 
 .htmx-request .overlay-spinner-indicator {
-    display: inline;
+	display: inline;
 }
 
 .htmx-request.overlay-spinner-indicator {
-    display: inline;
+	display: inline;
 }
 
-.gfl-tabs .nav-link.active{
-    background-color: var(--primary);
-    color:white;
+.gfl-tabs .nav-link.active {
+	background-color: var(--primary);
+	color: white;
 }

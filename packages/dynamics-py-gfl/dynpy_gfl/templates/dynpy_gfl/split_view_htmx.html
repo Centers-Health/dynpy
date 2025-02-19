@@ -41,7 +41,9 @@
                                     {% block table_head_row %}
                                         {% if view.include_index_column %}<th>ID</th>{% endif %}
                                         {% for column in view.get_columns %}
-                                            <th>{% column_header_link sort_hx_name=view.sort_hx_name hx_target="#gfl_table" %}</th>
+                                            <th>
+                                                {% column_header_link sort_hx_name=view.sort_hx_name hx_target="#gfl_table" %}
+                                            </th>
                                         {% endfor %}
                                     {% endblock table_head_row %}
 
@@ -59,13 +61,13 @@
                                         {% block table_row_outer %}
                                             {# djlint:off #}
                                         <tr id="gfl_row_{{ item.pk }}" class="split-view-row cursor-pointer js-gfl-item {% block table_row_classes %}{% endblock table_row_classes %}"
-                                            @click="$store.splitView.activateRow('{{ item.pk }}')" 
-                                            :class="$store.splitView.activeRowId == '{{ item.pk }}' && 'row-active'" 
-                                            
+                                            @click="$store.splitView.activateRow('{{ item.pk }}')"
+                                            :class="$store.splitView.activeRowId == '{{ item.pk }}' && 'row-active'"
+
                                                 {% hx_get view.side_panel_hx_name %}
                                                 hx-vals='{"object_id": "{{ item.pk }}"}'
-                                                hx-swap="innerHTML settle:0" 
-                                                hx-target="#side_panel" 
+                                                hx-swap="innerHTML settle:0"
+                                                hx-target="#side_panel"
                                                 hx-indicator="#side-panel-loader"
                                                 hx-trigger="click, refreshSidePanel{{ item.pk }} from:body"
                                                 hx-disinherit="hx-indicator"
@@ -82,7 +84,9 @@
                                             {% endblock index_column %}
 
                                             {% block table_row %}
-                                                <td class="hidden-invisible">{% include "dynpy_gfl/includes/htmx_gfl_row_hidden_elems.html" %}</td>
+                                                <td class="hidden-invisible">
+                                                    {% include "dynpy_gfl/includes/htmx_gfl_row_hidden_elems.html" %}
+                                                </td>
                                             {% endblock table_row %}
 
                                         </tr>
@@ -162,10 +166,10 @@
             Alpine.store('splitView', {
                 activeRowId: new URL(window.location.href).searchParams.get('object_id') || '',
                 sidePanelOpen: false,
-                tableWidth: '100%', 
+                tableWidth: '100%',
                 sidePanelWidth: Alpine.$persist('25%'),
                 resizing: false,
-                
+
                 openSidePanel() {
                     this.sidePanelOpen = true
                     this.tableWidth = `${100 - Number(this.sidePanelWidth.slice(0, -1))}%`
@@ -188,7 +192,7 @@
         })
 
         tablePanelResizeManager().initialize();
-        
+
         document.addEventListener('htmx:afterRequest', () => {
             Alpine.store('splitView').setObjectIdParam()
         })
@@ -197,11 +201,12 @@
             e.detail.parameters['active_object_id'] = Alpine.store("splitView").activeRowId;
             e.detail.parameters['side_panel_open'] = Alpine.store("splitView").sidePanelOpen;
         })
-    
+
     </script>
 {% endblock scripts %}
 
 {% block gfl_styles %}
     {{ block.super }}
-    <link rel="stylesheet" href="{% static 'dynpy_gfl/css/split_view.css' %}"></link>
+    <link rel="stylesheet" href="{% static 'dynpy_gfl/css/split_view.css' %}">
+</link>
 {% endblock gfl_styles %}

@@ -16,7 +16,9 @@
                     <h1 class="text-center">{{ view.title }}</h1>
                 </div>
             {% endif %}
-            {% if view.subtitle %}<h4 class="text-center text-secondary">{{ view.subtitle }}</h4>{% endif %}
+            {% if view.subtitle %}
+                <h4 class="text-center text-secondary">{{ view.subtitle }}</h4>
+            {% endif %}
             <div>
 
                 {% block top_content %}
@@ -199,7 +201,9 @@
                                                 {% block table_head_row %}
                                                     {% if view.include_index_column %}<th>ID</th>{% endif %}
                                                     {% for column in view.get_columns %}
-                                                        <th>{% column_header_link sort_hx_name=view.sort_hx_name hx_target="#gfl_table" %}</th>
+                                                        <th>
+                                                            {% column_header_link sort_hx_name=view.sort_hx_name hx_target="#gfl_table" %}
+                                                        </th>
                                                     {% endfor %}
                                                 {% endblock table_head_row %}
 
@@ -227,7 +231,9 @@
                                                             {% endblock index_column %}
 
                                                             {% block table_row %}
-                                                                <td class="hidden-invisible">{% include "dynpy_gfl/includes/htmx_gfl_row_hidden_elems.html" %}</td>
+                                                                <td class="hidden-invisible">
+                                                                    {% include "dynpy_gfl/includes/htmx_gfl_row_hidden_elems.html" %}
+                                                                </td>
                                                             {% endblock table_row %}
 
                                                         </tr>
@@ -293,7 +299,9 @@
         <script src="{% static 'dynpy_gfl/js/virtual_scroll.js' %}"></script>
 
         {% block virtualize_config %}
-            {% if view.enable_virtual_scroll %}<script>new Virtualizer();</script>{% endif %}
+            {% if view.enable_virtual_scroll %}
+                <script>new Virtualizer();</script>
+            {% endif %}
         {% endblock virtualize_config %}
     {% endblock gfl_scripts %}
 
@@ -313,25 +321,25 @@
                     overflow-x: auto;
                     max-width: 100vw;
                 }
-                
+
                 .gfl-frozen > table {
                     z-index: 1;
                 }
-                
+
                 .gfl-frozen th:nth-child(-n + {{view.get_freeze_columns}}) {
                     z-index: 21; {# higher than td z-index #}
                     border-collapse: collapse;
                     position: sticky;
                     left:0;
                 }
-                
+
                 .gfl-frozen td:nth-child(-n +{{view.get_freeze_columns}}) {
                     z-index: 20;
                     border-collapse: collapse;
                     position: sticky;
                     left:0;
                 }
-                
+
                 .gfl-frozen th:nth-child({{view.get_freeze_columns}})::after, .gfl-frozen td:nth-child({{view.get_freeze_columns}})::after {
                         content: "";
                     position: absolute;
@@ -350,15 +358,15 @@
                         left:var(--col-{{forloop.counter}}-offset);
                     }
                 {% endfor %}
-                
+
                 .gfl-frozen table.table-striped th, .gfl-frozen .table-striped tr:nth-child(even) {
                     background-color: rgb(255,255,255);
                 }
-                
+
                 .gfl-frozen table.table-striped tr:nth-child(odd){
                     background-color:rgb(242,242,242);
                 }
-                
+
                 .gfl-frozen table.table-hover.table-hover tr:not(.table-primary):not(.table-secondary):not(.table-warning):not(.table-danger):not(.table-info):not(.table-success):not(.table-light):not(.table-dark):not(.table-tertiary):hover
                 {
                     color: #212529;
@@ -371,7 +379,7 @@
                 {
                         background-color: inherit;
                 }
-                
+
                 .gfl-frozen tbody tr{
                     background-color: inherit;
                 }

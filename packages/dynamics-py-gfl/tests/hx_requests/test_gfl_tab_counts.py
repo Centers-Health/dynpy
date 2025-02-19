@@ -1,6 +1,5 @@
 import pytest
 from django.contrib.auth import get_user_model
-
 from dynpy_gfl.filtersets import GenericFilterSet
 from dynpy_gfl.hx_requests import GflTabCounts
 from dynpy_gfl.views import GenericFilterListViewHX
@@ -36,7 +35,7 @@ def _create_test_users():
     get_user_model().objects.create(username="test_user2", first_name="Test", last_name="User2")
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize(
     ("tab", "expected_count"),
     [
@@ -53,7 +52,7 @@ def test_tabs_count_filters_using_filter_qs_by_tab_from_view(tab, expected_count
     assert response.content.decode() == expected_count
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_tabs_count_ignores_active_tab():
     """
     If it is not removed from the GET params, it will be passed

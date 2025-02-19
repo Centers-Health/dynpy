@@ -6,7 +6,6 @@ from pathlib import Path
 from typing import Iterable
 
 from django.http import FileResponse, JsonResponse
-
 from dynpy_gfl.excel.worksheets import WorksheetManager
 
 
@@ -35,9 +34,7 @@ class Exporter(ABC):
             workbook.save(path)
             writer.close()
 
-            return FileResponse(
-                Path(path).open("rb"), content_type="application/octet-stream"
-            )  # noqa: SIM115
+            return FileResponse(Path(path).open("rb"), content_type="application/octet-stream")  # noqa: SIM115
 
     @property
     def _too_many_records_response(self):

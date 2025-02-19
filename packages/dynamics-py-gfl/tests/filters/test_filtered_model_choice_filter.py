@@ -2,7 +2,6 @@ from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
 from django.utils.datastructures import MultiValueDict
 from django_filters.filters import ModelChoiceFilter
-
 from dynpy_gfl.dataclasses import FilterByField
 from dynpy_gfl.filters import FilteredModelChoiceFilter
 from dynpy_gfl.filtersets import GenericFilterSet
@@ -54,7 +53,7 @@ def test_choices_are_filtered_out(django_user_model):
     filterset = TestFilterset(MultiValueDict({"permissions": [perm.pk]}))
 
     # Need to do this so it evaluates the filters
-    filterset.qs
+    filterset.qs  # noqa: B018
 
     assert user_with_permission in filterset.filters.get("users").extra["queryset"]
     assert user_without_permission not in filterset.filters.get("users").extra["queryset"]
@@ -78,7 +77,7 @@ def test_uses_filter_method_function_when_provided(django_user_model):
     filterset = TestFilterset(MultiValueDict({"permissions": [perm.pk]}))
 
     # Need to do this so it evaluates the filters
-    filterset.qs
+    filterset.qs  # noqa: B018
 
     assert user_with_permission in filterset.filters.get("users").extra["queryset"]
     assert user_without_permission not in filterset.filters.get("users").extra["queryset"]
@@ -96,6 +95,6 @@ def test_default_empty_returns_empty_queryset_by_default(django_user_model):
     filterset = TestFilterset()
 
     # Need to do this so it evaluates the filters
-    filterset.qs
+    filterset.qs  # noqa: B018
 
     assert filterset.filters.get("users").extra["queryset"].count() == 0
