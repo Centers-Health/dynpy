@@ -24,6 +24,7 @@ repos:
       - id: biome-ci
       - id: biome-lint
       - id: biome-format
+        exclude: .min.(js|css)$
 
   - repo: https://github.com/compilerla/conventional-pre-commit
     rev: "v2.0.0"
