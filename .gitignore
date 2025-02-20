@@ -171,3 +171,7 @@ cython_debug/
 
 # LSP config files
 pyrightconfig.json
+
+# NOTE: this is ignored becuase it is dynamically changed based on the closest
+# project file you have open.
+.vscode
