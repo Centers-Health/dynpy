@@ -1,0 +1,24 @@
+{
+  "name": "Dynpy Monorepo",
+  "dockerComposeFile": ["../docker-compose.yml"],
+  "service": "dev",
+  "workspaceFolder": "/app",
+  "shutdownAction": "none",
+  "remoteUser": "docker",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "batisteo.vscode-django",
+        "eamodio.gitlens",
+        "ms-python.python",
+        "GitHub.vscode-pull-request-github",
+        "ms-python.vscode-pylance",
+        "ameenahsanma.poetry-monorepo"
+      ],
+      "settings": {
+        "python.formatting.provider": "ruff"
+      }
+    }
+  }
+}
+
