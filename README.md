@@ -1,4 +1,6 @@
-# Dynpy (Dynamics Py[thon Packages])
+# Dynpy
+
+> **Dyn**amics **Py**thon Packages
 
 ## Naming
 
@@ -51,6 +53,144 @@ https://www.conventionalcommits.org/en/v1.0.0/
 
 Note: you do not need to use conventional commits "modules" to scope which package each commit is relevant to, `spm` will look at files changed in the commit, not the "module" (e.g. "fix(spm): a commit" and "fix: a commit" are the same)
 
+## Quick Start
+
+```bash
+# Install packages
+make install
+
+# Run precommit on all files
+make precommit
+
+# Run tests on all packages
+make test
+```
+
+### FAQ
+#### How to add a dependency to a package?
+
+```bash
+cd packages/<package>
+poetry add <new_dependency>
+```
+
+#### How to add a new package to the repo?
+> A helper script will be forthcoming that makes this a simple process.
+
+
 ## Editor Setup
-### VsCode
-### Vim
+
+### VsCode (wip)
+There is a `.devcontainer` for the project, but there is not yet an easy way to work with the projects from within.
+
+### Vim / Neovim (wip)
+Add a new lua module in your lua path.
+
+```lua
+local builtin = require("telescope.builtin")
+local action_state = require("telescope.actions.state")
+local finders = require("telescope.finders")
+local vim = vim
+
+-- Helper function to check if path is in packages directory
+local function is_in_packages_dir(file_path)
+	if not file_path then
+		return false
+	end
+	return string.match(file_path, "packages/[^/]+") ~= nil
+end
+
+-- Helper function to get current package directory
+local function get_current_package_dir(file_path)
+	if not file_path then
+		return nil
+	end
+	local package_path = string.match(file_path, "packages/([^/]+)")
+	return package_path
+end
+
+local is_inside_work_tree = {}
+
+-- Function to search project files
+local function project_files()
+	local opts = {} -- define here if you want to define something
+
+	local cwd = vim.fn.getcwd()
+	if is_inside_work_tree[cwd] == nil then
+		vim.fn.system("git rev-parse --is-inside-work-tree")
+		is_inside_work_tree[cwd] = vim.v.shell_error == 0
+	end
+
+	-- NOTE: for "projects" monorepo
+	local current_file = vim.fn.expand("%:p")
+	local package_dir = get_current_package_dir(current_file)
+	if is_in_packages_dir(current_file) then
+		builtin.find_files({
+			prompt_title = "Files in " .. package_dir,
+			cwd = vim.fn.getcwd(),
+			path_display = { "smart" },
+			find_command = {
+				"sh",
+				"-c",
+				"rg --files | rg packages/" .. package_dir .. "/", -- Keep full path for file finding
+			},
+		})
+	elseif is_inside_work_tree[cwd] then
+		require("telescope.builtin").git_files(vim.tbl_deep_extend("force", opts, {
+			show_untracked = true,
+			-- recurse_submodules = true,
+			-- Custom command to respect .gitignore but include .env
+			find_command = {
+				"bash",
+				"-c",
+				[[
+        {
+          git ls-files --cached --others --exclude-standard;
+          git ls-files --others --exclude-standard | grep '\.env$'
+        } | sort | uniq
+      ]],
+			},
+		}))
+	else
+		builtin.find_files()
+	end
+end
+
+-- Function to grep project files
+local function grep_project_files()
+	local opts = {} -- define here if you want to define something
+
+	local cwd = vim.fn.getcwd()
+	if is_inside_work_tree[cwd] == nil then
+		vim.fn.system("git rev-parse --is-inside-work-tree")
+		is_inside_work_tree[cwd] = vim.v.shell_error == 0
+	end
+
+	-- NOTE: for "projects" monorepo
+	local current_file = vim.fn.expand("%:p")
+	local package_dir = get_current_package_dir(current_file)
+	if is_in_packages_dir(current_file) then
+		builtin.live_grep({
+			prompt_title = "Grep in " .. package_dir,
+			cwd = vim.fn.getcwd(),
+			search_dirs = {
+				"packages/" .. package_dir,
+			},
+			path_display = { "smart" },
+		})
+	else
+		builtin.live_grep({
+			hidden = true,
+		})
+	end
+end
+
+return {
+	project_files = project_files,
+	grep_project_files = grep_project_files,
+}
+```
+
+There are two telescope pickers from here that will search within a package if you are currently in a file from a specific package.
+
+The way to use these is to have different mappings for full project file + grep as well in case you want to jump to a file in another package.
