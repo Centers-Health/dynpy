@@ -77,6 +77,22 @@ poetry add <new_dependency>
 #### How to add a new package to the repo?
 > A helper script will be forthcoming that makes this a simple process.
 
+## Creating a "New Package"
+We use `copier` to create a package from a template. Copier can be installed with `pipx`
+
+```bash
+pipx install copier
+```
+
+Once installed you can run it from make in the project root
+
+```bash
+make new_package
+```
+
+It will ask you for the folder name and a package name. Folder name is
+"dynpy-teams" and project name would be "dynpy_teams". One is the dir name and
+one is the python module name.
 
 ## Editor Setup
 
