@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "dynpy-teams"
+version = "0.1.0"
+description = ""
+authors = ["CHC, Technology"]
+readme = "README.md"
+packages = [{ include = "dynpy_teams", from = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry-monorepo.deps]
