@@ -1,0 +1,6 @@
+name:
+  type: str
+  help: Folder name of package?
+package_name:
+  type: str
+  help: What is the name of your package?

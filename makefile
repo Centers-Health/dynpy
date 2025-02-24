@@ -71,6 +71,9 @@ test:
 # 			poetry --directory $$PACKAGE run python -m pytest -n 2 -ra -q --disable-warnings --tb=long \
 # 		); \
 # 	done
+#
+new_package:
+	copier copy ./new_package_template/ packages/
 
 clean:
 	rm -rf .venv || echo
