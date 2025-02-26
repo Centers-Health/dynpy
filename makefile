@@ -1,5 +1,6 @@
 SHELL:=/bin/bash
 PACKAGES := $(wildcard packages/*/)
+REPO_ROOT := $(PWD)
 
 # TODO: Add these features into SPM. This is lowest priority since it would
 # complicate ci. But a fully robust monorepo tool should encompass this
@@ -19,12 +20,13 @@ define PRE_COMMIT_RULE
 endef
 
 define TEST_RULE
-	@for PACKAGE in $(PACKAGES); do \
+	@EXIT_STATUS=0; \
+	for PACKAGE in $(PACKAGES); do \
+		cd "$(REPO_ROOT)/$$PACKAGE"; \
 		echo ">> $$PACKAGE"; \
-		pushd $$PACKAGE; \
-		poetry run python -m pytest -n 2 -m "not skipci" -ra -q --disable-warnings --tb=long; \
-		popd; \
-	done
+		poetry run python -m pytest -n 2 -m "not skipci" -ra -q --disable-warnings --tb=long || EXIT_STATUS=1; \
+	done; \
+	exit $$EXIT_STATUS
 endef
 
 lock:
