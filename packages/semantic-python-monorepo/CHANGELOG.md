@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v0.6.7 (2025-02-26)
+### Fix
+- Correct newline logic for changelog ([`96ab50a`](https://github.com/Centers-health/dynpy/commit/96ab50ab02c7bf2e471adb33cf92e228087463f6))
+### Other
+- Fix changelogs formatting ([`f3f5637`](https://github.com/Centers-health/dynpy/commit/f3f5637a5b7631addb565168ba13db7746eb08ef))
+
+
 ## v0.6.6 (2025-02-18)
 ### Fix
 - Add some new conventionalcommits types ([`c1cbe8f`](https://github.com/Centers-health/dynpy/commit/c1cbe8f987a9bc4fe6fba479c3da55967566c323))
