@@ -1,5 +1,6 @@
 {% load dynpy_tags %}
-<input class="form-control bg-white"
+<input class="form-control bg-white
+              {% if 'is-invalid' in widget.subwidgets.0.attrs.class %}is-invalid{% endif %}"
        id="daterangepicker"
        data-picker="daterangepicker"
        type="text"
