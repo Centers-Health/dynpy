@@ -6,10 +6,32 @@
 
 
 
-## v7.1.1 (2025-02-19)
+## v7.1.2 (2025-02-26)
 ### Fix
+- Make sure errors in the date range widget bubble up from subwidgets ([`71b6d0f`](https://github.com/Centers-health/dynpy/commit/71b6d0f9aa4bc14b2f29e1d7b7eec439eaa74f06))
+
+
+
+
+
+
+
+
+## v7.1.1 (2025-02-19)
+
+### Fix
+
 - Add hx-reswap of innerhtml for hxconfirmmixin ([`fe54e16`](https://github.com/Centers-health/dynpy/commit/fe54e16a02c48bc55a186ac838ede2c4c7676000))
+
 <!--next-version-placeholder-->
+
+
+
+
+
+
+
+
 
 
 
@@ -19,21 +41,41 @@
 
 ## v7.1.0 (2025-02-19)
 
+
+
 ### Feature
+
+
 
 - Add dynpy_forms ([`5593c9e`](https://github.com/Centers-health/dynpy/commit/5593c9e9ae97bdb4b0903f59d8e0f479eca21fd4))
 
+
+
 ### Other
+
+
 
 - Lint / format ([`6098f71`](https://github.com/Centers-health/dynpy/commit/6098f714a5af46f3494d17153ce1ea5229df3d7d))
 
+
+
 - Biome lint ([`5d61cb6`](https://github.com/Centers-health/dynpy/commit/5d61cb6e2b91fe8ab96e0a641557f21cc04a7375))
+
+
 
 ## v7.0.0 (2025-02-10)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -45,7 +87,19 @@
 
 
 
+
+
+
+
+
+
+
+
 ### Breaking
+
+
+
+
 
 
 
@@ -57,11 +111,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v6.1.0 (2024-12-25)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -73,11 +143,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v6.0.0 (2024-09-30)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -89,7 +175,19 @@
 
 
 
+
+
+
+
+
+
+
+
 ### Breaking
+
+
+
+
 
 
 
@@ -101,11 +199,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v5.3.0 (2024-09-26)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -117,11 +231,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v5.2.0 (2024-09-18)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -133,7 +263,19 @@
 
 
 
+
+
+
+
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -145,11 +287,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v5.1.4 (2024-09-18)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -161,11 +319,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v5.1.3 (2024-09-17)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -177,11 +351,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v5.1.2 (2024-09-17)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -193,11 +383,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v5.1.1 (2024-09-13)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -209,11 +415,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v5.1.0 (2024-09-13)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -225,7 +447,19 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v5.0.0 (2024-09-03)
+
+
+
+
 
 
 
@@ -233,7 +467,19 @@
 
 
 
+
+
+
+
 * Upgrade Django to v4.2.x ([`e02c254`](https://github.com/Centers-Health/dynamics-py-forms/commit/e02c254897221bbb97da386b9650343609b2d415))
+
+
+
+
+
+
+
+
 
 
 
@@ -245,7 +491,19 @@
 
 
 
+
+
+
+
 * Upgrade Django to v4.2.x ([`e02c254`](https://github.com/Centers-Health/dynamics-py-forms/commit/e02c254897221bbb97da386b9650343609b2d415))
+
+
+
+
+
+
+
+
 
 
 
@@ -257,7 +515,15 @@
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -269,7 +535,19 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v4.10.0 (2024-08-23)
+
+
+
+
 
 
 
@@ -277,7 +555,15 @@
 
 
 
+
+
+
+
 * Raise not implemented exception if confirmation message not set ([`738c1e2`](https://github.com/Centers-Health/dynamics-py-forms/commit/738c1e230980bd3cc1f98cdd401d42b4b5332a9a))
+
+
+
+
 
 
 
@@ -289,11 +575,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v4.9.0 (2024-08-20)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -305,11 +607,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v4.8.0 (2024-07-19)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -321,11 +639,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v4.7.0 (2024-07-19)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -337,11 +671,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v4.6.0 (2024-06-03)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -353,7 +703,19 @@
 
 
 
+
+
+
+
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -365,11 +727,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v4.5.2 (2024-05-21)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -381,11 +759,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v4.5.1 (2024-04-17)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -397,7 +791,19 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v4.5.0 (2024-04-07)
+
+
+
+
 
 
 
@@ -405,7 +811,15 @@
 
 
 
+
+
+
+
 * Update get_form to not use get ([`e75b31b`](https://github.com/Centers-Health/dynamics-py-forms/commit/e75b31b244585728c30635aa928c485cbad46fed))
+
+
+
+
 
 
 
@@ -413,7 +827,15 @@
 
 
 
+
+
+
+
 * Move custom error to fk field ([`81d43c6`](https://github.com/Centers-Health/dynamics-py-forms/commit/81d43c61f76e9faa67df5d9a97bb2267e55217a8))
+
+
+
+
 
 
 
@@ -421,7 +843,15 @@
 
 
 
+
+
+
+
 * Add use unique instance feature ([`563ca11`](https://github.com/Centers-Health/dynamics-py-forms/commit/563ca113109e867519e1318cdd1ca6a142168e4c))
+
+
+
+
 
 
 
@@ -429,11 +859,23 @@
 
 
 
+
+
+
+
 * Add form error if required field and related form are empty ([`79a7f52`](https://github.com/Centers-Health/dynamics-py-forms/commit/79a7f52c889b4ca86c5b66041412af6bbb40cecc))
 
 
 
+
+
+
+
 * Add multi related model form class ([`28c62e1`](https://github.com/Centers-Health/dynamics-py-forms/commit/28c62e10a866a68c2e48f681f62fda838acb6083))
+
+
+
+
 
 
 
@@ -445,7 +887,19 @@
 
 
 
+
+
+
+
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -457,7 +911,19 @@
 
 
 
+
+
+
+
+
+
+
+
 ### Documentation
+
+
+
+
 
 
 
@@ -469,11 +935,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v4.4.0 (2024-03-12)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -485,11 +967,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v4.3.1 (2024-02-09)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -501,11 +999,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v4.3.0 (2024-02-06)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -517,11 +1031,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v4.2.0 (2024-01-29)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -533,11 +1063,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v4.1.0 (2024-01-19)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -549,11 +1095,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v4.0.0 (2023-12-13)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -565,7 +1127,19 @@
 
 
 
+
+
+
+
+
+
+
+
 ### Breaking
+
+
+
+
 
 
 
@@ -577,7 +1151,19 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v3.8.0 (2023-12-13)
+
+
+
+
 
 
 
@@ -585,7 +1171,15 @@
 
 
 
+
+
+
+
 * Pin python-semantic-release at 7.31.2 ([`f60e69a`](https://github.com/Centers-Health/dynamics-py-forms/commit/f60e69a7eddade65f2d40e69869b3a16d088926d))
+
+
+
+
 
 
 
@@ -597,11 +1191,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v3.7.0 (2023-12-12)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -613,11 +1223,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v3.6.0 (2023-11-29)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -629,11 +1255,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v3.5.0 (2023-10-18)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -645,11 +1287,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v3.4.0 (2023-09-13)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -661,11 +1319,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v3.3.0 (2023-09-06)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -677,7 +1351,19 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v3.2.0 (2023-08-04)
+
+
+
+
 
 
 
@@ -685,7 +1371,15 @@
 
 
 
+
+
+
+
 * Set default item name to model verbose name plural for model choices ([`4f6fec5`](https://github.com/Centers-Health/dynamics-py-forms/commit/4f6fec536527cdece39ed976ded76d3bed431869))
+
+
+
+
 
 
 
@@ -697,11 +1391,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v3.1.2 (2023-06-01)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -713,11 +1423,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v3.1.1 (2023-05-30)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -729,11 +1455,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v3.1.0 (2023-05-16)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -745,11 +1487,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v3.0.1 (2023-05-08)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -761,7 +1519,19 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v3.0.0 (2023-04-04)
+
+
+
+
 
 
 
@@ -769,7 +1539,19 @@
 
 
 
+
+
+
+
 * Change formset 'classname' to 'id' ([`caf03f4`](https://github.com/Centers-Health/dynamics-py-forms/commit/caf03f484109050920315c3f75d3aa8b0203ea21))
+
+
+
+
+
+
+
+
 
 
 
@@ -781,7 +1563,19 @@
 
 
 
+
+
+
+
 * Change formset 'classname' to 'id' ([`caf03f4`](https://github.com/Centers-Health/dynamics-py-forms/commit/caf03f484109050920315c3f75d3aa8b0203ea21))
+
+
+
+
+
+
+
+
 
 
 
@@ -793,7 +1587,15 @@
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -805,11 +1607,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v2.0.0 (2023-03-23)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -821,7 +1639,19 @@
 
 
 
+
+
+
+
+
+
+
+
 ### Breaking
+
+
+
+
 
 
 
@@ -833,11 +1663,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v1.0.2 (2023-03-22)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -849,11 +1695,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v1.0.1 (2023-03-21)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -865,7 +1727,19 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v1.0.0 (2023-03-16)
+
+
+
+
 
 
 
@@ -873,7 +1747,15 @@
 
 
 
+
+
+
+
 * Rename generic_formset_factory to dyn_formset_factory ([`4546a60`](https://github.com/Centers-Health/dynamics-py-forms/commit/4546a600f5116dd8c4aa3cde41d20f45dc39015f))
+
+
+
+
 
 
 
@@ -885,11 +1767,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ### Breaking
 
 
 
+
+
+
+
 * No such function as generic_formset_factory. It's now named dyn_formset_factory.  ([`4546a60`](https://github.com/Centers-Health/dynamics-py-forms/commit/4546a600f5116dd8c4aa3cde41d20f45dc39015f))
+
+
+
+
 
 
 
@@ -901,7 +1799,19 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v0.11.0 (2023-03-14)
+
+
+
+
 
 
 
@@ -909,7 +1819,15 @@
 
 
 
+
+
+
+
 * Add way for formsets to render a header label row ([`9cbbb5e`](https://github.com/Centers-Health/dynamics-py-forms/commit/9cbbb5e37b40c5b8d4b46bc371910b3a8b9a7e64))
+
+
+
+
 
 
 
@@ -921,11 +1839,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v0.10.5 (2023-03-10)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -937,11 +1871,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v0.10.4 (2023-03-01)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -953,11 +1903,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v0.10.3 (2023-03-01)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -969,11 +1935,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v0.10.2 (2023-02-24)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -985,11 +1967,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v0.10.1 (2023-02-22)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -1001,11 +1999,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v0.10.0 (2023-02-09)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -1017,11 +2031,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v0.9.0 (2023-02-01)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -1033,11 +2063,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v0.8.0 (2022-12-20)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -1049,11 +2095,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v0.7.0 (2022-12-06)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -1065,11 +2127,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v0.6.0 (2022-11-10)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -1081,11 +2159,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v0.5.0 (2022-09-14)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -1097,7 +2191,19 @@
 
 
 
+
+
+
+
+
+
+
+
 ### Documentation
+
+
+
+
 
 
 
@@ -1109,11 +2215,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v0.4.3 (2022-08-30)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -1125,11 +2247,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v0.4.2 (2022-08-23)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -1141,7 +2279,19 @@
 
 
 
+
+
+
+
+
+
+
+
 ### Documentation
+
+
+
+
 
 
 
@@ -1149,7 +2299,15 @@
 
 
 
+
+
+
+
 * Add committing section to README ([`c8edfae`](https://github.com/Centers-Health/dynamics-py-forms/commit/c8edfaef158de970508424c59fe0b5aa6af9bf7f))
+
+
+
+
 
 
 
@@ -1161,11 +2319,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v0.4.1 (2022-08-19)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -1177,11 +2351,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v0.4.0 (2022-08-19)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -1193,7 +2383,19 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v0.3.2 (2022-08-19)
+
+
+
+
 
 
 
@@ -1201,7 +2403,15 @@
 
 
 
+
+
+
+
 * Wrong command parameter ([`22d8288`](https://github.com/Centers-Health/dynamics-py-forms/commit/22d8288604769f70d53ea7bc6ca6c1501ff9d399))
+
+
+
+
 
 
 
@@ -1213,11 +2423,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v0.3.1 (2022-08-19)
 
 
 
+
+
+
+
 ### Fix
+
+
+
+
 
 
 
@@ -1229,11 +2455,27 @@
 
 
 
+
+
+
+
+
+
+
+
 ## v0.3.0 (2022-08-19)
 
 
 
+
+
+
+
 ### Feature
+
+
+
+
 
 
 
@@ -1245,7 +2487,19 @@
 
 
 
+
+
+
+
+
+
+
+
 ### Documentation
+
+
+
+
 
 
 
