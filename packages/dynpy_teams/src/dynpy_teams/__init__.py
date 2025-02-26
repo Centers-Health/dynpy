@@ -10,7 +10,11 @@ WEBHOOK_URL = os.getenv("WEBHOOK_URL")
 
 
 def post_to_teams_channel(
-    title: str, body_elements: list, actions: list | None = None, url: str | None = None
+    title: str,
+    body_elements: list,
+    actions: list | None = None,
+    url: str | None = None,
+    request_kwargs: dict | None = None,
 ) -> None:
     """
     Posts an adaptive card message to Microsoft Teams
@@ -47,6 +51,8 @@ def post_to_teams_channel(
     }
 
     # Send request
-    headers = {"Content-Type": "application/json"}
-    response = requests.post(_url, data=json.dumps(payload), headers=headers)
+    kwargs = {"headers": {"Content-Type": "application/json"}, "data": json.dumps(payload)}
+    if isinstance(request_kwargs, dict):
+        kwargs.update(request_kwargs)
+    response = requests.post(_url, **kwargs)
     response.raise_for_status()
