@@ -53,10 +53,10 @@ def update_changelog(package: Package) -> None:
         tail = lines[4:]
     else:
         header = [
-            "# Changelog",
-            "",
-            "<!--next-version-placeholder-->",
-            "",
+            "# Changelog\n",
+            "\n",
+            "<!--next-version-placeholder-->\n",
+            "\n",
         ]
         tail = []
 
@@ -70,9 +70,12 @@ def update_changelog(package: Package) -> None:
         for line in val:
             new_log.append(f"- {line}")
 
+    new_log.append("\n")
+    new_log = [f"{line}\n" for line in new_log]
+
     new_lines = header + new_log + tail
     with open(filename, "w") as f:
-        f.writelines([f"{line}\n" for line in new_lines[:-1]] + [new_lines[-1]])
+        f.writelines(new_lines)
 
 
 def update_changelogs(packages_with_bumps: list[Package]) -> None:
