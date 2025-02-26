@@ -9,6 +9,7 @@ packages = [{ include = "dynpy_teams", from = "src" }]
 [tool.poetry.dependencies]
 python = "^3.10"
 requests = "^2.32.3"
+django = "^4"
 
 
 [build-system]
