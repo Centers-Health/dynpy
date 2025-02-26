@@ -22,8 +22,7 @@ class MonthPicker(Widget):
         context = super().get_context(name, value, attrs)
 
         if isinstance(value, date) or not value:
-            if name in ["start_date", "end_date"]:
-                context["widget"]["month_value"] = value.strftime("%Y-%m") if value else ""
+            context["widget"]["month_value"] = value.strftime("%Y-%m") if value else ""
         else:
             context["widget"]["month_value"] = value[:-3]
 
