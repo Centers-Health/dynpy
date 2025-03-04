@@ -21,9 +21,10 @@ endef
 
 define TEST_RULE
 	for PACKAGE in $(PACKAGES); do \
-		cd "$(REPO_ROOT)/$$PACKAGE"; \
+		cd "$$PACKAGE"; \
 		echo ">> $$PACKAGE"; \
 		poetry run python -m pytest -n 2 -m "not skipci" -ra -q --disable-warnings --tb=long || exit 1; \
+		cd ../.. ; \
 	done
 endef
 
