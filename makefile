@@ -20,13 +20,11 @@ define PRE_COMMIT_RULE
 endef
 
 define TEST_RULE
-	@EXIT_STATUS=0; \
 	for PACKAGE in $(PACKAGES); do \
 		cd "$(REPO_ROOT)/$$PACKAGE"; \
 		echo ">> $$PACKAGE"; \
-		poetry run python -m pytest -n 2 -m "not skipci" -ra -q --disable-warnings --tb=long || EXIT_STATUS=1; \
-	done; \
-	exit $$EXIT_STATUS
+		poetry run python -m pytest -n 2 -m "not skipci" -ra -q --disable-warnings --tb=long || exit 1; \
+	done
 endef
 
 lock:
