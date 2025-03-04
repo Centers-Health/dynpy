@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v13.2.1 (2025-03-04)
+### Fix
+- Broken test ([`ece3b94`](https://github.com/Centers-health/dynpy/commit/ece3b943b031cbf6e1978ce4fcaafabfe9ccaba5))
+
+
 ## v13.2.0 (2025-02-20)
 ### Feature
 - Add dynpy_gfl ([`12918e9`](https://github.com/Centers-health/dynpy/commit/12918e9637ee867acb08dccda1dcafeea00eef3a))

@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v0.2.3 (2025-03-04)
+### Fix
+- Add pytest with dummy test to package ([`b6375b1`](https://github.com/Centers-health/dynpy/commit/b6375b1a805e338bab1f9bd8fd86a10691f36e7c))
+
+
 ## v0.2.2 (2025-02-26)
 ### Fix
 - Add ability to add to request args ([`d931140`](https://github.com/Centers-health/dynpy/commit/d9311403d5e80e05c145abf37d01884a5d3405a9))
