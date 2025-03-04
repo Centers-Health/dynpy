@@ -86,7 +86,7 @@ def test_that_paginate_by_is_overridden_by_get_value(rf, create_generic_filter_l
 
 
 @pytest.mark.parametrize(
-    ("columns", "fields,expected"),
+    ("columns", "fields", "expected"),
     [
         (
             None,
