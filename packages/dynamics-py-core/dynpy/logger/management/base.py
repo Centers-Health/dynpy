@@ -273,7 +273,7 @@ class ExceptionLoggingCommand(LoggingCommand):
         parser.add_argument(
             "--fail-tolerance",
             type=int,
-            default=100,
+            default=self.FAIL_TOLERANCE,
             dest="fail_tolerance",
             help="Number of fail-errors allowed before exiting the command",
         )
