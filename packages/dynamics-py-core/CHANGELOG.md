@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v19.1.2 (2025-03-12)
+### Fix
+- Use self.fail_tolerance as default in exceptionloggingcommand ([`3bf00c3`](https://github.com/Centers-health/dynpy/commit/3bf00c3d5cd48ef02a8bccc4ffc3c905bfd8e34b))
+
+
 ## v19.1.1 (2025-02-18)
 ### Fix
 - Poetry core version is outdated ([`b456060`](https://github.com/Centers-health/dynpy/commit/b456060ebaef55f83026395d225509792958ac83))
