@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v13.2.2 (2025-03-26)
+### Fix
+- Context for infinite scroll ([`a94848e`](https://github.com/Centers-health/dynpy/commit/a94848e3a5216d6b792ef6988caff7c77350d45f))
+
+
 ## v13.2.1 (2025-03-04)
 ### Fix
 - Broken test ([`ece3b94`](https://github.com/Centers-health/dynpy/commit/ece3b943b031cbf6e1978ce4fcaafabfe9ccaba5))
