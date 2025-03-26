@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v19.2.0 (2025-03-26)
+### Feature
+- Add hx-requests testing util to dynamics-py-core ([`d44b4cf`](https://github.com/Centers-health/dynpy/commit/d44b4cf2bd0c54ab19ace12c6354700aec98a316))
+- Add deep_get utility function to core ([`3f17205`](https://github.com/Centers-health/dynpy/commit/3f1720512ec41c85622b510fa339c055c72dd9bf))
+### Other
+- Add hx-requests to pyproject.toml ([`748a15a`](https://github.com/Centers-health/dynpy/commit/748a15a1d1b08ebb63f8604455810eb0ec8708d1))
+
+
 ## v19.1.2 (2025-03-12)
 ### Fix
 - Use self.fail_tolerance as default in exceptionloggingcommand ([`3bf00c3`](https://github.com/Centers-health/dynpy/commit/3bf00c3d5cd48ef02a8bccc4ffc3c905bfd8e34b))
