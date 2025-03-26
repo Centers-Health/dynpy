@@ -198,7 +198,7 @@ def get_package_dependencies(package: str) -> dict:
         for pkg, info in deps.items():
             # NOTE: Must have both path and develop set to these values for the poetry monorepo plugin to manage them correctly.
             if isinstance(info, dict) and "../" in info["path"] and info["develop"]:
-                result.append(pkg)
+                result.append(os.path.basename(info["path"]))
 
         return {package: set(result)}
 

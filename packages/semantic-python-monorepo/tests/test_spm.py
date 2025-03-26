@@ -4,34 +4,34 @@ import pytest
 
 
 @pytest.mark.skipci(reason="Fixtures don't seem to work on CI environment")
-@pytest.mark.usefixtures("with_packages")
+@pytest.mark.usefixtures("_with_packages")
 def test_can_find_registry(spm):
     result = spm.registry()
     assert "3 packages found" in result
-    assert "app1 (0.1.0)" in result
-    assert "app2 (0.1.0)" in result
-    assert "app2 (0.1.0)" in result
+    assert "app-1 (0.1.0)" in result
+    assert "app_2 (0.1.0)" in result
+    assert "app_2 (0.1.0)" in result
 
 
 @pytest.mark.skipci(reason="Fixtures don't seem to work on CI environment")
-@pytest.mark.usefixtures("with_packages")
+@pytest.mark.usefixtures("_with_packages")
 def test_can_analyze(spm):
     result = spm.analyze()
-    assert "app2 (0.1.0 -> 0.2.0)" in result
+    assert "app_2 (0.1.0 -> 0.2.0)" in result
     assert "feat: add app2" in result
-    assert "app1 (0.1.0 -> 0.2.0)" in result
+    assert "app-1 (0.1.0 -> 0.2.0)" in result
     assert "feat: add app1" in result
 
 
 @pytest.mark.skipci(reason="Fixtures don't seem to work on CI environment")
-@pytest.mark.usefixtures("with_packages")
+@pytest.mark.usefixtures("_with_packages")
 def test_full_run_through_dry(spm):
     result = spm.run(["--dry-run"])
-    assert "app2 (0.1.0 -> 0.2.0)" in result
+    assert "app_2 (0.1.0 -> 0.2.0)" in result
     assert "feat: add app2" in result
-    assert "app1 (0.1.0 -> 0.2.0)" in result
+    assert "app-1 (0.1.0 -> 0.2.0)" in result
     assert "feat: add app1" in result
-    assert "Publish Packages (app2, app1)" in result
+    assert "Publish Packages (app-1, app_2)" in result
 
 
 # TODO: add one more integration test that tests that all things are done
