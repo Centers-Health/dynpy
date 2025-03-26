@@ -195,7 +195,7 @@ def get_package_dependencies(package: str) -> dict:
         data = tomllib.load(f)
         deps = data["tool"]["poetry"]["dependencies"]
         result = []
-        for pkg, info in deps.items():
+        for info in deps.values():
             # NOTE: Must have both path and develop set to these values for the poetry monorepo plugin to manage them correctly.
             if isinstance(info, dict) and "../" in info["path"] and info["develop"]:
                 result.append(os.path.basename(info["path"]))
