@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v7.0.1 (2025-03-26)
+### Other
+- Bump package lock files ([`1d5932b`](https://github.com/Centers-health/dynpy/commit/1d5932bc612fc8942552263e97a05a31781f9f55))
+
+
 ## v7.0.0 (2025-02-18)
 ### Breaking
 - Force major version bump ([`6b87c44`](https://github.com/Centers-health/dynpy/commit/6b87c44512623a37f1b9cd4a00b8359f29a19052))

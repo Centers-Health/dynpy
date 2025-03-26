@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "semantic-python-monorepo"
-version = "0.6.7"
+version = "0.6.8"
 description = "A tool to manage a monorepo of poetry packages"
 authors = ["CHC, Technology"]
 readme = "README.md"

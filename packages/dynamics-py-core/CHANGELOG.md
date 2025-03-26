@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v19.2.1 (2025-03-26)
+### Fix
+- Force version bump for core ([`da94145`](https://github.com/Centers-health/dynpy/commit/da941454adc17caabdccfc9898008680c584210d))
+
+
 ## v19.2.0 (2025-03-26)
 ### Feature
 - Add hx-requests testing util to dynamics-py-core ([`d44b4cf`](https://github.com/Centers-health/dynpy/commit/d44b4cf2bd0c54ab19ace12c6354700aec98a316))

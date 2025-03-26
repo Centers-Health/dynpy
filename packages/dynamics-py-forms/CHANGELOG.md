@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v7.1.4 (2025-03-26)
+### Other
+- Bump package lock files ([`1d5932b`](https://github.com/Centers-health/dynpy/commit/1d5932bc612fc8942552263e97a05a31781f9f55))
+
+
 ## v7.1.3 (2025-02-26)
 ### Fix
 - Monthpicker only working for fields called 'start_date' or 'end_date' ([`e905603`](https://github.com/Centers-health/dynpy/commit/e9056034be2fd23498efb55d9c8010ab1b2592f1))

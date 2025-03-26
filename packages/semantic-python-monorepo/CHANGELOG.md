@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v0.6.8 (2025-03-26)
+### Fix
+- Incorrect fixture name used ([`4f0cf4c`](https://github.com/Centers-health/dynpy/commit/4f0cf4c752dd3d25afddeaca71ee1cbf3e4f996d))
+- Use dirname for all packages in registry ([`6a6faa1`](https://github.com/Centers-health/dynpy/commit/6a6faa122fb1cc3c318f3f47804d495c60c5d6aa))
+- Linting error ([`4aeb68e`](https://github.com/Centers-health/dynpy/commit/4aeb68ea0a4ffe8eaba6a93c7630195e20bcee16))
+
+
 ## v0.6.7 (2025-02-26)
 ### Fix
 - Correct newline logic for changelog ([`96ab50a`](https://github.com/Centers-health/dynpy/commit/96ab50ab02c7bf2e471adb33cf92e228087463f6))
