@@ -39,11 +39,11 @@ def _with_repos(origin_dir, work_dir):
 
 
 @pytest.fixture(scope="session")
-def _with_packages(origin_dir, work_dir, with_repos):
+def _with_packages(origin_dir, work_dir, _with_repos):
     packages_dir = work_dir / "packages"
     packages_dir.mkdir()
 
-    def create_new_package(package_name: str, dependencies: list[str] | None = None):
+    def create_new_package(package_name: str, dir_name: str, dependencies: list[str] | None = None):
         subprocess.run(
             [
                 "poetry",
@@ -51,7 +51,7 @@ def _with_packages(origin_dir, work_dir, with_repos):
                 f"--name={package_name}",
                 "--src",
                 "--no-interaction",
-                f"packages/{package_name}",
+                f"packages/{dir_name}",
             ],
             cwd=work_dir,
         )
@@ -59,7 +59,7 @@ def _with_packages(origin_dir, work_dir, with_repos):
             [
                 "poetry",
                 "-C",
-                str(packages_dir / package_name),
+                str(packages_dir / dir_name),
                 "config",
                 "virtualenvs.in-project",
                 "true",
@@ -71,7 +71,7 @@ def _with_packages(origin_dir, work_dir, with_repos):
             [
                 "poetry",
                 "-C",
-                packages_dir / package_name,
+                packages_dir / dir_name,
                 "config",
                 "repositories.test-repository",
                 "https://pypi.localhost/simple/",
@@ -83,7 +83,7 @@ def _with_packages(origin_dir, work_dir, with_repos):
             [
                 "poetry",
                 "-C",
-                packages_dir / package_name,
+                packages_dir / dir_name,
                 "env",
                 "use",
                 "python3.11",
@@ -91,14 +91,14 @@ def _with_packages(origin_dir, work_dir, with_repos):
             cwd=work_dir,
         )
         subprocess.run(
-            ["poetry", "-C", str(packages_dir / package_name), "install", "--quiet", "--no-interaction"],
+            ["poetry", "-C", str(packages_dir / dir_name), "install", "--quiet", "--no-interaction"],
             cwd=work_dir,
         )
         if dependencies:
             import toml
 
             for dep in dependencies:
-                toml_file = packages_dir / package_name / "pyproject.toml"
+                toml_file = packages_dir / dir_name / "pyproject.toml"
                 with open(toml_file) as f:
                     pyproject_data = toml.load(f)
 
@@ -114,8 +114,8 @@ def _with_packages(origin_dir, work_dir, with_repos):
         subprocess.run(["git", "add", "."], cwd=work_dir)
         subprocess.run(["git", "commit", "-m", f"feat: add {package_name}"], cwd=work_dir)
 
-    create_new_package("app1")
-    create_new_package("app2", ["app1"])
+    create_new_package("app1", "app-1")
+    create_new_package("app2", "app_2", ["app1"])
     subprocess.run(["cp", "-R", ".", str(packages_dir / "semantic-python-monorepo")])
     # subprocess.run(["tree", "-L", "3"], cwd=work_dir)
 
