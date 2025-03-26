@@ -251,7 +251,7 @@ class GenericFilterListViewHX(HtmxViewMixin, GenericFilterListView):
     def get(self, request, *args, **kwargs):
         response = super().get(request, *args, **kwargs)
         if "scrolling" in request.GET:
-            context = self.get_context_data()
+            context = self.get_context_data(filter=self.filterset)
             return HttpResponse(
                 render_block_to_string(self.template_name, "items", context=context, request=request)
             )
