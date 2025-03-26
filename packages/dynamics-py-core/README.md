@@ -38,8 +38,8 @@ INSTALLED_APPS = [
 
 # Contributing to this repository
 
-
 ## Getting setup
+
 Just open the folder in vscode and launch in the dev container.
 Then run a `make install` and you should be good to go!
 
