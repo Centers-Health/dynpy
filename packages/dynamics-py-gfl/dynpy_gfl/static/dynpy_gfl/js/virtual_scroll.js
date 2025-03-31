@@ -158,6 +158,9 @@ class Virtualizer {
 		const startPosition = this.getLastRowPosition();
 		let currentPosition = startPosition;
 
+		$('[data-toggle="tooltip"]').tooltip("hide");
+		$(".persistent-popover").popover("hide");
+
 		for (const row of newRows) {
 			this.appendRowToWrapper(row);
 			currentPosition = this.addRowToCollection(row, currentPosition);
