@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v13.2.4 (2025-04-01)
+### Fix
+- Tooltips stuck in dom ([`b1ebd1e`](https://github.com/Centers-health/dynpy/commit/b1ebd1e13ae94c2cf79439341becddde92138d75))
+
+
 ## v13.2.2 (2025-03-26)
 ### Fix
 - Context for infinite scroll ([`a94848e`](https://github.com/Centers-health/dynpy/commit/a94848e3a5216d6b792ef6988caff7c77350d45f))
