@@ -45,10 +45,21 @@ class BaseSidePanel(BaseHxRequest):
         object_id = request.GET.get("object_id")
         if object_id:
             model = self.view.filterset._meta.model
-            return model._base_manager.get(pk=object_id)
+            try:
+                return model._base_manager.get(pk=object_id)
+            except model.DoesNotExist:
+                return None
 
     def get_triggers(self, **kwargs) -> list:
         return ["side_panel_load"]
+
+    def get_response_html(self, **kwargs) -> str:
+        """
+        Return empty Html if the object does not exist because in that case the side panel should show nothing.
+        """
+        if not self.hx_object:
+            return ""
+        return super().get_response_html(**kwargs)
 
 
 class RefreshRow(BaseHxRequest):
