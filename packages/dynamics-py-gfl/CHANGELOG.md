@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v13.2.5 (2025-04-10)
+### Fix
+- Htmx error when non existent object ([`fafecef`](https://github.com/Centers-health/dynpy/commit/fafeceff9089609b8c1a46a3760b19ae955cd2c6))
+
+
 ## v13.2.4 (2025-04-01)
 ### Fix
 - Tooltips stuck in dom ([`b1ebd1e`](https://github.com/Centers-health/dynpy/commit/b1ebd1e13ae94c2cf79439341becddde92138d75))
