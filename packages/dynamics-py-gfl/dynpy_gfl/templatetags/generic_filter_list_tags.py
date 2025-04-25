@@ -45,8 +45,18 @@ def column_header_link(context, sort_hx_name=None, hx_target=None):
     arrow = "up" if order == constants.ASC else "down"
     arrow_tag = f'<i class="fa fa-angle-{arrow}" aria-hidden="true"></i>'
 
+    label = column.get("label")
+
     # only display arrow on column that is currently being ordered by
-    arrow_or_empty = arrow_tag if is_order_by_column else ""
+    if is_order_by_column:
+        arrow_or_empty = arrow_tag
+    else:
+        if label == "__empty_sortable__":
+            # If there is an empty label show something for the user to
+            # click on to sort it by. This is opposed to an "" string
+            # value which is used to make a non-sortable column
+            label = '<i class="fa fa-sort" aria-hidden="true"></i>'
+        arrow_or_empty = ""
 
     if sort_hx_name:
         query_string = param_replace(
@@ -57,7 +67,7 @@ def column_header_link(context, sort_hx_name=None, hx_target=None):
 
     return format_html(
         f"""<a {htmxify if sort_hx_name else ""}
-        href="?{query_string}">{column.get("label")} {mark_safe(arrow_or_empty)}</a>"""
+        href="?{query_string}">{label} {mark_safe(arrow_or_empty)}</a>"""
     )
 
 
