@@ -297,7 +297,7 @@ const handleConfirmation = (data, form) => {
 };
 
 const handleValidation = (data, form) => {
-	const formErrors = data.error || {};
+	const formErrors = data.errors || {};
 	// clear previous validation
 	for (const e of form.querySelectorAll(".is-invalid")) {
 		e.classList.remove("is-invalid");
@@ -315,7 +315,7 @@ const handleValidation = (data, form) => {
 				inputField = inputField.parentElement;
 			}
 			inputField.classList.add("is-invalid");
-			for (const error in errors) {
+			for (const error of errors) {
 				const feedback = createInvalidFeedback(error.message);
 				inputField.after(feedback);
 			}
