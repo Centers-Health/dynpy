@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v13.2.6 (2025-04-25)
+### Fix
+- Handle empty sortable label with icon ([`b9219a7`](https://github.com/Centers-health/dynpy/commit/b9219a7a33567b6ccf4fa2da7bb12aafa916205f))
+
+
 ## v13.2.5 (2025-04-10)
 ### Fix
 - Htmx error when non existent object ([`fafecef`](https://github.com/Centers-health/dynpy/commit/fafeceff9089609b8c1a46a3760b19ae955cd2c6))
