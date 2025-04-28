@@ -514,7 +514,7 @@ url = "../dynamics-py-core"
 
 [[package]]
 name = "dynpy-js"
-version = "4.1.0"
+version = "4.1.1"
 description = ""
 optional = false
 python-versions = "^3.11"

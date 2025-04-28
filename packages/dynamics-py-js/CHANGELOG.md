@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v4.1.1 (2025-04-28)
+### Fix
+- Async validate not working ([`ad4a3e9`](https://github.com/Centers-health/dynpy/commit/ad4a3e9f15fd563fe9bb1fe5b4d422359f1f5d16))
+
+
 ## v4.1.0 (2025-02-18)
 ### Feature
 - Add dynpy_js ([`8639794`](https://github.com/Centers-health/dynpy/commit/8639794796f1a65fc2a35024fa36f0aae2d59648))
