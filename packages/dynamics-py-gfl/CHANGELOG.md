@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v13.2.8 (2025-05-01)
+### Fix
+- Displaying "__empty_sortable__" if order col ([`052665f`](https://github.com/Centers-health/dynpy/commit/052665f890b37777d19712ecf57be1383217c7c7))
+
+
 ## v13.2.6 (2025-04-25)
 ### Fix
 - Handle empty sortable label with icon ([`b9219a7`](https://github.com/Centers-health/dynpy/commit/b9219a7a33567b6ccf4fa2da7bb12aafa916205f))
