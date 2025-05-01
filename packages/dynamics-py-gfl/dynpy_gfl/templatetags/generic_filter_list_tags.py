@@ -50,6 +50,8 @@ def column_header_link(context, sort_hx_name=None, hx_target=None):
     # only display arrow on column that is currently being ordered by
     if is_order_by_column:
         arrow_or_empty = arrow_tag
+        if label == "__empty_sortable__":
+            label = ""
     else:
         if label == "__empty_sortable__":
             # If there is an empty label show something for the user to
