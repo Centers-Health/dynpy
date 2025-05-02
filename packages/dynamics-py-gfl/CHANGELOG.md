@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v13.3.0 (2025-05-02)
+### Feature
+- Make filterbyfield compatible with inlinemonthrangewidget ([`faa4032`](https://github.com/Centers-health/dynpy/commit/faa40324ff18571dd9cf1904fe3d9281d99b8aca))
+
+
 ## v13.2.8 (2025-05-01)
 ### Fix
 - Displaying "__empty_sortable__" if order col ([`052665f`](https://github.com/Centers-health/dynpy/commit/052665f890b37777d19712ecf57be1383217c7c7))

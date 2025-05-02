@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v7.2.0 (2025-05-02)
+### Feature
+- Add inlinemonthrangelastday to include last day in month ([`ad62875`](https://github.com/Centers-health/dynpy/commit/ad6287539910640618b786fade19b6b4c9a8270a))
+
+
 ## v7.1.4 (2025-03-26)
 ### Other
 - Bump package lock files ([`1d5932b`](https://github.com/Centers-health/dynpy/commit/1d5932bc612fc8942552263e97a05a31781f9f55))
