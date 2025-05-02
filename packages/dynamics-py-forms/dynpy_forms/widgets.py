@@ -1,4 +1,5 @@
 import uuid
+from calendar import monthrange
 from datetime import date
 from typing import Any, Dict
 
@@ -7,7 +8,7 @@ from django.forms.models import ModelChoiceIterator
 from django.forms.widgets import HiddenInput
 from django.template import loader
 from django.utils.safestring import mark_safe
-from django_filters.widgets import DateRangeWidget, RangeWidget
+from django_filters.widgets import DateRangeWidget, RangeWidget, SuffixedMultiWidget
 
 
 class MonthPicker(Widget):
@@ -29,8 +30,20 @@ class MonthPicker(Widget):
         return context
 
     def value_from_datadict(self, data, files, name):
+        """Actual value is the first day of the month"""
         monthyear = super().value_from_datadict(data, files, name)
         return f"{monthyear}-01" if monthyear else monthyear
+
+
+class MonthPickerLastDay(MonthPicker):
+    def value_from_datadict(self, data, files, name):
+        """Actual value is the last day of the month"""
+        monthyear = data.get(name)
+        if not monthyear:
+            return monthyear
+        year, month = map(int, monthyear.split("-"))
+        last_day = monthrange(year, month)[1]
+        return f"{monthyear}-{last_day}"
 
 
 class BootstrapSelect(widgets.Select):
@@ -316,17 +329,30 @@ class DateRangePicker(DateRangeWidget):
         return context
 
 
-class InlineMonthRangeWidget(RangeWidget):
+class InlineMonthRangeWidget(SuffixedMultiWidget):
     suffixes = ["after", "before"]
     template_name = "dynpy_forms/widgets/inline_range_widget.html"
 
-    def __init__(self, attrs=None):
-        attrs = {} if attrs is None else attrs
-        attrs.update({"style": "width: 47%; display: inline-block"})
+    def get_widgets(self):
+        """Return the widgets to be used for the range."""
+        return (MonthPicker, MonthPicker)
 
-        widgets = (MonthPicker(), MonthPicker())
-        super(RangeWidget, self).__init__(widgets, attrs)
+    def __init__(self, attrs=None):
+        attrs = attrs or {}
+        attrs.update({"style": "width: 47%; display: inline-block"})
+        widgets = self.get_widgets()
+        super().__init__(widgets, attrs)
         self.widgets[1].attrs.update({"class": "form-control d-inline float-right"})
+
+    def decompress(self, value):
+        if value:
+            return [value.start, value.stop]
+        return [None, None]
+
+
+class InlineMonthRangeLastDayWidget(InlineMonthRangeWidget):
+    def get_widgets(self):
+        return (MonthPicker, MonthPickerLastDay)
 
 
 class DashedBooleanWidget(widgets.NullBooleanSelect):
