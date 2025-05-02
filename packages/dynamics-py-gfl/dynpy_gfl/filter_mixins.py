@@ -66,9 +66,10 @@ class FilteredChoicesMixin:
             lookup_expr = f"__{filter_field.lookup_expr}" if filter_field.lookup_expr else ""
             filter_method = filter_field.filter_method
 
-            if data.get(filter_field.filter_name):
-                is_default = False
+            if self.parent.filters.get(filter_field.filter_name):
                 value = self.get_filter_value(data, filter_name)
+                if not self.is_empty(value):
+                    is_default = False
                 if filter_method:
                     queryset = filter_method(queryset, filter_name, value)
                 else:
@@ -78,6 +79,11 @@ class FilteredChoicesMixin:
             return queryset.none()
 
         return queryset.filter(**filter_clause).distinct()
+
+    def is_empty(self, value):
+        if isinstance(value, (list, tuple)):
+            return not any(value)
+        return not value
 
     def get_filter_value(self, data, filter_name):
         filter_field = self.parent.filters[filter_name].field
