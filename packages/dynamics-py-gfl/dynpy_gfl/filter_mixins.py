@@ -60,20 +60,25 @@ class FilteredChoicesMixin:
         data = self.parent.data or MultiValueDict()
         filter_clause = {}
         is_default = True
+
         for filter_field in self.filter_by_fields:
             filter_name = filter_field.filter_name
             field_name = filter_field.field_name
             lookup_expr = f"__{filter_field.lookup_expr}" if filter_field.lookup_expr else ""
             filter_method = filter_field.filter_method
 
-            if self.parent.filters.get(filter_field.filter_name):
-                value = self.get_filter_value(data, filter_name)
-                if not self.is_empty(value):
-                    is_default = False
-                if filter_method:
-                    queryset = filter_method(queryset, filter_name, value)
-                else:
-                    filter_clause[field_name + lookup_expr] = value
+            if not self.parent.filters.get(filter_name):
+                continue
+
+            value = self.get_filter_value(data, filter_name)
+            if self.is_empty(value):
+                continue
+
+            is_default = False
+            if filter_method:
+                queryset = filter_method(queryset, filter_name, value)
+            else:
+                filter_clause[f"{field_name}{lookup_expr}"] = value
 
         if is_default and self.default_empty:
             return queryset.none()
