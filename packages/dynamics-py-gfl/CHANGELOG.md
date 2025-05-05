@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v13.3.1 (2025-05-05)
+### Fix
+- Fix  filteredchoicesmixin ([`3d315ee`](https://github.com/Centers-health/dynpy/commit/3d315ee4ff374f63136144ab6bc0273dc6d733e8))
+
+
 ## v13.3.0 (2025-05-02)
 ### Feature
 - Make filterbyfield compatible with inlinemonthrangewidget ([`faa4032`](https://github.com/Centers-health/dynpy/commit/faa40324ff18571dd9cf1904fe3d9281d99b8aca))
