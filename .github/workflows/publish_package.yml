@@ -7,7 +7,7 @@ on:
 env:
   POETRY_HTTP_BASIC_DYNAMICS_USERNAME: admin
   POETRY_HTTP_BASIC_DYNAMICS_PASSWORD: ${{secrets.PYPI_PASSWORD}}
-  POETRY_VIRTUALENV_ALWAYS_COPY: false
+  POETRY_VIRTUALENVS_OPTIONS_ALWAYS_COPY: false
 
 jobs:
   release:
@@ -38,6 +38,8 @@ jobs:
         run: |
           poetry self add poetry-bumpversion
           poetry self add poetry-plugin-mono-repo-deps
+          # reset this back, since 20.31.x has a breaking change
+          pip install virtualenv==20.30.0
 
       - name: Run SPM
         run: spm -vvv
