@@ -29,7 +29,7 @@ def log_run(cmd: str | list, msg: str | None = None, *args, **kwargs) -> subproc
 
 
 def fail_fast():
-    sys.exit()
+    sys.exit(1)
 
 
 def get_commit_history(last_managed_commit: str) -> list[str]:
