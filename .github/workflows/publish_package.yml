@@ -2,12 +2,8 @@ name: CD
 
 on:
   push:
-    branches:
-      [master]
+    branches: [master]
 
-      # TODO: install python 3.11
-      # TODO: install poetry
-      # TODO: install spm
 env:
   POETRY_HTTP_BASIC_DYNAMICS_USERNAME: admin
   POETRY_HTTP_BASIC_DYNAMICS_PASSWORD: ${{secrets.PYPI_PASSWORD}}
