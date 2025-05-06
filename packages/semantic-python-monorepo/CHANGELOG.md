@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v0.8.0 (2025-05-06)
+### Feature
+- Add ability to pass status_code to fail_fast ([`dc63386`](https://github.com/Centers-health/dynpy/commit/dc63386c79641e017cd838a3f60f55bdea177243))
+
+
 ## v0.7.0 (2025-05-06)
 ### Feature
 - Spm return non-zero on failure ([`34d6deb`](https://github.com/Centers-health/dynpy/commit/34d6deb3c253f80445b01aff564d57f77e844d3a))
