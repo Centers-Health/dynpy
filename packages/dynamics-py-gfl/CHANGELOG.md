@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v13.4.0 (2025-05-06)
+### Feature
+- Add ability to use js-side-panel-opt-out for htmx side panel ([`34af9b9`](https://github.com/Centers-health/dynpy/commit/34af9b9aa769bb81eb77179817d0deb8b82266df))
+
+
 ## v13.3.1 (2025-05-05)
 ### Fix
 - Fix  filteredchoicesmixin ([`3d315ee`](https://github.com/Centers-health/dynpy/commit/3d315ee4ff374f63136144ab6bc0273dc6d733e8))
