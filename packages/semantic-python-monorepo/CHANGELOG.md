@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v0.7.0 (2025-05-06)
+### Feature
+- Spm return non-zero on failure ([`34d6deb`](https://github.com/Centers-health/dynpy/commit/34d6deb3c253f80445b01aff564d57f77e844d3a))
+
+
 ## v0.6.8 (2025-03-26)
 ### Fix
 - Incorrect fixture name used ([`4f0cf4c`](https://github.com/Centers-health/dynpy/commit/4f0cf4c752dd3d25afddeaca71ee1cbf3e4f996d))
