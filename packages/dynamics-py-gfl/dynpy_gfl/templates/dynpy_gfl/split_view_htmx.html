@@ -61,7 +61,7 @@
                                         {% block table_row_outer %}
                                             {# djlint:off #}
                                         <tr id="gfl_row_{{ item.pk }}" class="split-view-row cursor-pointer js-gfl-item {% block table_row_classes %}{% endblock table_row_classes %}"
-                                            @click="$store.splitView.activateRow('{{ item.pk }}')"
+                                            @click="$store.splitView.activateRow('{{ item.pk }}', event)"
                                             :class="$store.splitView.activeRowId == '{{ item.pk }}' && 'row-active'"
 
                                                 {% hx_get view.side_panel_hx_name %}
@@ -183,10 +183,15 @@
                     url.searchParams.set("object_id", this.activeRowId)
                     history.pushState(null, '', url);
                 },
-                activateRow(id) {
-                    this.activeRowId = id
-                    this.setObjectIdParam()
-                    this.openSidePanel()
+                activateRow(id, event) {
+                    // Check if the click was on the side panel opt-out button or modal fade background
+                    if (event.target.closest('.js-side-panel-opt-out') || event.target.matches('.modal.fade')) {
+                        return;
+                    }
+
+                    this.activeRowId = id;
+                    this.setObjectIdParam();
+                    this.openSidePanel();
                 }
             })
         })
