@@ -33,6 +33,11 @@ class AppSwitcher extends HTMLElement {
 		this.menu = this.querySelector(".app-switcher-menu");
 		document.body.appendChild(this.menu);
 
+		// don't close the menu when clicking inside between icons
+		this.menu.addEventListener("click", (e) => {
+			e.stopPropagation();
+		});
+
 		this.button = this.querySelector(".hamburger");
 		this.button.onclick = (e) => {
 			e.stopPropagation();
