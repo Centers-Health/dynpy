@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v2.3.2 (2025-05-07)
+### Fix
+- Dont close app switcher when clicking between icons ([`f0e6169`](https://github.com/Centers-health/dynpy/commit/f0e616940bd55759979dce67fcf12da621386b2e))
+
+
 ## v2.3.0 (2025-02-19)
 ### Feature
 - Add dynpy_ui ([`4cfd08c`](https://github.com/Centers-health/dynpy/commit/4cfd08ce9c19184e450e9608d1f906881e6a3902))
