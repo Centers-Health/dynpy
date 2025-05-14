@@ -1,6 +1,7 @@
 {% load dynpy_tags %}
 <input class="form-control bg-white
               {% if 'is-invalid' in widget.subwidgets.0.attrs.class %}is-invalid{% endif %}"
+       x-ref="date_range_{{ widget.name }}"
        id="daterangepicker"
        data-picker="daterangepicker"
        type="text"
@@ -13,10 +14,22 @@
        {% endif %}
        {% include "django/forms/widgets/attrs.html" %}>
 <input type="hidden"
+       x-ref="date_range_after_{{ widget.name }}"
        class="date_range_after"
        name="{{ widget.name }}_after"
        value="{{ widget.start_date }}">
 <input type="hidden"
+       x-ref="date_range_before_{{ widget.name }}"
        class="date_range_before"
        name="{{ widget.name }}_before"
        value="{{ widget.end_date }}">
+<button type="button"
+        class="btn btn-sm btn-link text-danger p-0 position-absolute"
+        style="opacity: .8;
+               top: 3.2rem;
+               right: 1.35%;
+               transform: translate(-50%, -50%)"
+        :disabled="!$refs['date_range_{{ widget.name }}'].value"
+        @click="$refs['date_range_{{ widget.name }}'].value = ''; $refs['date_range_after_{{ widget.name }}'].value = ''; $refs['date_range_before_{{ widget.name }}'].value = ''; $refs['date_range_{{ widget.name }}'].dispatchEvent(new Event('change', { bubbles: true }))">
+    <i class="fas fa-times"></i>
+</button>
