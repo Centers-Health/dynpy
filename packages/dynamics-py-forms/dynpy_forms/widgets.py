@@ -14,6 +14,14 @@ from django_filters.widgets import DateRangeWidget, RangeWidget, SuffixedMultiWi
 class MonthPicker(Widget):
     template_name = "dynpy_forms/widgets/month_picker.html"
 
+    def __init__(self, attrs=None):
+        default_attrs = {
+            "style": "padding-right:1.1rem;",
+        }
+        if attrs:
+            default_attrs.update(attrs)
+        super().__init__(default_attrs)
+
     def render(self, name, value, attrs=None, renderer=None):
         context = self.get_context(name, value, attrs)
         template = loader.get_template(self.template_name).render(context)
@@ -339,10 +347,22 @@ class InlineMonthRangeWidget(SuffixedMultiWidget):
 
     def __init__(self, attrs=None):
         attrs = attrs or {}
-        attrs.update({"style": "width: 47%; display: inline-block"})
+        attrs.update({"style": "width: 47%; display: inline-block; padding-right:1.1rem;"})
         widgets = self.get_widgets()
         super().__init__(widgets, attrs)
         self.widgets[1].attrs.update({"class": "form-control d-inline float-right"})
+
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+
+        subwidgets = context["widget"]["subwidgets"]
+
+        # Set the right CSS position for each subwidget to ensure
+        # they are aligned correctly and responsively on the screen
+        subwidgets[0]["right_position"] = "53%"
+        subwidgets[1]["right_position"] = "1.35%"
+
+        return context
 
     def decompress(self, value):
         if value:
