@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v13.5.0 (2025-05-16)
+### Feature
+- Vertically center gfl cell contents ([`1815a8a`](https://github.com/Centers-health/dynpy/commit/1815a8aacaf4dce9bf0a47d967762a8026adf9c9))
+
+
 ## v13.4.0 (2025-05-06)
 ### Feature
 - Add ability to use js-side-panel-opt-out for htmx side panel ([`34af9b9`](https://github.com/Centers-health/dynpy/commit/34af9b9aa769bb81eb77179817d0deb8b82266df))
