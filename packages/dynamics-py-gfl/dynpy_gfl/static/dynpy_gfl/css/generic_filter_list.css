@@ -54,3 +54,7 @@
 .spinner-overlay-fixed {
 	position: fixed;
 }
+
+#gfl_table td {
+	vertical-align: middle;
+}
