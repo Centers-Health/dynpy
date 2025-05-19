@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v7.3.0 (2025-05-19)
+### Feature
+- Add clear button for date filters to improve usability ([`0f37b74`](https://github.com/Centers-health/dynpy/commit/0f37b74fa7bbf9b35c833ff0e2506ff9efe4c784))
+
+
 ## v7.2.0 (2025-05-02)
 ### Feature
 - Add inlinemonthrangelastday to include last day in month ([`ad62875`](https://github.com/Centers-health/dynpy/commit/ad6287539910640618b786fade19b6b4c9a8270a))
