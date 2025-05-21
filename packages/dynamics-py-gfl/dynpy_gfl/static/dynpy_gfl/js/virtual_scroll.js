@@ -27,8 +27,10 @@ class Virtualizer {
 			keepParity: true, // Maintain even/odd row alternation
 			loadBuffer: 1000, // Distance from bottom to trigger loading (px)
 			loaderTemplate: null, // Custom HTML template for loader (default comes from `getDefaultLoaderTemplate`)
-			processHtmx: true, // Enable HTMX processing
+			processHtmx: false, // Enable HTMX processing
 			scrollDebounce: 100, // Scroll event debounce time (ms)
+			rowWrapperSelector: "table", // CSS selector for the row wrapper
+			apiEndpoint: window.location.pathname, // API endpoint for fetching new rows
 		};
 
 		this.config = { ...defaultConfig, ...config };
@@ -45,9 +47,6 @@ class Virtualizer {
 
 	// Main initialization
 	initialize() {
-		if (this.config.processHtmx) {
-			this.disableHtmxLoadTriggers();
-		}
 		this.controller = new AbortController();
 		this.setInitialRows();
 		this.attachScrollListener();
@@ -57,11 +56,17 @@ class Virtualizer {
 	initializeState() {
 		this.state = {
 			rows: [], // Array of all row objects with their positions and heights
+			visibleRowDataList: [], // Array of visible row data
 			loading: false, // Flag indicating if more rows are being loaded
 			loadedLast: false, // Flag indicating if we've reached the end of available data
 			start: 0, // Index of first visible row
 			end: 0, // Index of last visible row
 			scrolling: false, // Flag indicating if user is currently scrolling
+			topSpacerHeight: 0, // Height of the top spacer
+			bottomSpacerHeight: 0, // Height of the bottom spacer
+			page: 1, // Current page number
+			count: 0, // Total number of rows
+			scrollTop: 0, // Current scroll position
 		};
 	}
 
@@ -71,8 +76,6 @@ class Virtualizer {
 			scrollArea: null, // Scrollable container element
 			rowWrapper: null, // Container for the table rows
 			tableHeader: null, // Table header element if present
-			topSpacer: null, // Spacer element above visible rows
-			bottomSpacer: null, // Spacer element below visible rows
 			loader: null, // Loading indicator element
 		};
 
@@ -80,14 +83,14 @@ class Virtualizer {
 			this.config.scrollAreaSelector,
 		);
 		// Find the row wrapper based on the first row's parent
-		const firstRow = this.elements.scrollArea?.querySelector(
-			this.config.rowSelector,
+		// const firstRow = this.elements.scrollArea?.querySelector(
+		// 	this.config.rowSelector,
+		// );
+		this.elements.rowWrapper = this.elements.scrollArea.querySelector(
+			this.config.rowWrapperSelector,
 		);
-		this.elements.rowWrapper = firstRow?.parentElement;
 		this.elements.tableHeader =
 			this.elements.rowWrapper?.querySelector("thead");
-		this.elements.topSpacer = this.createSpacer("topSpacer");
-		this.elements.bottomSpacer = this.createSpacer("bottomSpacer");
 		this.elements.loader = this.createLoader();
 	}
 
@@ -107,14 +110,6 @@ class Virtualizer {
 				this.refresh();
 			}
 		});
-	}
-
-	// DOM Element Creation Methods
-	createSpacer(id) {
-		const spacer = document.createElement(this.config.rowTag);
-		spacer.id = id;
-		spacer.style.height = "0px";
-		return spacer;
 	}
 
 	createLoader() {
@@ -148,71 +143,50 @@ class Virtualizer {
 
 	// Row Processing Methods
 	setInitialRows() {
-		const existingRows = this.elements.rowWrapper.querySelectorAll(
-			this.config.rowSelector,
-		);
-		this.processNewRows(existingRows);
+		this.loadMoreRows();
 	}
 
 	processNewRows(newRows) {
-		const startPosition = this.getLastRowPosition();
-		let currentPosition = startPosition;
+		const { start, end } = this.calculateVisibleRange();
+		this.updateState(start, end);
+		this.renderVisibleRows(start, end);
+		this.state.visibleRowDataList.push(...newRows);
 
-		$('[data-toggle="tooltip"]').tooltip("hide");
-		$(".persistent-popover").popover("hide");
+		// Update the top spacer height
+		const topHeight = this.state.rows[start]?.position || 0;
+		this.state.topSpacerHeight = topHeight;
+		this.state.bottomSpacerHeight = 0;
+		this.onStateChange(this.state);
 
-		for (const row of newRows) {
-			this.appendRowToWrapper(row);
-			currentPosition = this.addRowToCollection(row, currentPosition);
-		}
-
-		this.removeProcessedRows(newRows);
-		this.updateAfterProcessing();
-	}
-
-	updateAfterProcessing() {
-		if (!this.state.scrolling) {
-			const { start, end } = this.calculateVisibleRange();
-
-			if (this.state.start !== start || this.state.end !== end) {
-				this.renderVisibleRows(start, end);
-				this.updateState(start, end);
-			} else {
-				this.updateBottomSpacer();
+		// Calculate new row heights
+		setTimeout(() => {
+			const domRows = this.elements.rowWrapper.querySelectorAll(
+				this.config.rowSelector,
+			);
+			const newRowElements = Array.from(domRows).slice(-newRows.length);
+			let currentPosition = this.getLastRowPosition();
+			for (let i = 0; i < newRowElements.length; i++) {
+				const rowData = newRows[i];
+				const rowElement = newRowElements[i];
+				const rowHeight = rowElement.offsetHeight;
+				this.state.rows.push({
+					data: rowData,
+					position: currentPosition,
+					height: rowHeight,
+				});
+				currentPosition += rowHeight;
 			}
-		}
-
-		if (this.shouldLoadMore()) {
-			this.loadMoreRows();
-		}
+			const { start, end } = this.calculateVisibleRange();
+			this.updateState(start, end);
+			if (this.shouldLoadMore()) {
+				this.loadMoreRows();
+			}
+		}, 100);
 	}
 
 	getLastRowPosition() {
 		const lastRow = this.state.rows[this.state.rows.length - 1];
 		return lastRow ? lastRow.position + lastRow.height : 0;
-	}
-
-	appendRowToWrapper(row) {
-		if (row.parentElement !== this.elements.rowWrapper) {
-			this.elements.rowWrapper.appendChild(row);
-		}
-	}
-
-	addRowToCollection(row, position) {
-		this.state.rows.push({
-			html: row.outerHTML,
-			position: position,
-			height: row.offsetHeight,
-		});
-		return position + row.offsetHeight;
-	}
-
-	removeProcessedRows(rows) {
-		for (const row of rows) {
-			if (row.parentElement === this.elements.rowWrapper) {
-				row.remove();
-			}
-		}
 	}
 
 	// Scroll Handling
@@ -232,11 +206,25 @@ class Virtualizer {
 	}
 
 	onScroll() {
-		this.state.scrolling = false;
-		this.updateVisibleRows();
+		// this.state.scrolling = false;
+		// this.updateVisibleRows();
+		this.state.scrollTop = this.elements.scrollArea.scrollTop;
 		if (this.shouldLoadMore()) {
 			this.loadMoreRows();
+		} else {
+			this.updateVisibleRows();
 		}
+		console.log("------------------");
+		console.log("Scroll Top: ", this.state.scrollTop);
+		console.log("Table Height: ", this.elements.rowWrapper.clientHeight);
+		console.log("Top spacer height: ", this.state.topSpacerHeight);
+		console.log(
+			"Sum row heights: ",
+			this.state.rows
+				.slice(this.state.start, this.state.end)
+				.reduce((acc, row) => acc + row.height, 0),
+		);
+		console.log("Bottom spacer height: ", this.state.bottomSpacerHeight);
 	}
 
 	debounce(func, wait) {
@@ -251,10 +239,19 @@ class Virtualizer {
 	updateVisibleRows() {
 		const { start, end } = this.calculateVisibleRange();
 
-		if (this.state.start === start && this.state.end === end) return;
+		// if (this.state.start === start && this.state.end === end) return;
+		if (
+			start !== 0 &&
+			end !== this.state.rows.length &&
+			(Math.abs(this.state.start - start) < 3 ||
+				Math.abs(this.state.end - end) < 3)
+		)
+			return;
 
 		this.renderVisibleRows(start, end);
 		this.updateState(start, end);
+		this.updateSpacers(start, end);
+		this.onStateChange(this.state);
 	}
 
 	calculateVisibleRange() {
@@ -279,6 +276,7 @@ class Virtualizer {
 	}
 
 	getNearestIndex(position) {
+		if (position <= 0) return 0;
 		let left = 0;
 		let right = this.state.rows.length - 1;
 
@@ -297,32 +295,9 @@ class Virtualizer {
 	}
 
 	renderVisibleRows(start, end) {
-		const html = this.buildHtmlString(start, end);
-		this.elements.rowWrapper.innerHTML = html;
-
-		if (this.config.processHtmx) {
-			htmx.process(this.elements.rowWrapper);
-		}
-	}
-
-	buildHtmlString(start, end) {
-		this.updateSpacers(start, end);
-		const headerHTML = this.elements.tableHeader
-			? this.elements.tableHeader.outerHTML
-			: "";
-		const rowsHTML = this.state.rows
+		this.state.visibleRowDataList = this.state.rows
 			.slice(start, end)
-			.reduce((acc, row) => acc + row.html, "");
-
-		let htmlString =
-			headerHTML +
-			this.elements.topSpacer.outerHTML +
-			rowsHTML +
-			this.elements.bottomSpacer.outerHTML;
-		if (this.state.loading) {
-			htmlString += this.elements.loader.outerHTML;
-		}
-		return htmlString;
+			.map((row) => row.data);
 	}
 
 	updateSpacers(start, end) {
@@ -330,21 +305,8 @@ class Virtualizer {
 		const topHeight = this.state.rows[start].position;
 		const bottomHeight = this.calculateBottomSpacerHeight(lastRow, end);
 
-		this.elements.topSpacer.style.height = `${topHeight}px`;
-		this.elements.bottomSpacer.style.height = `${bottomHeight}px`;
-	}
-
-	updateBottomSpacer() {
-		const lastRow = this.state.rows[this.state.rows.length - 1];
-		const bottomSpacer =
-			this.elements.rowWrapper.querySelector("#bottomSpacer");
-		if (bottomSpacer) {
-			const spacerHeight = this.calculateBottomSpacerHeight(
-				lastRow,
-				this.state.end,
-			);
-			bottomSpacer.style.height = `${spacerHeight}px`;
-		}
+		this.state.topSpacerHeight = topHeight;
+		this.state.bottomSpacerHeight = bottomHeight;
 	}
 
 	calculateBottomSpacerHeight(lastRow, end) {
@@ -361,18 +323,22 @@ class Virtualizer {
 		this.state.end = end;
 	}
 
+	onStateChange(state) {}
+
 	// Data Loading
 	loadMoreRows() {
 		this.setLoading(true);
 
 		this.fetchNewRows()
-			.then((response) => response.text())
-			.then((text) => {
-				const newRows = this.parseNewRows(text);
+			.then((response) => response.json())
+			.then((response) => {
+				const newRows = response.results;
 
-				if (newRows.length) {
+				if (newRows) {
 					this.setLoading(false);
 					this.processNewRows(newRows);
+					this.state.page++;
+					this.state.count = response.count;
 				} else {
 					this.state.loadedLast = true;
 					this.setLoading(false);
@@ -386,7 +352,7 @@ class Virtualizer {
 
 	fetchNewRows() {
 		const signal = this.controller.signal;
-		return fetch(`${window.location.pathname}?${this.getQueryParams()}`, {
+		return fetch(`${this.config.apiEndpoint}?${this.getQueryParams()}`, {
 			signal,
 		});
 	}
@@ -405,15 +371,9 @@ class Virtualizer {
 	getQueryParams() {
 		const form = document.getElementById(this.config.filterFormId);
 		const params = new URLSearchParams(new FormData(form));
-		params.append("position", this.state.rows.length.toString());
-		params.append("scrolling", "true");
+		params.append("page", this.state.page);
+		// params.append("scrolling", "true");
 		return params.toString();
-	}
-
-	parseNewRows(html) {
-		return new DOMParser()
-			.parseFromString(`<table>${html}</table>`, "text/html")
-			.querySelectorAll(this.config.rowTag);
 	}
 
 	setLoading(loading) {
@@ -425,22 +385,5 @@ class Virtualizer {
 		} else {
 			this.elements.loader.remove();
 		}
-	}
-
-	disableHtmxLoadTriggers() {
-		this.elements.rowWrapper.addEventListener(
-			"htmx:afterOnLoad",
-			() => {
-				for (const el of this.elements.rowWrapper.querySelectorAll(
-					'[hx-trigger^="load"]',
-				)) {
-					el.setAttribute("hx-disable", "");
-				}
-
-				this.elements.tableHeader =
-					this.elements.rowWrapper.querySelector("thead");
-			},
-			{ once: true },
-		);
 	}
 }
