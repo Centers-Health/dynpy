@@ -73,6 +73,43 @@ def column_header_link(context, sort_hx_name=None, hx_target=None):
     )
 
 
+@register.inclusion_tag("dynpy_gfl/includes/dropdown_sort.html", takes_context=True)
+def dropdown_sort(context, sort_hx_name=None, hx_target=None):
+    view = context["view"]
+    sort_hx_name = sort_hx_name or getattr(view, "sort_hx_name", None)
+    hx_target = hx_target or "#gfl_table"
+    filterset = context["filter"]
+    order_by = filterset.qs._query.order_by
+    # get order_by from the query if there is no order_by set, use default
+    order = constants.DESC if (order_by and order_by[0].descending) else constants.ASC
+    reverse_order = reverse_asc_desc_order(order)
+    sort_icon_direction = "down" if order == constants.ASC else "up"
+
+    order_by_column = None
+
+    for column in view.get_columns():
+        # Get to order by for this column, takes order_by_overrides into account
+
+        column_order_by_clauses = filterset.get_order_by([column.get("field_name")], order)
+
+        # Use `.expression` because the order by contains the order which when being flipped is not the same
+        column_order_by_list = [order_by.expression for order_by in column_order_by_clauses]
+        order_by_list = [order_by.expression for order_by in order_by]
+        if column_order_by_clauses and column_order_by_list == order_by_list:
+            order_by_column = column
+
+    return {
+        "order_by_column": order_by_column,
+        "order": order,
+        "reverse_order": reverse_order,
+        "sort_hx_name": sort_hx_name,
+        "hx_target": hx_target,
+        "sort_icon_direction": sort_icon_direction,
+        "request": context["request"],
+        "view": view,
+    }
+
+
 @register.filter()
 def is_selectpicker(field):
     classes = field.field.widget.attrs.get("class", [])

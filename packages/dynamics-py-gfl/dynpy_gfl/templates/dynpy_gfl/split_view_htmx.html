@@ -10,7 +10,11 @@
          class="d-flex overflow-auto rounded position-relative h-100"
          id="table_with_side_panel">
         <div id="gfl_table_wrapper"
-             :style="{ '--table-width': $store.splitView.tableWidth, transition: $store.splitView.resizing ? 'none' : 'width .3s' }">
+             {% if view.side_panel_is_resizable %}
+                 :style="{ '--table-width': $store.splitView.tableWidth, transition: $store.splitView.resizing ? 'none' : 'width .3s' }"
+             {% else %}
+                 style="--table-width: {{ view.default_table_width_percent }}%;"
+             {% endif %}>
             <span id="table-loader"
                   class="overlay-spinner-indicator spinner-overlay-absolute h-100 w-100 bg-white rounded text-center">
                 <div class="d-flex align-items-center justify-content-center h-100">
@@ -24,14 +28,13 @@
                     </div>
                 </div>
             </span>
-            <div class="table_wrapper overflow-auto border rounded h-100
-                        {% if view.get_freeze_columns > 0 %}gfl-frozen{% endif %}
-                        {% if view.fixed_header %}fixed_header{% endif %}"
-                 id="gfl_table_wrapper">
+            <div class="table_wrapper overflow-auto border rounded h-100 
+                {% block table_wrapper_classes %} {% endblock table_wrapper_classes %}
+                 {% if view.get_freeze_columns > 0 %}gfl-frozen{% endif %} {% if view.fixed_header %}fixed_header{% endif %}" id="gfl_table_wrapper">
 
                 {% block table %}
                     <table id="gfl_table" class=" 
-                        {% block table_class %}table table-striped fixed_header table-hover min-width-max-content mb-0{% endblock table_class %}
+                        {% block table_class %} table table-striped fixed_header table-hover min-width-max-content mb-0 {% endblock table_class %}
                          ">
                         <thead>
 
@@ -120,22 +123,30 @@
 
         </div>
     </div>
-    <div class="resizer"
-         x-show="$store.splitView.sidePanelOpen"
-         id="table_panel_divider"></div>
+    {% if view.side_panel_is_resizable %}
+        <div class="resizer"
+             x-show="$store.splitView.sidePanelOpen"
+             id="table_panel_divider"></div>
+    {% endif %}
 
     {% block side_panel %}
         <div class="card h-100 overflow-auto position-relative scroll-sensitive"
              id="side_panel_wrapper"
              x-show="$store.splitView.sidePanelOpen"
-             :style="{ '--side-panel-width': $store.splitView.sidePanelWidth}">
-            <i class="fa fa-times fa-lg cursor-pointer text-dark close-btn btn btn-sm p-1 btn-light"
-               style="z-index: 10"
-               title="Close panel (Esc)"
-               data-toggle="tooltip"
-               @click="$store.splitView.closeSidePanel()"
-               @keydown.window="if ($event.key === 'Escape') $store.splitView.closeSidePanel()"
-               id="close_panel_btn"></i>
+             {% if view.side_panel_is_resizable %}
+                 :style="{ '--side-panel-width': $store.splitView.sidePanelWidth}"
+             {% else %}
+                 style="--side-panel-width: {{ view.default_side_panel_width_percent }}%;"
+             {% endif %}>
+            {% if view.side_panel_is_closable %}
+                <i class="fa fa-times fa-lg cursor-pointer text-dark close-btn btn btn-sm p-1 btn-light"
+                   style="z-index: 10"
+                   title="Close panel (Esc)"
+                   data-toggle="tooltip"
+                   @click="$store.splitView.closeSidePanel()"
+                   @keydown.window="if ($event.key === 'Escape') $store.splitView.closeSidePanel()"
+                   id="close_panel_btn"></i>
+            {% endif %}
             <span id="side-panel-loader"
                   class="overlay-spinner-indicator spinner-overlay-absolute h-100 w-100 bg-white rounded text-center">
                 <div class="d-flex align-items-center justify-content-center h-100">
@@ -174,7 +185,7 @@
                 activeRowId: new URL(window.location.href).searchParams.get('object_id') || '',
                 sidePanelOpen: false,
                 tableWidth: '100%',
-                sidePanelWidth: Alpine.$persist('25%'),
+                sidePanelWidth: Alpine.$persist('{{ view.default_side_panel_width_percent }}%'),
                 resizing: false,
 
                 openSidePanel() {

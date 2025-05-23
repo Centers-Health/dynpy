@@ -32,7 +32,7 @@ class Filter(BaseHxRequest):
 
 class Sort(BaseHxRequest):
     name = "sort"
-    GET_block = ["table", "filters"]
+    GET_block = ["table", "filters", "filter_message"]
 
     def get_context_data(self, **kwargs) -> Dict:
         context = super().get_context_data(**kwargs)
