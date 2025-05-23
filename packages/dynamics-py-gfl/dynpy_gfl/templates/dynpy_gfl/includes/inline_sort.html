@@ -1,0 +1,38 @@
+{% load dynpy_tags %}
+<div class="dropdown">
+    <button class="btn btn-link dropdown-toggle py-0 ml-4"
+            style="text-decoration: none"
+            type="button"
+            id="sortDropdownMenuButton"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false">Sort By {{ order_by_column.label }}</button>
+    <div class="dropdown-menu" aria-labelledby="sortDropdownMenuButton">
+        {% for column in view.get_columns %}
+            {% if column.label %}
+                <a class="dropdown-item d-flex align-items-center
+                          {% if column.field_name == order_by_column.field_name %}active{% endif %}"
+                   hx-boost='true'
+                   hx-target='{{ hx_target }}'
+                   hx-indicator='#table-loader'
+                   hx-swap='outerHTML settle:0 show:#gfl_table:top'
+                   href="?{% param_replace hx_request_name=sort_hx_name order_by=column.field_name order=order %}">
+                    {{ column.label }}
+                </a>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+<div>
+    <a class="btn btn-link py-0"
+       data-toggle="tooltip"
+       title="Toggle sort order"
+       hx-boost='true'
+       hx-target='{{ hx_target }}'
+       hx-indicator='#table-loader'
+       hx-swap='outerHTML settle:0 show:#gfl_table:top'
+       href="?{% param_replace hx_request_name=sort_hx_name order_by=order_by_column.field_name order=reverse_order %}">
+        <i class="fas fa-sort-amount-{{ sort_icon_direction }}-alt"
+           aria-hidden="true"></i>
+    </a>
+</div>

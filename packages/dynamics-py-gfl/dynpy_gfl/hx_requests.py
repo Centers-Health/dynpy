@@ -40,6 +40,11 @@ class Sort(BaseHxRequest):
         return context
 
 
+class SortInline(Sort):
+    name = "sort_inline"
+    GET_block = ["table", "filters", "filter_message"]
+
+
 class BaseSidePanel(BaseHxRequest):
     def get_hx_object(self, request):
         object_id = request.GET.get("object_id")

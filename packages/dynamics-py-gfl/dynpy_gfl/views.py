@@ -242,6 +242,7 @@ class GenericFilterListViewHX(HtmxViewMixin, GenericFilterListView):
     paginator_position_arg = "position"
     include_index_column = False  # If True, the first column will be an index column
     enable_virtual_scroll = False  # If True, the table will use virtual scrolling
+    totals_align_right = True
 
     # Tabs
     has_tabs = False  # If enabled, define filter_qs_by_tab
@@ -294,3 +295,21 @@ class GFLSplitViewHX(GenericFilterListViewHX):
     base_gfl_template = "dynpy_gfl/split_view_htmx.html"
     side_panel_hx_name = ""
     paginate_by = 20
+
+
+class GFLCardSplitViewHX(GFLSplitViewHX):
+    base_gfl_template = "dynpy_gfl/card_split_view_htmx.html"
+    totals_align_right = False
+    sort_hx_name = "sort_inline"
+    detail_section_hx_name: str
+    card_list_cols = 3
+
+    @property
+    def detail_section_cols(self):
+        """Uses bootstrap grid system which has a total of 12 columns"""
+        return 12 - self.card_list_cols
+
+    @property
+    def side_panel_hx_name(self):
+        """Rename for semantic purposes"""
+        return self.detail_section_hx_name

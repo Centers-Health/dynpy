@@ -138,7 +138,10 @@
 
                 {% block above_table %}
                     {% block total %}
-                        <div class='ml-auto align-self-end'
+                        <div class='{% if view.totals_align_right %}
+                                        ml-auto
+                                    {% endif %}
+                                    align-self-end'
                              id='total-records'
                              hx-swap-oob='true'
                              {% hx_get 'gfl_total' %}
