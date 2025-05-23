@@ -243,6 +243,8 @@ class GenericFilterListViewHX(HtmxViewMixin, GenericFilterListView):
     include_index_column = False  # If True, the first column will be an index column
     enable_virtual_scroll = False  # If True, the table will use virtual scrolling
     per_combo_page = 100  # The number of items to load per combo page
+    show_dropdown_sort = False
+    totals_align_right = True
 
     # Tabs
     has_tabs = False  # If enabled, define filter_qs_by_tab
@@ -309,3 +311,25 @@ class GFLSplitViewHX(GenericFilterListViewHX):
     base_gfl_template = "dynpy_gfl/split_view_htmx.html"
     side_panel_hx_name = ""
     paginate_by = 20
+    default_side_panel_width_percent = 25
+    side_panel_is_resizable = True
+    side_panel_is_closable = True
+
+    @property
+    def default_table_width_percent(self):
+        return 100 - self.default_side_panel_width_percent
+
+
+class GFLCardSplitViewHX(GFLSplitViewHX):
+    base_gfl_template = "dynpy_gfl/card_split_view_htmx.html"
+    totals_align_right = False
+    detail_section_hx_name: str
+    show_dropdown_sort = True
+    default_side_panel_width_percent = 75
+    side_panel_is_resizable = False
+    side_panel_is_closable = False
+
+    @property
+    def side_panel_hx_name(self):
+        """Rename for semantic purposes"""
+        return self.detail_section_hx_name

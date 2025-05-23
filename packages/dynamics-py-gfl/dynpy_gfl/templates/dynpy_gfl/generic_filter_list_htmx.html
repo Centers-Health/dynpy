@@ -54,17 +54,22 @@
                     {% endblock extra_filter_buttons %}
 
                     {% block filter_message %}
-                        <i id="filter-message" hx-swap-oob="true" class="text-muted ml-2">{{ filters_applied_count }} Filter{{ filters_applied_count|pluralize }} Applied
-                            {% if filters_applied_count > 0 %}
-                                (<a class="btn-link"
+                        <div id="filter-message" hx-swap-oob="true" class="d-flex">
+                            <i class="text-muted ml-2">{{ filters_applied_count }} Filter{{ filters_applied_count|pluralize }} Applied
+                                {% if filters_applied_count > 0 %}
+                                    (<a class="btn-link"
    href="#"
    {% hx_get view.filter_hx_name %}
    hx-target='#gfl_table'
    hx-swap='outerHTML settle:0'
    hx-push-url='true'
    hx-indicator='#table-loader, .loaded-content'>Reset Filters</a>)
+                                {% endif %}
+                            </i>
+                            {% if view.show_dropdown_sort %}
+                                {% dropdown_sort sort_hx_name=view.sort_hx_name hx_target="#gfl_table" %}
                             {% endif %}
-                        </i>
+                        </div>
                     {% endblock filter_message %}
 
                     <div class="ml-auto">
@@ -138,7 +143,10 @@
 
                 {% block above_table %}
                     {% block total_and_pagination %}
-                        <div class='ml-auto align-self-end'
+                        <div class='{% if view.totals_align_right %}
+                                        ml-auto
+                                    {% endif %}
+                                    align-self-end'
                              id='total-records'
                              hx-swap-oob='true'
                              {% hx_get 'gfl_total' %}
@@ -298,7 +306,7 @@
                             {% endblock pagination_under_table %}
 
                             {% block loader %}
-                                <div id="tr-loader" class="htmx-indicator d-none">
+                                <div id="tr-loader" class="htmx-indicator">
                                     <div class="d-flex justify-content-center">
                                         <div class="spinner-border" role="status"></div>
                                     </div>
