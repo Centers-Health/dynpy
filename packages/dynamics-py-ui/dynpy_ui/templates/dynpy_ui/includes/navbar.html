@@ -1,0 +1,228 @@
+{% comment %}
+    To use this template:
+        - Provide a 'base_url' for the app’s homepage
+
+    Example Usage:
+        {% if request.user.is_authenticated and request.resolver_match.app_name %}
+            {% url 'your_app:home' as base_url %}
+            {% include 'dynpy_ui/includes/navbar.html' with base_url=base_url %}
+        {% endif %}
+
+    WARNING:
+        - You must define NAVBAR_CONFIG_PATH in settings.py:
+
+            NAVBAR_CONFIG_PATH = "your_app.config"
+
+        - The referenced config file must contain an `app_config` dictionary with this structure:
+
+            app_config = {
+                "app_name": {
+                    "label": "Billing Calendar",
+                    "nav_items": [
+                        # One or many of the following types
+                        {
+                            "type": "item",
+                            "url_name": "", # Also accepts a callable to set url_name based on user
+                            "url_params": {
+                                "key": "value"
+                            },
+                            "permissions": lambda user: True, # optional. Accepts a bool or callable
+                            "label": ""
+                        },
+                        {
+                            "type": "divider",
+                        },
+                        {
+                            "type": "section-header",
+                        },
+                        {
+                            "type": "group",
+                            "label": "",
+                            "items": [
+                                {
+                                    "type": "item",
+                                    "url_name": "", # Also accepts callable to set url_name based on user
+                                    "url_params": {
+                                        "key": "value"
+                                    },
+                                    "permissions": lambda user: True, # optional. Accept a bool or callable
+                                    "label": "",
+                                    "page": "some_page", # Restricts which page in the app this menu item appears on
+                                },
+                                #...
+                            ]
+                        },
+                    ]
+                },
+            }
+
+        - You must set `BASE_CAS_URL` in settings.py and include it in a context processor
+          so it is available to templates. For example:
+
+            # settings.py
+            BASE_CAS_URL = "https://cas.localhost"
+
+            TEMPLATES = [
+            	{
+            		...
+            		"OPTIONS": {
+		            "context_processors": [
+		                ...
+		                "app.context_processors.base_urls",
+		            ],
+		        },
+		    }
+	      ]
+
+            # app/context_processors.py
+            def base_urls(request):
+                return {"BASE_CAS_URL": settings.BASE_CAS_URL}
+
+{% endcomment %}
+{% load static %}
+{% load hx_tags %}
+{% load dynpy_ui_tags %}
+<link rel="stylesheet" href="{% static 'dynpy_ui/css/navbar.css' %}">
+<nav class="navbar navbar-expand-lg py-0 sticky-top mb-0
+            {% if DJANGO_ENV == 'qa' %}
+                bg-warning
+            {% elif DJANGO_ENV == 'dev' %}
+                bg-light
+            {% else %}
+                bg-white
+            {% endif %}"
+     hx-disinherit="hx-indicator">
+    {% include "dynpy_ui/web-components/app-switcher.html" %}
+    <div class="nav-item d-flex">
+        <app-switcher></app-switcher>
+    </div>
+    <a href="{{ base_url }}" class="nav-item d-flex">
+        <img src='{% static "dynpy/img/centersLogo3d.png" %}'
+             class="logo navbar-brand"
+             width="100">
+    </a>
+    <button class="navbar-toggler navbar-light"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    {% with app_config=request.resolver_match.app_name|get_app_config %}
+        <div class="collapse navbar-collapse text-center"
+             id="navbarSupportedContent">
+            <a class="m-0 h2 app-label nav-item d-flex" href="#">
+                <span>{{ app_config.label }}</span>
+            </a>
+
+            {% block navbar_extras_left %}
+            {% endblock navbar_extras_left %}
+
+            <div class="d-flex nav-item text-center ml-auto">
+                <h2 class="mb-0">{{ nav_title }}</h2>
+            </div>
+            <ul class="navbar-nav ml-auto">
+
+                {% block navbar_extras_right %}
+                {% endblock navbar_extras_right %}
+
+                {% with url_name=request.resolver_match.app_names.0|add:":"|add:request.resolver_match.url_name %}
+                    {% for item in app_config.nav_items %}
+                        {% user_passes_item_permission item as user_passes_permission %}
+                        {% if user_passes_permission %}
+                            {% if not item.page or item.page == request.resolver_match.url_name %}
+                                {% if item.type == "item" %}
+                                    <li class="nav-item mx-1 h-100
+                                               {% if url_name == item.url_name %}active{% endif %}">
+                                        <a class="nav-link text-black rounded p-2"
+                                           href="{% nav_item_url item %}">{{ item.label |safe }}</a>
+                                    </li>
+                                {% elif item.type == "group" %}
+                                    <li class="nav-item dropdown h-100 mx-1
+                                               {% if item|is_active_navbar_dropdown:url_name %}active{% endif %}">
+                                        <a class="nav-link dropdown-toggle rounded p-2
+                                                  {% if item.class %}{{ item.class }}{% endif %}"
+                                           href="#"
+                                           id="navbarDropdown-{{ forloop.counter }}"
+                                           role="button"
+                                           data-toggle="dropdown"
+                                           aria-haspopup="true"
+                                           aria-expanded="false">{{ item.label|safe }}</a>
+                                        <ul class="dropdown-menu dropdown-menu-right"
+                                            aria-labelledby="navbarDropdown-{{ forloop.counter }}">
+                                            {% for dropdown_item in item.items %}
+                                                {% user_passes_item_permission dropdown_item as user_passes_permission %}
+                                                {% if user_passes_permission %}
+                                                    {% if not dropdown_item.page or dropdown_item.page == request.resolver_match.url_name %}
+                                                        {% if dropdown_item.type == "item" %}
+                                                            <a class="dropdown-item
+                                                                      {% if url_name == dropdown_item.url_name %}active{% endif %}"
+                                                               href="{% if dropdown_item.url_name %} {% nav_item_url dropdown_item %} {% else %} # {% endif %}"
+                                                               {% include "django/forms/widgets/attrs.html" with widget=dropdown_item %}>
+                                                                {{ dropdown_item.label|safe }}
+                                                            </a>
+                                                        {% elif dropdown_item.type == "group" %}
+                                                            {% include "dynpy_ui/includes/navbar_submenu.html" with item=dropdown_item %}
+                                                        {% elif dropdown_item.type == "divider" %}
+                                                            <div class="dropdown-divider"></div>
+                                                        {% elif dropdown_item.type == "section-header" %}
+                                                            <div class="dropdown-header">{{ dropdown_item.label }}</div>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                {% endwith %}
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item dropdown rounded h-100 mx-1" id="help_badge">
+                        <a href="#" class="badge badge-info text-light">
+                            Need Help <i class="fa fa-question" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown rounded h-100 mx-1">
+                        <a class="nav-link dropdown-toggle rounded p-2"
+                           href="#"
+                           id="userDropdown"
+                           role="button"
+                           data-toggle="dropdown"
+                           aria-haspopup="true"
+                           aria-expanded="false">
+                            <i class="fa fa-user-circle" aria-hidden="true"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right"
+                             aria-labelledby="userDropdown">
+                            <a class="dropdown-item disabled" href="#">{{ request.user.first_name }} {{ request.user.last_name }}</a>
+                            <a class="dropdown-item"
+                               target="_blank"
+                               href="{{ BASE_CAS_URL }}/users/profile/">
+                                <i class="fa fa-user"></i> Profile
+                                <i class="fa fa-external-link fa-xs ml-2" aria-hidden="true"></i>
+                            </a>
+                            {% if request.user|has_administration_access %}
+                                <a class="dropdown-item" href="{% url 'admin:index' %}">
+                                    <i class="fa fa-sliders" aria-hidden="true"></i> Administration
+                                </a>
+                            {% endif %}
+
+                            {% block user_dropdown_extras %}
+                            {% endblock user_dropdown_extras %}
+
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'cas_ng_logout' %}">
+                                <i class="fa fa-lock" aria-hidden="true"></i> Logout
+                            </a>
+                        </div>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endwith %}
+</nav>
+<script defer src="{% static "dynpy_ui/js/navbar.js" %}"></script>

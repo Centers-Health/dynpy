@@ -1,0 +1,24 @@
+{% load dynpy_ui_tags %}
+<li class="dropdown-submenu">
+    <a class="dropdown-item dropdown-toggle" href="#">{{ item.label }}</a>
+    <ul class="dropdown-menu dropdown-menu-right shadow-sm">
+        {% for submenu_item in item.items %}
+            {% user_passes_item_permission submenu_item as user_passes_permission %}
+            {% if user_passes_permission %}
+                {% if not submenu_item.page or submenu_item.page == request.resolver_match.url_name %}
+                    {% if submenu_item.type == "item" %}
+                        <li>
+                            <a class="dropdown-item
+                                      {% if url_name == submenu_item.url_name %}active{% endif %}"
+                               href="{% nav_item_url submenu_item %}">{{ submenu_item.label }}</a>
+                        </li>
+                    {% elif submenu_item.type == "group" %}
+                        {% include "dynpy_ui/includes/navbar_submenu.html" with item=submenu_item %}
+                    {% elif submenu_item.type == "divider" %}
+                        <div class="dropdown-divider"></div>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </ul>
+</li>
