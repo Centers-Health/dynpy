@@ -6,7 +6,7 @@ from hx_requests.hx_requests import BaseHxRequest
 
 class InfiniteScroll(BaseHxRequest):
     name = "infinite_scroll"
-    GET_block = ["items", "freeze_columns_script"]
+    GET_block = ["items", "freeze_columns_script", "pagination_under_table"]
 
     def get(self, request, *args, **kwargs):
         self.view.kwargs["page"] = kwargs.get("page")
@@ -20,7 +20,7 @@ class Filter(BaseHxRequest):
         "filters",
         "filter_message",
         "no_objects",
-        "total",
+        "total_and_pagination",
         "tabs_container",
         "freeze_columns_script",
         "gfl_frozen_column_styles",
@@ -38,6 +38,11 @@ class Sort(BaseHxRequest):
         context = super().get_context_data(**kwargs)
         context["filter"] = self.view.filterset
         return context
+
+
+class Pagination(BaseHxRequest):
+    name = "pagination"
+    GET_block = ["total_and_pagination", "table"]
 
 
 class BaseSidePanel(BaseHxRequest):
@@ -115,7 +120,7 @@ class GflTab(BaseHxRequest):
     """
 
     name = "gfl_tab"
-    GET_block = ["table", "filters", "filter_message", "no_objects", "total"]
+    GET_block = ["table", "filters", "filter_message", "no_objects", "total_and_pagination"]
 
 
 class GflTabCounts(BaseHxRequest):
@@ -139,7 +144,4 @@ class GflTabCounts(BaseHxRequest):
 
 class GflTotal(BaseHxRequest):
     name = "gfl_total"
-
-    def get_response_html(self, **kwargs) -> str:
-        total = self.view.filterset.qs.count()
-        return f"{total:,} {self.view.object_name}"
+    GET_template = "dynpy_gfl/includes/total_and_pagination.html"

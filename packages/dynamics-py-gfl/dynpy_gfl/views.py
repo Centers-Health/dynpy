@@ -11,7 +11,7 @@ from dynpy_actions.mixins import ViewActionsMixin
 from hx_requests.views import HtmxViewMixin
 from render_block import render_block_to_string
 
-from dynpy_gfl.paginators import InfiniteScrollPaginator
+from dynpy_gfl.paginators import ComboPaginator, InfiniteScrollPaginator
 
 
 class CustomFilterView(FilterView):
@@ -242,16 +242,21 @@ class GenericFilterListViewHX(HtmxViewMixin, GenericFilterListView):
     paginator_position_arg = "position"
     include_index_column = False  # If True, the first column will be an index column
     enable_virtual_scroll = False  # If True, the table will use virtual scrolling
+    per_combo_page = 100  # The number of items to load per combo page
 
     # Tabs
     has_tabs = False  # If enabled, define filter_qs_by_tab
     tab_hx_name = "gfl_tab"
     tab_counts_hx_name = "gfl_tab_counts"
 
+    @property
+    def using_combo_pagination(self):
+        return self.paginator_class == ComboPaginator
+
     def get(self, request, *args, **kwargs):
         response = super().get(request, *args, **kwargs)
         if "scrolling" in request.GET:
-            context = self.get_context_data(filter=self.filterset)
+            context = self.get_context_data()
             return HttpResponse(
                 render_block_to_string(self.template_name, "items", context=context, request=request)
             )
@@ -263,6 +268,16 @@ class GenericFilterListViewHX(HtmxViewMixin, GenericFilterListView):
         per_page,
     ) -> Paginator:
         position = int(self.request.GET.get(self.paginator_position_arg, 0))
+        if self.using_combo_pagination:
+            combo_page = int(self.request.GET.get("combo_page", 1))
+            return self.paginator_class(
+                queryset,
+                per_page,
+                position=position,
+                per_combo_page=self.per_combo_page,
+                combo_page=combo_page,
+            )
+
         return self.paginator_class(queryset, per_page, position=position)
 
     def paginate_queryset(self, queryset, page_size):
