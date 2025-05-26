@@ -61,13 +61,13 @@
                                         {% block table_row_outer %}
                                             {# djlint:off #}
                                         <tr id="gfl_row_{{ item.pk }}" class="split-view-row cursor-pointer js-gfl-item {% block table_row_classes %}{% endblock table_row_classes %}"
-                                            @click="$store.splitView.activateRow('{{ item.pk }}', event)"
-                                            :class="$store.splitView.activeRowId == '{{ item.pk }}' && 'row-active'"
-
+                                            @click="$store.splitView.activateRow('{{ item.pk }}', $event)" 
+                                            :class="$store.splitView.activeRowId == '{{ item.pk }}' && 'row-active'" 
+                                            
                                                 {% hx_get view.side_panel_hx_name %}
                                                 hx-vals='{"object_id": "{{ item.pk }}"}'
-                                                hx-swap="innerHTML settle:0"
-                                                hx-target="#side_panel"
+                                                hx-swap="innerHTML settle:0" 
+                                                hx-target="#side_panel" 
                                                 hx-indicator="#side-panel-loader"
                                                 hx-trigger="click, refreshSidePanel{{ item.pk }} from:body"
                                                 hx-disinherit="hx-indicator"
@@ -76,8 +76,11 @@
 
                                             {% block index_column %}
                                                 {% if view.include_index_column %}
-                                                    <td x-data="{index: $el.closest('.js-gfl-item').rowIndex}"
-                                                        @table-row-removed.window="index = $el.closest('.js-gfl-item').rowIndex">
+                                                    <td x-data="{index: $el.closest('.js-gfl-item').rowIndex
+                                                        {% if view.use_combo_pagination %}
+                                                            + {{ paginator.combo_page|add:-1|multiply:paginator.per_combo_page }}
+                                                        {% endif %}
+                                                        }" @table-row-removed.window="index = $el.closest('.js-gfl-item').rowIndex">
                                                         <span x-text="index"></span>
                                                     </td>
                                                 {% endif %}
@@ -100,6 +103,10 @@
 
                 </table>
             {% endblock table %}
+
+            {% block pagination_under_table %}
+                {{ block.super }}
+            {% endblock pagination_under_table %}
 
             {% block loader %}
                 {% comment %} Needed because table_wrapper is overridden and this is nested in there {% endcomment %}

@@ -1,0 +1,36 @@
+{% load hx_tags %}
+{% if view.using_combo_pagination %}
+    <div id='total-count'>
+        <span>Showing <b>{{ paginator.showing_start }}-{{ paginator.showing_end }}</b> of <b>{{ paginator.count }}</b></span>
+        <nav aria-label="Page navigation" class='d-inline-block ml-1'>
+            <ul class="pagination mb-0">
+                <!-- Previous Page Button -->
+                <li class="page-item">
+                    <a class="btn btn-sm btn-outline-primary
+                              {% if paginator.combo_page == 1 %}disabled{% endif %}"
+                       {% hx_get 'pagination' %}
+                       hx-target="#gfl_table"
+                       hx-indicator='#table-loader'
+                       hx-swap="outerHTML settle:0 show:#gfl_table:top"
+                       hx-vals='{ "combo_page": "{{ paginator.combo_page|add:-1 }}", "position": "0" }'>
+                        <span aria-hidden="true"><i class="fas fa-chevron-left"></i></span>
+                    </a>
+                </li>
+                <!-- Next Page Button -->
+                <li class="page-item ">
+                    <a class="btn btn-sm btn-outline-primary
+                              {% if not paginator.has_next_combo_page %}disabled{% endif %}"
+                       {% hx_get 'pagination' %}
+                       hx-target="#gfl_table"
+                       hx-indicator='#table-loader'
+                       hx-swap="outerHTML settle:0 show:#gfl_table:top"
+                       hx-vals='{ "combo_page": "{{ paginator.combo_page|add:1 }}", "position": "0" }'>
+                        <span aria-hidden="true"><i class="fas fa-chevron-right"></i></span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+{% else %}
+    <span id='total-count'><b>Total: {{ paginator.count }}</b></span>
+{% endif %}

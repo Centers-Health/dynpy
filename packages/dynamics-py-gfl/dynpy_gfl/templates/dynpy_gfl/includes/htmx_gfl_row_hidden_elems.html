@@ -3,13 +3,13 @@
 {% if paginator.per_page|divide:forloop.counter == 2 and paginator.has_next  and not view.enable_virtual_scroll %}
     <div class="hidden-invisible"
         {# djlint:off #}
-{% comment %} Delay so that the alpine store is updated before the Htmx request{% endcomment %}
+        {% comment %} Delay so that the alpine store is updated before the Htmx request{% endcomment %}
         {# djlint:on #}
         hx-trigger="intersect once delay:100ms"
         {% hx_get view.infinite_scroll_hx_name %}
         hx-include='#basicFilters'
         hx-indicator="#tr-loader"
-        hx-vals="js:{ 'position': Alpine.store('tableRowCounter').total }"
+        hx-vals="js:{ 'position': Alpine.store('tableRowCounter').total, 'combo_page': {{ paginator.combo_page|default:0 }} }"
         hx-swap="afterend settle:0"
         hx-target=".js-gfl-item:last-child"></div>
 {% endif %}
