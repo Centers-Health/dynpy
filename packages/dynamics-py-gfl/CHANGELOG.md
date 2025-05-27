@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v14.0.2 (2025-05-27)
+### Fix
+- Refresh pagination under table block when going to next page ([`d57e369`](https://github.com/Centers-health/dynpy/commit/d57e369483ec09753a6270010065573b7bff8b47))
+
+
 ## v14.0.1 (2025-05-27)
 ### Fix
 - Push combo_page param to url and include filters when paginating ([`dced6cd`](https://github.com/Centers-health/dynpy/commit/dced6cd10ff61e76487a8aaca092684605bc9526))
