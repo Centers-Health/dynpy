@@ -11,6 +11,8 @@
                        {% hx_get 'pagination' %}
                        hx-target="#gfl_table"
                        hx-indicator='#table-loader'
+                       hx-push-url='true'
+                       hx-include='#basicFilters'
                        hx-swap="outerHTML settle:0 show:#gfl_table:top"
                        hx-vals='{ "combo_page": "{{ paginator.combo_page|add:-1 }}", "position": "0" }'>
                         <span aria-hidden="true"><i class="fas fa-chevron-left"></i></span>
@@ -23,6 +25,8 @@
                        {% hx_get 'pagination' %}
                        hx-target="#gfl_table"
                        hx-indicator='#table-loader'
+                       hx-push-url='true'
+                       hx-include='#basicFilters'
                        hx-swap="outerHTML settle:0 show:#gfl_table:top"
                        hx-vals='{ "combo_page": "{{ paginator.combo_page|add:1 }}", "position": "0" }'>
                         <span aria-hidden="true"><i class="fas fa-chevron-right"></i></span>

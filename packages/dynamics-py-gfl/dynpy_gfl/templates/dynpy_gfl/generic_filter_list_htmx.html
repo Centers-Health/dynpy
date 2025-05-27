@@ -258,7 +258,7 @@
                                      id='pagination-container'
                                      hx-swap-oob='true'>
                                     {% if view.using_combo_pagination and not paginator.has_next %}
-                                        <nav aria-label="Page navigation ">
+                                        <nav aria-label="Page navigation">
                                             <ul class="pagination justify-content-center mt-3">
                                                 <!-- Previous Page Button -->
                                                 <li class="page-item mx-1">
@@ -267,6 +267,8 @@
                                                        {% hx_get 'pagination' %}
                                                        hx-target="#gfl_table"
                                                        hx-indicator='#table-loader'
+                                                       hx-push-url='true'
+                                                       hx-include='#basicFilters'
                                                        hx-swap="outerHTML settle:0 show:#gfl_table:top"
                                                        hx-vals='{ "combo_page": "{{ paginator.combo_page|add:-1 }}", "position": "0" }'>
                                                         <span aria-hidden="true"><i class="fas fa-chevron-left"></i> Prev</span>
@@ -278,6 +280,8 @@
                                                               {% if not paginator.has_next_combo_page %}disabled{% endif %}"
                                                        {% hx_get 'pagination' %}
                                                        hx-target="#gfl_table"
+                                                       hx-push-url='true'
+                                                       hx-include='#basicFilters'
                                                        hx-indicator='#table-loader'
                                                        hx-swap="outerHTML settle:0 show:#gfl_table:top"
                                                        hx-vals='{ "combo_page": "{{ paginator.combo_page|add:1 }}", "position": "0" }'
