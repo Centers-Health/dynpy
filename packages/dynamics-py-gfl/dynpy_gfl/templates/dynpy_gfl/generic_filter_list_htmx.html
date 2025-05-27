@@ -142,7 +142,9 @@
                              id='total-records'
                              hx-swap-oob='true'
                              {% hx_get 'gfl_total' %}
-                             hx-vals='{ "combo_page": {{ paginator.combo_page }} }'
+                             {% if view.using_combo_pagination %}
+                                 hx-vals='{ "combo_page": {{ paginator.combo_page }} }'
+                             {% endif %}
                              hx-trigger='load delay:1ms'
                              hx-indicator='this'
                              hx-swap="outerHTML"
