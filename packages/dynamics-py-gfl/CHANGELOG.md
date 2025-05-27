@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v14.0.0 (2025-05-27)
+### Breaking
+- Add combopaginator for enhanced infinite scroll with combo pages ([`270c899`](https://github.com/Centers-health/dynpy/commit/270c8993649b04ad52cbe3da6d1ad1de542e6cf3))
+
+
 ## v13.5.0 (2025-05-16)
 ### Feature
 - Vertically center gfl cell contents ([`1815a8a`](https://github.com/Centers-health/dynpy/commit/1815a8aacaf4dce9bf0a47d967762a8026adf9c9))
