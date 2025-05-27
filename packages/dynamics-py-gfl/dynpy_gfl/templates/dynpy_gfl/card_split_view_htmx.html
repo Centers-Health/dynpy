@@ -5,114 +5,26 @@
 {% load hx_tags %}
 {% load static %}
 
-{% block filter_message %}
-    <div id="filter-message-wrapper" hx-swap-oob="true" class="d-flex">
-        {{ block.super }}
-        {% inline_sort sort_hx_name=view.sort_hx_name hx_target="#gfl_table" %}
+{% block table_wrapper_classes %}
+    bg-light
+{% endblock table_wrapper_classes %}
+
+{% block table_class %}
+{% endblock table_class %}
+
+{% block table_head %}
+{% endblock table_head %}
+
+{% block table_row_classes %}
+    card shadow-sm m-2
+{% endblock table_row_classes %}
+
+{% block table_row %}
+
+    {% block card_body %}
+    {% endblock card_body %}
+
+    <div class="hidden-invisible">
+        {% include "dynpy_gfl/includes/htmx_gfl_row_hidden_elems.html" %}
     </div>
-{% endblock filter_message %}
-
-{% block table_wrapper %}
-    <div x-init="initTableRowCounter()"
-         class="d-flex overflow-auto rounded position-relative h-100"
-         id="table_with_side_panel">
-        <div id="gfl_table_wrapper" class="col-{{ view.card_list_cols }} pl-0">
-            <span id="table-loader"
-                  class="overlay-spinner-indicator spinner-overlay-absolute h-100 w-100 bg-white rounded text-center">
-                <div class="d-flex align-items-center justify-content-center h-100">
-                    <div>
-                        <div class="d-flex justify-content-center">
-                            <div class="spinner-border" role="status"></div>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <span id="loading-message">Loading...</span>
-                        </div>
-                    </div>
-                </div>
-            </span>
-            <div class="table_wrapper overflow-auto border rounded h-100 bg-light"
-                 id="gfl_table_wrapper">
-
-                {% block table %}
-                    <div id="gfl_table">
-
-                        {% block table_tbody %}
-                            {% block items %}
-                                {% for item in object_list %}
-
-                                    {% block table_row_outer %}
-                                        {# djlint:off #}
-                                        <div id="gfl_row_{{ item.pk }}" class="card shadow-sm m-2 split-view-row cursor-pointer js-gfl-item {% block table_row_classes %}{% endblock table_row_classes %}"
-                                            @click="$store.splitView.activateRow('{{ item.pk }}', event)"
-                                            :class="$store.splitView.activeRowId == '{{ item.pk }}' && 'row-active'"
-
-                                                {% hx_get view.side_panel_hx_name %}
-                                                hx-vals='{"object_id": "{{ item.pk }}"}'
-                                                hx-swap="innerHTML settle:0"
-                                                hx-target="#side_panel"
-                                                hx-indicator="#side-panel-loader"
-                                                hx-trigger="click, refreshSidePanel{{ item.pk }} from:body"
-                                                hx-disinherit="hx-indicator"
-                                            {% block table_row_attributes %}{% endblock table_row_attributes %}>
-                                        {# djlint:on #}
-
-                                        {% block card_body %}
-                                        {% endblock card_body %}
-
-                                        <div class="hidden-invisible">
-                                            {% include "dynpy_gfl/includes/htmx_gfl_row_hidden_elems.html" %}
-                                        </div>
-                                    </div>
-                                {% endblock table_row_outer %}
-
-                            {% endfor %}
-                        {% endblock items %}
-                    {% endblock table_tbody %}
-
-                </div>
-            {% endblock table %}
-
-            {% block loader %}
-                {% comment %} Needed because table_wrapper is overridden and this is nested in there {% endcomment %}
-                {{ block.super }}
-            {% endblock loader %}
-
-            {% block no_objects %}
-                {% comment %} Needed because table_wrapper is overridden and this is nested in there {% endcomment %}
-                {{ block.super }}
-            {% endblock no_objects %}
-
-        </div>
-    </div>
-
-    {% block side_panel %}
-        <div class="card h-100 overflow-auto position-relative scroll-sensitive p-0 col-{{ view.detail_section_cols }}"
-             id="side_panel_wrapper">
-            <span id="side-panel-loader"
-                  class="overlay-spinner-indicator spinner-overlay-absolute h-100 w-100 bg-white rounded text-center">
-                <div class="d-flex align-items-center justify-content-center h-100">
-                    <div>
-                        <div class="d-flex justify-content-center">
-                            <div class="spinner-border" role="status"></div>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <span id="loading-message">Loading...</span>
-                        </div>
-                    </div>
-                </div>
-            </span>
-            <div id="side_panel"
-                 {% hx_get view.side_panel_hx_name %}
-                 hx-vals='js:{ "object_id": Alpine.store("splitView").activeRowId }'
-                 hx-swap="innerHTML settle:0"
-                 hx-target="#side_panel"
-                 hx-indicator="#side-panel-loader"
-                 :hx-trigger="$store.splitView.activeRowId ? 'load' : ''"
-                 hx-disinherit="*"
-                 x-init="$nextTick(() => { htmx.process($el); $store.splitView.activeRowId ? $store.splitView.openSidePanel() : $store.splitView.closeSidePanel(); } )"
-                 :hx-disable="!$store.splitView.activeRowId"></div>
-        </div>
-    {% endblock side_panel %}
-
-</div>
-{% endblock table_wrapper %}
+{% endblock table_row %}

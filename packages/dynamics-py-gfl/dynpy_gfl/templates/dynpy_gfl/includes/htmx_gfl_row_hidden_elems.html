@@ -1,6 +1,6 @@
 {% load generic_filter_list_tags %}
 {% load hx_tags %}
-{% if paginator.per_page|divide:forloop.counter == 2 and paginator.has_next  and not view.enable_virtual_scroll %}
+{% if paginator.per_page|divide:forloop.counter == 2 and paginator.has_next and not view.enable_virtual_scroll %}
     <div class="hidden-invisible"
         {# djlint:off #}
 {% comment %} Delay so that the alpine store is updated before the Htmx request{% endcomment %}

@@ -11,6 +11,7 @@ from dynpy_actions.mixins import ViewActionsMixin
 from hx_requests.views import HtmxViewMixin
 from render_block import render_block_to_string
 
+from dynpy_gfl.enums import ListViewStyle
 from dynpy_gfl.paginators import InfiniteScrollPaginator
 
 
@@ -65,6 +66,21 @@ class GenericFilterListView(CustomFilterView):
     enable_bulk_actions: bool  # not doing as part of ticket
     fixed_header: bool = False
     freeze_columns: int = 0
+    list_view_style: ListViewStyle = ListViewStyle.TABLE
+
+    @property
+    def list_tag(self) -> str:
+        """
+        Returns the HTML tag to be used for the list view.
+        """
+        return "table" if self.list_view_style == ListViewStyle.TABLE else "div"
+
+    @property
+    def list_item_tag(self) -> str:
+        """
+        Returns the HTML tag to be used for each item in the list view.
+        """
+        return "tr" if self.list_view_style == ListViewStyle.TABLE else "div"
 
     def get_columns(self) -> list[dict]:
         """
@@ -117,6 +133,7 @@ class GenericFilterListView(CustomFilterView):
             else 0
         )
         context["filters_applied_count"] = filters_applied_count
+        context["ListViewStyle"] = ListViewStyle
         return context
 
 
@@ -242,6 +259,7 @@ class GenericFilterListViewHX(HtmxViewMixin, GenericFilterListView):
     paginator_position_arg = "position"
     include_index_column = False  # If True, the first column will be an index column
     enable_virtual_scroll = False  # If True, the table will use virtual scrolling
+    show_dropdown_sort = False
     totals_align_right = True
 
     # Tabs
@@ -295,19 +313,24 @@ class GFLSplitViewHX(GenericFilterListViewHX):
     base_gfl_template = "dynpy_gfl/split_view_htmx.html"
     side_panel_hx_name = ""
     paginate_by = 20
+    default_side_panel_width_percent = 25
+    side_panel_is_resizable = True
+    side_panel_is_closable = True
+
+    @property
+    def default_table_width_percent(self):
+        return 100 - self.default_side_panel_width_percent
 
 
 class GFLCardSplitViewHX(GFLSplitViewHX):
     base_gfl_template = "dynpy_gfl/card_split_view_htmx.html"
     totals_align_right = False
-    sort_hx_name = "sort_inline"
     detail_section_hx_name: str
-    card_list_cols = 3
-
-    @property
-    def detail_section_cols(self):
-        """Uses bootstrap grid system which has a total of 12 columns"""
-        return 12 - self.card_list_cols
+    show_dropdown_sort = True
+    default_side_panel_width_percent = 75
+    side_panel_is_resizable = False
+    side_panel_is_closable = False
+    list_view_style = ListViewStyle.CARDS
 
     @property
     def side_panel_hx_name(self):

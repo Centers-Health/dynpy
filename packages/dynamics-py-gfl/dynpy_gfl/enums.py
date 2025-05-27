@@ -15,3 +15,8 @@ class FilterListOrder(Enum):
 class NumberFormat(models.TextChoices):
     INT = "Integer"
     DOLLARS_ONLY = "Dollars Only"
+
+
+class ListViewStyle(models.TextChoices):
+    TABLE = "TABLE"
+    CARDS = "CARDS"

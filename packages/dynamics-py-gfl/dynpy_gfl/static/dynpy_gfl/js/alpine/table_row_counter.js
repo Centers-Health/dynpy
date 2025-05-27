@@ -15,7 +15,11 @@ document.addEventListener("alpine:init", () => {
 						for (const node of mutation.removedNodes) {
 							const nodeId = node.id;
 							const wasReplaced = !!document.getElementById(nodeId);
-							if (node.nodeName === "TR" && !wasReplaced) {
+							if (
+								node.classList &&
+								node.classList.contains("js-gfl-item") &&
+								!wasReplaced
+							) {
 								window.dispatchEvent(
 									new CustomEvent("table-row-removed", {
 										detail: { rowId: nodeId },

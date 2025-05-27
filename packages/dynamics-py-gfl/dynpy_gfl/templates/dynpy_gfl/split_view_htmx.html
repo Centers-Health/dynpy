@@ -10,7 +10,11 @@
          class="d-flex overflow-auto rounded position-relative h-100"
          id="table_with_side_panel">
         <div id="gfl_table_wrapper"
-             :style="{ '--table-width': $store.splitView.tableWidth, transition: $store.splitView.resizing ? 'none' : 'width .3s' }">
+             {% if view.side_panel_is_resizable %}
+                 :style="{ '--table-width': $store.splitView.tableWidth, transition: $store.splitView.resizing ? 'none' : 'width .3s' }"
+             {% else %}
+                 style="--table-width: {{ view.default_table_width_percent }}%;"
+             {% endif %}>
             <span id="table-loader"
                   class="overlay-spinner-indicator spinner-overlay-absolute h-100 w-100 bg-white rounded text-center">
                 <div class="d-flex align-items-center justify-content-center h-100">
@@ -24,15 +28,19 @@
                     </div>
                 </div>
             </span>
-            <div class="table_wrapper overflow-auto border rounded h-100
-                        {% if view.get_freeze_columns > 0 %}gfl-frozen{% endif %}
-                        {% if view.fixed_header %}fixed_header{% endif %}"
-                 id="gfl_table_wrapper">
+            <div class="table_wrapper overflow-auto border rounded h-100 
+                {% block table_wrapper_classes %} {% endblock table_wrapper_classes %}
+                 {% if view.get_freeze_columns > 0 %}gfl-frozen{% endif %} {% if view.fixed_header %}fixed_header{% endif %}" id="gfl_table_wrapper">
 
                 {% block table %}
-                    <table id="gfl_table" class=" 
-                        {% block table_class %}table table-striped fixed_header table-hover min-width-max-content mb-0{% endblock table_class %}
-                         ">
+                    <{{ view.list_tag }} id="gfl_table" class="
+
+                    {% block table_class %}
+                        table table-striped fixed_header table-hover min-width-max-content mb-0
+                    {% endblock table_class %}
+
+                    ">
+                    {% if view.list_view_style == ListViewStyle.TABLE %}
                         <thead>
 
                             {% block table_head %}
@@ -51,16 +59,19 @@
                             {% endblock table_head %}
 
                         </thead>
+                    {% endif %}
 
-                        {% block table_tbody %}
+                    {% block table_tbody %}
+                        {% if view.list_view_style == ListViewStyle.TABLE %}
                             <tbody id="contentArea">
+                            {% endif %}
 
-                                {% block items %}
-                                    {% for item in object_list %}
+                            {% block items %}
+                                {% for item in object_list %}
 
-                                        {% block table_row_outer %}
-                                            {# djlint:off #}
-                                        <tr id="gfl_row_{{ item.pk }}" class="split-view-row cursor-pointer js-gfl-item {% block table_row_classes %}{% endblock table_row_classes %}"
+                                    {% block table_row_outer %}
+                                        {# djlint:off #}
+                                        <{{ view.list_item_tag }} id="gfl_row_{{ item.pk }}" class="split-view-row cursor-pointer js-gfl-item {% block table_row_classes %}{% endblock table_row_classes %}"
                                             @click="$store.splitView.activateRow('{{ item.pk }}', event)"
                                             :class="$store.splitView.activeRowId == '{{ item.pk }}' && 'row-active'"
 
@@ -72,90 +83,98 @@
                                                 hx-trigger="click, refreshSidePanel{{ item.pk }} from:body"
                                                 hx-disinherit="hx-indicator"
                                             {% block table_row_attributes %}{% endblock table_row_attributes %}>
-                                            {# djlint:on #}
+                                        {# djlint:on #}
 
-                                            {% block index_column %}
-                                                {% if view.include_index_column %}
-                                                    <td x-data="{index: $el.closest('.js-gfl-item').rowIndex}"
-                                                        @table-row-removed.window="index = $el.closest('.js-gfl-item').rowIndex">
-                                                        <span x-text="index"></span>
-                                                    </td>
-                                                {% endif %}
-                                            {% endblock index_column %}
-
-                                            {% block table_row %}
-                                                <td class="hidden-invisible">
-                                                    {% include "dynpy_gfl/includes/htmx_gfl_row_hidden_elems.html" %}
+                                        {% block index_column %}
+                                            {% if view.include_index_column %}
+                                                <td x-data="{index: $el.closest('.js-gfl-item').rowIndex}"
+                                                    @table-row-removed.window="index = $el.closest('.js-gfl-item').rowIndex">
+                                                    <span x-text="index"></span>
                                                 </td>
-                                            {% endblock table_row %}
+                                            {% endif %}
+                                        {% endblock index_column %}
 
-                                        </tr>
+                                        {% block table_row %}
+                                            <td class="hidden-invisible">
+                                                {% include "dynpy_gfl/includes/htmx_gfl_row_hidden_elems.html" %}
+                                            </td>
+                                        {% endblock table_row %}
+
+                                        </{{ view.list_item_tag }}>
                                     {% endblock table_row_outer %}
 
                                 {% endfor %}
                             {% endblock items %}
 
-                        </tbody>
+                            {% if view.list_view_style == ListViewStyle.TABLE %}</tbody>{% endif %}
                     {% endblock table_tbody %}
 
-                </table>
-            {% endblock table %}
+                    </{{ view.list_tag }}>
+                {% endblock table %}
 
-            {% block loader %}
-                {% comment %} Needed because table_wrapper is overridden and this is nested in there {% endcomment %}
-                {{ block.super }}
-            {% endblock loader %}
+                {% block loader %}
+                    {% comment %} Needed because table_wrapper is overridden and this is nested in there {% endcomment %}
+                    {{ block.super }}
+                {% endblock loader %}
 
-            {% block no_objects %}
-                {% comment %} Needed because table_wrapper is overridden and this is nested in there {% endcomment %}
-                {{ block.super }}
-            {% endblock no_objects %}
+                {% block no_objects %}
+                    {% comment %} Needed because table_wrapper is overridden and this is nested in there {% endcomment %}
+                    {{ block.super }}
+                {% endblock no_objects %}
 
+            </div>
         </div>
-    </div>
-    <div class="resizer"
-         x-show="$store.splitView.sidePanelOpen"
-         id="table_panel_divider"></div>
+        {% if view.side_panel_is_resizable %}
+            <div class="resizer"
+                 x-show="$store.splitView.sidePanelOpen"
+                 id="table_panel_divider"></div>
+        {% endif %}
 
-    {% block side_panel %}
-        <div class="card h-100 overflow-auto position-relative scroll-sensitive"
-             id="side_panel_wrapper"
-             x-show="$store.splitView.sidePanelOpen"
-             :style="{ '--side-panel-width': $store.splitView.sidePanelWidth}">
-            <i class="fa fa-times fa-lg cursor-pointer text-dark close-btn btn btn-sm p-1 btn-light"
-               style="z-index: 10"
-               title="Close panel (Esc)"
-               data-toggle="tooltip"
-               @click="$store.splitView.closeSidePanel()"
-               @keydown.window="if ($event.key === 'Escape') $store.splitView.closeSidePanel()"
-               id="close_panel_btn"></i>
-            <span id="side-panel-loader"
-                  class="overlay-spinner-indicator spinner-overlay-absolute h-100 w-100 bg-white rounded text-center">
-                <div class="d-flex align-items-center justify-content-center h-100">
-                    <div>
-                        <div class="d-flex justify-content-center">
-                            <div class="spinner-border" role="status"></div>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <span id="loading-message">Loading...</span>
+        {% block side_panel %}
+            <div class="card h-100 overflow-auto position-relative scroll-sensitive"
+                 id="side_panel_wrapper"
+                 x-show="$store.splitView.sidePanelOpen"
+                 {% if view.side_panel_is_resizable %}
+                     :style="{ '--side-panel-width': $store.splitView.sidePanelWidth}"
+                 {% else %}
+                     style="--side-panel-width: {{ view.default_side_panel_width_percent }}%;"
+                 {% endif %}>
+                {% if view.side_panel_is_closable %}
+                    <i class="fa fa-times fa-lg cursor-pointer text-dark close-btn btn btn-sm p-1 btn-light"
+                       style="z-index: 10"
+                       title="Close panel (Esc)"
+                       data-toggle="tooltip"
+                       @click="$store.splitView.closeSidePanel()"
+                       @keydown.window="if ($event.key === 'Escape') $store.splitView.closeSidePanel()"
+                       id="close_panel_btn"></i>
+                {% endif %}
+                <span id="side-panel-loader"
+                      class="overlay-spinner-indicator spinner-overlay-absolute h-100 w-100 bg-white rounded text-center">
+                    <div class="d-flex align-items-center justify-content-center h-100">
+                        <div>
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border" role="status"></div>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <span id="loading-message">Loading...</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </span>
-            <div id="side_panel"
-                 {% hx_get view.side_panel_hx_name %}
-                 hx-vals='js:{ "object_id": Alpine.store("splitView").activeRowId }'
-                 hx-swap="innerHTML settle:0"
-                 hx-target="#side_panel"
-                 hx-indicator="#side-panel-loader"
-                 :hx-trigger="$store.splitView.activeRowId ? 'load' : ''"
-                 hx-disinherit="*"
-                 x-init="$nextTick(() => { htmx.process($el); $store.splitView.activeRowId ? $store.splitView.openSidePanel() : $store.splitView.closeSidePanel(); } )"
-                 :hx-disable="!$store.splitView.activeRowId"></div>
-        </div>
-    {% endblock side_panel %}
+                </span>
+                <div id="side_panel"
+                     {% hx_get view.side_panel_hx_name %}
+                     hx-vals='js:{ "object_id": Alpine.store("splitView").activeRowId }'
+                     hx-swap="innerHTML settle:0"
+                     hx-target="#side_panel"
+                     hx-indicator="#side-panel-loader"
+                     :hx-trigger="$store.splitView.activeRowId ? 'load' : ''"
+                     hx-disinherit="*"
+                     x-init="$nextTick(() => { htmx.process($el); $store.splitView.activeRowId ? $store.splitView.openSidePanel() : $store.splitView.closeSidePanel(); } )"
+                     :hx-disable="!$store.splitView.activeRowId"></div>
+            </div>
+        {% endblock side_panel %}
 
-</div>
+    </div>
 {% endblock table_wrapper %}
 
 {% block scripts %}
@@ -167,7 +186,7 @@
                 activeRowId: new URL(window.location.href).searchParams.get('object_id') || '',
                 sidePanelOpen: false,
                 tableWidth: '100%',
-                sidePanelWidth: Alpine.$persist('25%'),
+                sidePanelWidth: Alpine.$persist('{{ view.default_side_panel_width_percent }}%'),
                 resizing: false,
 
                 openSidePanel() {
