@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v14.0.1 (2025-05-27)
+### Fix
+- Push combo_page param to url and include filters when paginating ([`dced6cd`](https://github.com/Centers-health/dynpy/commit/dced6cd10ff61e76487a8aaca092684605bc9526))
+- Fix pagination alignment in total and pagination template ([`a6b6fa6`](https://github.com/Centers-health/dynpy/commit/a6b6fa6748533f672dd5b6b23f2eccaafaf0cc32))
+
+
 ## v14.0.0 (2025-05-27)
 ### Breaking
 - Add combopaginator for enhanced infinite scroll with combo pages ([`270c899`](https://github.com/Centers-health/dynpy/commit/270c8993649b04ad52cbe3da6d1ad1de542e6cf3))
