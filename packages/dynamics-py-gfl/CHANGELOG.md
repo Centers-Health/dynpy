@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v14.1.0 (2025-05-27)
+### Feature
+- Add new gfl card split view ([`7c7a027`](https://github.com/Centers-health/dynpy/commit/7c7a027ff892f417007a52ced13dcf1286ac2b82))
+### Fix
+- Fix infinite scroll trigger for odd paginate by number ([`d10813c`](https://github.com/Centers-health/dynpy/commit/d10813c596d7ccd416618a2e0eb2c34bd733a6a6))
+
+
 ## v14.0.3 (2025-05-27)
 ### Fix
 - Fix hx-vals bug when not using combo pagination ([`e0d3573`](https://github.com/Centers-health/dynpy/commit/e0d357362eaa176f0d1ef93b1d022009f5f59e8d))
