@@ -10,21 +10,50 @@
 {% endblock table_wrapper_classes %}
 
 {% block table_class %}
+    table min-width-max-content
 {% endblock table_class %}
 
 {% block table_head %}
 {% endblock table_head %}
 
-{% block table_row_classes %}
-    card shadow-sm m-2
-{% endblock table_row_classes %}
+{% block table_tbody %}
+    <tbody id="contentArea">
+        <td>
 
-{% block table_row %}
+            {% block items %}
+                {% for item in object_list %}
 
-    {% block card_body %}
-    {% endblock card_body %}
+                    {% block table_row_outer %}
+                        {# djlint:off #}
+            <div id="gfl_row_{{ item.pk }}" class="split-view-row cursor-pointer js-gfl-item card shadow-sm m-2 {% block table_row_classes %}{% endblock table_row_classes %}"
+                @click="$store.splitView.activateRow('{{ item.pk }}', event)"
+                :class="$store.splitView.activeRowId == '{{ item.pk }}' && 'row-active'"
 
-    <div class="hidden-invisible">
-        {% include "dynpy_gfl/includes/htmx_gfl_row_hidden_elems.html" %}
-    </div>
-{% endblock table_row %}
+                    {% hx_get view.side_panel_hx_name %}
+                    hx-vals='{"object_id": "{{ item.pk }}"}'
+                    hx-swap="innerHTML settle:0"
+                    hx-target="#side_panel"
+                    hx-indicator="#side-panel-loader"
+                    hx-trigger="click, refreshSidePanel{{ item.pk }} from:body"
+                    hx-disinherit="hx-indicator"
+                {% block table_row_attributes %}{% endblock table_row_attributes %}>
+                        {# djlint:on #}
+
+                        {% block table_row %}
+                            {% block card_body %}
+                            {% endblock card_body %}
+
+                            <div class="hidden-invisible">
+                                {% include "dynpy_gfl/includes/htmx_gfl_row_hidden_elems.html" %}
+                            </div>
+                        {% endblock table_row %}
+
+                    </div>
+                {% endblock table_row_outer %}
+
+            {% endfor %}
+        {% endblock items %}
+
+    </td>
+</tbody>
+{% endblock table_tbody %}

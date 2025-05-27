@@ -11,7 +11,6 @@ from dynpy_actions.mixins import ViewActionsMixin
 from hx_requests.views import HtmxViewMixin
 from render_block import render_block_to_string
 
-from dynpy_gfl.enums import ListViewStyle
 from dynpy_gfl.paginators import InfiniteScrollPaginator
 
 
@@ -66,21 +65,6 @@ class GenericFilterListView(CustomFilterView):
     enable_bulk_actions: bool  # not doing as part of ticket
     fixed_header: bool = False
     freeze_columns: int = 0
-    list_view_style: ListViewStyle = ListViewStyle.TABLE
-
-    @property
-    def list_tag(self) -> str:
-        """
-        Returns the HTML tag to be used for the list view.
-        """
-        return "table" if self.list_view_style == ListViewStyle.TABLE else "div"
-
-    @property
-    def list_item_tag(self) -> str:
-        """
-        Returns the HTML tag to be used for each item in the list view.
-        """
-        return "tr" if self.list_view_style == ListViewStyle.TABLE else "div"
 
     def get_columns(self) -> list[dict]:
         """
@@ -133,7 +117,6 @@ class GenericFilterListView(CustomFilterView):
             else 0
         )
         context["filters_applied_count"] = filters_applied_count
-        context["ListViewStyle"] = ListViewStyle
         return context
 
 
@@ -330,7 +313,6 @@ class GFLCardSplitViewHX(GFLSplitViewHX):
     default_side_panel_width_percent = 75
     side_panel_is_resizable = False
     side_panel_is_closable = False
-    list_view_style = ListViewStyle.CARDS
 
     @property
     def side_panel_hx_name(self):
