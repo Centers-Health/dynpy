@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v14.0.3 (2025-05-27)
+### Fix
+- Fix hx-vals bug when not using combo pagination ([`e0d3573`](https://github.com/Centers-health/dynpy/commit/e0d357362eaa176f0d1ef93b1d022009f5f59e8d))
+
+
 ## v14.0.2 (2025-05-27)
 ### Fix
 - Refresh pagination under table block when going to next page ([`d57e369`](https://github.com/Centers-health/dynpy/commit/d57e369483ec09753a6270010065573b7bff8b47))
