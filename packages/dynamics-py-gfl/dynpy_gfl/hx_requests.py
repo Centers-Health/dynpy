@@ -42,7 +42,7 @@ class Sort(BaseHxRequest):
 
 class Pagination(BaseHxRequest):
     name = "pagination"
-    GET_block = ["total_and_pagination", "table"]
+    GET_block = ["total_and_pagination", "table", "pagination_under_table"]
 
 
 class BaseSidePanel(BaseHxRequest):
