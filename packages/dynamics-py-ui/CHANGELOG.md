@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v2.4.0 (2025-05-28)
+### Feature
+- Move navbar from ar and make it extendable for site and app use ([`d907128`](https://github.com/Centers-health/dynpy/commit/d9071282ac1a996a68a2f55258b0a2009a2cc1c9))
+
+
 ## v2.3.2 (2025-05-07)
 ### Fix
 - Dont close app switcher when clicking between icons ([`f0e6169`](https://github.com/Centers-health/dynpy/commit/f0e616940bd55759979dce67fcf12da621386b2e))
