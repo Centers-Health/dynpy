@@ -130,14 +130,9 @@
     {% endif %}
 
     {% block side_panel %}
-        <div class="card h-100 overflow-auto position-relative scroll-sensitive"
-             id="side_panel_wrapper"
-             x-show="$store.splitView.sidePanelOpen"
-             {% if view.side_panel_is_resizable %}
-                 :style="{ '--side-panel-width': $store.splitView.sidePanelWidth}"
-             {% else %}
-                 style="--side-panel-width: {{ view.default_side_panel_width_percent }}%;"
-             {% endif %}>
+        <div class=" 
+            {% block side_panel_wrapper_classes %} card h-100 overflow-auto position-relative scroll-sensitive {% endblock side_panel_wrapper_classes %}
+             " id="side_panel_wrapper" x-show="$store.splitView.sidePanelOpen" {% if view.side_panel_is_resizable %} :style="{ '--side-panel-width': $store.splitView.sidePanelWidth}" {% else %} style="--side-panel-width: {{ view.default_side_panel_width_percent }}%;" {% endif %}>
             {% if view.side_panel_is_closable %}
                 <i class="fa fa-times fa-lg cursor-pointer text-dark close-btn btn btn-sm p-1 btn-light"
                    style="z-index: 10"
@@ -161,6 +156,7 @@
                 </div>
             </span>
             <div id="side_panel"
+                 class="h-100"
                  {% hx_get view.side_panel_hx_name %}
                  hx-vals='js:{ "object_id": Alpine.store("splitView").activeRowId }'
                  hx-swap="innerHTML settle:0"
