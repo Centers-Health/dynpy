@@ -131,11 +131,8 @@ def divide(value, arg):
 
 
 @register.filter
-def integer_divide(value, arg):
-    try:
-        return int(value) // int(arg)
-    except (ValueError, ZeroDivisionError):
-        return None
+def floor_mid(value):
+    return int(value) // 2
 
 
 @register.filter
