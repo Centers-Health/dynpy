@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v14.1.2 (2025-06-04)
+### Fix
+- Allow row to be highlighted when clicking on elem with side panel opt out ([`13ee401`](https://github.com/Centers-health/dynpy/commit/13ee40115bd1f63f1f24d05059f3cc7b7c35f80a))
+
+
 ## v14.1.1 (2025-06-04)
 ### Fix
 - Fix infinite scroll trigger calculation for odd paginate by number ([`4ea211b`](https://github.com/Centers-health/dynpy/commit/4ea211b3c7cdcece42249f758b9d79ac665df2ed))
