@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v14.1.1 (2025-06-04)
+### Fix
+- Fix infinite scroll trigger calculation for odd paginate by number ([`4ea211b`](https://github.com/Centers-health/dynpy/commit/4ea211b3c7cdcece42249f758b9d79ac665df2ed))
+- Fix infinite scroll trigger for odd paginate by number ([`a8bdb86`](https://github.com/Centers-health/dynpy/commit/a8bdb866d7470da8c672cd2f6bd5aa81f17f19d7))
+
+
 ## v14.1.0 (2025-05-27)
 ### Feature
 - Add new gfl card split view ([`7c7a027`](https://github.com/Centers-health/dynpy/commit/7c7a027ff892f417007a52ced13dcf1286ac2b82))
