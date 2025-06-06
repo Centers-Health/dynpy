@@ -38,6 +38,7 @@ lock:
 
 install: lock
 	pre-commit install -t pre-commit -t pre-push -t commit-msg --overwrite
+	poetry self update 1.8.3
 	poetry self add poetry-bumpversion
 	poetry self add poetry-plugin-mono-repo-deps
 	$(INSTALL_PACKAGES)
