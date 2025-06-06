@@ -1,0 +1,4 @@
+# Changes here will be overwritten by Copier
+_src_path: ./new_package_template/
+name: enviro_cli
+package_name: enviro-cli
