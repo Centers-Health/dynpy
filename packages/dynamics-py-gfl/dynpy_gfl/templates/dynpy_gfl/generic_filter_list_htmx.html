@@ -53,6 +53,20 @@
                     {% block extra_filter_buttons %}
                     {% endblock extra_filter_buttons %}
 
+                    <button x-show="!filtersCollapsed"
+                            id="filtersSubmit"
+                            class="ml-2 btn btn-sm btn-primary"
+                            @click="filtersCollapsed = true"
+                            type="button"
+                            {% hx_get view.filter_hx_name %}
+                            hx-target='#gfl_table'
+                            hx-swap='innerHTML settle:0 show:#gfl_table:top'
+                            hx-push-url='true'
+                            hx-include='#basicFilters'
+                            hx-indicator='#table-loader, .loaded-content'>
+                        <i class="fas fa-filter"></i> Apply Filters
+                    </button>
+
                     {% block filter_message %}
                         <div id="filter-message" hx-swap-oob="true" class="d-flex">
                             <i class="text-muted ml-2">{{ filters_applied_count }} Filter{{ filters_applied_count|pluralize }} Applied
@@ -84,16 +98,7 @@
 
                 {% block filters %}
                     {% block filter_form %}
-                        <form hx-swap-oob="true"
-                              method="get"
-                              class="mb-3"
-                              id="basicFilters"
-                              {% hx_get view.filter_hx_name %}
-                              hx-target='#gfl_table'
-                              hx-swap='outerHTML settle:0 show:#gfl_table:top'
-                              hx-trigger='change'
-                              hx-push-url='true'
-                              hx-indicator='#table-loader'>
+                        <form class="mb-3" id="basicFilters" hx-swap-oob="true">
                             <div class="form-row">
                                 {% for field in filter.form %}
                                     {% if field not in view.get_extra_filters %}
