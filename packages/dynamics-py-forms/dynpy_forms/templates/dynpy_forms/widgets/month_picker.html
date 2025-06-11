@@ -4,13 +4,15 @@
        type="month"
        value="{{ widget.month_value }}"
        {% include "django/forms/widgets/attrs.html" %}>
-<button type="button"
-        class="btn btn-sm btn-link text-danger p-0 position-absolute"
-        style="opacity: .8;
-               top: 3.2rem;
-               right: {{ widget.right_position|default:'1.35%' }};
-               transform: translate(-50%, -50%)"
-        :disabled="!$refs.{{ widget.name }}.value"
-        @click="$refs.{{ widget.name }}.value = ''; $refs.{{ widget.name }}.dispatchEvent(new Event('change', { bubbles: true }))">
-    <i class="fas fa-times"></i>
-</button>
+{% if widget.attrs.show_clear_button %}
+    <button type="button"
+            class="btn btn-sm btn-link text-dark p-0 position-absolute"
+            style="opacity: .7;
+                   top: 3.2rem;
+                   right: {{ widget.right_position|default:'1.35%' }};
+                   transform: translate(-50%, -50%)"
+            :disabled="!$refs.{{ widget.name }}.value"
+            @click="$refs.{{ widget.name }}.value = ''; $refs.{{ widget.name }}.dispatchEvent(new Event('change', { bubbles: true }))">
+        <i class="fas fa-times"></i>
+    </button>
+{% endif %}
