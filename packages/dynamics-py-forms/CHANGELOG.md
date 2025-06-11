@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v7.4.0 (2025-06-11)
+### Feature
+- Update date filters to opt-in for the clear button ([`3c91998`](https://github.com/Centers-health/dynpy/commit/3c91998e5985471bb77a6c2444d5ca4984f64a13))
+
+
 ## v7.3.0 (2025-05-19)
 ### Feature
 - Add clear button for date filters to improve usability ([`0f37b74`](https://github.com/Centers-health/dynpy/commit/0f37b74fa7bbf9b35c833ff0e2506ff9efe4c784))
