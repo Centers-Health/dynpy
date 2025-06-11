@@ -23,13 +23,15 @@
        class="date_range_before"
        name="{{ widget.name }}_before"
        value="{{ widget.end_date }}">
-<button type="button"
-        class="btn btn-sm btn-link text-danger p-0 position-absolute"
-        style="opacity: .8;
-               top: 3.2rem;
-               right: 1.35%;
-               transform: translate(-50%, -50%)"
-        :disabled="!$refs['date_range_{{ widget.name }}'].value"
-        @click="$refs['date_range_{{ widget.name }}'].value = ''; $refs['date_range_after_{{ widget.name }}'].value = ''; $refs['date_range_before_{{ widget.name }}'].value = ''; $refs['date_range_{{ widget.name }}'].dispatchEvent(new Event('change', { bubbles: true }))">
-    <i class="fas fa-times"></i>
-</button>
+{% if widget.attrs.show_clear_button %}
+    <button type="button"
+            class="btn btn-sm btn-link text-dark p-0 position-absolute"
+            style="opacity: .7;
+                   top: 3.2rem;
+                   right: 1.35%;
+                   transform: translate(-50%, -50%)"
+            :disabled="!$refs['date_range_{{ widget.name }}'].value"
+            @click="$refs['date_range_{{ widget.name }}'].value = ''; $refs['date_range_after_{{ widget.name }}'].value = ''; $refs['date_range_before_{{ widget.name }}'].value = ''; $refs['date_range_{{ widget.name }}'].dispatchEvent(new Event('change', { bubbles: true }))">
+        <i class="fas fa-times"></i>
+    </button>
+{% endif %}

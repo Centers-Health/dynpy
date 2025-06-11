@@ -15,12 +15,10 @@ class MonthPicker(Widget):
     template_name = "dynpy_forms/widgets/month_picker.html"
 
     def __init__(self, attrs=None):
-        default_attrs = {
-            "style": "padding-right:1.1rem;",
-        }
-        if attrs:
-            default_attrs.update(attrs)
-        super().__init__(default_attrs)
+        attrs = attrs or {}
+        if attrs.get("show_clear_button"):
+            attrs.update({"style": "padding-right:1.1rem;"})
+        super().__init__(attrs)
 
     def render(self, name, value, attrs=None, renderer=None):
         context = self.get_context(name, value, attrs)
@@ -347,7 +345,14 @@ class InlineMonthRangeWidget(SuffixedMultiWidget):
 
     def __init__(self, attrs=None):
         attrs = attrs or {}
-        attrs.update({"style": "width: 47%; display: inline-block; padding-right:1.1rem;"})
+
+        style = attrs.get("style", "width: 47%; display: inline-block;")
+
+        if attrs.get("show_clear_button"):
+            style = f"{style} padding-right:1.1rem;"
+
+        attrs.update({"style": style})
+
         widgets = self.get_widgets()
         super().__init__(widgets, attrs)
         self.widgets[1].attrs.update({"class": "form-control d-inline float-right"})
