@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v14.3.0 (2025-06-16)
+### Feature
+- Update gfl filterset to use button for filter submission and auto collapse filters ([`78edb7d`](https://github.com/Centers-health/dynpy/commit/78edb7d5772e4824c56d53261c7de9b12024d45a))
+
+
 ## v14.1.2 (2025-06-04)
 ### Fix
 - Allow row to be highlighted when clicking on elem with side panel opt out ([`13ee401`](https://github.com/Centers-health/dynpy/commit/13ee40115bd1f63f1f24d05059f3cc7b7c35f80a))
