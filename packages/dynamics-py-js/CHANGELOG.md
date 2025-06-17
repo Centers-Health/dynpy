@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v4.1.2 (2025-06-17)
+### Fix
+- Prevent change event before select is closed ([`3e5ca46`](https://github.com/Centers-health/dynpy/commit/3e5ca463ac2dc30279d14ac9cb6978b0c60111d0))
+
+
 ## v4.1.1 (2025-04-28)
 ### Fix
 - Async validate not working ([`ad4a3e9`](https://github.com/Centers-health/dynpy/commit/ad4a3e9f15fd563fe9bb1fe5b4d422359f1f5d16))

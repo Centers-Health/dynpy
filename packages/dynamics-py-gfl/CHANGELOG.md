@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v14.3.1 (2025-06-17)
+### Fix
+- Prevent change event before select is closed ([`3e5ca46`](https://github.com/Centers-health/dynpy/commit/3e5ca463ac2dc30279d14ac9cb6978b0c60111d0))
+
+
 ## v14.3.0 (2025-06-16)
 ### Feature
 - Update gfl filterset to use button for filter submission and auto collapse filters ([`78edb7d`](https://github.com/Centers-health/dynpy/commit/78edb7d5772e4824c56d53261c7de9b12024d45a))
