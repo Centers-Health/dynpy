@@ -5,7 +5,9 @@
     To make a field auto-submit and update other filters when changed,
     you must add `autosubmit=True` to `field.field.widget.attrs` in the filter class.
 {% endcomment %}
-<div class="form-group col-md-2 mb-0"
-     {% if field.field.widget.attrs.autosubmit %}
-         {% hx_get "autosubmit_filters" %} hx-trigger="change" hx-target='#basicFilters' hx-swap='innerHTML settle:0' hx-include='#basicFilters' hx-indicator="this"
-     {% endif %}>{{ field|as_crispy_field }}</div>
+<div class="form-group col-md-2 mb-0" {% if field|is_selectpicker %} @change.stop='$(event.target).on("hidden.bs.select", () => { $el.dispatchEvent(new Event("autosubmit")); });'
+{% endif %}
+{% if field.field.widget.attrs.autosubmit %}
+    {% hx_get "autosubmit_filters" %} hx-trigger="autosubmit" hx-target='#basicFilters' hx-swap='innerHTML settle:0' hx-include='#basicFilters' hx-indicator="this"
+{% endif %}
+>{{ field|as_crispy_field }}</div>
