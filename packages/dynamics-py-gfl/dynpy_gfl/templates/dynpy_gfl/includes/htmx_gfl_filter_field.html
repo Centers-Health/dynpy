@@ -5,9 +5,24 @@
     To make a field auto-submit and update other filters when changed,
     you must add `autosubmit=True` to `field.field.widget.attrs` in the filter class.
 {% endcomment %}
-<div class="form-group col-md-2 mb-0" {% if field|is_selectpicker %} @change.stop='$(event.target).on("hidden.bs.select", () => { $el.dispatchEvent(new Event("autosubmit")); });'
-{% endif %}
-{% if field.field.widget.attrs.autosubmit %}
-    {% hx_get "autosubmit_filters" %} hx-trigger="autosubmit" hx-target='#basicFilters' hx-swap='innerHTML settle:0' hx-include='#basicFilters' hx-indicator="this"
-{% endif %}
+{# djlint:off #}
+<div class="form-group col-md-2 mb-0"
+    {% if field.field.widget.attrs.autosubmit %}
+        {% hx_get "autosubmit_filters" %} hx-trigger="autosubmit" hx-target='#basicFilters' hx-swap='innerHTML settle:0' hx-include='#basicFilters' hx-indicator="this"
+    {% endif %}
+    @change="
+        onFilterChange();
+        {% if field|is_monthpicker %}
+            {% comment %} Fixes a bug where manually clearing a month input (pressing delete) did not trigger a filter request or update the results. Forcing `value = null` makes the request fire. Unclear why this is necessary {% endcomment %}
+            if (event.target.value === '') event.target.value = null;
+        {% endif %}
+        {% if field.field.widget.attrs.autosubmit %}
+            {% if field|is_selectpicker %}
+                $(event.target).on('hidden.bs.select', () => { $el.dispatchEvent(new Event('autosubmit')); });
+            {% else %}
+                $el.dispatchEvent(new Event('autosubmit'));
+            {% endif %}
+        {% endif %}
+        "
 >{{ field|as_crispy_field }}</div>
+{# djlint:on #}
