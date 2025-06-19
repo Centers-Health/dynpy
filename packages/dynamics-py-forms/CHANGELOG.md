@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v7.4.1 (2025-06-19)
+### Fix
+- Apply updates to submit filter button ([`ee56d63`](https://github.com/Centers-health/dynpy/commit/ee56d635245ece62120a39b3308583a60e40c17f))
+
+
 ## v7.4.0 (2025-06-11)
 ### Feature
 - Update date filters to opt-in for the clear button ([`3c91998`](https://github.com/Centers-health/dynpy/commit/3c91998e5985471bb77a6c2444d5ca4984f64a13))

@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v14.3.2 (2025-06-19)
+### Fix
+- Apply updates to submit filter button ([`ee56d63`](https://github.com/Centers-health/dynpy/commit/ee56d635245ece62120a39b3308583a60e40c17f))
+
+
 ## v14.3.1 (2025-06-17)
 ### Fix
 - Prevent change event before select is closed ([`3e5ca46`](https://github.com/Centers-health/dynpy/commit/3e5ca463ac2dc30279d14ac9cb6978b0c60111d0))
