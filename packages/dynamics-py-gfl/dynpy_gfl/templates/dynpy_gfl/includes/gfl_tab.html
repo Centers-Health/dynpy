@@ -9,14 +9,12 @@
    hx-swap='outerHTML settle:0 show:#gfl_table:top'
    hx-indicator='#table-loader'
    hx-trigger="click delay:.2ms"
-   hx-include='#basicFilters'
-   {% hx_get view.tab_hx_name %}>{{ tab_title }}
+   {% hx_get view.tab_hx_name use_full_path=True %}>{{ tab_title }}
     <span class="badge badge-dark align-self-center align-middle">
-        <span {% hx_get view.tab_counts_hx_name %}
+        <span {% hx_get view.tab_counts_hx_name use_full_path=True %}
               class='-content'
               hx-indicator="this"
               hx-trigger="load"
-              hx-include='#basicFilters'
               hx-swap='innerHTML'
               hx-push-url='false'
               hx-vals='{"tab":"{{ tab }}"}'

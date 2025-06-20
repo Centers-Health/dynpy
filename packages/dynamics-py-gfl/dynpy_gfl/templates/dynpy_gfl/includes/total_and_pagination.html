@@ -8,11 +8,10 @@
                 <li class="page-item">
                     <a class="btn btn-sm btn-outline-primary
                               {% if paginator.combo_page == 1 %}disabled{% endif %}"
-                       {% hx_get 'pagination' %}
+                       {% hx_get 'pagination' use_full_path=True %}
                        hx-target="#gfl_table"
                        hx-indicator='#table-loader'
                        hx-push-url='true'
-                       hx-include='#basicFilters'
                        hx-swap="outerHTML settle:0 show:#gfl_table:top"
                        hx-vals='{ "combo_page": "{{ paginator.combo_page|add:-1 }}", "position": "0" }'>
                         <span aria-hidden="true"><i class="fas fa-chevron-left"></i></span>
@@ -22,11 +21,10 @@
                 <li class="page-item ">
                     <a class="btn btn-sm btn-outline-primary
                               {% if not paginator.has_next_combo_page %}disabled{% endif %}"
-                       {% hx_get 'pagination' %}
+                       {% hx_get 'pagination' use_full_path=True %}
                        hx-target="#gfl_table"
                        hx-indicator='#table-loader'
                        hx-push-url='true'
-                       hx-include='#basicFilters'
                        hx-swap="outerHTML settle:0 show:#gfl_table:top"
                        hx-vals='{ "combo_page": "{{ paginator.combo_page|add:1 }}", "position": "0" }'>
                         <span aria-hidden="true"><i class="fas fa-chevron-right"></i></span>

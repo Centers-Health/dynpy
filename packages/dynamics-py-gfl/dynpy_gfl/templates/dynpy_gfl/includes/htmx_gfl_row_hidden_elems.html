@@ -6,13 +6,12 @@
         {% comment %} Delay so that the alpine store is updated before the Htmx request{% endcomment %}
         {# djlint:on #}
         hx-trigger="intersect once delay:100ms"
-        {% hx_get view.infinite_scroll_hx_name %}
-        hx-include='#basicFilters'
+        {% hx_get view.infinite_scroll_hx_name use_full_path=True %}
         hx-indicator="#tr-loader"
         hx-vals="js:{ 'position': Alpine.store('tableRowCounter').total, 'combo_page': {{ paginator.combo_page|default:0 }} }"
         hx-swap="afterend settle:0"
         hx-target=".js-gfl-item:last-child"></div>
 {% endif %}
-<div class="hidden-invisible" {% hx_get view.row_refresh_hx_name object=item %} hx-include='#basicFilters' hx-trigger="refreshRow{{ item.pk }} from:body" 
+<div class="hidden-invisible" {% hx_get view.row_refresh_hx_name object=item use_full_path=True %} hx-trigger="refreshRow{{ item.pk }} from:body" 
     {% block refresh_row_indicator %}{% endblock refresh_row_indicator %}
      hx-target='closest .js-gfl-item' hx-swap="outerHTML"></div>

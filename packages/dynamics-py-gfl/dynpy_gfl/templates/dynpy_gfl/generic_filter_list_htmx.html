@@ -179,15 +179,14 @@
                                     align-self-end'
                              id='total-records'
                              hx-swap-oob='true'
-                             {% hx_get 'gfl_total' %}
+                             {% hx_get 'gfl_total' use_full_path=True %}
                              {% if view.using_combo_pagination %}
                                  hx-vals='{ "combo_page": {{ paginator.combo_page }} }'
                              {% endif %}
                              hx-trigger='load delay:1ms'
                              hx-indicator='this'
                              hx-swap="outerHTML"
-                             hx-target='#total_and_pagination'
-                             hx-include='#basicFilters'>
+                             hx-target='#total_and_pagination'>
                             <div id='total_and_pagination'>
                                 <span id='count-loader'
                                       class="d-inline-block"
@@ -304,11 +303,10 @@
                                                 <li class="page-item mx-1">
                                                     <a class="btn btn-outline-primary
                                                               {% if paginator.combo_page == 1 %}disabled{% endif %}"
-                                                       {% hx_get 'pagination' %}
+                                                       {% hx_get 'pagination' use_full_path=True %}
                                                        hx-target="#gfl_table"
                                                        hx-indicator='#table-loader'
                                                        hx-push-url='true'
-                                                       hx-include='#basicFilters'
                                                        hx-swap="outerHTML settle:0 show:#gfl_table:top"
                                                        hx-vals='{ "combo_page": "{{ paginator.combo_page|add:-1 }}", "position": "0" }'>
                                                         <span aria-hidden="true"><i class="fas fa-chevron-left"></i> Prev</span>
@@ -318,10 +316,9 @@
                                                 <li class="page-item mx-1">
                                                     <a class="btn btn-outline-primary
                                                               {% if not paginator.has_next_combo_page %}disabled{% endif %}"
-                                                       {% hx_get 'pagination' %}
+                                                       {% hx_get 'pagination' use_full_path=True %}
                                                        hx-target="#gfl_table"
                                                        hx-push-url='true'
-                                                       hx-include='#basicFilters'
                                                        hx-indicator='#table-loader'
                                                        hx-swap="outerHTML settle:0 show:#gfl_table:top"
                                                        hx-vals='{ "combo_page": "{{ paginator.combo_page|add:1 }}", "position": "0" }'
