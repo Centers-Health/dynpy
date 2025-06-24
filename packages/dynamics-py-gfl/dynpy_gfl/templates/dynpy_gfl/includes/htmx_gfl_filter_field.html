@@ -1,11 +1,8 @@
 {% load generic_filter_list_tags %}
 {% load crispy_forms_tags %}
-{% load hx_tags %}
-{% comment %}
-    To make a field auto-submit and update other filters when changed,
-    you must add `autosubmit=True` to `field.field.widget.attrs` in the filter class.
-{% endcomment %}
 <div class="form-group col-md-2 mb-0"
-     {% if field.field.widget.attrs.autosubmit %}
-         {% hx_get "autosubmit_filters" %} hx-trigger="change" hx-target='#basicFilters' hx-swap='innerHTML settle:0' hx-include='#basicFilters' hx-indicator="this"
+     {% if field|is_selectpicker %}
+         @change.stop=' triggerChangeOnHide'
+     {% elif field|is_monthpicker %}
+         {% comment %} Fixes a bug where manually clearing a month input (pressing delete) did not trigger a filter request or update the results. Forcing `value = null` makes the request fire. Unclear why this is necessary {% endcomment %} onchange="if (event.target.value === '') event.target.value = null;"
      {% endif %}>{{ field|as_crispy_field }}</div>
