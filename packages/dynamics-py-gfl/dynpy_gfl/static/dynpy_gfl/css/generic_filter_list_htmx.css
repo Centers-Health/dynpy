@@ -14,35 +14,3 @@
 	background-color: var(--primary);
 	color: white;
 }
-
-@keyframes shake-tilt {
-	0% {
-		transform: rotate(0deg);
-	}
-	15% {
-		transform: rotate(-4deg);
-	}
-	30% {
-		transform: rotate(4deg);
-	}
-	45% {
-		transform: rotate(-4deg);
-	}
-	60% {
-		transform: rotate(4deg);
-	}
-	75% {
-		transform: rotate(-4deg);
-	}
-	90% {
-		transform: rotate(4deg);
-	}
-	100% {
-		transform: rotate(0deg);
-	}
-}
-
-.shake {
-	animation: shake-tilt 0.8s ease;
-	transform-origin: center bottom;
-}

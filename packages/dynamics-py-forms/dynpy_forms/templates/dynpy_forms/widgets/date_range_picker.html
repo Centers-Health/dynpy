@@ -1,64 +1,37 @@
 {% load dynpy_tags %}
-<span class="date-range-picker"
-    {# djlint:off #}
-    x-data="{
-        date_range_value: '{{ widget.start_date|default:'' }}{% if widget.start_date and widget.end_date %} - {{ widget.end_date }}{% endif %}',
-        date_range_after_value: '{{ widget.start_date }}',
-        date_range_before_value: '{{ widget.end_date }}'
-    }"
-    {# djlint:on #}>
-    <input class="form-control bg-white
-                  {% if 'is-invalid' in widget.subwidgets.0.attrs.class %}is-invalid{% endif %}"
-           id="daterangepicker"
-           data-picker="daterangepicker"
-           type="text"
-           name="{{ widget.name }}"
-           autocomplete="off"
-           placeholder="Search {{ widget.name|field_name_to_label }}"
-           readonly
-           x-model="date_range_value"
-           @change="date_range_value = event.target.value"
-           {% include "django/forms/widgets/attrs.html" %}>
-    <input type="hidden"
-           class="date_range_after"
-           name="{{ widget.name }}_after"
-           x-model="date_range_after_value">
-    <input type="hidden"
-           class="date_range_before"
-           name="{{ widget.name }}_before"
-           x-model="date_range_before_value">
-    {% if widget.attrs.show_clear_button %}
-        <button type="button"
+<input class="form-control bg-white
+              {% if 'is-invalid' in widget.subwidgets.0.attrs.class %}is-invalid{% endif %}"
+       x-ref="date_range_{{ widget.name }}"
+       id="daterangepicker"
+       data-picker="daterangepicker"
+       type="text"
+       name="{{ widget.name }}"
+       autocomplete="off"
+       placeholder="Search {{ widget.name|field_name_to_label }}"
+       readonly
+       {% if widget.start_date or widget.end_date %}
+           value="{{ widget.start_date }} - {{ widget.end_date }}"
+       {% endif %}
+       {% include "django/forms/widgets/attrs.html" %}>
+<input type="hidden"
+       x-ref="date_range_after_{{ widget.name }}"
+       class="date_range_after"
+       name="{{ widget.name }}_after"
+       value="{{ widget.start_date }}">
+<input type="hidden"
+       x-ref="date_range_before_{{ widget.name }}"
+       class="date_range_before"
+       name="{{ widget.name }}_before"
+       value="{{ widget.end_date }}">
+{% if widget.attrs.show_clear_button %}
+    <button type="button"
             class="btn btn-sm btn-link text-dark p-0 position-absolute"
             style="opacity: .7;
-            top: 3.2rem;
-            right: 1.35%;
-            transform: translate(-50%, -50%)"
-            :disabled="date_range_value === ''"
-            {# djlint:off #}
-                @click="
-                    date_range_value = '';
-                    date_range_after_value = '';
-                    date_range_before_value = '';
-                    $nextTick(() => {
-                        const container = $event.target.closest('.date-range-picker');
-                        const input = container.querySelector('input[data-picker=\'daterangepicker\']');
-
-                        const start_date = container.querySelector('input.date_range_after');
-                        const end_date = container.querySelector('input.date_range_before');
-                        start_date.value = '';
-                        end_date.value = '';
-
-                        const picker = $(input).data('daterangepicker');
-                        if (picker) {
-                            picker.setStartDate(new Date());
-                            picker.setEndDate(new Date());
-                        }
-                        input.dispatchEvent(new Event('change', { bubbles: true }));
-                    });
-                "
-            {# djlint:on #}>
-            <i class="fas fa-times"></i>
-        </button>
-    {% endif %}
-</span>
+                   top: 3.2rem;
+                   right: 1.35%;
+                   transform: translate(-50%, -50%)"
+            :disabled="!$refs['date_range_{{ widget.name }}'].value"
+            @click="$refs['date_range_{{ widget.name }}'].value = ''; $refs['date_range_after_{{ widget.name }}'].value = ''; $refs['date_range_before_{{ widget.name }}'].value = ''; $refs['date_range_{{ widget.name }}'].dispatchEvent(new Event('change', { bubbles: true }))">
+        <i class="fas fa-times"></i>
+    </button>
+{% endif %}

@@ -9,31 +9,8 @@
 {% block content %}
     {% block gfl_content %}
         <div class="h-100 d-flex flex-column"
-            id='gfl_content'
-            {# djlint:off #}
-             x-data="{
-                filtersCollapsed: $persist(false),
-                extraFiltersCollapsed: $persist(true),
-                filterChanged: false,
-                showReminder: false,
-                reminderTimer: null,
-              
-                onFilterChange() {
-                  this.filterChanged = true;
-                  clearTimeout(this.reminderTimer);
-              
-                  this.reminderTimer = setTimeout(() => {
-                    if (!this.filtersCollapsed && this.filterChanged) {
-                      this.showReminder = true;
-                      setTimeout(() => {
-                        this.showReminder = false;
-                      }, 1000);
-                    }
-                  }, 3000);
-                }
-              }"
-            {# djlint:on #}
-            >
+             id='gfl_content'
+             x-data="{ filtersCollapsed: $persist(false), extraFiltersCollapsed: $persist(true) }">
             {% if view.title %}
                 <div>
                     <h1 class="text-center">{{ view.title }}</h1>
@@ -79,9 +56,7 @@
                     <button x-show="!filtersCollapsed"
                             id="filtersSubmit"
                             class="ml-2 btn btn-sm btn-primary"
-                            :disabled="!filterChanged"
-                            :class="showReminder && 'shake'"
-                            @click="filtersCollapsed = true; filterChanged = false; clearTimeout(reminderTimer);"
+                            @click="filtersCollapsed = true"
                             type="button"
                             {% hx_get view.filter_hx_name %}
                             hx-target='#gfl_table'
