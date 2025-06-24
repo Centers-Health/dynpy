@@ -30,14 +30,6 @@ class Filter(BaseHxRequest):
         return ["filtered"]
 
 
-class AutosubmitFilters(BaseHxRequest):
-    name = "autosubmit_filters"
-    GET_block = [
-        "filters",
-        "filter_message",
-    ]
-
-
 class Sort(BaseHxRequest):
     name = "sort"
     GET_block = ["table", "filters", "filter_message"]
