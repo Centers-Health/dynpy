@@ -1,0 +1,29 @@
+{% load generic_filter_list_tags %}
+{% load crispy_forms_tags %}
+{% load hx_tags %}
+<form hx-swap-oob="true"
+      method="get"
+      id="basicFilters"
+      {% hx_get view.filter_hx_name %}
+      hx-target='#gfl_table'
+      hx-swap='outerHTML settle:0 show:#gfl_table:top'
+      hx-trigger='change'
+      hx-push-url='true'>
+    <div class="form-row">
+        {% for field in filter.form %}
+            <div class="form-group col-md-2 mb-0" {% if field|is_selectpicker %} @change.stop='$(event.target).on("hidden.bs.select", (e) => { e.target.closest("form").dispatchEvent(new Event("change")); });'
+            {% elif field|is_monthpicker %}
+                {% comment %} Fixes a bug where manually clearing a month input (pressing delete) did not trigger a filter request or update the results. Forcing `value = null` makes the request fire. Unclear why this is necessary {% endcomment %} onchange="if (event.target.value === '') event.target.value = null;"
+            {% endif %}
+            >{{ field|as_crispy_field }}</div>
+    {% endfor %}
+    <div>
+
+        {% block hidden_filter_inputs %}
+            <input type="hidden" name="order_by" value="{{ request.GET.order_by }}">
+            <input type="hidden" name="order" value="{{ request.GET.order }}">
+        {% endblock hidden_filter_inputs %}
+
+    </div>
+</div>
+</form>
