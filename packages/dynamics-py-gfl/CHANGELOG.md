@@ -2,6 +2,15 @@
 
 <!--next-version-placeholder-->
 
+## v14.4.0 (2025-06-24)
+### Feature
+- Add modular gfl table ability ([`8c71607`](https://github.com/Centers-health/dynpy/commit/8c71607429e628aa7d47c3eb02430af548e236fd))
+### Other
+- Apply updates to submit filter button" ([`57124fc`](https://github.com/Centers-health/dynpy/commit/57124fc8f8ab4a5679ff11b274e72399445c128d))
+- Prevent change event before select is closed" ([`e6efd16`](https://github.com/Centers-health/dynpy/commit/e6efd1678a4520d2927cf0f1af2846136d508422))
+- Update gfl filterset to use button for filter submission and auto collapse filters" ([`85b192c`](https://github.com/Centers-health/dynpy/commit/85b192c41c5fe5b5e9ff2826bb978c1e50845598))
+
+
 ## v14.3.2 (2025-06-19)
 ### Fix
 - Apply updates to submit filter button ([`ee56d63`](https://github.com/Centers-health/dynpy/commit/ee56d635245ece62120a39b3308583a60e40c17f))
