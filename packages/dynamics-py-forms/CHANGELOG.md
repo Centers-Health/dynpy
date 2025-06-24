@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v7.4.2 (2025-06-24)
+### Fix
+- Change default option rendering for bootstrap select widget ([`2211f5f`](https://github.com/Centers-health/dynpy/commit/2211f5f5d0b3e8673d2a9598273fdc90ffb5c990))
+
+
 ## v7.4.1 (2025-06-19)
 ### Fix
 - Apply updates to submit filter button ([`ee56d63`](https://github.com/Centers-health/dynpy/commit/ee56d635245ece62120a39b3308583a60e40c17f))

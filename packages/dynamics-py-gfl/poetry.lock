@@ -577,7 +577,7 @@ url = "../dynamics-py-actions"
 
 [[package]]
 name = "dynpy-forms"
-version = "7.4.1"
+version = "7.4.2"
 description = ""
 optional = false
 python-versions = "^3.11"
