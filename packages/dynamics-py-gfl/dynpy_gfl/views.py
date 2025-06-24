@@ -14,6 +14,19 @@ from render_block import render_block_to_string
 from dynpy_gfl.paginators import ComboPaginator, InfiniteScrollPaginator
 
 
+class GFLIncludeMixin:
+    filters_template = "dynpy_gfl/includes/gfl_filters.html"
+    filter_hx_name = "include_filter"
+    sort_hx_name = "include_sort"
+    infinite_scroll_hx_name = "include_infinite_scroll"
+
+    @property
+    def table_template(self) -> str:
+        raise NotImplementedError(
+            "GFLIncludeMixin.table_template must be overridden to provide a template for the table."
+        )
+
+
 class CustomFilterView(FilterView):
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)

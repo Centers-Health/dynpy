@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Any
 
 from django.http import HttpRequest, HttpResponse
 from hx_requests.hx_requests import BaseHxRequest
@@ -26,7 +26,7 @@ class Filter(BaseHxRequest):
         "gfl_frozen_column_styles",
     ]
 
-    def get_triggers(self, **kwargs) -> list:
+    def get_triggers(self, **kwargs) -> list[str]:
         return ["filtered"]
 
 
@@ -34,10 +34,39 @@ class Sort(BaseHxRequest):
     name = "sort"
     GET_block = ["table", "filters", "filter_message"]
 
-    def get_context_data(self, **kwargs) -> Dict:
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context["filter"] = self.view.filterset
         return context
+
+
+class IncludeInfiniteScroll(InfiniteScroll):
+    name = "include_infinite_scroll"
+    GET_block = ["items"]
+
+
+class IncludeFilter(Filter):
+    name = "include_filter"
+
+    def get(self, request: HttpRequest, *args, **kwargs):
+        self.GET_template = [
+            self.view.table_template,
+            self.view.filters_template,
+        ]
+        self.GET_block = None
+        return super().get(request, *args, **kwargs)
+
+
+class IncludeSort(Sort):
+    name = "include_sort"
+
+    def get(self, request: HttpRequest, *args, **kwargs):
+        self.GET_template = [
+            self.view.table_template,
+            self.view.filters_template,
+        ]
+        self.GET_block = None
+        return super().get(request, *args, **kwargs)
 
 
 class Pagination(BaseHxRequest):
@@ -55,7 +84,7 @@ class BaseSidePanel(BaseHxRequest):
             except model.DoesNotExist:
                 return None
 
-    def get_triggers(self, **kwargs) -> list:
+    def get_triggers(self, **kwargs) -> list[str]:
         return ["side_panel_load"]
 
     def get_response_html(self, **kwargs) -> str:
@@ -84,7 +113,7 @@ class RefreshRow(BaseHxRequest):
             self.object_from_qs = None
         return super().get(request, *args, **kwargs)
 
-    def get_context_data(self, **kwargs) -> Dict:
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context["item"] = self.object_from_qs
         return context
@@ -105,7 +134,7 @@ class TriggerRowRefreshMixin:
     the item's pk.
     """
 
-    def get_triggers(self, **kwargs) -> list:
+    def get_triggers(self, **kwargs) -> list[str]:
         triggers = super().get_triggers(**kwargs) or []
         form_valid = self.form.is_valid() if hasattr(self, "form") else True
         if self.is_post_request and kwargs.get("row_object") and form_valid:
