@@ -57,7 +57,7 @@ class BootstrapSelect(widgets.Select):
 
     def __init__(
         self,
-        option_template="dynpy_forms/widgets/option_templates/wrap_choice.html",
+        option_template=None,
         item_name_plural=None,
         *args,
         **kwargs,
