@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v0.9.0 (2025-06-24)
+### Feature
+- Add support for gh revert commits ([`f3aa7e0`](https://github.com/Centers-health/dynpy/commit/f3aa7e0e0ac1b687de18b23b21878c1c64ecedde))
+
+
 ## v0.8.0 (2025-05-06)
 ### Feature
 - Add ability to pass status_code to fail_fast ([`dc63386`](https://github.com/Centers-health/dynpy/commit/dc63386c79641e017cd838a3f60f55bdea177243))
