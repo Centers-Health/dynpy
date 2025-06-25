@@ -17,9 +17,6 @@ url = "https://pypi.centershealthcare.org/simple"
 ```bash
 # In a regular python project
 poetry add dynpy_forms
-
-# If using `dm`
-dm poetry add dynpy_forms
 ```
 
 Then add `dynpy_forms` to your INSTALLED_APPS.

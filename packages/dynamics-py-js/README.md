@@ -16,9 +16,6 @@ url = "https://pypi.centershealthcare.org/simple"
 ```bash
 # In a regular python project
 poetry add dynpy_js
-
-# If using `dm`
-dm poetry add dynpy_js
 ```
 
 Then add `dynpy_js` to your INSTALLED_APPS.
