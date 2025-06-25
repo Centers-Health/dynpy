@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v4.1.3 (2025-06-25)
+### Fix
+- Update readme to remove dm reference ([`1050d8c`](https://github.com/Centers-health/dynpy/commit/1050d8cf8ca06501fa26df5f6642961cd8dd7d84))
+
+
 ## v4.1.2 (2025-06-17)
 ### Fix
 - Prevent change event before select is closed ([`3e5ca46`](https://github.com/Centers-health/dynpy/commit/3e5ca463ac2dc30279d14ac9cb6978b0c60111d0))

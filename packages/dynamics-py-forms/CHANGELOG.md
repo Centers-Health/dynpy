@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v7.4.3 (2025-06-25)
+### Fix
+- Update readme to remove dm reference ([`1050d8c`](https://github.com/Centers-health/dynpy/commit/1050d8cf8ca06501fa26df5f6642961cd8dd7d84))
+
+
 ## v7.4.2 (2025-06-24)
 ### Fix
 - Change default option rendering for bootstrap select widget ([`2211f5f`](https://github.com/Centers-health/dynpy/commit/2211f5f5d0b3e8673d2a9598273fdc90ffb5c990))
