@@ -172,7 +172,10 @@
 
 {% block scripts %}
     {{ block.super }}
-    <script src="{% static 'dynpy_gfl/js/resize_side_panel_manager.js' %}"></script>
+    {% if view.side_panel_is_resizable %}
+        <script src="{% static 'dynpy_gfl/js/resize_side_panel_manager.js' %}"></script>
+        <script>tablePanelResizeManager().initialize();</script>
+    {% endif %}
     <script>
         document.addEventListener('alpine:initializing', () => {
             Alpine.store('splitView', {
@@ -207,8 +210,6 @@
                 }
             })
         })
-
-        tablePanelResizeManager().initialize();
 
         document.addEventListener('htmx:afterRequest', () => {
             Alpine.store('splitView').setObjectIdParam()
