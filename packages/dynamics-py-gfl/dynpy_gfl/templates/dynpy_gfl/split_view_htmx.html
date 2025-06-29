@@ -11,9 +11,7 @@
          id="table_with_side_panel">
         <div id="gfl_table_wrapper"
              {% if view.side_panel_is_resizable %}
-                 :style="{ '--table-width': $store.splitView.tableWidth, transition: $store.splitView.resizing ? 'none' : 'width .3s' }"
-             {% else %}
-                 style="--table-width: {{ view.default_table_width_percent }}%;"
+                 :style="{ '--table-width': $store.splitView.tableWidth, transition: $store.splitView.resizing ? 'none' : 'width .3s' }" class="resizable"
              {% endif %}>
             <span id="table-loader"
                   class="overlay-spinner-indicator spinner-overlay-absolute h-100 w-100 bg-white rounded text-center">
@@ -198,13 +196,14 @@
                     history.pushState(null, '', url);
                 },
                 activateRow(id, event) {
+                    // Check if the click was on the side panel opt-out button or modal fade background
+                    if (event.target.closest('.js-side-panel-opt-out') || event.target.matches('.modal.fade')) {
+                        return;
+                    }
+
                     this.activeRowId = id;
                     this.setObjectIdParam();
-
-                    // Check if the click was on the side panel opt-out button or modal fade background
-                    if (!(event.target.closest('.js-side-panel-opt-out') || event.target.matches('.modal.fade'))) {
-                        this.openSidePanel();
-                    }
+                    this.openSidePanel();
                 }
             })
         })
