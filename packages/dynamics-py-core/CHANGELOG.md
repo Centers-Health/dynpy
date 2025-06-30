@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v19.3.0 (2025-06-30)
+### Feature
+- Add healthcheckmiddleware ([`0cc8f13`](https://github.com/Centers-health/dynpy/commit/0cc8f13e189c752bd7ba44e8bd08a2713a349822))
+
+
 ## v19.2.1 (2025-03-26)
 ### Fix
 - Force version bump for core ([`da94145`](https://github.com/Centers-health/dynpy/commit/da941454adc17caabdccfc9898008680c584210d))
