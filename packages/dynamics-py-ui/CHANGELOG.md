@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v2.5.0 (2025-06-30)
+### Feature
+- Remove reference to contracts app ([`bc6a889`](https://github.com/Centers-health/dynpy/commit/bc6a889de95645fb0abc557e892ca2c32abfae02))
+
+
 ## v2.4.0 (2025-05-28)
 ### Feature
 - Move navbar from ar and make it extendable for site and app use ([`d907128`](https://github.com/Centers-health/dynpy/commit/d9071282ac1a996a68a2f55258b0a2009a2cc1c9))
