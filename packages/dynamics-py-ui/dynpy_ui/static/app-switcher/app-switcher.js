@@ -112,17 +112,10 @@ class AppSwitcher extends HTMLElement {
 			this.button.classList.add("is-active");
 		}
 
-		const isAppSwitcherApp = (currentValue) => {
-			return currentValue.label.toLowerCase() !== "contracts";
-		};
-
 		const noAppsDisplay = '<p class="text-muted">No apps loaded</p>';
 
 		this.menu.innerHTML = this.apps
-			? this.apps
-					.filter(isAppSwitcherApp)
-					.map((app) => this.renderApp(app))
-					.join("")
+			? this.apps.map((app) => this.renderApp(app)).join("")
 			: noAppsDisplay;
 	}
 }
