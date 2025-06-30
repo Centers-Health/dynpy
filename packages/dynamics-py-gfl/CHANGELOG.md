@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v14.4.2 (2025-06-30)
+### Fix
+- Make width auto if not resizable ([`f248be1`](https://github.com/Centers-health/dynpy/commit/f248be1b0a0be23e3e0c42537a4acbf06d385de7))
+- Remove unused js in card detail view ([`9a9ca6d`](https://github.com/Centers-health/dynpy/commit/9a9ca6da3eda9ad899b8571dc3acf5311b09d01c))
+
+
 ## v14.4.0 (2025-06-24)
 ### Feature
 - Add modular gfl table ability ([`8c71607`](https://github.com/Centers-health/dynpy/commit/8c71607429e628aa7d47c3eb02430af548e236fd))
