@@ -19,7 +19,7 @@
 	user-select: none;
 }
 
-#gfl_table_wrapper.resizable {
+#table_with_side_panel.resizable {
 	transition: width .3s;
 	transition-timing-function: ease-out;
 	/* -3px avoids horizontal scroll bar */
