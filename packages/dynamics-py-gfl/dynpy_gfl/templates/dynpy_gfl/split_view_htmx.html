@@ -7,9 +7,8 @@
 
 {% block table_wrapper %}
     <div x-init="initTableRowCounter()"
-         class="d-flex overflow-auto rounded position-relative h-100"
-         id="table_with_side_panel">
-        <div id="gfl_table_wrapper"
+         class="d-flex overflow-auto rounded position-relative h-100">
+        <div id="table_with_side_panel"
              {% if view.side_panel_is_resizable %}
                  :style="{ '--table-width': $store.splitView.tableWidth, transition: $store.splitView.resizing ? 'none' : 'width .3s' }" class="resizable"
              {% endif %}>
@@ -26,7 +25,7 @@
                     </div>
                 </div>
             </span>
-            <div class="table_wrapper overflow-auto border rounded h-100 
+            <div class="table_wrapper overflow-auto border rounded h-100 position-relative 
                 {% block table_wrapper_classes %} {% endblock table_wrapper_classes %}
                  {% if view.get_freeze_columns > 0 %}gfl-frozen{% endif %} {% if view.fixed_header %}fixed_header{% endif %}" id="gfl_table_wrapper">
 
