@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v14.5.1 (2025-07-01)
+### Fix
+- Remove duplicate scroll bars ([`c4db76a`](https://github.com/Centers-health/dynpy/commit/c4db76a3e64667e06ec8e398f9a9eac8adbfa7b1))
+
+
 ## v14.4.2 (2025-06-30)
 ### Fix
 - Make width auto if not resizable ([`f248be1`](https://github.com/Centers-health/dynpy/commit/f248be1b0a0be23e3e0c42537a4acbf06d385de7))
