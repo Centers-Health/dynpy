@@ -1,13 +1,14 @@
+{% comment %} Params for include: hx_name, hx_target, hx_swap, hx_trigger {% endcomment %}
 {% load generic_filter_list_tags %}
 {% load crispy_forms_tags %}
 {% load hx_tags %}
 <form hx-swap-oob="true"
       method="get"
       id="basicFilters"
-      {% hx_get view.filter_hx_name %}
-      hx-target='#gfl_table'
-      hx-swap='outerHTML settle:0 show:#gfl_table:top'
-      hx-trigger='change'
+      {% hx_get hx_name|default:view.filter_hx_name %}
+      hx-target="{{ hx_target|default:'#gfl_table' }}"
+      hx-swap="{{ hx_swap|default:'outerHTML settle:0 show:#gfl_table:top' }}"
+      hx-trigger="{{ hx_trigger|default:'change' }}"
       hx-push-url='true'>
     <div class="form-row">
         {% for field in filter.form %}
