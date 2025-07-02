@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v14.6.0 (2025-07-02)
+### Feature
+- Make gfl_filters.html more extensible with hx parameters ([`540438d`](https://github.com/Centers-health/dynpy/commit/540438d2af93c84d63c75ee4ddf4b9e1f9ed0c75))
+
+
 ## v14.5.1 (2025-07-01)
 ### Fix
 - Remove duplicate scroll bars ([`c4db76a`](https://github.com/Centers-health/dynpy/commit/c4db76a3e64667e06ec8e398f9a9eac8adbfa7b1))
