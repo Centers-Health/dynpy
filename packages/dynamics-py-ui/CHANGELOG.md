@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v2.5.1 (2025-07-03)
+### Fix
+- Update navbar to work with apps in sites ([`a06902c`](https://github.com/Centers-health/dynpy/commit/a06902c21d84cfb348d0333e9c43719706321fd4))
+
+
 ## v2.5.0 (2025-06-30)
 ### Feature
 - Remove reference to contracts app ([`bc6a889`](https://github.com/Centers-health/dynpy/commit/bc6a889de95645fb0abc557e892ca2c32abfae02))
