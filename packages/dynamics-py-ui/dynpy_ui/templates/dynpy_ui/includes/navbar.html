@@ -56,11 +56,12 @@
                 },
             }
 
-        - You must set `BASE_CAS_URL` in settings.py and include it in a context processor
-          so it is available to templates. For example:
+        - You must set `BASE_CAS_URL` and `DJANGO_ENV` in settings.py and include them in context processors
+          so they are available to templates. For example:
 
             # settings.py
             BASE_CAS_URL = "https://cas.localhost"
+            DJANGO_ENV = os.getenv("DJANGO_ENV", "")
 
             TEMPLATES = [
             	{
@@ -69,6 +70,7 @@
 		            "context_processors": [
 		                ...
 		                "app.context_processors.base_urls",
+                        "app.context_processors.django_env",
 		            ],
 		        },
 		    }
@@ -77,6 +79,9 @@
             # app/context_processors.py
             def base_urls(request):
                 return {"BASE_CAS_URL": settings.BASE_CAS_URL}
+            
+            def django_env(request):
+                return {"DJANGO_ENV": settings.DJANGO_ENV}
 
 {% endcomment %}
 {% load static %}
@@ -121,7 +126,11 @@
             {% endblock navbar_extras_left %}
 
             <div class="d-flex nav-item text-center ml-auto">
-                <h2 class="mb-0">{{ nav_title }}</h2>
+
+                {% block nav_title %}
+                    <h2 class="mb-0">{{ nav_title }}</h2>
+                {% endblock nav_title %}
+
             </div>
             <ul class="navbar-nav ml-auto">
 
