@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v19.3.1 (2025-07-04)
+### Fix
+- Update hx-requests dependency in dynpy core to allow any version ([`e20acef`](https://github.com/Centers-health/dynpy/commit/e20acef3529e05d07dc199bd264224f235128036))
+
+
 ## v19.3.0 (2025-06-30)
 ### Feature
 - Add healthcheckmiddleware ([`0cc8f13`](https://github.com/Centers-health/dynpy/commit/0cc8f13e189c752bd7ba44e8bd08a2713a349822))
