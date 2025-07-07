@@ -1,3 +1,5 @@
+from django.core.exceptions import ValidationError
+
 from dynpy_forms.iterators import GroupedModelChoiceIterator
 
 
@@ -35,3 +37,28 @@ class GroupedChoicesMixin:
         if hasattr(self, "_choices"):
             return self._choices
         return self.iterator(self)
+
+
+class IgnoreInvalidChoicesMixin:
+    """
+    Mixin to ignore invalid values in a model choice field.
+    """
+
+    def _check_values(self, value):
+        """
+        Override to ignore invalid values instead of raising an error.
+        The original method raises a ValidationError if the value is not valid.
+        """
+        key = self.to_field_name or "pk"
+        # deduplicate given values to avoid creating many querysets or
+        # requiring the database backend deduplicate efficiently.
+        try:
+            value = frozenset(value)
+        except TypeError:
+            # list of lists isn't hashable, for example
+            raise ValidationError(
+                self.error_messages["invalid_list"],
+                code="invalid_list",
+            )
+        qs = self.queryset.filter(**{f"{key}__in": value})
+        return qs
