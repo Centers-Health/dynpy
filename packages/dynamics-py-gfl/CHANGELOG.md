@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v14.8.0 (2025-07-08)
+### Feature
+- Add params to column_header_link for flexibility ([`0d0a9b9`](https://github.com/Centers-health/dynpy/commit/0d0a9b9675ea975637cd60395dcfa625e3f7a511))
+
+
 ## v14.6.0 (2025-07-02)
 ### Feature
 - Make gfl_filters.html more extensible with hx parameters ([`540438d`](https://github.com/Centers-health/dynpy/commit/540438d2af93c84d63c75ee4ddf4b9e1f9ed0c75))
