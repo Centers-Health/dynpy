@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v7.6.0 (2025-07-08)
+### Feature
+- Add field mixin for ignoring invalid values in choice fields ([`56c4abf`](https://github.com/Centers-health/dynpy/commit/56c4abf693066e75314ecb74dab0bc374b38b6b2))
+
+
 ## v7.4.3 (2025-06-25)
 ### Fix
 - Update readme to remove dm reference ([`1050d8c`](https://github.com/Centers-health/dynpy/commit/1050d8cf8ca06501fa26df5f6642961cd8dd7d84))
