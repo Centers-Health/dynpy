@@ -10,7 +10,13 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
-def column_header_link(context, sort_hx_name=None, hx_target=None):
+def column_header_link(
+    context,
+    sort_hx_name=None,
+    hx_target="#gfl_table",
+    hx_swap="outerHTML settle:0 show:#gfl_table:top",
+    hx_indicator="#table-loader",
+):
     """
     Returns an anchor tag with the appropriate query string for ordering
     and arrow icon for column headers in generic filter list.
@@ -64,8 +70,8 @@ def column_header_link(context, sort_hx_name=None, hx_target=None):
         query_string = param_replace(
             context, hx_request_name=sort_hx_name, order_by=column_name, order=order
         )
-        htmxify = f"""hx-boost='true' hx-target='{hx_target or "#gfl_table"}'
-        hx-indicator='#table-loader' hx-swap='outerHTML settle:0 show:#gfl_table:top'"""
+        htmxify = f"""hx-boost='true' hx-target='{hx_target}'
+        hx-indicator='{hx_indicator}' hx-swap='{hx_swap}'"""
 
     return format_html(
         f"""<a {htmxify if sort_hx_name else ""}
