@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v14.9.0 (2025-07-09)
+### Feature
+- Add table_row_classes block to htmx gfl ([`f16c6f2`](https://github.com/Centers-health/dynpy/commit/f16c6f2eb3c93138683e7961ce9ded7116ad9ab8))
+
+
 ## v14.8.0 (2025-07-08)
 ### Feature
 - Add params to column_header_link for flexibility ([`0d0a9b9`](https://github.com/Centers-health/dynpy/commit/0d0a9b9675ea975637cd60395dcfa625e3f7a511))
