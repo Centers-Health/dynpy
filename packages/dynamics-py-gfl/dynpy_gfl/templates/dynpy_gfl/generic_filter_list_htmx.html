@@ -231,145 +231,148 @@
                                                 {% for item in object_list %}
 
                                                     {% block table_row_outer %}
-                                                        <tr id="gfl_row_{{ item.pk }}" class="js-gfl-item">
+                                                        {# djlint:off #}
+                                                        <tr id="gfl_row_{{ item.pk }}" class="js-gfl-item 
+                                                            {% block table_row_classes %}{% endblock table_row_classes %}">
+                                                        {# djlint:on #}
 
-                                                            {% block index_column %}
-                                                                {% if view.include_index_column %}
-                                                                    <td x-data="{index: $el.closest('.js-gfl-item').rowIndex
-                                                                        {% if view.using_combo_pagination %}
-                                                                            + {{ paginator.combo_page|add:-1|multiply:paginator.per_combo_page }}
-                                                                        {% endif %}
-                                                                        }" @table-row-removed.window="index = $el.closest('.js-gfl-item').rowIndex">
-                                                                        <span x-text="index"></span>
-                                                                    </td>
-                                                                {% endif %}
-                                                            {% endblock index_column %}
-
-                                                            {% block table_row %}
-                                                                <td class="hidden-invisible">
-                                                                    {% include "dynpy_gfl/includes/htmx_gfl_row_hidden_elems.html" %}
+                                                        {% block index_column %}
+                                                            {% if view.include_index_column %}
+                                                                <td x-data="{index: $el.closest('.js-gfl-item').rowIndex
+                                                                    {% if view.using_combo_pagination %}
+                                                                        + {{ paginator.combo_page|add:-1|multiply:paginator.per_combo_page }}
+                                                                    {% endif %}
+                                                                    }" @table-row-removed.window="index = $el.closest('.js-gfl-item').rowIndex">
+                                                                    <span x-text="index"></span>
                                                                 </td>
-                                                            {% endblock table_row %}
+                                                            {% endif %}
+                                                        {% endblock index_column %}
 
-                                                        </tr>
-                                                    {% endblock table_row_outer %}
+                                                        {% block table_row %}
+                                                            <td class="hidden-invisible">
+                                                                {% include "dynpy_gfl/includes/htmx_gfl_row_hidden_elems.html" %}
+                                                            </td>
+                                                        {% endblock table_row %}
 
-                                                {% endfor %}
-                                            {% endblock items %}
+                                                    </tr>
+                                                {% endblock table_row_outer %}
 
-                                        </tbody>
-                                    {% endblock table_tbody %}
+                                            {% endfor %}
+                                        {% endblock items %}
 
-                                </table>
-                            {% endblock table %}
+                                    </tbody>
+                                {% endblock table_tbody %}
 
-                            {% block pagination_under_table %}
-                                <div class="pagination-container justify-content-center d-flex"
-                                     id='pagination-container'
-                                     hx-swap-oob='true'>
-                                    {% if view.using_combo_pagination and not paginator.has_next %}
-                                        <nav aria-label="Page navigation">
-                                            <ul class="pagination justify-content-center mt-3">
-                                                <!-- Previous Page Button -->
-                                                <li class="page-item mx-1">
-                                                    <a class="btn btn-outline-primary
-                                                              {% if paginator.combo_page == 1 %}disabled{% endif %}"
-                                                       {% hx_get 'pagination' %}
-                                                       hx-target="#gfl_table"
-                                                       hx-indicator='#table-loader'
-                                                       hx-push-url='true'
-                                                       hx-include='#basicFilters'
-                                                       hx-swap="outerHTML settle:0 show:#gfl_table:top"
-                                                       hx-vals='{ "combo_page": "{{ paginator.combo_page|add:-1 }}", "position": "0" }'>
-                                                        <span aria-hidden="true"><i class="fas fa-chevron-left"></i> Prev</span>
-                                                    </a>
-                                                </li>
-                                                <!-- Next Page Button -->
-                                                <li class="page-item mx-1">
-                                                    <a class="btn btn-outline-primary
-                                                              {% if not paginator.has_next_combo_page %}disabled{% endif %}"
-                                                       {% hx_get 'pagination' %}
-                                                       hx-target="#gfl_table"
-                                                       hx-push-url='true'
-                                                       hx-include='#basicFilters'
-                                                       hx-indicator='#table-loader'
-                                                       hx-swap="outerHTML settle:0 show:#gfl_table:top"
-                                                       hx-vals='{ "combo_page": "{{ paginator.combo_page|add:1 }}", "position": "0" }'
-                                                       aria-label="Next">
-                                                        <span aria-hidden="true">Next <i class="fas fa-chevron-right"></i></span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    {% endif %}
+                            </table>
+                        {% endblock table %}
+
+                        {% block pagination_under_table %}
+                            <div class="pagination-container justify-content-center d-flex"
+                                 id='pagination-container'
+                                 hx-swap-oob='true'>
+                                {% if view.using_combo_pagination and not paginator.has_next %}
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination justify-content-center mt-3">
+                                            <!-- Previous Page Button -->
+                                            <li class="page-item mx-1">
+                                                <a class="btn btn-outline-primary
+                                                          {% if paginator.combo_page == 1 %}disabled{% endif %}"
+                                                   {% hx_get 'pagination' %}
+                                                   hx-target="#gfl_table"
+                                                   hx-indicator='#table-loader'
+                                                   hx-push-url='true'
+                                                   hx-include='#basicFilters'
+                                                   hx-swap="outerHTML settle:0 show:#gfl_table:top"
+                                                   hx-vals='{ "combo_page": "{{ paginator.combo_page|add:-1 }}", "position": "0" }'>
+                                                    <span aria-hidden="true"><i class="fas fa-chevron-left"></i> Prev</span>
+                                                </a>
+                                            </li>
+                                            <!-- Next Page Button -->
+                                            <li class="page-item mx-1">
+                                                <a class="btn btn-outline-primary
+                                                          {% if not paginator.has_next_combo_page %}disabled{% endif %}"
+                                                   {% hx_get 'pagination' %}
+                                                   hx-target="#gfl_table"
+                                                   hx-push-url='true'
+                                                   hx-include='#basicFilters'
+                                                   hx-indicator='#table-loader'
+                                                   hx-swap="outerHTML settle:0 show:#gfl_table:top"
+                                                   hx-vals='{ "combo_page": "{{ paginator.combo_page|add:1 }}", "position": "0" }'
+                                                   aria-label="Next">
+                                                    <span aria-hidden="true">Next <i class="fas fa-chevron-right"></i></span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                {% endif %}
+                            </div>
+                        {% endblock pagination_under_table %}
+
+                        {% block loader %}
+                            <div id="tr-loader" class="htmx-indicator">
+                                <div class="d-flex justify-content-center">
+                                    <div class="spinner-border" role="status"></div>
                                 </div>
-                            {% endblock pagination_under_table %}
-
-                            {% block loader %}
-                                <div id="tr-loader" class="htmx-indicator">
-                                    <div class="d-flex justify-content-center">
-                                        <div class="spinner-border" role="status"></div>
-                                    </div>
-                                    <div class="d-flex justify-content-center">
-                                        <span id="loading-message">Loading...</span>
-                                    </div>
+                                <div class="d-flex justify-content-center">
+                                    <span id="loading-message">Loading...</span>
                                 </div>
-                            {% endblock loader %}
+                            </div>
+                        {% endblock loader %}
 
-                            {% block no_objects %}
-                                <div hx-swap-oob='true' id="gfl_no_objects">
-                                    {% if not object_list %}
+                        {% block no_objects %}
+                            <div hx-swap-oob='true' id="gfl_no_objects">
+                                {% if not object_list %}
 
-                                        {% block no_objects_text %}
-                                            <div class="text-center h3 py-4 text-dark">-- No Results Found --</div>
-                                        {% endblock no_objects_text %}
+                                    {% block no_objects_text %}
+                                        <div class="text-center h3 py-4 text-dark">-- No Results Found --</div>
+                                    {% endblock no_objects_text %}
 
-                                    {% endif %}
-                                </div>
-                            {% endblock no_objects %}
+                                {% endif %}
+                            </div>
+                        {% endblock no_objects %}
 
-                        </div>
-                    {% endblock table_wrapper %}
+                    </div>
+                {% endblock table_wrapper %}
 
-                </div>
             </div>
         </div>
-    {% endblock gfl_content %}
+    </div>
+{% endblock gfl_content %}
 
-    {% block gfl_scripts %}
-        {% comment %} We need to declare the frozenColumnOffset and redefine it in a separate script tag.  Since we redefine it in an hx request,  {% endcomment %}
-        {% comment %} there isn't an entire page reload, and we can't redeclare variables by running 'let' more than once. {% endcomment %}
-        <script>let frozenColumnsOffset = {{view.get_freeze_columns}};</script>
+{% block gfl_scripts %}
+    {% comment %} We need to declare the frozenColumnOffset and redefine it in a separate script tag.  Since we redefine it in an hx request,  {% endcomment %}
+    {% comment %} there isn't an entire page reload, and we can't redeclare variables by running 'let' more than once. {% endcomment %}
+    <script>let frozenColumnsOffset = {{view.get_freeze_columns}};</script>
 
-        {% block freeze_columns_script %}
-            <script id="reset-frozenColumnOffset" hx-swap-oob="true">
+    {% block freeze_columns_script %}
+        <script id="reset-frozenColumnOffset" hx-swap-oob="true">
                 frozenColumnsOffset = {{view.get_freeze_columns}};
-            </script>
-            <script src="{% static 'dynpy_gfl/js/freeze_columns.js' %}" id="freeze-column-script" hx-swap-oob="true">
-            </script>
-        {% endblock freeze_columns_script %}
+        </script>
+        <script src="{% static 'dynpy_gfl/js/freeze_columns.js' %}" id="freeze-column-script" hx-swap-oob="true">
+        </script>
+    {% endblock freeze_columns_script %}
 
-        <script src="{% static 'dynpy_gfl/js/scroll_height.js' %}" defer></script>
-        <script src="{% static 'dynpy_js/js/listeners.js' %}" defer></script>
-        <script src="{% static 'dynpy_js/js/selectpicker_utils.js' %}" defer></script>
-        <script src= "{% static 'dynpy_gfl/js/alpine/table_row_counter.js' %}"></script>
-        <script src="{% static 'dynpy_gfl/js/virtual_scroll.js' %}"></script>
+    <script src="{% static 'dynpy_gfl/js/scroll_height.js' %}" defer></script>
+    <script src="{% static 'dynpy_js/js/listeners.js' %}" defer></script>
+    <script src="{% static 'dynpy_js/js/selectpicker_utils.js' %}" defer></script>
+    <script src= "{% static 'dynpy_gfl/js/alpine/table_row_counter.js' %}"></script>
+    <script src="{% static 'dynpy_gfl/js/virtual_scroll.js' %}"></script>
 
-        {% block virtualize_config %}
-            {% if view.enable_virtual_scroll %}
-                <script>new Virtualizer();</script>
-            {% endif %}
-        {% endblock virtualize_config %}
-    {% endblock gfl_scripts %}
+    {% block virtualize_config %}
+        {% if view.enable_virtual_scroll %}
+            <script>new Virtualizer();</script>
+        {% endif %}
+    {% endblock virtualize_config %}
+{% endblock gfl_scripts %}
 
-    {% block gfl_styles %}
-        <link rel="stylesheet"
-              href="{% static 'dynpy_gfl/css/generic_filter_list.css' %}">
-        <link rel="stylesheet"
-              href="{% static 'dynpy_gfl/css/generic_filter_list_htmx.css' %}">
+{% block gfl_styles %}
+    <link rel="stylesheet"
+          href="{% static 'dynpy_gfl/css/generic_filter_list.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'dynpy_gfl/css/generic_filter_list_htmx.css' %}">
 
-        {% block gfl_frozen_column_styles %}
-            <style id="reset-frozenColumn-css" hx-swap-oob="true">
+    {% block gfl_frozen_column_styles %}
+        <style id="reset-frozenColumn-css" hx-swap-oob="true">
                 /*---------------------------------------------------------------------
                 -                           Frozen Columns                            -
                 ---------------------------------------------------------------------*/
@@ -440,7 +443,7 @@
                 .gfl-frozen tbody tr{
                     background-color: inherit;
                 }
-            </style>
-        {% endblock gfl_frozen_column_styles %}
-    {% endblock gfl_styles %}
+        </style>
+    {% endblock gfl_frozen_column_styles %}
+{% endblock gfl_styles %}
 {% endblock content %}
