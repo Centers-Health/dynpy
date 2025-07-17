@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v14.9.1 (2025-07-17)
+### Fix
+- Enable refresh row to handle cases when object was deleted ([`c55f171`](https://github.com/Centers-health/dynpy/commit/c55f1718adb520b467e1d77c19d2a8f1a9e3da50))
+
+
 ## v14.9.0 (2025-07-09)
 ### Feature
 - Add table_row_classes block to htmx gfl ([`f16c6f2`](https://github.com/Centers-health/dynpy/commit/f16c6f2eb3c93138683e7961ce9ded7116ad9ab8))
