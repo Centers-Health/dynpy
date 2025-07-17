@@ -99,7 +99,9 @@
      hx-disinherit="hx-indicator">
     {% include "dynpy_ui/web-components/app-switcher.html" %}
     <div class="nav-item d-flex">
-        <app-switcher></app-switcher>
+        <div style="width:70px;">
+            <app-switcher></app-switcher>
+        </div>
     </div>
     <a href="{{ base_url }}" class="nav-item d-flex">
         <img src='{% static "dynpy/img/centersLogo3d_small.png" %}'
