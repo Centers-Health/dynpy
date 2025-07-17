@@ -1,7 +1,9 @@
 from typing import Any
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpRequest, HttpResponse
 from hx_requests.hx_requests import BaseHxRequest
+from hx_requests.utils import deserialize
 
 
 class InfiniteScroll(BaseHxRequest):
@@ -104,6 +106,18 @@ class RefreshRow(BaseHxRequest):
 
     name = "refresh_row"
     GET_block = "table_row_outer"
+
+    def get_hx_object(self, request):
+        """
+        If an 'object' was passed in, deserialize it.
+        If the object does not exist, return None (this happens when
+        the object was deleted as part of the originial request).
+        """
+        if request.GET.get("object"):
+            try:
+                return deserialize(request.GET.get("object"))
+            except ObjectDoesNotExist:
+                return None
 
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         # get the item from the filtersets qs so that it has the prefetched data
