@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v14.9.2 (2025-07-18)
+### Fix
+- Refresh row breaks when no hx object ([`5386a67`](https://github.com/Centers-health/dynpy/commit/5386a67a0399dc0c7cfd327f5a72b2740302b909))
+
+
 ## v14.9.1 (2025-07-17)
 ### Fix
 - Enable refresh row to handle cases when object was deleted ([`c55f171`](https://github.com/Centers-health/dynpy/commit/c55f1718adb520b467e1d77c19d2a8f1a9e3da50))
