@@ -120,11 +120,14 @@ class RefreshRow(BaseHxRequest):
                 return None
 
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
-        # get the item from the filtersets qs so that it has the prefetched data
-        try:
-            self.object_from_qs = self.view.filterset.qs.get(pk=self.hx_object.pk)
-        except self.hx_object._meta.model.DoesNotExist:
+        if not self.hx_object:
             self.object_from_qs = None
+        else:
+            try:
+                # get the item from the filtersets qs so that it has the prefetched data
+                self.object_from_qs = self.view.filterset.qs.get(pk=self.hx_object.pk)
+            except self.hx_object._meta.model.DoesNotExist:
+                self.object_from_qs = None
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
