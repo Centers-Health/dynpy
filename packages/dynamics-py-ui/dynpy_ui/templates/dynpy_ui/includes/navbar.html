@@ -79,7 +79,7 @@
             # app/context_processors.py
             def base_urls(request):
                 return {"BASE_CAS_URL": settings.BASE_CAS_URL}
-            
+
             def django_env(request):
                 return {"DJANGO_ENV": settings.DJANGO_ENV}
 
@@ -131,7 +131,9 @@
             <div class="text-center w-100">
 
                 {% block nav_title %}
-                    <h2 class="mb-0" style="line-height: 70px; text-align: center;">{{ nav_title }}</h2>
+                    <h2 class="mb-0 nav-title-text">
+                        {{ nav_title }}
+                    </h2>
                 {% endblock nav_title %}
 
             </div>
