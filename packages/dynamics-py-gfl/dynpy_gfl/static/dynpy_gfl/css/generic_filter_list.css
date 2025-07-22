@@ -1,65 +1,65 @@
 .page-link {
-  text-align: center;
-  width: 30px;
-  padding: 6px;
+	text-align: center;
+	width: 30px;
+	padding: 6px;
 }
 
 .fixed_header {
-  overflow: auto;
+	overflow: auto;
 }
 
 .fixed_header table {
-  border-collapse: collapse;
-  border-spacing: 0;
-  border-top-width: 0;
+	border-collapse: collapse;
+	border-spacing: 0;
+	border-top-width: 0;
 }
 
 .fixed_header thead th {
-  position: sticky;
-  top: 0;
-  background-color: #fff;
-  z-index: 10;
-  border-top-width: 0;
-  border-bottom: 1px solid var(--light);
+	position: sticky;
+	top: 0;
+	background-color: #fff;
+	z-index: 10;
+	border-top-width: 0;
+	border-bottom: 1px solid var(--light);
 }
 
 .hidden-invisible {
-  /* different than d-none. This has a display but acts invisible. Needed for intersect to work */
-  opacity: 0;
-  width: 0;
-  margin: 0 !important;
-  padding: 0 !important;
-  /* span entire width */
-  position: absolute;
-  width: 100%;
-  right: 0;
+	/* different than d-none. This has a display but acts invisible. Needed for intersect to work */
+	opacity: 0;
+	width: 0;
+	margin: 0 !important;
+	padding: 0 !important;
+	/* span entire width */
+	position: absolute;
+	width: 100%;
+	right: 0;
 }
 
 #gfl_table.table-bordered {
-  border-top: 0 !important;
+	border-top: 0 !important;
 }
 
 .spinner-overlay-absolute,
 .spinner-overlay-fixed {
-  z-index: 1000;
-  top: 50%;
-  left: 50%;
-  opacity: 0.5;
-  transform: translate(-50%, -50%);
+	z-index: 1000;
+	top: 50%;
+	left: 50%;
+	opacity: 0.5;
+	transform: translate(-50%, -50%);
 }
 .spinner-overlay-absolute {
-  position: absolute;
+	position: absolute;
 }
 
 .spinner-overlay-fixed {
-  position: fixed;
+	position: fixed;
 }
 
 #gfl_table td {
-  vertical-align: middle;
+	vertical-align: middle;
 }
 
 /* Reserve space */
 .rs-200 {
-  height: 200px;
+	height: 200px;
 }
