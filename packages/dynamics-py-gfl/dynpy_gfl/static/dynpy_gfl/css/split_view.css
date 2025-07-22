@@ -31,6 +31,7 @@
 #side_panel_wrapper {
 	--side-panel-width: 0%;
 	width: var(--side-panel-width);
+	overflow-y: auto;
 }
 
 .row-active {
