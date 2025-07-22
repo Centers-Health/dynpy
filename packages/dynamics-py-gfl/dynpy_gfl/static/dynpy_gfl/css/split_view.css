@@ -6,7 +6,7 @@
 	position: fixed;
 	right: 16px;
 	z-index: 1;
-	border-radius: 0px .2rem;
+	border-radius: 0px 0.2rem;
 }
 
 #side_panel_wrapper.y-scrollable .close-btn {
@@ -20,7 +20,7 @@
 }
 
 #table_with_side_panel.resizable {
-	transition: width .3s;
+	transition: width 0.3s;
 	transition-timing-function: ease-out;
 	/* -3px avoids horizontal scroll bar */
 	--table-width: calc(100% - 3px);
@@ -49,5 +49,5 @@
 .resizing .resizer,
 .resizer:hover {
 	opacity: 0.3;
-	transition: opacity .1s ease-in-out;
+	transition: opacity 0.1s ease-in-out;
 }
