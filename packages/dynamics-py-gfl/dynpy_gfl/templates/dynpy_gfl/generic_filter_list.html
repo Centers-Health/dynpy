@@ -54,7 +54,7 @@
         </div>
     </div>
     <div>
-        <div class="collapse
+        <div class="collapse rs-200
                     {% if not view.filters_collapsed %}show{% endif %}"
              id="filters">
 
@@ -158,14 +158,14 @@
     {% endblock pagination %}
 
     {% block table %}
-        <div class="table_wrapper flex-grow-1 overflow-auto border rounded h-100 
+        <div class="table_wrapper flex-grow-1 overflow-auto border rounded h-100
             {% block table_wrapper_classes %}{% endblock table_wrapper_classes %}
              {% if view.get_freeze_columns > 0 %}gfl-frozen{% endif %} {% if view.fixed_header %}fixed_header{% endif %}">
 
             {% block above_table_content %}
             {% endblock above_table_content %}
 
-            <table class=" 
+            <table class="
                 {% block table_class %}table table-striped fixed_header{% endblock table_class %}
                  ">
                 <thead>
@@ -189,9 +189,9 @@
                         {% for item in object_list %}
 
                             {% block table_row_outer %}
-                                <tr id="gfl_row_{{ item.pk }}" class=" 
+                                <tr id="gfl_row_{{ item.pk }}" class="
                                     {% block table_row_classes %}{% endblock table_row_classes %}
-                                     " 
+                                     "
                                     {% block table_row_attributes %}{% endblock table_row_attributes %}
                                     >
 
