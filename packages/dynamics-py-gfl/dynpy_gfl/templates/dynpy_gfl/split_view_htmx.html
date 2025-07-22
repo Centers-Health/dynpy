@@ -198,13 +198,14 @@
                     history.pushState(null, '', url);
                 },
                 activateRow(id, event) {
+                    this.activeRowId = id;
+                    this.setObjectIdParam();
+
                     // Check if the click was on the side panel opt-out button or modal fade background
                     if (event.target.closest('.js-side-panel-opt-out') || event.target.matches('.modal.fade')) {
                         return;
                     }
 
-                    this.activeRowId = id;
-                    this.setObjectIdParam();
                     this.openSidePanel();
                 }
             })
