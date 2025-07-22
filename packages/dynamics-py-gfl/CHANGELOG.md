@@ -2,6 +2,15 @@
 
 <!--next-version-placeholder-->
 
+## v14.9.3 (2025-07-22)
+### Fix
+- Use overflow-y instead of auto ([`59899dd`](https://github.com/Centers-health/dynpy/commit/59899dd1e95c9cb447813779e727f6a54d79fee5))
+- Reserve space to prevent cls ([`35562bf`](https://github.com/Centers-health/dynpy/commit/35562bf5e84f7128157b7c35627c2256e17e0e41))
+### Other
+- Css formatting ([`ad6955b`](https://github.com/Centers-health/dynpy/commit/ad6955bb40e3bebfeb900e74786ab9998f2a9065))
+- Precommit ([`073d067`](https://github.com/Centers-health/dynpy/commit/073d067c005155a6a3bbeb13a4581e4e91a80c8c))
+
+
 ## v14.9.2 (2025-07-18)
 ### Fix
 - Refresh row breaks when no hx object ([`5386a67`](https://github.com/Centers-health/dynpy/commit/5386a67a0399dc0c7cfd327f5a72b2740302b909))

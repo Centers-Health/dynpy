@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v19.4.0 (2025-07-22)
+### Feature
+- Use small image ([`4ba426e`](https://github.com/Centers-health/dynpy/commit/4ba426e4bffa8b617c8648a9711f5825bbcea830))
+
+
 ## v19.3.1 (2025-07-04)
 ### Fix
 - Update hx-requests dependency in dynpy core to allow any version ([`e20acef`](https://github.com/Centers-health/dynpy/commit/e20acef3529e05d07dc199bd264224f235128036))

@@ -2,6 +2,19 @@
 
 <!--next-version-placeholder-->
 
+## v2.6.0 (2025-07-22)
+### Feature
+- Use small image ([`4ba426e`](https://github.com/Centers-health/dynpy/commit/4ba426e4bffa8b617c8648a9711f5825bbcea830))
+- Add width on app switcher to reserve space ([`13ef611`](https://github.com/Centers-health/dynpy/commit/13ef6119e05cd8070784ce2705ce8fc3fb8ac726))
+- Add height image attr for nav ([`1cc1e14`](https://github.com/Centers-health/dynpy/commit/1cc1e1491bdb0da39f4331a22d09e1cf33e68b14))
+### Fix
+- Misc layout improvements ([`033ff3c`](https://github.com/Centers-health/dynpy/commit/033ff3cecb84ec28dfaef162d6b2eca3a60a2daa))
+- Navbar title text formatting ([`e95eb21`](https://github.com/Centers-health/dynpy/commit/e95eb21c1607ca776c9db4d57609e0498ba7901c))
+### Other
+- Fmt of template ([`95c1da1`](https://github.com/Centers-health/dynpy/commit/95c1da16767cdd6b4a6b59c512a5fafba8c14ca3))
+- Precommit ([`073d067`](https://github.com/Centers-health/dynpy/commit/073d067c005155a6a3bbeb13a4581e4e91a80c8c))
+
+
 ## v2.5.1 (2025-07-03)
 ### Fix
 - Update navbar to work with apps in sites ([`a06902c`](https://github.com/Centers-health/dynpy/commit/a06902c21d84cfb348d0333e9c43719706321fd4))
