@@ -127,44 +127,76 @@ class GenericFilterSet(django_filters.FilterSet):
         return None
 
     def get_order_by(self, order_fields, request_order):
+        """
+        Determine the order_by parameters based on the provided order fields and request order.
+        """
         order = request_order or self.default_order
-        has_reverse_order_fields = any(isinstance(field, str) and "-" in field for field in order_fields)
+        has_reverse_order_fields = self._has_reverse_order_fields(order_fields)
+
+        # Filter out fields that are not columns
+        valid_order_fields = self._filter_valid_order_fields(order_fields)
 
         order_by_params = []
-        # Remove fields that are not columns
-        order_fields = [field for field in order_fields if self._field_is_a_column(field)]
-        for field in order_fields:
-            field_order = order
-            # Need to process '-' on page load
-            if isinstance(field, str):
-                if not request_order and has_reverse_order_fields:
-                    field_order = FilterListOrder.DESC if "-" in field else FilterListOrder.ASC
-                field = field.replace("-", "")
+        for field in valid_order_fields:
+            field_order = self._determine_field_order(
+                field, order, request_order, has_reverse_order_fields
+            )
+            field_override = self.order_by_overrides.get(field.lstrip("-"), field)
+            order_by_params.extend(self._generate_order_by_params(field_override, field_order))
 
-            field_override = self.order_by_overrides.get(field, field)
-            field_order_by_params = []
-
-            if isinstance(field_override, list):
-                for field in field_override:
-                    override_field_order = FilterListOrder.DESC if "-" in field else FilterListOrder.ASC
-                    field = field.replace("-", "")
-                    if field_order == FilterListOrder.DESC:
-                        # Flip order
-                        override_field_order = (
-                            FilterListOrder.ASC
-                            if override_field_order == FilterListOrder.DESC
-                            else FilterListOrder.DESC
-                        )
-                    field_order_by_params.append(
-                        FieldOrderByClause(field, override_field_order).process_field()
-                    )
-            else:
-                field_order_by_params.append(
-                    FieldOrderByClause(field_override, field_order).process_field()
-                )
-
-            order_by_params.extend(field_order_by_params)
         return order_by_params
+
+    def _has_reverse_order_fields(self, order_fields):
+        """
+        Check if any fields in the order_fields list have reverse order indicators (e.g., '-field').
+        """
+        return any("-" in field for field in order_fields if isinstance(field, str))
+
+    def _filter_valid_order_fields(self, order_fields):
+        """
+        Filter out fields that are not columns.
+        """
+        return [field for field in order_fields if self._field_is_a_column(field)]
+
+    def _determine_field_order(self, field, default_order, request_order, has_reverse_order_fields):
+        """
+        Determine the order direction for a field.
+        """
+        if isinstance(field, str) and not request_order and has_reverse_order_fields:
+            return self._get_field_order(field)
+        return default_order
+
+    def _generate_order_by_params(self, field_override, field_order):
+        """
+        Generate order_by parameters based on field overrides and order direction.
+        """
+        field_order_by_params = []
+
+        if isinstance(field_override, list):
+            for override_field in field_override:
+                override_field_order = self._get_field_order(override_field)
+                override_field = override_field.lstrip("-")
+                if field_order == FilterListOrder.DESC:
+                    override_field_order = self._flip_order(override_field_order)
+                field_order_by_params.append(
+                    FieldOrderByClause(override_field, override_field_order).process_field()
+                )
+        else:
+            field_order_by_params.append(FieldOrderByClause(field_override, field_order).process_field())
+
+        return field_order_by_params
+
+    def _get_field_order(self, field):
+        """
+        Determine the order direction based on the presence of a '-' in the field.
+        """
+        return FilterListOrder.DESC if "-" in field else FilterListOrder.ASC
+
+    def _flip_order(self, order):
+        """
+        Flip the order direction.
+        """
+        return FilterListOrder.ASC if order == FilterListOrder.DESC else FilterListOrder.DESC
 
     def _field_is_a_column(self, field):
         # Checks if the given field is one of the columns on the page.
