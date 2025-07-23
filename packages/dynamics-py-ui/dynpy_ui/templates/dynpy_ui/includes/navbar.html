@@ -121,7 +121,7 @@
     {% with app_config=request.resolver_match.app_name|get_app_config %}
         <div class="collapse navbar-collapse text-center"
              id="navbarSupportedContent">
-            <a class="m-0 h2 app-label nav-item d-flex" href="#">
+            <a class="m-0 h2 app-label nav-item d-flex text-nowrap" href="#">
                 <span>{{ app_config.label }}</span>
             </a>
 
