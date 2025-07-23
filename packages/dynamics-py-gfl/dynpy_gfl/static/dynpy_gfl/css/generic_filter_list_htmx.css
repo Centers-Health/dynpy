@@ -14,3 +14,7 @@
 	background-color: var(--primary);
 	color: white;
 }
+
+#filtersToggle {
+	width: 5.6rem;
+}
