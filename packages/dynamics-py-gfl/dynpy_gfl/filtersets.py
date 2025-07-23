@@ -131,16 +131,13 @@ class GenericFilterSet(django_filters.FilterSet):
         Determine the order_by parameters based on the provided order fields and request order.
         """
         order = request_order or self.default_order
-        has_reverse_order_fields = self._has_reverse_order_fields(order_fields)
 
         # Filter out fields that are not columns
         valid_order_fields = self._filter_valid_order_fields(order_fields)
 
         order_by_params = []
         for field in valid_order_fields:
-            field_order = self._determine_field_order(
-                field, order, request_order, has_reverse_order_fields
-            )
+            field_order = self._determine_field_order(field, order, request_order, order_fields)
             field_override = self.order_by_overrides.get(field.lstrip("-"), field)
             order_by_params.extend(self._generate_order_by_params(field_override, field_order))
 
@@ -158,10 +155,11 @@ class GenericFilterSet(django_filters.FilterSet):
         """
         return [field for field in order_fields if self._field_is_a_column(field)]
 
-    def _determine_field_order(self, field, default_order, request_order, has_reverse_order_fields):
+    def _determine_field_order(self, field, default_order, request_order, order_fields):
         """
         Determine the order direction for a field.
         """
+        has_reverse_order_fields = self._has_reverse_order_fields(order_fields)
         if isinstance(field, str) and not request_order and has_reverse_order_fields:
             return self._get_field_order(field)
         return default_order
@@ -169,14 +167,17 @@ class GenericFilterSet(django_filters.FilterSet):
     def _generate_order_by_params(self, field_override, field_order):
         """
         Generate order_by parameters based on field overrides and order direction.
+        If the field override is a list, only toggle the order of the first (primary) field
+        which is generally the expected behavior.
         """
         field_order_by_params = []
 
         if isinstance(field_override, list):
-            for override_field in field_override:
+            for i, override_field in enumerate(field_override):
+                is_primary_order_field = i == 0
                 override_field_order = self._get_field_order(override_field)
                 override_field = override_field.lstrip("-")
-                if field_order == FilterListOrder.DESC:
+                if is_primary_order_field and field_order == FilterListOrder.DESC:
                     override_field_order = self._flip_order(override_field_order)
                 field_order_by_params.append(
                     FieldOrderByClause(override_field, override_field_order).process_field()
