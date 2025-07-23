@@ -20,6 +20,8 @@ class FieldOrderByClause:
     def process_field(self):
         match self.field:
             case str():
+                # if self.field.startswith("-"):
+                #     breakpoint()
                 value = (
                     F(self.field).desc() if self.order == FilterListOrder.DESC else F(self.field).asc()
                 )

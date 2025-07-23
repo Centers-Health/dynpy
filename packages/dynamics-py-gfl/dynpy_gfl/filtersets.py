@@ -146,7 +146,18 @@ class GenericFilterSet(django_filters.FilterSet):
 
             if isinstance(field_override, list):
                 for field in field_override:
-                    field_order_by_params.append(FieldOrderByClause(field, field_order).process_field())
+                    override_field_order = FilterListOrder.DESC if "-" in field else FilterListOrder.ASC
+                    field = field.replace("-", "")
+                    if field_order == FilterListOrder.DESC:
+                        # Flip order
+                        override_field_order = (
+                            FilterListOrder.ASC
+                            if override_field_order == FilterListOrder.DESC
+                            else FilterListOrder.DESC
+                        )
+                    field_order_by_params.append(
+                        FieldOrderByClause(field, override_field_order).process_field()
+                    )
             else:
                 field_order_by_params.append(
                     FieldOrderByClause(field_override, field_order).process_field()
