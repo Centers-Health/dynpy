@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v14.9.5 (2025-07-23)
+### Fix
+- Reduce layout shifts related to filters ([`63df327`](https://github.com/Centers-health/dynpy/commit/63df327052e853069d5d69a98088f580f5588bcd))
+
+
 ## v14.9.4 (2025-07-23)
 ### Fix
 - Row should be highlighted even when js-side-panel-opt-out is set ([`d4ceece`](https://github.com/Centers-health/dynpy/commit/d4ceece49b15849b4fceab670d524bb7e2a73409))

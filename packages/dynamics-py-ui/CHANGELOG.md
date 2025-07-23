@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v2.6.1 (2025-07-23)
+### Fix
+- Fix navbar app label text wrapping issue ([`82f5ffc`](https://github.com/Centers-health/dynpy/commit/82f5ffc5b83073b5d8bc7ffb41964db6f839a252))
+
+
 ## v2.6.0 (2025-07-22)
 ### Feature
 - Use small image ([`4ba426e`](https://github.com/Centers-health/dynpy/commit/4ba426e4bffa8b617c8648a9711f5825bbcea830))
