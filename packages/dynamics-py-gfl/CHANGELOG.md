@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v14.9.4 (2025-07-23)
+### Fix
+- Row should be highlighted even when js-side-panel-opt-out is set ([`d4ceece`](https://github.com/Centers-health/dynpy/commit/d4ceece49b15849b4fceab670d524bb7e2a73409))
+
+
 ## v14.9.3 (2025-07-22)
 ### Fix
 - Use overflow-y instead of auto ([`59899dd`](https://github.com/Centers-health/dynpy/commit/59899dd1e95c9cb447813779e727f6a54d79fee5))
