@@ -32,6 +32,7 @@ class Log(models.Model):
         self.status = status
         self.completed_at = None if is_completed is False else "auto_now"
         self.save()
+        return self
 
 
 class Watcher(models.Model):
