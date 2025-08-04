@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v19.5.0 (2025-08-04)
+### Feature
+- Add signal for logging command completion ([`c339f6f`](https://github.com/Centers-health/dynpy/commit/c339f6f93433ccdef85a9392ac199763a85dbbe5))
+
+
 ## v19.4.0 (2025-07-22)
 ### Feature
 - Use small image ([`4ba426e`](https://github.com/Centers-health/dynpy/commit/4ba426e4bffa8b617c8648a9711f5825bbcea830))
