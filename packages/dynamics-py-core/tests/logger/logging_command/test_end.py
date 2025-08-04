@@ -4,6 +4,7 @@ import pytest
 from dynpy.logger.enums import LogStatus
 from dynpy.logger.management.base import LoggingCommand
 from dynpy.logger.models import Watcher
+from dynpy.logger.signals import logging_command_completed
 from tests.management.commands.success_logging_command import Command as SuccessLoggingCommand
 
 pytestmark = pytest.mark.django_db
@@ -72,3 +73,23 @@ def describe_status_is_warn():
         Watcher.objects.create(email="watcher@email.com")
         run_warning_logging_command()
         assert "log body" in str(mailoutbox[0].body)
+
+
+@pytest.mark.enable_signals
+def test_sends_command_completed_signal(mocker):
+    try:
+        slc = SuccessLoggingCommand()
+        slc.run_as = "user"
+        mock_receiver = mocker.Mock()
+        logging_command_completed.connect(mock_receiver, weak=False)
+
+        slc.start()
+        slc.status = LogStatus.PASS
+        slc.end()
+        mock_receiver.assert_called_once()
+        args, kwargs = mock_receiver.call_args
+        assert kwargs["log_instance"] == slc.log_model
+        assert kwargs["status"] == LogStatus.PASS
+        assert kwargs["service_name"] == slc.service_name
+    finally:
+        logging_command_completed.disconnect(mock_receiver)

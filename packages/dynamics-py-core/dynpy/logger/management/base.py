@@ -12,6 +12,7 @@ from dynpy.logger.base import BaseErrorLogger, BaseLogger
 from dynpy.logger.enums import LogStatus
 from dynpy.logger.models import Log, Watcher
 from dynpy.logger.module import get_app_name_from_module
+from dynpy.logger.signals import logging_command_completed
 from dynpy.logger.stdout import tee_stdout
 
 
@@ -49,6 +50,7 @@ class LoggingCommand(BaseCommand):
         self.app_name = self.app_name or get_app_name_from_module(self.__module__)
         self.logger = BaseLogger(app_name=self.app_name)
         self.is_logging = True
+        self.log_model = None
         self.body = io.StringIO()
         self.stdout.write = self.self_stdout_write
 
@@ -154,7 +156,6 @@ class LoggingCommand(BaseCommand):
         If the no_logging argument was used, the log is not saved to the database, but the message is
         still printed to the console.
         """
-
         if self.status == LogStatus.PEND:
             self.status = LogStatus.PASS
         self.print_end_message()
@@ -163,8 +164,16 @@ class LoggingCommand(BaseCommand):
         if self.status == LogStatus.WARN:
             self.send_logger_watchers_email(f"Job Finished with Status of WARN: {self.service_name}")
 
+        # Dispatch end of command signal
+        logging_command_completed.send(
+            sender=self.__class__,
+            log_instance=self.log_model,
+            service_name=self.service_name,
+            status=self.status,
+        )
+
     def log(self):
-        self.log_model.update(
+        self.log_model = self.log_model.update(
             body=str(self.body.getvalue()),
             status=self.status,
             is_completed=True,
