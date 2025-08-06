@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v14.10.1 (2025-08-06)
+### Fix
+- Missing icon to close the side panel ([`b7996fd`](https://github.com/Centers-health/dynpy/commit/b7996fda9584629e4f5ff28e7b0384b94797d387))
+
+
 ## v14.9.5 (2025-07-23)
 ### Fix
 - Reduce layout shifts related to filters ([`63df327`](https://github.com/Centers-health/dynpy/commit/63df327052e853069d5d69a98088f580f5588bcd))
