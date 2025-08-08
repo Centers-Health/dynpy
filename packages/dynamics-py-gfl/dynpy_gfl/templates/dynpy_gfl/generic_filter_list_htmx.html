@@ -2,6 +2,7 @@
 
 {% load generic_filter_list_tags %}
 {% load dynpy_tags %}
+{% load form_tags %}
 {% load humanize %}
 {% load static %}
 {% load hx_tags %}
@@ -72,6 +73,24 @@
                         </div>
                     {% endblock filter_message %}
 
+                    {% block quick_filters %}
+                        <div id="quickFilters" class="ml-4" hx-swap-oob="true">
+                            <form method="get"
+                                  id="quickFilterForm"
+                                  {% hx_get view.quick_filter_hx_name %}
+                                  hx-include="#basicFilters"
+                                  hx-target='#gfl_table'
+                                  hx-swap='outerHTML settle:0 show:#gfl_table:top'
+                                  hx-trigger='change'
+                                  hx-push-url='true'
+                                  hx-indicator='#table-loader'>
+                                {% for field in view.get_quick_filters %}
+                                    {% render_with_context field request=request %}
+                                {% endfor %}
+                            </form>
+                        </div>
+                    {% endblock quick_filters %}
+
                     <div class="ml-auto">
 
                         {% block actions %}
@@ -89,6 +108,7 @@
                               class="mb-3"
                               id="basicFilters"
                               {% hx_get view.filter_hx_name %}
+                              hx-include="#quickFilterForm"
                               hx-target='#gfl_table'
                               hx-swap='outerHTML settle:0 show:#gfl_table:top'
                               hx-trigger='change'
@@ -96,7 +116,7 @@
                               hx-indicator='#table-loader'>
                             <div class="form-row">
                                 {% for field in filter.form %}
-                                    {% if field not in view.get_extra_filters %}
+                                    {% if field not in view.get_extra_filters and field not in view.get_quick_filters %}
                                         {% include "dynpy_gfl/includes/htmx_gfl_filter_field.html" %}
                                     {% endif %}
                                 {% endfor %}

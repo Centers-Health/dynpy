@@ -1,0 +1,26 @@
+<div role="group" id="{{ widget.attrs.id }}_group">
+    {% for group, options, index in widget.optgroups %}
+        {% for option in options %}
+            {% include option.template_name %}
+        {% endfor %}
+    {% endfor %}
+</div>
+<style>
+    /* Hide the radio input */
+  .btn-check {
+      position: absolute;
+      clip: rect(0, 0, 0, 0);
+      pointer-events: none;
+  }
+
+  /* Style label when its radio is checked */
+  .btn-check:checked+.btn {
+      background-color: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+  }
+
+  .btn-check+.btn {
+      transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  }
+</style>
