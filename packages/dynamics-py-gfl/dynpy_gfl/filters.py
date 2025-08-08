@@ -15,6 +15,7 @@ from dynpy_forms.widgets import RangeSliderWidget
 
 from dynpy_gfl.enums import NumberFormat
 from dynpy_gfl.filter_mixins import FilteredChoicesMixin, TotalsFilterMixin
+from dynpy_gfl.widgets import InlineButtonRadioSelectWithCounts
 
 
 class MultipleChoiceFilterWithTotals(TotalsFilterMixin, MultipleChoiceFilter):
@@ -101,3 +102,13 @@ class AllValuesRangeFilter(RangeFilter):
         )
 
         return super().field
+
+
+class QuickFilterButtonsWithCounts(ChoiceFilter):
+    default_widget = InlineButtonRadioSelectWithCounts
+    default_empty_label = "All"
+
+    def __init__(self, *args, empty_label=None, widget=None, **kwargs):
+        widget = widget or self.default_widget
+        empty_label = empty_label if empty_label is not None else self.default_empty_label
+        super().__init__(*args, empty_label=empty_label, widget=widget, **kwargs)

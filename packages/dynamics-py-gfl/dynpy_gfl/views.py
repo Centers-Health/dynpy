@@ -95,14 +95,26 @@ class GenericFilterListView(CustomFilterView):
         ]
         return column_definitions
 
-    def get_extra_filters(self) -> list[BoundField]:
+    def _get_filters_by_attribute(self, attribute_name: str) -> list[BoundField]:
         """
-        A method that returns a list of extra form filters to be hidden by default
+        Helper method to get filters by filterset attribute name.
         """
         filterset_class = self.get_filterset_class()
-        extra_filters = filterset_class.extra_filters or []
+        filter_names = getattr(filterset_class, attribute_name, []) or []
+        return [field for field in self.filterset.form if field.name in filter_names]
 
-        return [field for field in self.filterset.form if field.name in extra_filters]
+    def get_extra_filters(self) -> list[BoundField]:
+        """
+        A method that returns a list of extra form filters to be hidden by default.
+        """
+        return self._get_filters_by_attribute("extra_filters")
+
+    def get_quick_filters(self) -> list[BoundField]:
+        """
+        A method that returns a list of quick filters to be displayed inline
+        and not in the regular filter form.
+        """
+        return self._get_filters_by_attribute("quick_filters")
 
     def setup(self, request, *args, **kwargs):
         paginate_by = request.GET.get("paginate_by", None)
@@ -248,6 +260,7 @@ class GFLSPlitViewWithActions(GflActionsMixin, GFLSplitView):
 class GenericFilterListViewHX(HtmxViewMixin, GenericFilterListView):
     base_gfl_template = "dynpy_gfl/generic_filter_list_htmx.html"
     filter_hx_name = "filter"
+    quick_filter_hx_name = "quick_filter"
     sort_hx_name = "sort"
     infinite_scroll_hx_name = "infinite_scroll"
     row_refresh_hx_name = "refresh_row"
