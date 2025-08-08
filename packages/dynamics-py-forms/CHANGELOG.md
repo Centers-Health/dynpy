@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v7.9.0 (2025-08-08)
+### Feature
+- Add render_with_context tag ([`1e5fa69`](https://github.com/Centers-health/dynpy/commit/1e5fa69373aaf0016990a85c6fb0cc5bda036096))
+
+
 ## v7.6.0 (2025-07-08)
 ### Feature
 - Add field mixin for ignoring invalid values in choice fields ([`56c4abf`](https://github.com/Centers-health/dynpy/commit/56c4abf693066e75314ecb74dab0bc374b38b6b2))
