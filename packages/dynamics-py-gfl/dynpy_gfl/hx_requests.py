@@ -26,10 +26,23 @@ class Filter(BaseHxRequest):
         "tabs_container",
         "freeze_columns_script",
         "gfl_frozen_column_styles",
+        "quick_filters",
     ]
 
     def get_triggers(self, **kwargs) -> list[str]:
         return ["filtered"]
+
+
+class QuickFilter(Filter):
+    name = "quick_filter"
+    GET_block = [
+        "table",
+        "filter_message",
+        "no_objects",
+        "total_and_pagination",
+        "freeze_columns_script",
+        "gfl_frozen_column_styles",
+    ]
 
 
 class Sort(BaseHxRequest):

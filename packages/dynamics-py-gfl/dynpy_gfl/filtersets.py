@@ -17,6 +17,7 @@ class GenericFilterSet(django_filters.FilterSet):
 
     columns = None
     extra_filters = None
+    quick_filters = None
     default_order_fields = None
     default_order = FilterListOrder.ASC
 
