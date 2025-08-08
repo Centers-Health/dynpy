@@ -1,9 +1,10 @@
 import re
 import types
-from copy import copy
+from copy import copy, deepcopy
 
 from crispy_forms.templatetags.crispy_forms_filters import as_crispy_field
 from django.template import Library, Node, TemplateSyntaxError
+from django.template.base import token_kwargs
 
 register = Library()
 """
@@ -239,3 +240,67 @@ def remove_attr(field, attr):
     if attr in field.field.widget.attrs:
         del field.field.widget.attrs[attr]
     return field
+
+
+@register.tag
+def render_with_context(parser, token):
+    """
+    Renders a form field, adding extra variables to the widget's context.
+    This is useful for passing request or other dynamic context data to the widget.
+
+    Example:
+        `{% render_with_context form.my_field request=request %}`
+    """
+    bits = token.split_contents()
+    tag_name = bits[0]
+
+    if len(bits) < 2:
+        raise TemplateSyntaxError(f"'{tag_name}' tag requires at least a form field argument.")
+
+    form_field = parser.compile_filter(bits[1])
+    context_vars = token_kwargs(bits[2:], parser, support_legacy=False)
+
+    return WidgetContextNode(form_field, context_vars.items())
+
+
+class WidgetContextNode(Node):
+    """
+    A Node that renders a form field with an augmented widget context.
+    """
+
+    def __init__(self, form_field, context_vars):
+        self.form_field = form_field
+        self.context_vars = context_vars
+
+    def render(self, context):
+        # Resolve the BoundField instance from the template context
+        bounded_field = self.form_field.resolve(context)
+        widget = bounded_field.field.widget
+
+        # Resolve the values for our extra context variables
+        extra_context = {key: value.resolve(context) for key, value in self.context_vars}
+
+        # Create a copy of the widget to avoid modifying the original
+        widget_copy = deepcopy(widget)
+
+        # Override the get_context method on the copy
+        original_get_context = widget_copy.get_context
+
+        def new_get_context(*args, **kwargs):
+            ctx = original_get_context(*args, **kwargs)
+            ctx.update(extra_context)
+            return ctx
+
+        widget_copy.get_context = new_get_context
+
+        # Temporarily replace the field's widget
+        original_widget = bounded_field.field.widget
+        bounded_field.field.widget = widget_copy
+
+        try:
+            rendered_field = str(bounded_field)
+        finally:
+            # Restore the original widget
+            bounded_field.field.widget = original_widget
+
+        return rendered_field
