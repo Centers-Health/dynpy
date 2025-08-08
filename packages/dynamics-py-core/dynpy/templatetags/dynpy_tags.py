@@ -3,7 +3,6 @@ from os.path import splitext
 from urllib.parse import quote, urljoin
 
 from django import template
-from django.conf import settings
 from django.templatetags.static import PrefixNode
 from django.urls import reverse
 from django.utils.http import urlencode
@@ -120,28 +119,3 @@ def bool_to_check_or_x(value):
         return mark_safe('<i class="fa fa-check-circle text-success"></i>')
     else:
         return mark_safe('<i class="fa fa-times-circle text-danger"></i>')
-
-
-@register.inclusion_tag("dynpy/tawkto.html", takes_context=True)
-def render_tawkto(context, manual_mode=True):
-    request = context["request"]
-    user = getattr(request, "user", None)
-    prod_property = "https://embed.tawk.to/639be7e3daff0e1306dce787/1gko5qftd"
-    test_property = "https://embed.tawk.to/65e9f6d38d261e1b5f6a3c19/1hocuob44"
-    tawkto_embed_url = test_property if settings.DJANGO_ENV != "prod" else prod_property
-    return {"manual_mode": manual_mode, "user": user, "tawkto_embed_url": tawkto_embed_url}
-
-
-@register.simple_tag(takes_context=False)
-def hash_hmac(data: str, key: str = "") -> str:
-    import hashlib
-    import hmac
-
-    if key == "":
-        key = settings.TAWK_TO_CHAT_KEY
-
-    # Create a new HMAC object
-    hash = hmac.new(bytes(key, "latin-1"), msg=bytes(data, "latin-1"), digestmod=hashlib.sha256)
-
-    # Print the hexadecimal representation of the HMAC
-    return hash.hexdigest()
