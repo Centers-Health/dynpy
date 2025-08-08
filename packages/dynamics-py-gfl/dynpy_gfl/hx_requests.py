@@ -191,3 +191,18 @@ class GflTabCounts(BaseHxRequest):
 class GflTotal(BaseHxRequest):
     name = "gfl_total"
     GET_template = "dynpy_gfl/includes/total_and_pagination.html"
+
+
+class QuerySetCountHx(BaseHxRequest):
+    """
+    HX Request to return the count of a queryset.
+    The queryset should be set on the view as `self.queryset`.
+    """
+
+    name = "queryset_count"
+    get_views_context = False
+
+    def get_response_html(self, **kwargs) -> str:
+        filterset_class = self.view.get_filterset_class()
+        filterset = self.view.get_filterset(filterset_class)
+        return str(filterset.qs.count())
