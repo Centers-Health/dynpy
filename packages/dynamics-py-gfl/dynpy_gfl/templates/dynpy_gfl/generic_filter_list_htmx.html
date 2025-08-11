@@ -177,7 +177,7 @@
                              hx-indicator='this'
                              hx-swap="outerHTML"
                              hx-target='#total_and_pagination'
-                             hx-include='#basicFilters'>
+                             hx-include='#basicFilters, #quickFilterForm'>
                             <div id='total_and_pagination'>
                                 <span id='count-loader'
                                       class="d-inline-block"
@@ -301,7 +301,7 @@
                                                    hx-target="#gfl_table"
                                                    hx-indicator='#table-loader'
                                                    hx-push-url='true'
-                                                   hx-include='#basicFilters'
+                                                   hx-include='#basicFilters, #quickFilterForm'
                                                    hx-swap="outerHTML settle:0 show:#gfl_table:top"
                                                    hx-vals='{ "combo_page": "{{ paginator.combo_page|add:-1 }}", "position": "0" }'>
                                                     <span aria-hidden="true"><i class="fas fa-chevron-left"></i> Prev</span>
@@ -314,7 +314,7 @@
                                                    {% hx_get 'pagination' %}
                                                    hx-target="#gfl_table"
                                                    hx-push-url='true'
-                                                   hx-include='#basicFilters'
+                                                   hx-include='#basicFilters, #quickFilterForm'
                                                    hx-indicator='#table-loader'
                                                    hx-swap="outerHTML settle:0 show:#gfl_table:top"
                                                    hx-vals='{ "combo_page": "{{ paginator.combo_page|add:1 }}", "position": "0" }'
