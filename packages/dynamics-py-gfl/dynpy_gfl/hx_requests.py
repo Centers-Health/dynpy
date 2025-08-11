@@ -208,8 +208,7 @@ class GflTotal(BaseHxRequest):
 
 class QuerySetCountHx(BaseHxRequest):
     """
-    HX Request to return the count of a queryset.
-    The queryset should be set on the view as `self.queryset`.
+    HX Request to return the count of a queryset from a FilterView.
     """
 
     name = "queryset_count"
