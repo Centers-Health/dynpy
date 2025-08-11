@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v14.12.1 (2025-08-11)
+### Fix
+- Fix quick filters not included ([`0f31bea`](https://github.com/Centers-health/dynpy/commit/0f31beabd7a596fc0e89f841b487fe53c6bcce9a))
+
+
 ## v14.12.0 (2025-08-11)
 ### Feature
 - Add button radio widgets ([`37108c4`](https://github.com/Centers-health/dynpy/commit/37108c4757f514a91efb26ccbd2b6e35c46e0f2a))
