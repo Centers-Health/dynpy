@@ -2,6 +2,16 @@
 
 <!--next-version-placeholder-->
 
+## v14.12.0 (2025-08-11)
+### Feature
+- Add button radio widgets ([`37108c4`](https://github.com/Centers-health/dynpy/commit/37108c4757f514a91efb26ccbd2b6e35c46e0f2a))
+- Add quick filter functionality ([`ea6506b`](https://github.com/Centers-health/dynpy/commit/ea6506bd75e6c4bf7b62659319f58a04729f3d0c))
+### Fix
+- Add dynpy_forms to installed apps for tests ([`9cf329d`](https://github.com/Centers-health/dynpy/commit/9cf329d8aac0d8c9ddb2a93777fe174412e679b1))
+### Other
+- Fix docstring ([`34e23dd`](https://github.com/Centers-health/dynpy/commit/34e23dd1b78b89167c5aadead554e37d17697fa4))
+
+
 ## v14.10.1 (2025-08-06)
 ### Fix
 - Missing icon to close the side panel ([`b7996fd`](https://github.com/Centers-health/dynpy/commit/b7996fda9584629e4f5ff28e7b0384b94797d387))
