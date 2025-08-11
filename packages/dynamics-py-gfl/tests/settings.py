@@ -19,6 +19,7 @@ INSTALLED_APPS = (
     "dynpy",
     "dynpy_gfl",
     "dynpy_actions",
+    "dynpy_forms",
     "hx_requests",
     "tests",
 )
