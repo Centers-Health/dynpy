@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v20.0.0 (2025-08-12)
+### Breaking
+- Remove tawk from dynpy ([`f6d5e31`](https://github.com/Centers-health/dynpy/commit/f6d5e3174e3494a6328603116cb37576744e0abc))
+
+
 ## v19.5.0 (2025-08-04)
 ### Feature
 - Add signal for logging command completion ([`c339f6f`](https://github.com/Centers-health/dynpy/commit/c339f6f93433ccdef85a9392ac199763a85dbbe5))

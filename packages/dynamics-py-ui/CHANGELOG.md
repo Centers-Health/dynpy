@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v3.0.0 (2025-08-12)
+### Breaking
+- Remove tawk from dynpy ([`f6d5e31`](https://github.com/Centers-health/dynpy/commit/f6d5e3174e3494a6328603116cb37576744e0abc))
+
+
 ## v2.6.1 (2025-07-23)
 ### Fix
 - Fix navbar app label text wrapping issue ([`82f5ffc`](https://github.com/Centers-health/dynpy/commit/82f5ffc5b83073b5d8bc7ffb41964db6f839a252))
