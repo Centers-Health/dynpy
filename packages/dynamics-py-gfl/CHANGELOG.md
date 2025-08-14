@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v16.0.1 (2025-08-14)
+### Fix
+- Update table styles split view ([`1e84611`](https://github.com/Centers-health/dynpy/commit/1e846113812acd2727289788f66f822463f4508c))
+
+
 ## v16.0.0 (2025-08-14)
 ### Breaking
 - Update table style (slim with borders) ([`58c9e40`](https://github.com/Centers-health/dynpy/commit/58c9e40bbfa3cc5d64c73619199c6c0c4a93aed2))
