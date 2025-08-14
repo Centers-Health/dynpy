@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v16.0.3 (2025-08-14)
+### Fix
+- Table loader showing when not loading ([`d18c7c9`](https://github.com/Centers-health/dynpy/commit/d18c7c9a26449fbd46a4799918d66e6d6b8579aa))
+
+
 ## v16.0.2 (2025-08-14)
 ### Fix
 - Add missing css v-align-table ([`ed9c209`](https://github.com/Centers-health/dynpy/commit/ed9c209389b9ecb053cd96ee391dbd9fadf0cc62))
