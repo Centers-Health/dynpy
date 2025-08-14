@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v16.0.0 (2025-08-14)
+### Breaking
+- Update table style (slim with borders) ([`58c9e40`](https://github.com/Centers-health/dynpy/commit/58c9e40bbfa3cc5d64c73619199c6c0c4a93aed2))
+
+
 ## v15.0.1 (2025-08-14)
 ### Fix
 - Filter toggle width ([`8aa3ffb`](https://github.com/Centers-health/dynpy/commit/8aa3ffb4ea4730d406da2884cf46a8776764bee9))
