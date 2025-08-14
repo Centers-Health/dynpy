@@ -47,6 +47,7 @@
 	opacity: 0.5;
 	transform: translate(-50%, -50%);
 }
+
 .spinner-overlay-absolute {
 	position: absolute;
 }
@@ -62,4 +63,8 @@
 /* Reserve space */
 .rs-200 {
 	height: 200px;
+}
+
+.v-align-table td {
+	vertical-align: middle !important;
 }
