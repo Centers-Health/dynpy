@@ -60,11 +60,6 @@
 	vertical-align: middle;
 }
 
-/* Reserve space */
-.rs-200 {
-	height: 200px;
-}
-
 .v-align-table td {
 	vertical-align: middle !important;
 }
