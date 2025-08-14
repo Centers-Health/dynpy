@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v15.0.1 (2025-08-14)
+### Fix
+- Filter toggle width ([`8aa3ffb`](https://github.com/Centers-health/dynpy/commit/8aa3ffb4ea4730d406da2884cf46a8776764bee9))
+- Side panel close button ([`ed7afd6`](https://github.com/Centers-health/dynpy/commit/ed7afd69574ea6f3bb31faf5c508315339772740))
+
+
 ## v14.12.1 (2025-08-11)
 ### Fix
 - Fix quick filters not included ([`0f31bea`](https://github.com/Centers-health/dynpy/commit/0f31beabd7a596fc0e89f841b487fe53c6bcce9a))
