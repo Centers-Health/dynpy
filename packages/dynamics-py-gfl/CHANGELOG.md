@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v16.0.2 (2025-08-14)
+### Fix
+- Add missing css v-align-table ([`ed9c209`](https://github.com/Centers-health/dynpy/commit/ed9c209389b9ecb053cd96ee391dbd9fadf0cc62))
+
+
 ## v16.0.1 (2025-08-14)
 ### Fix
 - Update table styles split view ([`1e84611`](https://github.com/Centers-health/dynpy/commit/1e846113812acd2727289788f66f822463f4508c))
