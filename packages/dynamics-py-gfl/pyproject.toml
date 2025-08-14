@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dynpy_gfl"
-version = "16.0.3"
+version = "16.0.4"
 description = ""
 authors = ["Team Dynamics"]
 

@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v16.0.4 (2025-08-14)
+### Fix
+- Remove reserved space from filter list collapse ([`ad3faba`](https://github.com/Centers-health/dynpy/commit/ad3faba6be12644b6ec1dbec83d9a4beaa94618a))
+
+
 ## v16.0.3 (2025-08-14)
 ### Fix
 - Table loader showing when not loading ([`d18c7c9`](https://github.com/Centers-health/dynpy/commit/d18c7c9a26449fbd46a4799918d66e6d6b8579aa))
