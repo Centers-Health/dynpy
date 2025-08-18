@@ -2,8 +2,8 @@ import inspect
 
 import strawberry
 from django.contrib.auth import get_user_model
-from strawberry.field import StrawberryField
 from strawberry.types import Info
+from strawberry.types.field import StrawberryField
 
 from dynpy.strawberry_django_jwt import mixins
 from dynpy.strawberry_django_jwt.decorators import dispose_extra_kwargs, ensure_token, token_auth

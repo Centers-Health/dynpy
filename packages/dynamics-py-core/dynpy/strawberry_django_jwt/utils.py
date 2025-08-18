@@ -16,9 +16,9 @@ from django.utils.translation import gettext as _
 from graphql import GraphQLResolveInfo
 from packaging.version import parse as parse_ver
 from strawberry.annotation import StrawberryAnnotation  # type: ignore  # noqa: PGH003
-from strawberry.arguments import StrawberryArgument
 from strawberry.django.context import StrawberryDjangoContext
 from strawberry.types import Info
+from strawberry.types.arguments import StrawberryArgument
 
 from dynpy.strawberry_django_jwt import exceptions, object_types, signals
 from dynpy.strawberry_django_jwt.refresh_token.shortcuts import create_refresh_token
