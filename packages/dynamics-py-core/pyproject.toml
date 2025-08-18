@@ -20,15 +20,15 @@ python-dateutil = "^2.8.2"
 premailer = "^3.10.0"
 html2text = "^2020.1.16"
 pyodbc = "^4.0.32"
-strawberry-graphql = "0.235.2"                #TODO: pinned because breaks on 0.237.0
-strawberry-graphql-django = ">=0.20.0,<1.0.0"
+strawberry-graphql = "^0.278.1"
+strawberry-graphql-django = "^0.65.1"
 PyJWT = ">=1.7.1,<3.0"
 django-admin-display = "^1.3.0"
 cryptography = ">=38.0"
 packaging = "^23.1"
 typing-extensions = "^4.5.0"
 djangorestframework = "^3.12.4"
-hx-requests = "*"                             # Starred even though breaking changes in minor versions because let the application decide when to upgrade
+hx-requests = "*"                     # Starred even though breaking changes in minor versions because let the application decide when to upgrade
 
 [tool.poetry.group.dev.dependencies]
 asgiref = ">=3.3.2,<4"
