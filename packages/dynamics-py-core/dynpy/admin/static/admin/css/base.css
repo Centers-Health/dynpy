@@ -38,8 +38,10 @@
 	--message-warning-bg: #ffc;
 	--message-error-bg: #ffefef;
 
-	--darkened-bg: #f8f8f8; /* A bit darker than --body-bg */
-	--selected-bg: #e4e4e4; /* E.g. selected table cells */
+	--darkened-bg: #f8f8f8;
+	/* A bit darker than --body-bg */
+	--selected-bg: #e4e4e4;
+	/* E.g. selected table cells */
 	--selected-row: #ffc;
 
 	--button-fg: #fff;
@@ -47,7 +49,8 @@
 	--button-hover-bg: var(--link-fg);
 	--default-button-bg: var(--primary);
 	--default-button-hover-bg: var(--link-fg);
-	--close-button-bg: #888; /* Previously #bbb, contrast 1.92 */
+	--close-button-bg: #888;
+	/* Previously #bbb, contrast 1.92 */
 	--close-button-hover-bg: #747474;
 	--delete-button-bg: #ba2121;
 	--delete-button-hover-bg: #a41515;
@@ -517,6 +520,7 @@ form .button {
 	font-weight: normal;
 	font-size: 13px;
 }
+
 .form-row div.help {
 	padding: 2px 3px;
 }
@@ -828,12 +832,14 @@ div.breadcrumbs a:hover {
 
 a.deletelink:link,
 a.deletelink:visited {
-	color: #cc3434; /* XXX Probably unused? */
+	color: #cc3434;
+	/* XXX Probably unused? */
 }
 
 a.deletelink:focus,
 a.deletelink:hover {
-	color: #993333; /* XXX Probably unused? */
+	color: #993333;
+	/* XXX Probably unused? */
 	text-decoration: none;
 }
 
@@ -988,6 +994,7 @@ table#change-history tbody th {
 	color: var(--header-link-color) !important;
 	font-weight: bold;
 }
+
 #header {
 	width: auto;
 	height: auto;
@@ -1151,4 +1158,9 @@ table#change-history tbody th {
 
 .popup #header {
 	padding: 10px 20px;
+}
+
+/* Erroneous */
+.app-erroneous.model-error #pastebinTraceback #traceback_area {
+	font-family: monospace;
 }
