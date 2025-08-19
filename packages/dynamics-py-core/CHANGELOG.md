@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v21.0.0 (2025-08-19)
+### Breaking
+- Upgrade strawberry-graphql ([`f70f6a0`](https://github.com/Centers-health/dynpy/commit/f70f6a0b978d263f13382f50a467f5b83ba81129))
+
+
 ## v20.0.0 (2025-08-12)
 ### Breaking
 - Remove tawk from dynpy ([`f6d5e31`](https://github.com/Centers-health/dynpy/commit/f6d5e3174e3494a6328603116cb37576744e0abc))

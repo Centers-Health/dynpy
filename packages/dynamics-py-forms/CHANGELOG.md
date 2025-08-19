@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v9.0.0 (2025-08-19)
+### Breaking
+- Upgrade strawberry-graphql ([`3173106`](https://github.com/Centers-health/dynpy/commit/3173106a074a6ad5c77ec14d991b2ce2061c0f55))
+
+
 ## v7.9.0 (2025-08-08)
 ### Feature
 - Add render_with_context tag ([`1e5fa69`](https://github.com/Centers-health/dynpy/commit/1e5fa69373aaf0016990a85c6fb0cc5bda036096))

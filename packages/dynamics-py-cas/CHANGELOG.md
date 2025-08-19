@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v9.0.0 (2025-08-19)
+### Breaking
+- Update strawberry_graphql ([`f6baa67`](https://github.com/Centers-health/dynpy/commit/f6baa6708352f92b9aa4747c5c4b70d2bc555dc2))
+
+
 ## v7.0.1 (2025-03-26)
 ### Other
 - Bump package lock files ([`1d5932b`](https://github.com/Centers-health/dynpy/commit/1d5932bc612fc8942552263e97a05a31781f9f55))

@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v17.0.0 (2025-08-19)
+### Breaking
+- Update strawberry-graphql ([`23da4a2`](https://github.com/Centers-health/dynpy/commit/23da4a21fd38dc98906d62bfc7d4e9872dc25b70))
+
+
 ## v16.0.4 (2025-08-14)
 ### Fix
 - Remove reserved space from filter list collapse ([`ad3faba`](https://github.com/Centers-health/dynpy/commit/ad3faba6be12644b6ec1dbec83d9a4beaa94618a))
