@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v21.0.1 (2025-08-19)
+### Fix
+- Make django admin tracebacks monospaced ([`83192ac`](https://github.com/Centers-health/dynpy/commit/83192acef72276302be04ce9f8eab6488ab4a3e0))
+
+
 ## v21.0.0 (2025-08-19)
 ### Breaking
 - Upgrade strawberry-graphql ([`f70f6a0`](https://github.com/Centers-health/dynpy/commit/f70f6a0b978d263f13382f50a467f5b83ba81129))

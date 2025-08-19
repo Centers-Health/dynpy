@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dynpy_actions"
-version = "9.0.0"
+version = "9.0.1"
 description = ""
 authors = ["Team Dynamics"]
 
