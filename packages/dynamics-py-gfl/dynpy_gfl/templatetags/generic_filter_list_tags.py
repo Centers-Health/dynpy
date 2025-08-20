@@ -16,11 +16,14 @@ def column_header_link(
     hx_target="#gfl_table",
     hx_swap="outerHTML settle:0 show:#gfl_table:top",
     hx_indicator="#table-loader",
+    **attrs,
 ):
     """
     Returns an anchor tag with the appropriate query string for ordering
     and arrow icon for column headers in generic filter list.
-    Keeps ordering consistent across columns
+    Keeps ordering consistent across columns.
+    Accepts arbitrary extra attributes (hx-*, data-*, class, etc.).
+    Note: keys with underscores are emitted with hyphens (e.g., hx_target → hx-target).
     """
     column = context["column"]
     if not column.get("allow_ordering"):
@@ -70,8 +73,19 @@ def column_header_link(
         query_string = param_replace(
             context, hx_request_name=sort_hx_name, order_by=column_name, order=order
         )
-        htmxify = f"""hx-boost='true' hx-target='{hx_target}'
-        hx-indicator='{hx_indicator}' hx-swap='{hx_swap}'"""
+
+        # normalize user attrs (replace _ with -)
+        normalized_attrs = {k.replace("_", "-"): v for k, v in attrs.items()}
+
+        merged_attrs = {
+            "hx-target": hx_target,
+            "hx-swap": hx_swap,
+            "hx-indicator": hx_indicator,
+            "hx-boost": "true",
+            **normalized_attrs,  # overrides defaults if present
+        }
+
+        htmxify = " ".join(f'{k}="{v}"' for k, v in merged_attrs.items())
 
     return format_html(
         f"""<a {htmxify if sort_hx_name else ""}
