@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v17.1.0 (2025-08-20)
+### Feature
+- Allow attrs to be passed into column_header_link ([`cd07118`](https://github.com/Centers-health/dynpy/commit/cd07118dccf05df2f9d7f184fae5d0613171cbd8))
+
+
 ## v17.0.0 (2025-08-19)
 ### Breaking
 - Update strawberry-graphql ([`23da4a2`](https://github.com/Centers-health/dynpy/commit/23da4a21fd38dc98906d62bfc7d4e9872dc25b70))
