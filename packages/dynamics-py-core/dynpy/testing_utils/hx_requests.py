@@ -48,7 +48,7 @@ def _create_test_request(
 
 def hx_get(
     hx_request: BaseHxRequest,
-    view: View,
+    view: type[View],
     request_attrs: dict | None = None,
     view_kwargs: dict | None = None,
     hx_kwargs: dict | None = None,
@@ -74,7 +74,7 @@ def hx_get(
 
 def hx_post(
     hx_request: BaseHxRequest,
-    view: View,
+    view: type[View],
     request_attrs: dict | None = None,
     view_kwargs: dict | None = None,
     hx_kwargs: dict | None = None,
