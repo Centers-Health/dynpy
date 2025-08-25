@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v21.0.2 (2025-08-25)
+### Fix
+- Use type[view] as type hint in hx_get, hx_post ([`207e11c`](https://github.com/Centers-health/dynpy/commit/207e11c83a6a9c9bbcef992f9f653a79b07d6b69))
+- Use type[basehxrequest] as type hint in hx_get, hx_post ([`6575aad`](https://github.com/Centers-health/dynpy/commit/6575aadfaed636a148c83ed8dbd4cd1c65119899))
+
+
 ## v21.0.1 (2025-08-19)
 ### Fix
 - Make django admin tracebacks monospaced ([`83192ac`](https://github.com/Centers-health/dynpy/commit/83192acef72276302be04ce9f8eab6488ab4a3e0))
