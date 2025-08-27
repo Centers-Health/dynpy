@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v0.10.4 (2025-08-27)
+### Fix
+- Add missing token ([`9156777`](https://github.com/Centers-health/dynpy/commit/9156777eeaba8d934001c6f2f929510951ed3954))
+
+
 ## v0.10.3 (2025-08-27)
 ### Fix
 - Calling wrong function ([`762374e`](https://github.com/Centers-health/dynpy/commit/762374edfc6747d66840c48b49f703f9252f3cb8))
