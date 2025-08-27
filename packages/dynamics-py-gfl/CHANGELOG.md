@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v17.2.0 (2025-08-27)
+### Feature
+- Remove vertical borders from tables by default ([`d987732`](https://github.com/Centers-health/dynpy/commit/d98773273a00c58fc4d2872ec6387706b2d0942b))
+
+
 ## v17.1.0 (2025-08-20)
 ### Feature
 - Allow attrs to be passed into column_header_link ([`cd07118`](https://github.com/Centers-health/dynpy/commit/cd07118dccf05df2f9d7f184fae5d0613171cbd8))
