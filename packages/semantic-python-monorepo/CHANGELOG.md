@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v0.10.0 (2025-08-27)
+### Feature
+- Publish gh release notes ([`f09c6a0`](https://github.com/Centers-health/dynpy/commit/f09c6a0560296e8d2768f440d5acdb7ea197ce4f))
+
+
 ## v0.9.0 (2025-06-24)
 ### Feature
 - Add support for gh revert commits ([`f3aa7e0`](https://github.com/Centers-health/dynpy/commit/f3aa7e0e0ac1b687de18b23b21878c1c64ecedde))
