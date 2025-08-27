@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v0.10.2 (2025-08-27)
+### Fix
+- Missing calling release function ([`b354e34`](https://github.com/Centers-health/dynpy/commit/b354e34bac7d656dd1f27e45dd585a25ceac09a0))
+
+
 ## v0.10.1 (2025-08-27)
 ### Fix
 - Add new typo fix ([`4f2cd70`](https://github.com/Centers-health/dynpy/commit/4f2cd700a5f643214dbd861bd39ff92c3b5c09d9))
