@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v0.10.5 (2025-08-27)
+### Fix
+- Testing release notes ([`90868b0`](https://github.com/Centers-health/dynpy/commit/90868b003e62ccfdeb22c96df3f10c1c9ad4967a))
+
+
 ## v0.10.4 (2025-08-27)
 ### Fix
 - Add missing token ([`9156777`](https://github.com/Centers-health/dynpy/commit/9156777eeaba8d934001c6f2f929510951ed3954))
