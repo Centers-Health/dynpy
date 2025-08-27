@@ -44,3 +44,5 @@ jobs:
 
       - name: Run SPM
         run: spm -vvv
+        env:
+          GH_TOKEN: ${{ github.token }}
