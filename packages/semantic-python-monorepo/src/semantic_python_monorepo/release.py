@@ -5,7 +5,7 @@ from .utils import format_git_tag
 
 
 def create_gh_release(package: Package):
-    tag = format_git_tag(package.package, package.new_version)
+    tag = format_git_tag(package_name=package.package, version=package.new_version)
     command = f"gh release create {tag} --generate-notes"
     try:
         subprocess.run(command, shell=True, check=True)
