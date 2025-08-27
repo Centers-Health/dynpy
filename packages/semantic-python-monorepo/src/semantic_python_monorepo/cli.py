@@ -138,6 +138,7 @@ def main():  # noqa: C901
 
     if not DRY_RUN:
         cq.execute(CL.push_changes_and_tags())
+        cq.execute(CL.create_gh_releases(packages_with_bumps))
 
     if DRY_RUN:
         console.print("[bold yellow]This was a Dry Run")
