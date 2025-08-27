@@ -10,6 +10,7 @@ from .package_registry import (
     build_package_registry,
     calculate_version_bumps_to_apply,
 )
+from .release import create_gh_release
 from .types import Commit, Package
 from .utils import (
     LOCK_FILE,
@@ -230,4 +231,13 @@ class CommandLibrary:
             apply=push_version_commit_with_tags,
             rollback=None,
             validate=lambda results: all(r.returncode == 0 for r in results),
+        )
+
+    @staticmethod
+    def create_gh_releases(packages_with_bumps) -> CommandWithRollback:
+        return CommandWithRollback(
+            name="Create GH releases",
+            apply=lambda: create_gh_release(packages_with_bumps),
+            rollback=None,
+            validate=lambda _: True,
         )
