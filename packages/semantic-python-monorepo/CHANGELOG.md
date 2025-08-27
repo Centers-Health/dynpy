@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v0.10.1 (2025-08-27)
+### Fix
+- Add new typo fix ([`4f2cd70`](https://github.com/Centers-health/dynpy/commit/4f2cd700a5f643214dbd861bd39ff92c3b5c09d9))
+
+
 ## v0.10.0 (2025-08-27)
 ### Feature
 - Publish gh release notes ([`f09c6a0`](https://github.com/Centers-health/dynpy/commit/f09c6a0560296e8d2768f440d5acdb7ea197ce4f))
