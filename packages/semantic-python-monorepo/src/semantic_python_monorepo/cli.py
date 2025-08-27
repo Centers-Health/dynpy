@@ -14,6 +14,7 @@ from .utils import LOCK_FILE, fail_fast, get_commits, verify_poetry_plugins_are_
 # also includes pytest, pytest-xdist, etc... and whatever else is required for bootstrapping one of these packages.
 # FIXME: dry run needs to be build into the runner
 # FIXME: printouts can be in CL instead of from the CommandQueue, this would allow more formatting options. But may scrap the formatter from rich and do a simpler linear one, though the tree is nice
+# force bump to test release notes
 
 
 LOGGING_LEVEL = logging.INFO
