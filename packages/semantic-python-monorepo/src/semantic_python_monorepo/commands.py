@@ -236,7 +236,7 @@ class CommandLibrary:
     @staticmethod
     def create_gh_releases(packages_with_bumps) -> CommandWithRollback:
         return CommandWithRollback(
-            name="Create GH releases",
+            name="Creating GH releases",
             apply=lambda: create_gh_release(packages_with_bumps),
             rollback=None,
             validate=lambda _: True,
