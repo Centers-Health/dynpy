@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v17.2.2 (2025-09-03)
+### Fix
+- Highlight row breaks when triggering refresh row ([`ca9c44e`](https://github.com/Centers-health/dynpy/commit/ca9c44e891c301d941ef56af59c92b3130cbcf92))
+
+
 ## v17.2.1 (2025-09-03)
 ### Fix
 - Update styling of collapse/expand button ([`9e96670`](https://github.com/Centers-health/dynpy/commit/9e9667021d11062d24263091b0e753122ef2b250))
