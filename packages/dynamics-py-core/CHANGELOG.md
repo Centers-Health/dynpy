@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v21.1.0 (2025-09-03)
+### Feature
+- Update font size to 14px ([`e42b9b9`](https://github.com/Centers-health/dynpy/commit/e42b9b99094c2895da1b853c8f1a62d2db9e9bb8))
+
+
 ## v21.0.2 (2025-08-25)
 ### Fix
 - Use type[view] as type hint in hx_get, hx_post ([`207e11c`](https://github.com/Centers-health/dynpy/commit/207e11c83a6a9c9bbcef992f9f653a79b07d6b69))
