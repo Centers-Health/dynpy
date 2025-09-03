@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v17.2.1 (2025-09-03)
+### Fix
+- Update styling of collapse/expand button ([`9e96670`](https://github.com/Centers-health/dynpy/commit/9e9667021d11062d24263091b0e753122ef2b250))
+
+
 ## v17.2.0 (2025-08-27)
 ### Feature
 - Remove vertical borders from tables by default ([`d987732`](https://github.com/Centers-health/dynpy/commit/d98773273a00c58fc4d2872ec6387706b2d0942b))
