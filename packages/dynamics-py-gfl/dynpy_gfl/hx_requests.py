@@ -145,6 +145,7 @@ class RefreshRow(BaseHxRequest):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
+        context["is_hx_row_refresh"] = True
         context["item"] = self.object_from_qs
         return context
 
