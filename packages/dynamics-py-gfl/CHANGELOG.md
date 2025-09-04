@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v17.4.0 (2025-09-04)
+### Feature
+- Add is_hx_row_refresh context variable on refresh_row ([`f7fda94`](https://github.com/Centers-health/dynpy/commit/f7fda948c23337ce333f132857d3899b49661882))
+
+
 ## v17.2.2 (2025-09-03)
 ### Fix
 - Highlight row breaks when triggering refresh row ([`ca9c44e`](https://github.com/Centers-health/dynpy/commit/ca9c44e891c301d941ef56af59c92b3130cbcf92))
