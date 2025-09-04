@@ -78,3 +78,20 @@ class DWConnector(DatabaseConnector):
             settings.DW_PASSWORD,
             settings.DW_DATABASE,
         )
+
+
+class P1Connector(DatabaseConnector):
+    """
+    Database connection manager that uses credentials provided in the app settings
+    """
+
+    database_name = "P1"
+
+    def __init__(self):
+        super().__init__(
+            settings.P1_DRIVER,
+            settings.P1_SERVER,
+            settings.P1_USERNAME,
+            settings.P1_PASSWORD,
+            settings.P1_DATABASE,
+        )
