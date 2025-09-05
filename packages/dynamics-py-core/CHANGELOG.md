@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v21.2.0 (2025-09-05)
+### Feature
+- Add p1 db connector for new sql server ([`7ddb4f9`](https://github.com/Centers-health/dynpy/commit/7ddb4f91583763d399d8a1f135bc39239349bbb3))
+
+
 ## v21.1.0 (2025-09-03)
 ### Feature
 - Update font size to 14px ([`e42b9b9`](https://github.com/Centers-health/dynpy/commit/e42b9b99094c2895da1b853c8f1a62d2db9e9bb8))
