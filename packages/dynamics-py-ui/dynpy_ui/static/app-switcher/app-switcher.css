@@ -164,7 +164,7 @@
 	background-color: white;
 	display: flex;
 	flex-wrap: wrap;
-	max-width: 37rem;
+	max-width: 592px;
 	box-shadow: 0 0.2rem 0.4rem lightgray;
 	animation: slide-right 0.4s ease;
 }
