@@ -2,7 +2,6 @@ import pytest
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db.models.signals import m2m_changed, post_delete, post_save, pre_delete, pre_save
-from dynpy.dw import DWConnector
 from dynpy.pytest.ncs_mockers import Cursor
 
 """
@@ -25,19 +24,18 @@ def mock_sp(mocker):
 
     TODO: Add ability to return different data depending on what args are passed to SPs that take additional arguments
     """
+    sp_registry = {}
 
     def _mock_sp(sp: str, data: list):
-        original_run_sp = DWConnector().run_sp
-        sp_to_mock = sp
+        sp_registry[sp] = data
 
-        def side_effect(*args, **kwargs):
-            queried_sp = kwargs["sp"] if "sp" in kwargs else args[0]
-            if queried_sp == sp_to_mock:
-                return Cursor(data=data)
-            else:
-                return original_run_sp(DWConnector(), sp=queried_sp)
+    def side_effect(*args, **kwargs):
+        queried_sp = kwargs["sp"] if "sp" in kwargs else args[0]
+        if queried_sp in sp_registry:
+            return Cursor(data=sp_registry[queried_sp])
+        raise RuntimeError(f"Unmocked stored procedure called: {queried_sp}")
 
-        mocker.patch("dynpy.dw.DWConnector.run_sp", side_effect=side_effect)
+    mocker.patch("dynpy.dw.DatabaseConnector.run_sp", side_effect=side_effect)
 
     return _mock_sp
 
