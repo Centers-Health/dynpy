@@ -37,6 +37,7 @@ class TemplatedEmail:
         plain_text_body: Optional[str] = None,
         attachments: List[UploadedFile] = None,
         images: List[EmailImage] = None,
+        reply_to: List[str] | str | None = None,
     ) -> None:
         self.subject = subject or ""
         self.template_name = template_name or ""
@@ -46,6 +47,10 @@ class TemplatedEmail:
         self.attachments = attachments or []
         self.images = images or []
         self.images.append(EmailImage("dynpy/img/centers-logo.png", "centers-header-logo"))
+        if isinstance(reply_to, str):
+            self.reply_to = [reply_to]
+        else:
+            self.reply_to = list(reply_to) if reply_to else []
 
     def send(self, fail_silently: bool = False):
         email = self.build_email()
@@ -62,6 +67,7 @@ class TemplatedEmail:
             body=plain_text_body,
             from_email=settings.DEFAULT_FROM_EMAIL,
             to=self.to,
+            reply_to=self.reply_to,
         )
         email.attach_alternative(html_body, "text/html")
         [
@@ -102,6 +108,7 @@ class TemplatedEmailBootstrap(TemplatedEmail):
             body=plain_text_body,
             from_email=settings.DEFAULT_FROM_EMAIL,
             to=self.to,
+            reply_to=self.reply_to,
         )
         email.attach_alternative(inline_styled_body, "text/html")
 
