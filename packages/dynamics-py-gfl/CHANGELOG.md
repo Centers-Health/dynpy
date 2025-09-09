@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v17.7.0 (2025-09-09)
+### Feature
+- Use compact filter styling ([`b1bae20`](https://github.com/Centers-health/dynpy/commit/b1bae20d18de29380957656fb06acaa9fe7d24c6))
+
+
 ## v17.4.0 (2025-09-04)
 ### Feature
 - Add is_hx_row_refresh context variable on refresh_row ([`f7fda94`](https://github.com/Centers-health/dynpy/commit/f7fda948c23337ce333f132857d3899b49661882))

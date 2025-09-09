@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v9.4.0 (2025-09-09)
+### Feature
+- Update range filter styling ([`cf7d2e4`](https://github.com/Centers-health/dynpy/commit/cf7d2e4e944cfe22d150094b1c91d6f4193d7e63))
+
+
 ## v9.0.0 (2025-08-19)
 ### Breaking
 - Upgrade strawberry-graphql ([`3173106`](https://github.com/Centers-health/dynpy/commit/3173106a074a6ad5c77ec14d991b2ce2061c0f55))
