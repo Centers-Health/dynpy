@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v3.0.1 (2025-09-09)
+### Fix
+- Replace rem with px for fixed width on app switcher ([`fba3ef1`](https://github.com/Centers-health/dynpy/commit/fba3ef16ba9de4d6d7138b7e6e3e15d6676af5fe))
+
+
 ## v3.0.0 (2025-08-12)
 ### Breaking
 - Remove tawk from dynpy ([`f6d5e31`](https://github.com/Centers-health/dynpy/commit/f6d5e3174e3494a6328603116cb37576744e0abc))
