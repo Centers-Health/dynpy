@@ -28,6 +28,8 @@ class TemplatedEmail:
     Class for building/sending an email with an HTML template body and images
     """
 
+    alternative_attachment_mimetype = "text/html"
+
     def __init__(
         self,
         subject: str = None,
@@ -58,22 +60,21 @@ class TemplatedEmail:
 
     def build_email(self) -> EmailMultiAlternatives:
         html_body = mark_safe(render_to_string(self.template_name, self.context))
-        plain_text_body = (
-            self.plain_text_body if self.plain_text_body is not None else html2text(html_body)
-        )
+        body = self.plain_text_body if self.plain_text_body is not None else html2text(html_body)
 
         email = EmailMultiAlternatives(
             subject=self.subject,
-            body=plain_text_body,
+            body=body,
             from_email=settings.DEFAULT_FROM_EMAIL,
             to=self.to,
             reply_to=self.reply_to,
         )
-        email.attach_alternative(html_body, "text/html")
-        [
+
+        alt_body = self.render_alternative(html_body)
+        email.attach_alternative(alt_body, self.alternative_attachment_mimetype)
+
+        for attachment in self.attachments:
             email.attach(attachment.name, attachment.read(), attachment.content_type)
-            for attachment in self.attachments
-        ]
 
         self.attach_images(email)
 
@@ -88,30 +89,16 @@ class TemplatedEmail:
                 mime_img.add_header("Content-Disposition", "inline", filename=img.filename)
                 email.attach(mime_img)
 
+    def render_alternative(self, html_body: str) -> str:
+        return html_body
+
 
 class TemplatedEmailBootstrap(TemplatedEmail):
     """
     Class for building/sending an email with an HTML template body with bootstrap and images
     """
 
-    def build_email(self) -> EmailMultiAlternatives:
-        import premailer  # import here to reduce startup times
+    def render_alternative(self, html_body: str) -> str:
+        import premailer
 
-        html_body = mark_safe(render_to_string(self.template_name, self.context))
-        plain_text_body = (
-            self.plain_text_body if self.plain_text_body is not None else html2text(html_body)
-        )
-        inline_styled_body = premailer.transform(html_body)
-
-        email = EmailMultiAlternatives(
-            subject=self.subject,
-            body=plain_text_body,
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            to=self.to,
-            reply_to=self.reply_to,
-        )
-        email.attach_alternative(inline_styled_body, "text/html")
-
-        self.attach_images(email)
-
-        return email
+        return premailer.transform(html_body)
