@@ -499,7 +499,7 @@ files = [
 
 [[package]]
 name = "dynpy"
-version = "21.2.0"
+version = "21.3.0"
 description = ""
 optional = false
 python-versions = "^3.11"

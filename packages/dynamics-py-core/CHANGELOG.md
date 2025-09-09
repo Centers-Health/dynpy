@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v21.3.0 (2025-09-09)
+### Feature
+- Add reply to to templatedemail ([`6cbc046`](https://github.com/Centers-health/dynpy/commit/6cbc046daccb138d7bb382fd0de750ed22708778))
+- Allow kwargs in templatedemail ([`c13280b`](https://github.com/Centers-health/dynpy/commit/c13280bf57b76b2c405751ff5f1ccd0d0402be96))
+### Fix
+- Consolidate  templated email and bootstrap email logic ([`0ba1eb6`](https://github.com/Centers-health/dynpy/commit/0ba1eb684dfbaaeae68ec03b0e4ac2e2d8040918))
+
+
 ## v21.2.0 (2025-09-05)
 ### Feature
 - Add p1 db connector for new sql server ([`7ddb4f9`](https://github.com/Centers-health/dynpy/commit/7ddb4f91583763d399d8a1f135bc39239349bbb3))
