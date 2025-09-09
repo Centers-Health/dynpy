@@ -60,23 +60,27 @@
 
             {% block filters %}
                 {% block filter_form %}
-                    <form method="get" class="js-form-autosubmit mb-3" id="basicFilters">
+                    <form method="get"
+                          class="js-form-autosubmit filter-form mb-2"
+                          id="basicFilters">
                         <div class="form-row">
                             {% for field in filter.form %}
                                 {% if field not in view.get_extra_filters %}
-                                    <div class="form-group col-md-2 mb-0">{{ field|as_crispy_field }}</div>
+                                    <div>{{ field|as_crispy_field }}</div>
                                 {% endif %}
                             {% endfor %}
-                            <div class="form-group col-md-2 mb-0">
+                            <div class="form-group">
                                 <label for="paginate_by">Per Page</label>
-                                <select class="custom-select" id="paginate_by" name="paginate_by">
-                                    {% for option in view.paginate_by_options %}
-                                        <option {% if view.paginate_by|to_str == option|to_str %}selected="true"{% endif %}
-                                                value="{{ option }}">
-                                            {{ option }}
-                                        </option>
-                                    {% endfor %}
-                                </select>
+                                <div>
+                                    <select class="custom-select" id="paginate_by" name="paginate_by">
+                                        {% for option in view.paginate_by_options %}
+                                            <option {% if view.paginate_by|to_str == option|to_str %}selected="true"{% endif %}
+                                                    value="{{ option }}">
+                                                {{ option }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
                             </div>
                             <div>
 
@@ -112,7 +116,7 @@
                                         {% if request.GET.show_extra_filters == 'true' %}show{% endif %}"
                                  id="extraFilters">
                                 {% for field in view.get_extra_filters %}
-                                    <div class="form-group col-md-2 mb-0">{{ field|as_crispy_field }}</div>
+                                    <div>{{ field|as_crispy_field }}</div>
                                 {% endfor %}
                             </div>
                         {% endblock extra_filters %}

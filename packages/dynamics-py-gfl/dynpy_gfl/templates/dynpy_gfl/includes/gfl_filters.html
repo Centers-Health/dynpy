@@ -5,6 +5,7 @@
 <form hx-swap-oob="true"
       method="get"
       id="basicFilters"
+      class="filter-form"
       {% hx_get hx_name|default:view.filter_hx_name %}
       hx-target="{{ hx_target|default:'#gfl_table' }}"
       hx-swap="{{ hx_swap|default:'outerHTML settle:0 show:#gfl_table:top' }}"
