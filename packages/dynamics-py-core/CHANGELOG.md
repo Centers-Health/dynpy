@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v21.4.0 (2025-09-09)
+### Feature
+- Make mock_sp fixture more generic to be used with multiple connectors ([`4139dee`](https://github.com/Centers-health/dynpy/commit/4139dee424881d2833456dff4d50c604987576f9))
+
+
 ## v21.3.0 (2025-09-09)
 ### Feature
 - Add reply to to templatedemail ([`6cbc046`](https://github.com/Centers-health/dynpy/commit/6cbc046daccb138d7bb382fd0de750ed22708778))
