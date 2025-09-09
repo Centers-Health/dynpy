@@ -7,7 +7,7 @@
        type="text"
        name="{{ widget.name }}"
        autocomplete="off"
-       placeholder="Search {{ widget.name|field_name_to_label }}"
+       placeholder="mm/dd/yyyy - mm/dd/yyyy"
        readonly
        {% if widget.start_date or widget.end_date %}
            value="{{ widget.start_date }} - {{ widget.end_date }}"

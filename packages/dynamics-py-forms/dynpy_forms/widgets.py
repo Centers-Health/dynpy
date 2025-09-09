@@ -277,11 +277,9 @@ class InlineRangeWidget(RangeWidget):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.attrs.update({"style": "width: 47%;"})
-        self.widgets[0].attrs.update({"placeholder": "min", "class": "form-control d-inline"})
-        self.widgets[1].attrs.update(
-            {"placeholder": "max", "class": "form-control d-inline float-right"}
-        )
+        self.attrs["class"] = f'{self.attrs.get("class", "")} form-control multiwidget'.strip()
+        self.widgets[0].attrs.update({"placeholder": "min"})
+        self.widgets[1].attrs.update({"placeholder": "max"})
 
 
 class SwitchWidget(widgets.CheckboxInput):
@@ -345,9 +343,7 @@ class InlineMonthRangeWidget(SuffixedMultiWidget):
 
     def __init__(self, attrs=None):
         attrs = attrs or {}
-
-        style = attrs.get("style", "width: 47%; display: inline-block;")
-
+        style = attrs.get("style", "")
         if attrs.get("show_clear_button"):
             style = f"{style} padding-right:1.1rem;"
 
@@ -355,19 +351,7 @@ class InlineMonthRangeWidget(SuffixedMultiWidget):
 
         widgets = self.get_widgets()
         super().__init__(widgets, attrs)
-        self.widgets[1].attrs.update({"class": "form-control d-inline float-right"})
-
-    def get_context(self, name, value, attrs):
-        context = super().get_context(name, value, attrs)
-
-        subwidgets = context["widget"]["subwidgets"]
-
-        # Set the right CSS position for each subwidget to ensure
-        # they are aligned correctly and responsively on the screen
-        subwidgets[0]["right_position"] = "53%"
-        subwidgets[1]["right_position"] = "1.35%"
-
-        return context
+        self.attrs["class"] = f'{self.attrs.get("class", "")} form-control multiwidget'.strip()
 
     def decompress(self, value):
         if value:
