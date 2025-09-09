@@ -1,7 +1,6 @@
 {% load generic_filter_list_tags %}
 {% load crispy_forms_tags %}
-<div class="form-group col-md-2 mb-0"
-     {% if field|is_selectpicker %}
+<div {% if field|is_selectpicker %}
          @change.stop=' triggerChangeOnHide'
      {% elif field|is_monthpicker %}
          {% comment %} Fixes a bug where manually clearing a month input (pressing delete) did not trigger a filter request or update the results. Forcing `value = null` makes the request fire. Unclear why this is necessary {% endcomment %} onchange="if (event.target.value === '') event.target.value = null;"
