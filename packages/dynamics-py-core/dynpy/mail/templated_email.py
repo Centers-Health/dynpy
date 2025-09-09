@@ -2,7 +2,6 @@ from dataclasses import dataclass
 from email.mime.image import MIMEImage
 from typing import List, Optional
 
-from django.conf import settings
 from django.contrib.staticfiles import finders
 from django.core.files.uploadedfile import UploadedFile
 from django.core.mail import EmailMultiAlternatives
@@ -32,17 +31,18 @@ class TemplatedEmail:
 
     def __init__(
         self,
-        subject: str = None,
-        template_name: str = None,
+        subject: str = "",
+        template_name: str = "",
         context: dict = None,
         to: List[str] = None,
         plain_text_body: Optional[str] = None,
         attachments: List[UploadedFile] = None,
         images: List[EmailImage] = None,
         reply_to: List[str] | str | None = None,
+        **kwargs,
     ) -> None:
-        self.subject = subject or ""
-        self.template_name = template_name or ""
+        self.subject = subject
+        self.template_name = template_name
         self.context = context or {}
         self.to = to or []
         self.plain_text_body = plain_text_body
@@ -53,6 +53,7 @@ class TemplatedEmail:
             self.reply_to = [reply_to]
         else:
             self.reply_to = list(reply_to) if reply_to else []
+        self.extra_email_kwargs = kwargs
 
     def send(self, fail_silently: bool = False):
         email = self.build_email()
@@ -65,9 +66,9 @@ class TemplatedEmail:
         email = EmailMultiAlternatives(
             subject=self.subject,
             body=body,
-            from_email=settings.DEFAULT_FROM_EMAIL,
             to=self.to,
             reply_to=self.reply_to,
+            **self.extra_email_kwargs,
         )
 
         alt_body = self.render_alternative(html_body)
