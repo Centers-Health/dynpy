@@ -99,8 +99,8 @@
 }
 
 .filter-form input[x-mask="99/9999"] {
-	min-width: 7.5rem;
-	width: 7.5rem;
+	min-width: 8.5rem !important;
+	width: 8.5rem !important;
 }
 
 .filter-form input.multiwidget {
