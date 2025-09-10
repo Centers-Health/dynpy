@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v9.5.1 (2025-09-10)
+### Fix
+- Fix bootstrap error styles for range widgets ([`fb244bc`](https://github.com/Centers-health/dynpy/commit/fb244bcfacb1f4d66a08f4f36d60a1d83a9c6962))
+- Clearable input style ([`9a6aba4`](https://github.com/Centers-health/dynpy/commit/9a6aba43e96ad8a7d37c0a36bd311981209232be))
+
+
 ## v9.4.0 (2025-09-09)
 ### Feature
 - Update range filter styling ([`cf7d2e4`](https://github.com/Centers-health/dynpy/commit/cf7d2e4e944cfe22d150094b1c91d6f4193d7e63))

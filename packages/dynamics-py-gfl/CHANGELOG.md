@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v17.8.1 (2025-09-10)
+### Fix
+- Fix typeable month filter width ([`6082030`](https://github.com/Centers-health/dynpy/commit/6082030a71f0694bb9f07ed8e79c1cbde7c026e6))
+
+
 ## v17.7.0 (2025-09-09)
 ### Feature
 - Use compact filter styling ([`b1bae20`](https://github.com/Centers-health/dynpy/commit/b1bae20d18de29380957656fb06acaa9fe7d24c6))
