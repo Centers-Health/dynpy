@@ -277,9 +277,8 @@ class InlineRangeWidget(RangeWidget):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.attrs["class"] = f'{self.attrs.get("class", "")} form-control multiwidget'.strip()
-        self.widgets[0].attrs.update({"placeholder": "min"})
-        self.widgets[1].attrs.update({"placeholder": "max"})
+        self.widgets[0].attrs.update({"placeholder": "min", "class": "multiwidget"})
+        self.widgets[1].attrs.update({"placeholder": "max", "class": "multiwidget"})
 
 
 class SwitchWidget(widgets.CheckboxInput):
@@ -343,15 +342,10 @@ class InlineMonthRangeWidget(SuffixedMultiWidget):
 
     def __init__(self, attrs=None):
         attrs = attrs or {}
-        style = attrs.get("style", "")
-        if attrs.get("show_clear_button"):
-            style = f"{style} padding-right:1.1rem;"
-
-        attrs.update({"style": style})
-
         widgets = self.get_widgets()
         super().__init__(widgets, attrs)
-        self.attrs["class"] = f'{self.attrs.get("class", "")} form-control multiwidget'.strip()
+        self.widgets[0].attrs.update({"class": "multiwidget"})
+        self.widgets[1].attrs.update({"class": "multiwidget"})
 
     def decompress(self, value):
         if value:
