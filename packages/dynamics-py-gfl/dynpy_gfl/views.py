@@ -359,3 +359,17 @@ class GFLCardSplitViewHX(GFLSplitViewHX):
     def side_panel_hx_name(self):
         """Rename for semantic purposes"""
         return self.detail_section_hx_name
+
+
+class BulkCheckboxGFLMixin:
+    template_name = "dynpy_gfl/bulk_checkbox_gfl.html"
+    bulk_action_hx_name = None  # To be set in subclass
+    refresh_all_ids_hx_name = "refresh_all_ids"  # HxRequest Must put `all_row_ids` into context
+
+    # Refreshes the table when a bulk action is completed, set on the bulk action HxRequest
+    bulk_updated_hx_trigger = "bulk_updated"
+
+    def get(self, request, *args, **kwargs):
+        if not self.bulk_action_hx_name:
+            raise ValueError("bulk_action_hx_name must be set in subclass")
+        return super().get(request, *args, **kwargs)
