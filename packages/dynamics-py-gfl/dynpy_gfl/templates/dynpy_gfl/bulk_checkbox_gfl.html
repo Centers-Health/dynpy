@@ -54,7 +54,7 @@
         <div data-boundary="input"
              data-placement="left"
              data-toggle="tooltip"
-             :data-original-title="$store.checkboxHandler.allQsValues.length > 10000 && 'Too many records to select all. Filter down to less than 10,000 records.'"
+             :data-original-title="$store.checkboxHandler.allQsValues.length > {{ view.max_bulk_amount }} && 'Too many records to select all. Filter down to less than {{ view.max_bulk_amount|intcomma }} records.'"
              style="width:fit-content">
             <div class="form-group mb-0">
                 <div class="custom-control custom-checkbox">
@@ -62,7 +62,7 @@
                            type="checkbox"
                            value='all'
                            class="mr-2 checkboxinput custom-control-input"
-                           :disabled="$store.checkboxHandler.allQsValues.length > 10000"
+                           :disabled="$store.checkboxHandler.allQsValues.length > {{ view.max_bulk_amount }}"
                            @change="$store.checkboxHandler.prevSelectAllValue == selectAllCheckboxState.CHECKED ? $store.checkboxHandler.removeAll() : $store.checkboxHandler.addAll()">
                     <label for="all_checkbox" class="custom-control-label"></label>
                 </div>
