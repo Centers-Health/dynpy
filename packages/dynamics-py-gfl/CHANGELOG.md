@@ -2,6 +2,15 @@
 
 <!--next-version-placeholder-->
 
+## v17.9.0 (2025-09-12)
+### Feature
+- Add bulk checkbox functionality to gfl ([`e747bf7`](https://github.com/Centers-health/dynpy/commit/e747bf7bc9c3e97bdccdcc63f4c66a3d0c5565dc))
+- Limit bulk action selection to configurable max amount ([`ad96499`](https://github.com/Centers-health/dynpy/commit/ad96499dcb7159021ca8f9a1ccd5234bb835bd4f))
+### Fix
+- Use pk instead of id ([`bbc696e`](https://github.com/Centers-health/dynpy/commit/bbc696e94e46c5927f9bcc1cd8d7ae1ef6053a87))
+- Remove tags from ar ([`7717cd3`](https://github.com/Centers-health/dynpy/commit/7717cd3249555a0c6eccece64c68711688fe0ee4))
+
+
 ## v17.8.1 (2025-09-10)
 ### Fix
 - Fix typeable month filter width ([`6082030`](https://github.com/Centers-health/dynpy/commit/6082030a71f0694bb9f07ed8e79c1cbde7c026e6))
