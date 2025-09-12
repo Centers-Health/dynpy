@@ -1,0 +1,181 @@
+{% extends view.base_gfl_template %}
+
+{% load medicaid_tags %}
+{% load shared_tags %}
+{% load dynpy_tags %}
+{% load actions_tags %}
+{% load aging_tags %}
+{% load hx_tags %}
+{% load meeting_tags %}
+{% load generic_filter_list_tags %}
+{% load static %}
+
+{% block above_table %}
+    <div class="mb-2 align-items-center"
+         x-data="{ store: Alpine.store('checkboxHandler') }">
+        <button :disabled="store.isDisabled"
+                class="btn btn-primary px-3 btn-sm"
+                {% hx_get view.bulk_action_hx_name %}
+                hx-target="#hx_modal_container"
+                hx-vals="js:{'selected_ids': Alpine.store('checkboxHandler').selectedValues.join(',')}">
+            <template x-if="store.isLoading">
+                <span class="spinner-border spinner-border-sm"
+                      role="status"
+                      aria-hidden="true"></span>
+            </template>
+            <template x-if="!store.isLoading">
+                <span>
+
+                    {% block bulk_action_btn_text %}
+                        Submit
+                    {% endblock bulk_action_btn_text %}
+
+                </span>
+            </template>
+        </button>
+        <span class="text-muted ml-2"
+              x-text="store.selectedValues.length + ' Selected'"></span>
+    </div>
+    {{ block.super }}
+{% endblock above_table %}
+
+{% block table_wrapper %}
+    <div {% hx_get view.filter_hx_name %}
+         hx-trigger="{{ view.bulk_updated_hx_trigger }} from:body"
+         hx-include="#basicFilters, #quickFilters"
+         hx-target="#gfl_table"
+         hx-swap='outerHTML settle:0'
+         hx-indicator='#table-loader, .loaded-content'></div>
+    {{ block.super }}
+{% endblock table_wrapper %}
+
+{% block table_head_row %}
+    <th>
+        <div data-boundary="input"
+             data-placement="left"
+             data-toggle="tooltip"
+             :data-original-title="$store.checkboxHandler.allQsValues.length > 10000 && 'Too many records to select all. Filter down to less than 10,000 records.'"
+             style="width:fit-content">
+            <div class="form-group mb-0">
+                <div class="custom-control custom-checkbox">
+                    <input id="all_checkbox"
+                           type="checkbox"
+                           value='all'
+                           class="mr-2 checkboxinput custom-control-input"
+                           :disabled="$store.checkboxHandler.allQsValues.length > 10000"
+                           @change="$store.checkboxHandler.prevSelectAllValue == selectAllCheckboxState.CHECKED ? $store.checkboxHandler.removeAll() : $store.checkboxHandler.addAll()">
+                    <label for="all_checkbox" class="custom-control-label"></label>
+                </div>
+            </div>
+        </div>
+    </th>
+    {{ block.super }}
+{% endblock table_head_row %}
+
+{% block row_checkbox %}
+    <div class="form-group mb-0" @click.stop>
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox"
+                   id="row_checkbox_{{ item.pk }}"
+                   class="checkboxinput custom-control-input"
+                   value="{{ item.pk }}"
+                   x-model.number="$store.checkboxHandler.selectedValues">
+            <label for="row_checkbox_{{ item.pk }}" class="custom-control-label"></label>
+        </div>
+    </div>
+{% endblock row_checkbox %}
+
+{% block scripts %}
+    {{ block.super }}
+
+    {% block all_ids %}
+        <span id="all-ids-trigger"
+              hx-swap-oob="true"
+              {% hx_get view.refresh_all_ids_hx_name %}
+              hx-trigger='{% spaceless %}
+                              {% if all_row_ids is None %}
+                                  load
+                              {% else %}
+                                  filtered from:body
+                              {% endif %}
+                          {% endspaceless %}'
+              hx-swap="innerHTML settle:0"
+              hx-include="#basicFilters, #quickFilters"
+              hx-indicator='unset'
+              hx-on::before-request="Alpine.store('checkboxHandler').isLoading=true;"
+              hx-on::after-settle="Alpine.store('checkboxHandler').allQsValues=JSON.parse(this.textContent); Alpine.store('checkboxHandler').isLoading=false">
+            {{ all_row_ids|to_list|json_script:"all_row_ids" }}
+        </span>
+    {% endblock all_ids %}
+
+    <script>
+        const selectAllCheckboxState ={
+            'NOT_CHECKED': 0,
+            'INDETERMINATE':1,
+            'CHECKED':2
+        }
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('checkboxHandler', {
+                /*
+                    Checkboxes can have confusing behavior due to their state change handling.
+                    When an onchange event occurs, the checkbox's 'checked' attribute is already updated to reflect the new state.
+                    This presents an issue because it makes it impossible to capture an 'indeterminate' state,
+                    as it has already switched to either 'checked' or 'not checked.'
+                    To address this, we store the previous state and use it to determine the new state appropriately.
+                */
+                selectedValues: [],
+                prevSelectAllValue: selectAllCheckboxState.NOT_CHECKED,
+
+                allQsValues:JSON.parse(document.getElementById('all_row_ids').textContent),
+                isLoading: true,
+
+                init(){
+                    Alpine.effect(() => {
+                        const selectAllCheckbox = document.querySelector('#all_checkbox')
+
+                            // Should be checked if all 3 are true:
+                            // 1. Currently selected values are not empty
+                            // 2. The qs is not empty
+                            // 3. Every value in the qs is selected
+                            if(this.selectedValues.length>0 && this.allQsValues.length >0 && this.allQsValues.every(value => this.selectedValues.includes(value))){
+                                selectAllCheckbox.indeterminate=false
+                                selectAllCheckbox.checked=true
+                                this.prevSelectAllValue = selectAllCheckboxState.CHECKED
+
+                            }
+                            // Should be indeterminate if some values are selected and some are not
+                            else if (this.allQsValues.some(value => this.selectedValues.includes(value))){
+                                selectAllCheckbox.indeterminate=true
+                                this.prevSelectAllValue = selectAllCheckboxState.INDETERMINATE
+
+                            }
+                            // Should be unchecked if no values are selected or if no values in qs are in values list
+                            else if (this.selectedValues.length==0 || this.allQsValues.every(value => !this.selectedValues.includes(value))){
+                                selectAllCheckbox.checked=false
+                                selectAllCheckbox.indeterminate=false
+                                this.prevSelectAllValue = selectAllCheckboxState.NOT_CHECKED
+
+
+                            }
+                    })
+                },
+                 addAll() {
+                    // Add all values that are not already in the values array
+                    this.selectedValues = this.selectedValues.concat(this.allQsValues.filter(value => !this.selectedValues.includes(value)))
+
+
+                 },
+                  removeAll() {
+                    this.selectedValues = this.selectedValues.filter(value => !this.allQsValues.includes(value))
+                 },
+
+                  get isDisabled() {
+                      return this.isLoading || this.selectedValues.length === 0;
+                  },
+
+              })
+
+        })
+
+    </script>
+{% endblock scripts %}

@@ -219,3 +219,22 @@ class QuerySetCountHx(BaseHxRequest):
         filterset_class = self.view.get_filterset_class()
         filterset = self.view.get_filterset(filterset_class)
         return str(filterset.qs.count())
+
+
+class RefreshAllIds(BaseHxRequest):
+    name = "refresh_all_ids"
+    GET_template = "dynpy_gfl/bulk_checkbox_gfl.html"
+    GET_block = "all_ids"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Limit to 10,001 ids to avoid performance issues. The JS does not support more that 10,000 anyway.
+        # This is because running an action on more than 10,000 items at once is not a good idea.
+        context["all_row_ids"] = self.get_all_ids(**kwargs).values_list("id", flat=True)[:10_001]
+        return context
+
+    def get_all_ids(self, **kwargs):
+        """
+        Hook to get the full queryset of ids.
+        """
+        return self.view.filterset.qs
