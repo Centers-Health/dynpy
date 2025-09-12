@@ -365,6 +365,7 @@ class BulkCheckboxGFLMixin:
     template_name = "dynpy_gfl/bulk_checkbox_gfl.html"
     bulk_action_hx_name = None  # To be set in subclass
     refresh_all_ids_hx_name = "refresh_all_ids"  # HxRequest Must put `all_row_ids` into context
+    max_bulk_amount = 10_000  # Max number of items that can be selected for bulk actions
 
     # Refreshes the table when a bulk action is completed, set on the bulk action HxRequest
     bulk_updated_hx_trigger = "bulk_updated"

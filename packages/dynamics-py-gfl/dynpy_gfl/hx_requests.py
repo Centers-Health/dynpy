@@ -228,9 +228,16 @@ class RefreshAllIds(BaseHxRequest):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Limit to 10,001 ids to avoid performance issues. The JS does not support more that 10,000 anyway.
-        # This is because running an action on more than 10,000 items at once is not a good idea.
-        context["all_row_ids"] = self.get_all_ids(**kwargs).values_list("id", flat=True)[:10_001]
+        # Limit to at most `max_bulk_amount` IDs to avoid performance and UX issues. Our JS does not
+        # handle more than `max_bulk_amount` items anyway.
+        #
+        # We intentionally fetch/select up to `max_bulk_amount + 1` items so we can detect the
+        # overflow case and show a "too many items" tooltip. Without this extra one, users could
+        # select "all" and assume the action will run on every item, when in reality we are only
+        # process up to `max_bulk_amount`.
+        context["all_row_ids"] = self.get_all_ids(**kwargs).values_list("id", flat=True)[
+            : self.view.max_bulk_amount + 1
+        ]
         return context
 
     def get_all_ids(self, **kwargs):
