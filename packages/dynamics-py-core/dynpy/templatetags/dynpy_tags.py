@@ -119,3 +119,11 @@ def bool_to_check_or_x(value):
         return mark_safe('<i class="fa fa-check-circle text-success"></i>')
     else:
         return mark_safe('<i class="fa fa-times-circle text-danger"></i>')
+
+
+@register.filter
+def to_list(value):
+    try:
+        return list(value)
+    except Exception:
+        return value
