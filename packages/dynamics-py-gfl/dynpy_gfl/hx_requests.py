@@ -235,7 +235,7 @@ class RefreshAllIds(BaseHxRequest):
         # overflow case and show a "too many items" tooltip. Without this extra one, users could
         # select "all" and assume the action will run on every item, when in reality we are only
         # process up to `max_bulk_amount`.
-        context["all_row_ids"] = self.get_all_ids(**kwargs).values_list("id", flat=True)[
+        context["all_row_ids"] = self.get_all_ids(**kwargs).values_list("pk", flat=True)[
             : self.view.max_bulk_amount + 1
         ]
         return context
