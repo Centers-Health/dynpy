@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v21.5.0 (2025-09-12)
+### Feature
+- Add to_list template tag to dynpy_tags ([`9f81b22`](https://github.com/Centers-health/dynpy/commit/9f81b22ae4de44f8e267cf1dbfadd16423dc2aca))
+
+
 ## v21.4.0 (2025-09-09)
 ### Feature
 - Make mock_sp fixture more generic to be used with multiple connectors ([`4139dee`](https://github.com/Centers-health/dynpy/commit/4139dee424881d2833456dff4d50c604987576f9))
