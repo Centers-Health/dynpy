@@ -2,7 +2,7 @@
 {% load actions_tags %}
 
 {% block form %}
-    <form style="font-size:initial"
+    <form style="font-size:1rem"
           action="{{ request.path|build_url_with_query:action_kwargs }}"
           method="post"
           enctype="multipart/form-data"
