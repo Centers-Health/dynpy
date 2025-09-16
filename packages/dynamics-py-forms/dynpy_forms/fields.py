@@ -10,7 +10,13 @@ from django.forms.widgets import Widget
 from django_filters.fields import DateRangeField
 
 from dynpy_forms.field_mixins import GroupedChoicesMixin
-from dynpy_forms.widgets import BootstrapSelectOrAddNew, MultipleFileInput, SwitchWidget, TypeAheadSelect
+from dynpy_forms.widgets import (
+    BootstrapSelectOrAddNew,
+    GroupAwareBootstrapMultiSelect,
+    MultipleFileInput,
+    SwitchWidget,
+    TypeAheadSelect,
+)
 
 
 class SwitchField(BooleanField):
@@ -184,3 +190,65 @@ class MultipleFileField(FileField):
         else:
             result = single_file_clean(data, initial)
         return result
+
+
+class GroupAwareModelMultipleChoiceField(GroupedModelMultiChoiceField):
+    """
+    A ModelMultipleChoiceField that expands "_group_*" tokens into queryset matches.
+    Example:
+        - value = ["3", "_group_payor:Medicaid"]
+        - returns [<Payor: pk=3>, <Payor: pk=10>, <Payor: pk=11>]
+        where pk 10 and 11 are Payors with hmo_type "Medicaid"
+    """
+
+    widget = GroupAwareBootstrapMultiSelect
+
+    def __init__(
+        self,
+        *args,
+        request=None,
+        group_prefix="_group_",
+        group_by_field=None,
+        filter_name=None,
+        **kwargs,
+    ):
+        self.group_prefix = group_prefix
+        self.group_by_field = group_by_field
+        self.request = request
+        self.filter_name = filter_name
+
+        for attr in ("group_by_field", "request", "filter_name"):
+            if getattr(self, attr) is None:
+                raise ValueError(f"`{attr}` is required for {self.__class__.__name__}")
+
+        self.group_key = self.group_prefix + self.filter_name
+
+        super().__init__(*args, group_by_field=group_by_field, **kwargs)
+
+    def widget_attrs(self, widget):
+        return {"data-group-key": self.group_key, "data-group-prefix": self.group_prefix}
+
+    def clean(self, value):
+        group_values = self._get_group_values_from_request()
+
+        if not group_values:
+            return super().clean(value)
+
+        # Separate non-group values
+        value = value or []
+        normal_values = [v for v in value if not str(v).startswith(self.group_prefix)]
+        cleaned_values = list(super().clean(normal_values)) if normal_values else []
+
+        # Expand group tokens
+        matches = self.queryset.filter(**{f"{self.group_by_field}__in": group_values})
+        cleaned_values.extend(matches)
+
+        return cleaned_values
+
+    def _get_group_values_from_request(self):
+        """
+        Extract group tokens from the request GET or POST data.
+        e.g. "group_payor" where payor is the filter_name.
+        """
+        data = self.request.POST if self.request.method == "POST" else self.request.GET
+        return data.getlist(self.group_key, [])

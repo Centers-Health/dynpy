@@ -31,6 +31,10 @@ class GenericFilterSet(django_filters.FilterSet):
             self._validate_default_order_fields()
         super().__init__(data, queryset, request=request, prefix=prefix)
 
+        # Automatically assign filter_name to all filters
+        for filter_name, filter in self.filters.items():
+            filter.filter_name = filter_name
+
     def _validate_default_order_fields(self):
         # Default order fields can be str or list. Ensure always a list
         defaults = (

@@ -1,4 +1,5 @@
 {% load dynpy_tags %}
+{% load static %}
 {% comment %}
     Here are the config options. To use them in the html you need to make them data-* attributes.
     Example: "deselectAllText" ~> "data-deselect-all-text"
@@ -28,6 +29,18 @@
     {% endfor %}
 </select>
                 
-                {% block widget_scripts %}
-                {% endblock widget_scripts %}
 {% comment %} djlint:on {% endcomment %}
+
+{% block widget_scripts %}
+<script type="module">
+    import GroupSelect from '{% static "dynpy_forms/js/modules/GroupSelect.js" %}';
+    import GroupAwareSelect from '{% static "dynpy_forms/js/modules/GroupAwareSelect.js" %}';
+
+    const selectEl = document.getElementById('{{ random_id }}');
+    if (selectEl.classList.contains('selectpicker-group-aware')) {
+        new GroupAwareSelect($(selectEl));
+    } else {
+        new GroupSelect($(selectEl));
+    }
+</script>
+{% endblock widget_scripts %}
