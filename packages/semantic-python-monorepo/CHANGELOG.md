@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v0.10.6 (2025-09-16)
+### Fix
+- Breaks when package is dict but missing keys ([`8eb2bf5`](https://github.com/Centers-health/dynpy/commit/8eb2bf522599ba522738413dfd205c65c5122260))
+
+
 ## v0.10.5 (2025-08-27)
 ### Fix
 - Testing release notes ([`90868b0`](https://github.com/Centers-health/dynpy/commit/90868b003e62ccfdeb22c96df3f10c1c9ad4967a))
