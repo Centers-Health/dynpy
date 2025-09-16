@@ -1,12 +1,13 @@
 import uuid
 from calendar import monthrange
 from datetime import date
-from typing import Any, Dict
+from typing import Any
 
 from django.forms import ClearableFileInput, Select, Widget, widgets
 from django.forms.models import ModelChoiceIterator
 from django.forms.widgets import HiddenInput
 from django.template import loader
+from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django_filters.widgets import DateRangeWidget, RangeWidget, SuffixedMultiWidget
 
@@ -293,13 +294,13 @@ class SwitchWidget(widgets.CheckboxInput):
         self.css_classes = kwargs.pop("css_classes", None)
         self.css_styles = kwargs.pop("css_styles", None)
 
-    def get_context(self, name: str, value: Any, attrs) -> Dict[str, Any]:
+    def get_context(self, name: str, value: Any, attrs) -> dict[str, Any]:
         context = super().get_context(name, value, attrs)
         context["css_classes"] = self.css_classes
         context["css_styles"] = self.css_styles
         return context
 
-    def value_from_datadict(self, data: Dict[str, Any], files, name: str) -> Any:
+    def value_from_datadict(self, data: dict[str, Any], files, name: str) -> Any:
         datadict_value = data.get(name)
         if datadict_value in ["on", True]:
             return True
@@ -367,3 +368,58 @@ class DashedBooleanWidget(widgets.NullBooleanSelect):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.choices = (("____", ("---------")), ("true", ("Yes")), ("false", ("No")))
+
+
+class GroupAwareBootstrapMultiSelect(BootstrapMultiSelect):
+    """
+    Group-aware bootstrap-select widget.
+
+    - Shows all options in a group as selected when the group is active
+    - Injects hidden <input> fields for group_* values so only they get submitted
+      (the JS hook clears option selections before submit)
+    """
+
+    @property
+    def group_key(self):
+        return self.attrs["data-group-key"]
+
+    @property
+    def group_prefix(self):
+        return self.attrs["data-group-prefix"]
+
+    def __init__(self, attrs=None, **kwargs):
+        super().__init__(attrs=attrs, **kwargs)
+
+        existing_classes = self.attrs.get("class", "")
+        self.attrs["class"] = f"{existing_classes} selectpicker-group-aware"
+
+    def value_from_datadict(self, data, files, name):
+        if not data:
+            return []
+
+        values = super().value_from_datadict(data, files, name) or []
+
+        group_values = data.getlist(self.group_key, [])
+
+        # Encode group tokens distinctly
+        return values + [f"{self.group_key}:{v}" for v in group_values]
+
+    def render(self, name, value, attrs=None, renderer=None):
+        value = value or []
+        group_tokens, normal_values = [], []
+
+        for v in value:
+            (group_tokens if v.startswith(self.group_prefix) else normal_values).append(v)
+
+        # Base rendering
+        html = super().render(name, normal_values, attrs, renderer)
+
+        if group_tokens:
+            group_values = sorted({token.split(":", 1)[1] for token in group_tokens})
+            hidden_html = "".join(
+                f'<input type="hidden" class="group-injected" name="{escape(self.group_key)}" value="{escape(v)}">'
+                for v in group_values
+            )
+            html += hidden_html
+
+        return html
