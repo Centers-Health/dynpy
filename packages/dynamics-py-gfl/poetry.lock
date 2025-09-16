@@ -558,7 +558,7 @@ url = "../dynamics-py-core"
 
 [[package]]
 name = "dynpy-actions"
-version = "9.5.0"
+version = "9.5.1"
 description = ""
 optional = false
 python-versions = "^3.11"

@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v9.5.1 (2025-09-16)
+### Fix
+- Use 1rem in action modals + forms ([`811a791`](https://github.com/Centers-health/dynpy/commit/811a7917e8fe30dc0280639bf0765db04bf2a2f3))
+
+
 ## v9.0.0 (2025-08-19)
 ### Breaking
 - Upgrade strawberry-graphql ([`643a1a9`](https://github.com/Centers-health/dynpy/commit/643a1a9f23d2b5275e45b138c64dd3bb6cee5c6e))

@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v17.11.0 (2025-09-16)
+### Feature
+- Downgrade pandas to 1.5.3 for compatibility ([`a1faa11`](https://github.com/Centers-health/dynpy/commit/a1faa112f66b52d8bc7eda438b5facc960a8d752))
+### Fix
+- Fix python dependency for pandas ([`551b72f`](https://github.com/Centers-health/dynpy/commit/551b72f4bd82e8a7ade9905cdd4590c5c70d6ae4))
+
+
 ## v17.9.0 (2025-09-12)
 ### Feature
 - Add bulk checkbox functionality to gfl ([`e747bf7`](https://github.com/Centers-health/dynpy/commit/e747bf7bc9c3e97bdccdcc63f4c66a3d0c5565dc))
