@@ -42,161 +42,97 @@
                 {% endblock top_content %}
 
             </div>
-            <div>
-                <div class="d-flex align-items-center mb-3">
-                    <button id="filtersToggle"
-                            @click="filtersCollapsed = !filtersCollapsed"
-                            class="btn btn-sm btn-outline-primary d-flex align-items-center justify-content-between"
-                            type="button"
-                            x-html="filtersCollapsed ? '<i class=\'fas fa-expand-alt\'></i> Expand' : '<i class=\'fas fa-compress-alt\'></i> Collapse'">
-                    </button>
 
-                    {% block extra_filter_buttons %}
-                    {% endblock extra_filter_buttons %}
-
-                    {% block filter_message %}
-                        <div id="filter-message" hx-swap-oob="true" class="d-flex">
-                            <i class="text-muted ml-2">{{ filters_applied_count }} Filter{{ filters_applied_count|pluralize }} Applied
-                                {% if filters_applied_count > 0 %}
-                                    (<a class="btn-link"
-   href="#"
-   {% hx_get view.filter_hx_name %}
-   hx-target='#gfl_table'
-   hx-swap='outerHTML settle:0'
-   hx-push-url='true'
-   hx-indicator='#table-loader, .loaded-content'>Reset Filters</a>)
-                                {% endif %}
-                            </i>
-                            {% if view.show_dropdown_sort %}
-                                {% dropdown_sort sort_hx_name=view.sort_hx_name hx_target="#gfl_table" %}
-                            {% endif %}
-                        </div>
-                    {% endblock filter_message %}
-
-                    {% block quick_filters %}
-                        <div id="quickFilters" class="ml-4" hx-swap-oob="true">
-                            <form method="get"
-                                  id="quickFilterForm"
-                                  {% hx_get view.quick_filter_hx_name %}
-                                  hx-include="#basicFilters"
-                                  hx-target='#gfl_table'
-                                  hx-swap='outerHTML settle:0 show:#gfl_table:top'
-                                  hx-trigger='change'
-                                  hx-push-url='true'
-                                  hx-indicator='#table-loader'>
-                                {% for field in view.get_quick_filters %}
-                                    {% render_with_context field request=request %}
-                                {% endfor %}
-                            </form>
-                        </div>
-                    {% endblock quick_filters %}
-
-                    <div class="ml-auto">
-
-                        {% block actions %}
-                        {% endblock actions %}
-
-                    </div>
-                </div>
-            </div>
-            <div x-show="!filtersCollapsed" x-collapse x-cloak id="filters">
-
-                {% block filters %}
-                    {% block filter_form %}
-                        <form hx-swap-oob="true"
-                              method="get"
-                              class="filter-form mb-2"
-                              id="basicFilters"
-                              {% hx_get view.filter_hx_name %}
-                              hx-include="#quickFilterForm"
-                              hx-target='#gfl_table'
-                              hx-swap='outerHTML settle:0 show:#gfl_table:top'
-                              hx-trigger='change'
-                              hx-push-url='true'
-                              hx-indicator='#table-loader'>
-                            <div class="form-row">
+            {% block filters %}
+                {% block filter_form %}
+                    <form hx-swap-oob="true"
+                          method="get"
+                          class="filter-form mb-2"
+                          id="basicFilters"
+                          {% hx_get view.filter_hx_name %}
+                          hx-include="#quickFilterForm"
+                          hx-target='#gfl_table'
+                          hx-swap='outerHTML settle:0 show:#gfl_table:top'
+                          hx-trigger='change'
+                          hx-push-url='true'
+                          hx-indicator='#table-loader'>
+                        <div class="form-row">
+                            <div class="d-flex">
                                 {% for field in filter.form %}
-                                    {% if field not in view.get_extra_filters and field not in view.get_quick_filters %}
-                                        {% include "dynpy_gfl/includes/htmx_gfl_filter_field.html" %}
+                                    {% if forloop.counter < 8 %}
+                                        {% if field not in view.get_extra_filters %}
+                                            {% include "dynpy_gfl/includes/htmx_gfl_filter_field.html" %}
+                                        {% endif %}
                                     {% endif %}
                                 {% endfor %}
-                                <div>
+                            </div>
 
-                                    {% block hidden_filter_inputs %}
-                                        <input type="hidden" name="order_by" value={{ request.GET.order_by }}>
-                                        <input type="hidden" name="order" value={{ request.GET.order }}>
-                                    {% endblock hidden_filter_inputs %}
+                            {% block hidden_filter_inputs %}
+                                <input type="hidden" name="order_by" value={{ request.GET.order_by }}>
+                                <input type="hidden" name="order" value={{ request.GET.order }}>
+                            {% endblock hidden_filter_inputs %}
+
+                            <div class="mt-4 ml-2 d-flex align-items-center" style="height: 2.65rem;">
+                                <div class="mr-3">
+
+                                    {% block extra_filter_buttons %}
+                                    {% endblock extra_filter_buttons %}
 
                                 </div>
+                                {% if view.show_dropdown_sort %}
+                                    {% dropdown_sort sort_hx_name=view.sort_hx_name hx_target="#gfl_table" %}
+                                {% endif %}
+
+                                {% block filter_message %}
+                                    <div class="text-dark font-weight-bold">
+                                        <i>1356 Results</i>
+                                    </div>
+                                    <div id="filter-message" hx-swap-oob="true" class="ml-3">
+                                        <a class="btn-link font-weight-bold"
+                                           href="#"
+                                           {% hx_get view.filter_hx_name %}
+                                           hx-target='#gfl_table'
+                                           hx-swap='outerHTML settle:0'
+                                           hx-push-url='true'
+                                           hx-indicator='#table-loader, .loaded-content'><i>Clear Filters ({{ filters_applied_count }})</i></a>
+                                    </div>
+                                {% endblock filter_message %}
 
                                 {% block extra_filters_button %}
-                                    {% if view.get_extra_filters %}
-                                        <i class="text-muted ml-2 mt-3 d-flex align-items-center"
-                                           @click="extraFiltersCollapsed = !extraFiltersCollapsed">
-                                            <a class="btn-link"
+                                    <div class="ml-4">
+                                        <i @click="extraFiltersCollapsed = !extraFiltersCollapsed">
+                                            <a class="btn-link font-weight-bold"
                                                href="#"
                                                id="extraFiltersToggle"
-                                               x-html="extraFiltersCollapsed ? 'More Filters' : 'Less Filters'"></a>
+                                               x-html="extraFiltersCollapsed ? 'Show More <i class=\'fa-solid fa-chevron-down\'></i>' : 'Show Less <i class=\'fa-solid fa-chevron-up\'></i>'"></a>
                                         </i>
-                                    {% endif %}
+                                    </div>
                                 {% endblock extra_filters_button %}
 
                             </div>
+                            <div class="ml-auto">
 
-                            {% block extra_filters %}
-                                <div x-show="!extraFiltersCollapsed"
-                                     x-collapse
-                                     class="form-row"
-                                     id="extraFilters">
-                                    {% for field in view.get_extra_filters %}
-                                        {% include "dynpy_gfl/includes/htmx_gfl_filter_field.html" %}
-                                    {% endfor %}
-                                </div>
-                            {% endblock extra_filters %}
+                                {% block actions %}
+                                {% endblock actions %}
 
-                        </form>
-                    {% endblock filter_form %}
-                {% endblock filters %}
-
-            </div>
-            <div class='d-flex'>
-
-                {% block above_table %}
-                    {% block total_and_pagination %}
-                        <div class='{% if view.totals_align_right %}
-                                        ml-auto
-                                    {% endif %}
-                                    align-self-end'
-                             id='total-records'
-                             hx-swap-oob='true'
-                             {% hx_get 'gfl_total' %}
-                             {% if view.using_combo_pagination %}
-                                 hx-vals='{ "combo_page": {{ paginator.combo_page }} }'
-                             {% endif %}
-                             hx-trigger='load delay:1ms'
-                             hx-indicator='this'
-                             hx-swap="outerHTML"
-                             hx-target='#total_and_pagination'
-                             hx-include='#basicFilters, #quickFilterForm'>
-                            <div id='total_and_pagination'>
-                                <span id='count-loader'
-                                      class="d-inline-block"
-                                      role="status"
-                                      aria-hidden="true">
-                                    <span id="dots-loader">
-                                        <div class="loading-dots htmx-indicator d-none" style="margin-left:5px">
-                                            <div class="dot1"></div>
-                                            <div class="dot2"></div>
-                                            <div class="dot3"></div>
-                                        </div>
-                                    </span>
-                                </span>
                             </div>
                         </div>
-                    {% endblock total_and_pagination %}
-                {% endblock above_table %}
 
-            </div>
+                        {% block extra_filters %}
+                            <div x-show="!extraFiltersCollapsed"
+                                 x-collapse
+                                 class="form-row"
+                                 id="extraFilters">
+                                {% for field in view.get_extra_filters %}
+                                    {% include "dynpy_gfl/includes/htmx_gfl_filter_field.html" %}
+                                {% endfor %}
+                            </div>
+                        {% endblock extra_filters %}
+
+                    </form>
+                {% endblock filter_form %}
+            {% endblock filters %}
+
             <div class="flex-grow-1 position-relative">
                 <div class="h-100 w-100 position-absolute">
 
