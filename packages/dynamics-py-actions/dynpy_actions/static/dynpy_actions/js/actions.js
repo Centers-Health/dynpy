@@ -182,13 +182,30 @@ const reloadWindowOnload = (wrapper) => {
 	scripts = form.querySelectorAll("script");
 	// Run scripts
 	for (const script of form.querySelectorAll("script")) {
-		if (!script.src) new Function(script.text)();
-		else {
-			fetch(script.src).then(async (response) => {
-				return response.text().then((text) => {
-					new Function(text)();
-				});
-			});
+		if (script.type === "module") {
+			// Handle inline module scripts
+			if (!script.src) {
+				// Dynamically create a <script type="module"> with the same code
+				const newScript = document.createElement("script");
+				newScript.type = "module";
+				newScript.textContent = script.textContent;
+				document.head.appendChild(newScript);
+			} else {
+				// External module script: just add it back to DOM
+				const newScript = document.createElement("script");
+				newScript.type = "module";
+				newScript.src = script.src;
+				document.head.appendChild(newScript);
+			}
+		} else {
+			// Handle classic scripts
+			if (!script.src) {
+				new Function(script.textContent)(); // inline classic
+			} else {
+				fetch(script.src)
+					.then((res) => res.text())
+					.then((text) => new Function(text)());
+			}
 		}
 	}
 	setFormOnchangeHandlers(form);
