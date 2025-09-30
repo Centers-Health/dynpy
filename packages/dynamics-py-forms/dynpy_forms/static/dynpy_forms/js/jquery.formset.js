@@ -41,22 +41,45 @@
 			}
 		};
 		const addRow = (row, buttonRow, formCount) => {
-			scripts = row.find("script").clone(true);
+			// Grab scripts, keep their attributes
+			const scripts = row.find("script").clone(true);
 			row.find("script").remove();
+
+			// Update form fields
 			row.find(childElementSelector).each(function () {
 				updateElementIndex($(this), options.prefix, formCount);
 				if (options.showLabelsOnce) $(this).find("label").remove();
 			});
 
 			row.insertBefore(buttonRow).show();
+
 			const inputPrefix = `${options.prefix}-${formCount}`;
 			const input = $(`[name*=${inputPrefix}]`, wrapper)[0];
+
 			scripts.each(function () {
-				updateElementIndex($(this), options.prefix, formCount);
+				const $old = $(this);
+
+				// update script index if needed
+				updateElementIndex($old, options.prefix, formCount);
+
+				// Create a fresh <script> tag
 				const script = document.createElement("script");
-				script.type = "text/javascript";
-				script.textContent = $(this).text();
-				script.id = $(this).attr("id");
+
+				// Preserve original type or default to text/javascript
+				script.type = $old.attr("type") || "text/javascript";
+
+				// Preserve id if present
+				if ($old.attr("id")) script.id = $old.attr("id");
+
+				// External script
+				if ($old.attr("src")) {
+					script.src = $old.attr("src");
+				} else {
+					// Inline script — copy raw code
+					script.textContent = $old[0].textContent;
+				}
+
+				// Append after the input’s parent so it executes
 				input.parentElement.append(script);
 			});
 		};
