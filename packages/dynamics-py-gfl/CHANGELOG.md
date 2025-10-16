@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v18.0.0 (2025-10-16)
+### Breaking
+- Add group-level filtering support and refactor js into modular widgets ([`2d14c2c`](https://github.com/Centers-health/dynpy/commit/2d14c2c0a28b80596290434236d92e104f7c2aa8))
+
+
 ## v17.11.0 (2025-09-16)
 ### Feature
 - Downgrade pandas to 1.5.3 for compatibility ([`a1faa11`](https://github.com/Centers-health/dynpy/commit/a1faa112f66b52d8bc7eda438b5facc960a8d752))

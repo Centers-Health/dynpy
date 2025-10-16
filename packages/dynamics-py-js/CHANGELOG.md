@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v5.0.0 (2025-10-16)
+### Breaking
+- Add group-level filtering support and refactor js into modular widgets ([`2d14c2c`](https://github.com/Centers-health/dynpy/commit/2d14c2c0a28b80596290434236d92e104f7c2aa8))
+
+
 ## v4.1.3 (2025-06-25)
 ### Fix
 - Update readme to remove dm reference ([`1050d8c`](https://github.com/Centers-health/dynpy/commit/1050d8cf8ca06501fa26df5f6642961cd8dd7d84))

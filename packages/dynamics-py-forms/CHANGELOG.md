@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v10.0.0 (2025-10-16)
+### Breaking
+- Add group-level filtering support and refactor js into modular widgets ([`2d14c2c`](https://github.com/Centers-health/dynpy/commit/2d14c2c0a28b80596290434236d92e104f7c2aa8))
+### Fix
+- Ensure jquery.formset js can load html with inline modules ([`39eefb4`](https://github.com/Centers-health/dynpy/commit/39eefb4b41c13edcdda883843aaa0e7e80eac768))
+
+
 ## v9.5.1 (2025-09-10)
 ### Fix
 - Fix bootstrap error styles for range widgets ([`fb244bc`](https://github.com/Centers-health/dynpy/commit/fb244bcfacb1f4d66a08f4f36d60a1d83a9c6962))

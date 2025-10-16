@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v10.0.0 (2025-10-16)
+### Fix
+- Ensure actions can load html with inline script modules ([`8ec60bb`](https://github.com/Centers-health/dynpy/commit/8ec60bb0a3cdcb3048588f4be1080568e1394113))
+
+
 ## v9.5.1 (2025-09-16)
 ### Fix
 - Use 1rem in action modals + forms ([`811a791`](https://github.com/Centers-health/dynpy/commit/811a7917e8fe30dc0280639bf0765db04bf2a2f3))
