@@ -217,7 +217,7 @@ class GroupAwareModelMultipleChoiceField(GroupedModelMultiChoiceField):
         self.request = request
         self.filter_name = filter_name
 
-        for attr in ("group_by_field", "request", "filter_name"):
+        for attr in ("group_by_field", "filter_name"):
             if getattr(self, attr) is None:
                 raise ValueError(f"`{attr}` is required for {self.__class__.__name__}")
 
@@ -250,5 +250,8 @@ class GroupAwareModelMultipleChoiceField(GroupedModelMultiChoiceField):
         Extract group tokens from the request GET or POST data.
         e.g. "group_payor" where payor is the filter_name.
         """
+        if self.request is None:
+            return []
+
         data = self.request.POST if self.request.method == "POST" else self.request.GET
         return data.getlist(self.group_key, [])
