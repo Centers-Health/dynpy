@@ -6,6 +6,7 @@ from typing import Any
 from django.forms import ClearableFileInput, Select, Widget, widgets
 from django.forms.models import ModelChoiceIterator
 from django.forms.widgets import HiddenInput
+from django.http import QueryDict
 from django.template import loader
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
@@ -399,11 +400,10 @@ class GroupAwareBootstrapMultiSelect(BootstrapMultiSelect):
 
         values = super().value_from_datadict(data, files, name) or []
 
-        if isinstance(data, dict):
-            group_values = val.split(",") if (val := data.get(self.group_key)) else []
-
-        else:
+        if isinstance(data, QueryDict):
             group_values = data.getlist(self.group_key, [])
+        else:
+            group_values = val.split(",") if (val := data.get(self.group_key)) else []
 
         # Encode group tokens distinctly
         return values + [f"{self.group_key}:{v}" for v in group_values]
