@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v10.0.1 (2025-10-20)
+### Fix
+- Handle missing request/querydict for testing with groupaware ([`59a12c1`](https://github.com/Centers-health/dynpy/commit/59a12c10160ef1c1c2c6475d30e72424972a9d37))
+
+
 ## v10.0.0 (2025-10-16)
 ### Breaking
 - Add group-level filtering support and refactor js into modular widgets ([`2d14c2c`](https://github.com/Centers-health/dynpy/commit/2d14c2c0a28b80596290434236d92e104f7c2aa8))
