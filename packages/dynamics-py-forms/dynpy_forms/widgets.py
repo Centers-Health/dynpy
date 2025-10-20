@@ -399,7 +399,11 @@ class GroupAwareBootstrapMultiSelect(BootstrapMultiSelect):
 
         values = super().value_from_datadict(data, files, name) or []
 
-        group_values = data.getlist(self.group_key, [])
+        if isinstance(data, dict):
+            group_values = val.split(",") if (val := data.get(self.group_key)) else []
+
+        else:
+            group_values = data.getlist(self.group_key, [])
 
         # Encode group tokens distinctly
         return values + [f"{self.group_key}:{v}" for v in group_values]
