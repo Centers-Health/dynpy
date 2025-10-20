@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v10.0.2 (2025-10-20)
+### Fix
+- Incorrect logic for handling data being a dict in groupaware widget ([`c13a884`](https://github.com/Centers-health/dynpy/commit/c13a88466f4f7ba78f254a0e9931bf327e26a79d))
+
+
 ## v10.0.1 (2025-10-20)
 ### Fix
 - Handle missing request/querydict for testing with groupaware ([`59a12c1`](https://github.com/Centers-health/dynpy/commit/59a12c10160ef1c1c2c6475d30e72424972a9d37))
