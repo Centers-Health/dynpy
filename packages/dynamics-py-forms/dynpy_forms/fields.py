@@ -247,11 +247,10 @@ class GroupAwareModelMultipleChoiceField(GroupedModelMultiChoiceField):
 
     def _get_group_values_from_request(self):
         """
-        Extract group tokens from the request GET or POST data.
+        Extract group tokens from the request GET params.
         e.g. "group_payor" where payor is the filter_name.
         """
         if self.request is None:
             return []
 
-        data = self.request.POST if self.request.method == "POST" else self.request.GET
-        return data.getlist(self.group_key, [])
+        return self.request.GET.getlist(self.group_key, [])
