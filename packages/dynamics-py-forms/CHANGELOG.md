@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v10.0.3 (2025-10-22)
+### Fix
+- Bug causing groupaware filter to fail on post requests ([`ecd1c9c`](https://github.com/Centers-health/dynpy/commit/ecd1c9cbed49fc445c447a010992c43c85a13348))
+- Add tests for groupaware field and widget ([`86a231a`](https://github.com/Centers-health/dynpy/commit/86a231ade35c343fc99a67c6366e489ba65edd08))
+
+
 ## v10.0.2 (2025-10-20)
 ### Fix
 - Incorrect logic for handling data being a dict in groupaware widget ([`c13a884`](https://github.com/Centers-health/dynpy/commit/c13a88466f4f7ba78f254a0e9931bf327e26a79d))
