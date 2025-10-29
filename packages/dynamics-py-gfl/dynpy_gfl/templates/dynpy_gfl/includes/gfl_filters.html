@@ -13,7 +13,7 @@
       hx-push-url='true'>
     <div class="form-row">
         {% for field in filter.form %}
-            <div class="form-group col-md-2 mb-0" {% if field|is_selectpicker %} @change.stop='$(event.target).on("hidden.bs.select", (e) => { e.target.closest("form").dispatchEvent(new Event("change")); });'
+            <div class="form-group mb-0" {% if field|is_selectpicker %} @change.stop='$(event.target).on("hidden.bs.select", (e) => { e.target.closest("form").dispatchEvent(new Event("change")); });'
             {% elif field|is_monthpicker %}
                 {% comment %} Fixes a bug where manually clearing a month input (pressing delete) did not trigger a filter request or update the results. Forcing `value = null` makes the request fire. Unclear why this is necessary {% endcomment %} onchange="if (event.target.value === '') event.target.value = null;"
             {% endif %}
