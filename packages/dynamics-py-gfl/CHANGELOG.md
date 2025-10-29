@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v18.0.4 (2025-10-29)
+### Fix
+- Filter row styling ([`a778318`](https://github.com/Centers-health/dynpy/commit/a778318ec0650a6792f798e28514bb343588290c))
+
+
 ## v18.0.0 (2025-10-16)
 ### Breaking
 - Add group-level filtering support and refactor js into modular widgets ([`2d14c2c`](https://github.com/Centers-health/dynpy/commit/2d14c2c0a28b80596290434236d92e104f7c2aa8))
