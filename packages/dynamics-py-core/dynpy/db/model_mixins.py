@@ -19,6 +19,7 @@ class SoftDeleteModelMixin(models.Model):
 
     class Meta:
         abstract = True
+        default_manager_name = "objects"
 
     def delete(self):
         """
