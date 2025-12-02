@@ -38,6 +38,7 @@ class QuickFilter(Filter):
     GET_block = [
         "table",
         "filter_message",
+        "tabs_container",
         "no_objects",
         "total_and_pagination",
         "freeze_columns_script",
