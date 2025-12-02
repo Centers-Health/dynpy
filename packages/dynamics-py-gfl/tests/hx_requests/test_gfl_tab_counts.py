@@ -47,7 +47,7 @@ def test_tabs_count_filters_using_filter_qs_by_tab_from_view(tab, expected_count
     response = hx_get(
         GflTabCounts,
         TestHxView,
-        get_params={"tab": tab},
+        get_params={"gfl_tab": tab},
     )
     assert response.content.decode() == expected_count
 
@@ -63,6 +63,6 @@ def test_tabs_count_ignores_active_tab():
     response = hx_get(
         GflTabCounts,
         TestHxView,
-        get_params={"tab": "1", "active_tab": "2"},
+        get_params={"gfl_tab": "1", "active_tab": "2"},
     )
     assert response.content.decode() == "2"
