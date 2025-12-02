@@ -196,7 +196,7 @@ class GflTabCounts(BaseHxRequest):
         super()._setup_hx_request(request, *args, **kwargs)
 
     def get_response_html(self, **kwargs) -> str:
-        tab = self.request.GET.get("tab")
+        tab = self.request.GET.get("gfl_tab")
         qs = self.view.filterset.qs
         count = self.view.filter_qs_by_tab(qs, tab).count()
         return str(count)
