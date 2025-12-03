@@ -2,6 +2,15 @@
 
 <!--next-version-placeholder-->
 
+## v19.0.0 (2025-12-03)
+### Breaking
+- Rename "tab" parameter to "gfl_tab" in hx-vals to avoid conflicts ([`8998b50`](https://github.com/Centers-health/dynpy/commit/8998b50c16c91fa8508fd87b448b05ff45820ec7))
+### Feature
+- Update tabs when quick filter is applied ([`c08175b`](https://github.com/Centers-health/dynpy/commit/c08175bed2a6220f0739dcc5b574e3785760b79f))
+### Fix
+- Fix up tests ([`2c24990`](https://github.com/Centers-health/dynpy/commit/2c24990b7ab0b00333eb23a3a81b1d750acd8c56))
+
+
 ## v18.0.4 (2025-10-29)
 ### Fix
 - Filter row styling ([`a778318`](https://github.com/Centers-health/dynpy/commit/a778318ec0650a6792f798e28514bb343588290c))
