@@ -109,6 +109,11 @@ class QuickFilterButtonsWithCounts(ChoiceFilter):
     default_empty_label = "All"
 
     def __init__(self, *args, empty_label=None, widget=None, **kwargs):
-        widget = widget or self.default_widget
+        if widget is None:
+            default_attrs = {
+                "form": "basicFilters",
+                "@click": "htmx.trigger('#basicFilters', 'change')",
+            }
+            widget = self.default_widget(attrs=default_attrs)
         empty_label = empty_label if empty_label is not None else self.default_empty_label
         super().__init__(*args, empty_label=empty_label, widget=widget, **kwargs)

@@ -1,11 +1,10 @@
 <input type="radio"
        name="{{ widget.name }}"
        value="{{ option.value }}"
-       class="{{ widget.attrs.class }}"
        id="{{ option.attrs.id }}"
        {% if option.attrs.checked %}checked{% endif %}
-       {% if widget.attrs.disabled %}disabled{% endif %}
-       autocomplete="off">
+       autocomplete="off"
+       {% include "django/forms/widgets/attrs.html" %}>
 <label for="{{ option.attrs.id }}"
        class="btn btn-outline-primary btn-sm mb-0">
     {{ option.label }}

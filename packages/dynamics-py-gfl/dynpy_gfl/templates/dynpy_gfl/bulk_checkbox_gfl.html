@@ -38,7 +38,7 @@
 {% block table_wrapper %}
     <div {% hx_get view.filter_hx_name %}
          hx-trigger="{{ view.bulk_updated_hx_trigger }} from:body"
-         hx-include="#basicFilters, #quickFilters"
+         hx-include="#basicFilters"
          hx-target="#gfl_table"
          hx-swap='outerHTML settle:0'
          hx-indicator='#table-loader, .loaded-content'></div>
@@ -96,7 +96,7 @@
                               {% endif %}
                           {% endspaceless %}'
               hx-swap="innerHTML settle:0"
-              hx-include="#basicFilters, #quickFilters"
+              hx-include="#basicFilters"
               hx-indicator='unset'
               hx-on::before-request="Alpine.store('checkboxHandler').isLoading=true;"
               hx-on::after-settle="Alpine.store('checkboxHandler').allQsValues=JSON.parse(this.textContent); Alpine.store('checkboxHandler').isLoading=false">
