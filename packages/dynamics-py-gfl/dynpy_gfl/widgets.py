@@ -34,5 +34,5 @@ class InlineButtonRadioSelectWithCounts(InlineButtonRadioSelect):
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
         context["count_hx_name"] = QuerySetCountHx.name
-        context["hx_include"] = "#basicFilters, #quickFilterForm"
+        context["hx_include"] = "#basicFilters"
         return context

@@ -260,7 +260,6 @@ class GFLSPlitViewWithActions(GflActionsMixin, GFLSplitView):
 class GenericFilterListViewHX(HtmxViewMixin, GenericFilterListView):
     base_gfl_template = "dynpy_gfl/generic_filter_list_htmx.html"
     filter_hx_name = "filter"
-    quick_filter_hx_name = "quick_filter"
     sort_hx_name = "sort"
     infinite_scroll_hx_name = "infinite_scroll"
     row_refresh_hx_name = "refresh_row"

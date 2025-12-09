@@ -33,19 +33,6 @@ class Filter(BaseHxRequest):
         return ["filtered"]
 
 
-class QuickFilter(Filter):
-    name = "quick_filter"
-    GET_block = [
-        "table",
-        "filter_message",
-        "tabs_container",
-        "no_objects",
-        "total_and_pagination",
-        "freeze_columns_script",
-        "gfl_frozen_column_styles",
-    ]
-
-
 class Sort(BaseHxRequest):
     name = "sort"
     GET_block = ["table", "filters", "filter_message"]
