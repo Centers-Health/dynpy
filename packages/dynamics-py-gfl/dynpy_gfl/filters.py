@@ -15,7 +15,11 @@ from dynpy_forms.widgets import RangeSliderWidget
 
 from dynpy_gfl.enums import NumberFormat
 from dynpy_gfl.filter_mixins import FilteredChoicesMixin, TotalsFilterMixin
-from dynpy_gfl.widgets import InlineButtonRadioSelectWithCounts
+from dynpy_gfl.widgets import (
+    InlineButtonRadioSelectWithCounts,
+    TabRadioSelect,
+    TabRadioSelectWithCounts,
+)
 
 
 class MultipleChoiceFilterWithTotals(TotalsFilterMixin, MultipleChoiceFilter):
@@ -115,5 +119,64 @@ class QuickFilterButtonsWithCounts(ChoiceFilter):
                 "@click": "htmx.trigger('#basicFilters', 'change')",
             }
             widget = self.default_widget(attrs=default_attrs)
-        empty_label = empty_label if empty_label is not None else self.default_empty_label
+
         super().__init__(*args, empty_label=empty_label, widget=widget, **kwargs)
+
+
+class TabFilter(ChoiceFilter):
+    """
+    A filter that renders as Bootstrap nav-tabs.
+
+    Example usage:
+        status = TabFilter(
+            choices=[
+                ('active', 'Active'),
+                ('inactive', 'Inactive'),
+            ],
+            method='filter_by_status',
+        )
+
+        tabs = "status"
+    """
+
+    default_widget = TabRadioSelect
+    default_empty_label = "All"
+
+    def __init__(
+        self,
+        *args,
+        empty_label=None,
+        widget=None,
+        ul_class=None,
+        **kwargs,
+    ):
+        if widget is None:
+            default_attrs = {
+                "form": "basicFilters",
+                "@click": "htmx.trigger('#basicFilters', 'change')",
+            }
+            widget_kwargs = {"attrs": default_attrs}
+            if ul_class:
+                widget_kwargs["ul_class"] = ul_class
+            widget = self.default_widget(**widget_kwargs)
+
+        super().__init__(*args, empty_label=empty_label, widget=widget, **kwargs)
+
+
+class TabFilterWithCounts(TabFilter):
+    """
+    A filter that renders as Bootstrap nav-tabs with count badges.
+
+    Example usage:
+        status = TabFilterWithCounts(
+            choices=[
+                ('active', 'Active'),
+                ('inactive', 'Inactive'),
+            ],
+            method='filter_by_status',
+        )
+
+        tabs = "status"
+    """
+
+    default_widget = TabRadioSelectWithCounts

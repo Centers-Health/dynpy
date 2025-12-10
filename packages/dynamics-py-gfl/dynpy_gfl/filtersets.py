@@ -18,11 +18,31 @@ class GenericFilterSet(django_filters.FilterSet):
     columns = None
     extra_filters = None
     quick_filters = None
+    tabs_filter = (
+        None  # Name of the filter to render as tabs (string), or define a filter named "tabs_filter"
+    )
     default_order_fields = None
     default_order = FilterListOrder.ASC
 
     def get_default_filters(self, request) -> MultiValueDict:
-        return MultiValueDict()
+        defaults = MultiValueDict()
+
+        # Auto-select first tab if tabs_filter is defined
+        if "tabs_filter" in self.base_filters:
+            filter_obj = self.base_filters["tabs_filter"]
+            # Access choices from extra directly to avoid caching _field on base_filters.
+            # This allows subclasses to set dynamic choices in __init__ after super().__init__().
+            choices = filter_obj.extra.get("choices", [])
+            empty_label = filter_obj.extra.get("empty_label")
+
+            if empty_label is not None:
+                # Empty label exists, use "" as default (the empty choice value)
+                defaults.setlist("tabs_filter", [""])
+            elif choices:
+                first_value = choices[0][0]
+                defaults.setlist("tabs_filter", [first_value])
+
+        return defaults
 
     def __init__(self, data=None, queryset=None, *, request=None, prefix=None):
         if not self.is_filtered(data):
