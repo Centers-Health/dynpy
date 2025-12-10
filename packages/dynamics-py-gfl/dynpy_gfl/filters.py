@@ -123,9 +123,15 @@ class QuickFilterButtonsWithCounts(ChoiceFilter):
         super().__init__(*args, empty_label=empty_label, widget=widget, **kwargs)
 
 
+# Sentinel to distinguish "not provided" from "explicitly None"
+_empty_label_not_provided = object()
+
+
 class TabFilter(ChoiceFilter):
     """
     A filter that renders as Bootstrap nav-tabs.
+
+    By default, an "All" tab is included. Pass `empty_label=None` to disable it.
 
     Example usage:
         status = TabFilter(
@@ -145,11 +151,14 @@ class TabFilter(ChoiceFilter):
     def __init__(
         self,
         *args,
-        empty_label=None,
+        empty_label=_empty_label_not_provided,
         widget=None,
         ul_class=None,
         **kwargs,
     ):
+        if empty_label is _empty_label_not_provided:
+            empty_label = self.default_empty_label
+
         if widget is None:
             default_attrs = {
                 "form": "basicFilters",
