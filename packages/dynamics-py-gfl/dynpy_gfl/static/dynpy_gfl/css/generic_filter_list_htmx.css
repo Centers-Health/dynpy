@@ -10,11 +10,21 @@
 	display: inline;
 }
 
-.gfl-tabs .nav-link.active {
-	background-color: var(--primary);
-	color: white;
-}
-
 #filtersToggle {
 	width: 5.65rem;
+}
+
+/* Tab filter styles - uses :checked selector so it updates on click */
+.gfl-tabs.gfl-tabs
+	.nav-tabs
+	.nav-item
+	input[type="radio"]:checked
+	+ label.nav-link {
+	background-color: var(--primary) !important;
+	color: white !important;
+	border-color: var(--primary) !important;
+}
+
+.gfl-tabs .nav-item label.nav-link:hover {
+	border-color: var(--primary);
 }

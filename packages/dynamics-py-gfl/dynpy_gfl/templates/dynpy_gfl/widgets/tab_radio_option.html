@@ -1,0 +1,18 @@
+<input type="radio"
+       name="{{ widget.name }}"
+       value="{{ option.value }}"
+       id="{{ option.attrs.id }}"
+       autocomplete="off"
+       {% if option.attrs.checked %}checked{% endif %}
+       {% with widget=option %}
+       {% include "django/forms/widgets/attrs.html" %}
+       {% endwith %}>
+<label for="{{ option.attrs.id }}"
+       class="nav-link mb-0"
+       style="cursor: pointer">
+    {{ option.label }}
+
+    {% block count %}
+    {% endblock count %}
+
+</label>

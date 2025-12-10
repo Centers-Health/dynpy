@@ -1,0 +1,7 @@
+<ul class="{{ ul_class }}" id="{{ widget.attrs.id }}_tabs" role="tablist">
+    {% for group, options, index in widget.optgroups %}
+        {% for option in options %}
+            <li class="nav-item">{% include option.template_name %}</li>
+        {% endfor %}
+    {% endfor %}
+</ul>

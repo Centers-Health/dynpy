@@ -116,6 +116,18 @@ class GenericFilterListView(CustomFilterView):
         """
         return self._get_filters_by_attribute("quick_filters")
 
+    @property
+    def tabs_filter(self) -> BoundField | None:
+        """
+        A method that returns the tab filter to be displayed as navigation tabs.
+
+        1. Define a filter named "tabs_filter": `tabs_filter = TabFilter(...)` in your filterset.
+        """
+        if "tabs_filter" in self.filterset.form.fields:
+            return self.filterset.form["tabs_filter"]
+
+        return None
+
     def setup(self, request, *args, **kwargs):
         paginate_by = request.GET.get("paginate_by", None)
         self.filters_collapsed = request.GET.get("filters_collapsed", False)
@@ -271,11 +283,6 @@ class GenericFilterListViewHX(HtmxViewMixin, GenericFilterListView):
     show_dropdown_sort = False
     totals_align_right = True
 
-    # Tabs
-    has_tabs = False  # If enabled, define filter_qs_by_tab
-    tab_hx_name = "gfl_tab"
-    tab_counts_hx_name = "gfl_tab_counts"
-
     @property
     def using_combo_pagination(self):
         return self.paginator_class == ComboPaginator
@@ -314,22 +321,6 @@ class GenericFilterListViewHX(HtmxViewMixin, GenericFilterListView):
             page_size,
         )
         return (paginator, paginator.page, paginator.paginated_object_list, paginator.is_paginated)
-
-    def get_queryset(self):
-        # The model is needed for get_queryset and is not set by the FilterView
-        self.model = self.get_filterset_class()._meta.model
-        qs = super().get_queryset()
-        if self.has_tabs:
-            tab = self.request.GET.get("active_tab")
-            return self.filter_qs_by_tab(qs, tab)
-        return qs
-
-    def filter_qs_by_tab(self, qs, tab):
-        """
-        To be used when tabs are enabled. Override to filter the queryset by the tab.
-        Used by default in the GflTabCounts hx-request.
-        """
-        raise NotImplementedError("filter_qs_by_tab must be implemented when has_tabs is True")
 
 
 class GFLSplitViewHX(GenericFilterListViewHX):

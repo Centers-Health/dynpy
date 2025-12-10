@@ -24,20 +24,15 @@
 
                 {% block top_content %}
                     {% block tabs_container %}
-                        <div id="gfl-tabs"
-                             hx-swap-oob='true'
-                             class='gfl-tabs'
-                             x-data="{activeTab: '{{ request.GET.active_tab|default:"all" }}'}">
-                            {% comment %} The form attribute adds this input to the filter form {% endcomment %}
-                            <input name='active_tab'
-                                   type="hidden"
-                                   x-model='activeTab'
-                                   form="basicFilters" />
+                        {% if view.tabs_filter %}
+                            <div id="gfl-tabs" hx-swap-oob='true' class='gfl-tabs'>
 
-                            {% block tabs %}
-                            {% endblock tabs %}
+                                {% block tabs %}
+                                    {% render_with_context view.tabs_filter request=request %}
+                                {% endblock tabs %}
 
-                        </div>
+                            </div>
+                        {% endif %}
                     {% endblock tabs_container %}
                 {% endblock top_content %}
 
@@ -105,7 +100,7 @@
                               hx-indicator='#table-loader'>
                             <div class="form-row">
                                 {% for field in filter.form %}
-                                    {% if field not in view.get_extra_filters and field not in view.get_quick_filters %}
+                                    {% if field not in view.get_extra_filters and field not in view.get_quick_filters and field != view.tabs_filter %}
                                         {% include "dynpy_gfl/includes/htmx_gfl_filter_field.html" %}
                                     {% endif %}
                                 {% endfor %}

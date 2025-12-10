@@ -171,25 +171,6 @@ class GflTab(BaseHxRequest):
     GET_block = ["table", "filters", "filter_message", "no_objects", "total_and_pagination"]
 
 
-class GflTabCounts(BaseHxRequest):
-    name = "gfl_tab_counts"
-
-    def _setup_hx_request(self, request, *args, **kwargs):
-        # Remove active_tab from the GET params so that it
-        # doesn't get passed to the view which would filter down the queryset
-        # causing the count to be 0 because it would be filtering by both the tab
-        # its doing the count on and the active tab.
-        request.GET = request.GET.copy()
-        request.GET.pop("active_tab", None)
-        super()._setup_hx_request(request, *args, **kwargs)
-
-    def get_response_html(self, **kwargs) -> str:
-        tab = self.request.GET.get("gfl_tab")
-        qs = self.view.filterset.qs
-        count = self.view.filter_qs_by_tab(qs, tab).count()
-        return str(count)
-
-
 class GflTotal(BaseHxRequest):
     name = "gfl_total"
     GET_template = "dynpy_gfl/includes/total_and_pagination.html"
