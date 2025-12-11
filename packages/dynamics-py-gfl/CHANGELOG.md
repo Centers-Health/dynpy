@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v20.0.0 (2025-12-11)
+### Breaking
+- Remove quick filter form and include them in basic filters ([`1088717`](https://github.com/Centers-health/dynpy/commit/1088717c06a022ba47368ff6a08a21790edb27b2))
+- Refactor tab filter implementation to use django filters ([`0285e7f`](https://github.com/Centers-health/dynpy/commit/0285e7f4cebe818f4626e2cb66bc72b58500d65e))
+### Feature
+- Add default empty label to tabfilter ([`4602a59`](https://github.com/Centers-health/dynpy/commit/4602a5915d5adf7665d2d6ccdf979d201c7976de))
+
+
 ## v19.0.0 (2025-12-03)
 ### Breaking
 - Rename "tab" parameter to "gfl_tab" in hx-vals to avoid conflicts ([`8998b50`](https://github.com/Centers-health/dynpy/commit/8998b50c16c91fa8508fd87b448b05ff45820ec7))
