@@ -175,3 +175,11 @@ pyrightconfig.json
 # NOTE: this is ignored becuase it is dynamically changed based on the closest
 # project file you have open.
 .vscode
+
+# AI stuff
+.claude
+CLAUDE.md
+AGENTS.md
+.opencode/
+opencode.json
+opencode.jsonc
