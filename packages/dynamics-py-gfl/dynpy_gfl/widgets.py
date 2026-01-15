@@ -1,7 +1,5 @@
 from django.forms import RadioSelect
 
-from dynpy_gfl.hx_requests import QuerySetCountHx
-
 
 class InlineButtonRadioSelect(RadioSelect):
     """A radio select that looks like bootstrap buttons"""
@@ -21,21 +19,12 @@ class InlineButtonRadioSelect(RadioSelect):
 
 class InlineButtonRadioSelectWithCounts(InlineButtonRadioSelect):
     """
-    An button radio select that includes counts for each option.
-    This intended to be used in a generic filter list view.
-
-    NOTE: This widget expects `request` to be passed in the context when rendering.
-    The `render_with_context` template tag from dynpy_forms can be used to do this.
+    A button radio select that includes counts for each option.
+    Counts are loaded via a batched FilterCountsHx request.
     """
 
     template_name = "dynpy_gfl/widgets/button_radio_select_with_counts.html"
     option_template_name = "dynpy_gfl/widgets/button_radio_option_with_count.html"
-
-    def get_context(self, name, value, attrs):
-        context = super().get_context(name, value, attrs)
-        context["count_hx_name"] = QuerySetCountHx.name
-        context["hx_include"] = "#basicFilters"
-        return context
 
 
 class TabRadioSelect(RadioSelect):
@@ -64,17 +53,8 @@ class TabRadioSelect(RadioSelect):
 class TabRadioSelectWithCounts(TabRadioSelect):
     """
     A tab radio select that includes counts for each option.
-    This is intended to be used in a generic filter list view.
-
-    NOTE: This widget expects `request` to be passed in the context when rendering.
-    The `render_with_context` template tag from dynpy_forms can be used to do this.
+    Counts are loaded via a batched FilterCountsHx request.
     """
 
     template_name = "dynpy_gfl/widgets/tab_radio_select_with_counts.html"
     option_template_name = "dynpy_gfl/widgets/tab_radio_option_with_count.html"
-
-    def get_context(self, name, value, attrs):
-        context = super().get_context(name, value, attrs)
-        context["count_hx_name"] = QuerySetCountHx.name
-        context["hx_include"] = "#basicFilters"
-        return context

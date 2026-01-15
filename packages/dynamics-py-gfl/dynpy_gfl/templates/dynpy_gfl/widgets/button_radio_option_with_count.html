@@ -1,15 +1,7 @@
 {% extends "dynpy_gfl/widgets/button_radio_option.html" %}
 
-{% load hx_tags %}
-
 {% block count %}
-    <span class="badge count-badge"
-          {% hx_get count_hx_name %}
-          hx-include="{{ hx_include }}"
-          hx-trigger="load"
-          hx-vals='{"{{ widget.name }}": "{{ option.value }}"}'
-          hx-target="this"
-          hx-swap="innerHTML"
-          hx-push-url="false"
-          hx-indicator="unset"></span>
+    <span class="badge count-badge">
+        {% include "dynpy_gfl/includes/filter_count.html" with filter_name=widget.name filter_value=option.value count="" %}
+    </span>
 {% endblock count %}
