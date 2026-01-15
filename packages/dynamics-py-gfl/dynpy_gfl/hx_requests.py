@@ -177,38 +177,36 @@ class GflTotal(BaseHxRequest):
     GET_template = "dynpy_gfl/includes/total_and_pagination.html"
 
 
-class QuerySetCountHx(BaseHxRequest):
+class FilterCountsHx(BaseHxRequest):
     """
-    HX Request to return the count of a queryset from a FilterView.
+    HX Request to batch-load counts for filter choices (tabs and quick filters).
     """
 
-    name = "queryset_count"
-    get_views_context = False
+    name = "filter_counts"
+
+    def get_filters_to_count(self) -> list[str]:
+        """Return list of filter names to compute counts for."""
+        filters = []
+        if self.view.tabs_filter:
+            filters.append("tabs_filter")
+        if quick_filters := self.view.get_filterset_class().quick_filters:
+            filters.extend(quick_filters)
+        return filters
 
     def get_response_html(self, **kwargs) -> str:
+        counts = []
         filterset_class = self.view.get_filterset_class()
-        filterset = self.view.get_filterset(filterset_class)
-        # breakpoint()
-        return str(filterset.qs.count())
+        base_data = self.view.filterset.form.cleaned_data.copy()
 
+        for filter_name in self.get_filters_to_count():
+            choices = self.view.filterset.form.fields[filter_name].choices
+            for value, _label in choices:
+                data = {**base_data, filter_name: value}
+                count = filterset_class(data=data, request=self.request).qs.count()
+                counts.append((filter_name, value, count))
 
-class TabCountsHx(BaseHxRequest):
-    name = "tab_counts"
-
-    def get_response_html(self, **kwargs):
-        tab_counts = []
-        if self.view.tabs_filter:
-            choices = self.view.filterset.form.fields["tabs_filter"].choices
-            filterset_class = self.view.get_filterset_class()
-            for choice in choices:
-                tab_count = filterset_class(
-                    data={**self.view.filterset.form.cleaned_data, "tabs_filter": choice[0]},
-                    request=self.request,
-                ).qs.count()
-                _id = f"id_tabs_filter__{choice[0]}__count"
-                tab_counts.append((_id, tab_count))
         response = render_to_string(
-            "dynpy_gfl/counts.html", context={"counts": tab_counts}, request=self.request
+            "dynpy_gfl/filter_counts.html", context={"counts": counts}, request=self.request
         )
         return response
 
