@@ -2,6 +2,7 @@ from typing import Any
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpRequest, HttpResponse
+from django.template.loader import render_to_string
 from hx_requests.hx_requests import BaseHxRequest
 from hx_requests.utils import deserialize
 
@@ -187,7 +188,29 @@ class QuerySetCountHx(BaseHxRequest):
     def get_response_html(self, **kwargs) -> str:
         filterset_class = self.view.get_filterset_class()
         filterset = self.view.get_filterset(filterset_class)
+        # breakpoint()
         return str(filterset.qs.count())
+
+
+class TabCountsHx(BaseHxRequest):
+    name = "tab_counts"
+
+    def get_response_html(self, **kwargs):
+        tab_counts = []
+        if self.view.tabs_filter:
+            choices = self.view.filterset.form.fields["tabs_filter"].choices
+            filterset_class = self.view.get_filterset_class()
+            for choice in choices:
+                tab_count = filterset_class(
+                    data={**self.view.filterset.form.cleaned_data, "tabs_filter": choice[0]},
+                    request=self.request,
+                ).qs.count()
+                _id = f"id_tabs_filter__{choice[0]}__count"
+                tab_counts.append((_id, tab_count))
+        response = render_to_string(
+            "dynpy_gfl/counts.html", context={"counts": tab_counts}, request=self.request
+        )
+        return response
 
 
 class RefreshAllIds(BaseHxRequest):

@@ -25,6 +25,13 @@
                 {% block top_content %}
                     {% block tabs_container %}
                         {% if view.tabs_filter %}
+                            <div class="d-none"
+                                {% hx_get "tab_counts" %}
+                                hx-include="#basicFilters, #quickFilters" {# TODO: Set this to a context variable #}
+                                hx-trigger="load"
+                                {% comment %} hx-swap="none" {% endcomment %}
+                                hx-push-url="false"
+                                hx-indicator="unset"></div>
                             <div id="gfl-tabs" hx-swap-oob='true' class='gfl-tabs'>
 
                                 {% block tabs %}
