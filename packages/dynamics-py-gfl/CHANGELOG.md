@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v20.1.0 (2026-01-19)
+### Feature
+- Batch tab counts into single hx request ([`11b698a`](https://github.com/Centers-health/dynpy/commit/11b698a028cf659d4360dea5897ca0e9425b09d4))
+- Batch tab counts into single hx request ([`59bbb82`](https://github.com/Centers-health/dynpy/commit/59bbb82241274b4509cde4f56d660187e92c570a))
+
+
 ## v20.0.0 (2025-12-11)
 ### Breaking
 - Remove quick filter form and include them in basic filters ([`1088717`](https://github.com/Centers-health/dynpy/commit/1088717c06a022ba47368ff6a08a21790edb27b2))
