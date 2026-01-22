@@ -4,6 +4,7 @@ import pytest
 from bs4 import BeautifulSoup
 from django.contrib.auth import get_user_model
 from django.db.models.query import QuerySet
+from dynpy_gfl.filters import TabFilter
 from dynpy_gfl.filtersets import GenericFilterSet
 from dynpy_gfl.views import GenericFilterListViewHX
 
@@ -85,3 +86,71 @@ def describe_index_column():
         response = view.as_view()(request)
         soup = BeautifulSoup(response.render().content, "html.parser")
         assert bool(soup.findAll("span", {"x-text": "index"})) is expected
+
+
+class FiltersetWithTabs(TestFilterset):
+    tabs_filter = TabFilter(
+        choices=[("active", "Active"), ("inactive", "Inactive")],
+        method="filter_by_status",
+        empty_label=None,
+    )
+
+    def filter_by_status(self, queryset, name, value):
+        if value == "active":
+            return queryset.filter(is_active=True)
+        elif value == "inactive":
+            return queryset.filter(is_active=False)
+        return queryset
+
+
+class TestHxViewWithTabs(TestHxView):
+    filterset_class = FiltersetWithTabs
+
+
+def describe_disable_zero_count_tabs():
+    def it_defaults_to_true():
+        assert GenericFilterListViewHX.disable_zero_count_tabs is True
+
+    def it_renders_disable_zero_count_tabs_script_when_enabled(rf):
+        request = rf.get("/")
+        view = TestHxViewWithTabs
+        view.disable_zero_count_tabs = True
+        response = view.as_view()(request)
+        soup = BeautifulSoup(response.render().content, "html.parser")
+        scripts = soup.find_all("script")
+        script_texts = [s.string for s in scripts if s.string]
+        assert any("disableZeroCountTabs" in text for text in script_texts)
+
+    def it_does_not_render_disable_zero_count_tabs_script_when_disabled(rf):
+        request = rf.get("/")
+        view = TestHxViewWithTabs
+        view.disable_zero_count_tabs = False
+        response = view.as_view()(request)
+        soup = BeautifulSoup(response.render().content, "html.parser")
+        scripts = soup.find_all("script")
+        script_texts = [s.string for s in scripts if s.string]
+        assert not any("disableZeroCountTabs" in text for text in script_texts)
+
+    def it_adds_hx_on_after_settle_to_filter_counts_trigger_when_enabled(rf):
+        request = rf.get("/")
+        view = TestHxViewWithTabs
+        view.disable_zero_count_tabs = True
+        response = view.as_view()(request)
+        soup = BeautifulSoup(response.render().content, "html.parser")
+        filter_counts_trigger = soup.find(attrs={"hx-on::after-settle": True})
+        assert filter_counts_trigger is not None
+        attr_value = filter_counts_trigger.get("hx-on::after-settle", "")
+        assert "disableZeroCountTabs()" in str(attr_value)
+
+    def it_does_not_add_hx_on_after_settle_when_disabled(rf):
+        request = rf.get("/")
+        view = TestHxViewWithTabs
+        view.disable_zero_count_tabs = False
+        response = view.as_view()(request)
+        soup = BeautifulSoup(response.render().content, "html.parser")
+        # Find all elements with hx-on::after-settle attribute
+        elements_with_after_settle = soup.find_all(attrs={"hx-on::after-settle": True})
+        # None should contain disableZeroCountTabs
+        for el in elements_with_after_settle:
+            attr_value = el.get("hx-on::after-settle", "")
+            assert "disableZeroCountTabs" not in str(attr_value)
