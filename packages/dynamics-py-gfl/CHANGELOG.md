@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v20.2.0 (2026-01-22)
+### Feature
+- Add disable_zero_count_tabs to visually disable tabs with zero count ([`c033e14`](https://github.com/Centers-health/dynpy/commit/c033e1494959a32dff4df16f7c73fe05faf4d9f8))
+### Fix
+- Add tests for disable_zero_count_tabs feature ([`18fcf97`](https://github.com/Centers-health/dynpy/commit/18fcf97fe29c8b6135d8e50601300c1d701b5715))
+
+
 ## v20.1.0 (2026-01-19)
 ### Feature
 - Batch tab counts into single hx request ([`11b698a`](https://github.com/Centers-health/dynpy/commit/11b698a028cf659d4360dea5897ca0e9425b09d4))
