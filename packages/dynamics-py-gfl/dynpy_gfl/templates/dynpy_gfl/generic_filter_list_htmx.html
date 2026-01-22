@@ -29,7 +29,10 @@
                              hx-include="#basicFilters"
                              hx-trigger="load, filtered from:body"
                              hx-push-url="false"
-                             hx-indicator="unset"></div>
+                             hx-indicator="unset"
+                             {% if view.disable_zero_count_tabs %}
+                                 hx-on::after-settle="disableZeroCountTabs()"
+                             {% endif %}></div>
                     {% endif %}
 
                     {% block tabs_container %}
@@ -376,6 +379,23 @@
             <script>new Virtualizer();</script>
         {% endif %}
     {% endblock virtualize_config %}
+
+    {% if view.disable_zero_count_tabs %}
+        <script>
+            function disableZeroCountTabs() {
+                document.querySelectorAll('[id^="tabs_filter__"][id$="__count"]').forEach(span => {
+                    const navItem = span.closest('.nav-item');
+                    if (!navItem) return;
+                    const navLink = navItem.querySelector('label.nav-link');
+                    if (!navLink) return;
+                    const isZero = span.textContent.trim() === '0';
+                    navItem.style.cursor = isZero ? 'not-allowed' : '';
+                    navLink.style.pointerEvents = isZero ? 'none' : '';
+                    navLink.style.opacity = isZero ? '0.5' : '';
+                });
+            }
+        </script>
+    {% endif %}
 {% endblock gfl_scripts %}
 
 {% block gfl_styles %}

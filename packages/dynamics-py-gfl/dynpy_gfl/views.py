@@ -282,6 +282,7 @@ class GenericFilterListViewHX(HtmxViewMixin, GenericFilterListView):
     per_combo_page = 100  # The number of items to load per combo page
     show_dropdown_sort = False
     totals_align_right = True
+    disable_zero_count_tabs = True  # If True, tabs with count=0 will be visually disabled
 
     @property
     def using_combo_pagination(self):
