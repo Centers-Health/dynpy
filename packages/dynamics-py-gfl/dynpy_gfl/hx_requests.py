@@ -196,13 +196,18 @@ class FilterCountsHx(BaseHxRequest):
     def get_response_html(self, **kwargs) -> str:
         counts = []
         filterset_class = self.view.get_filterset_class()
-        base_data = self.view.filterset.form.cleaned_data.copy()
+        # Use request.GET (raw QueryDict) instead of cleaned_data to avoid passing
+        # Python objects (like QuerySets) to widget.value_from_datadict which expects strings
+        base_data = self.request.GET.copy()
+        # Use the filterset's queryset to ensure custom queryset methods are available
+        queryset = self.view.filterset.queryset
 
         for filter_name in self.get_filters_to_count():
             choices = self.view.filterset.form.fields[filter_name].choices
             for value, _label in choices:
-                data = {**base_data, filter_name: value}
-                count = filterset_class(data=data, request=self.request).qs.count()
+                data = base_data.copy()
+                data[filter_name] = value
+                count = filterset_class(data=data, queryset=queryset, request=self.request).qs.count()
                 counts.append((filter_name, value, count))
 
         response = render_to_string(
