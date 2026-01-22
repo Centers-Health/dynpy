@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v20.2.1 (2026-01-22)
+### Fix
+- Use view's queryset and raw request data in filtercountshx ([`68ffc8b`](https://github.com/Centers-health/dynpy/commit/68ffc8b3996557aa7993f534fe82a09637c7320a))
+
+
 ## v20.2.0 (2026-01-22)
 ### Feature
 - Add disable_zero_count_tabs to visually disable tabs with zero count ([`c033e14`](https://github.com/Centers-health/dynpy/commit/c033e1494959a32dff4df16f7c73fe05faf4d9f8))
