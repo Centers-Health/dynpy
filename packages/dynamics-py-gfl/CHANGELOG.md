@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v20.2.2 (2026-01-27)
+### Fix
+- Make refresh_row_indicator a template variable ([`4a74723`](https://github.com/Centers-health/dynpy/commit/4a7472330285c9f9c5427d3d3aa9be9aacb1c97b))
+
+
 ## v20.2.1 (2026-01-22)
 ### Fix
 - Use view's queryset and raw request data in filtercountshx ([`68ffc8b`](https://github.com/Centers-health/dynpy/commit/68ffc8b3996557aa7993f534fe82a09637c7320a))
