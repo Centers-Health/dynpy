@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v20.3.0 (2026-02-18)
+### Feature
+- Add basebulkhxrequest mixin and table_row block structure ([`b99c79e`](https://github.com/Centers-health/dynpy/commit/b99c79e2e14a84ec205478186b0dd4922bc5b1d6))
+### Fix
+- Address pr review feedback for bulk checkbox feature ([`b56565e`](https://github.com/Centers-health/dynpy/commit/b56565ef17159b2e1c8ba54e9d994af1a743bc6f))
+
+
 ## v20.2.2 (2026-01-27)
 ### Fix
 - Make refresh_row_indicator a template variable ([`4a74723`](https://github.com/Centers-health/dynpy/commit/4a7472330285c9f9c5427d3d3aa9be9aacb1c97b))
