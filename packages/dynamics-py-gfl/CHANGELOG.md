@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v20.3.1 (2026-02-18)
+### Fix
+- Apply table row block structure to generic gfl_table tempalte ([`af6635f`](https://github.com/Centers-health/dynpy/commit/af6635fde7e525886ca7af520f1ec7138badf251))
+
+
 ## v20.3.0 (2026-02-18)
 ### Feature
 - Add basebulkhxrequest mixin and table_row block structure ([`b99c79e`](https://github.com/Centers-health/dynpy/commit/b99c79e2e14a84ec205478186b0dd4922bc5b1d6))
