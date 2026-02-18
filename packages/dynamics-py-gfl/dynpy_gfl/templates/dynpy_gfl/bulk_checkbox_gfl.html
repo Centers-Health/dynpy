@@ -121,6 +121,17 @@
             'CHECKED':2
         }
         document.addEventListener('alpine:init', () => {
+            /*
+                Alpine.js store for managing bulk checkbox selection.
+
+                Available properties and methods:
+                - selectedValues: Array of selected row IDs (integers)
+                - allQsValues: Array of all IDs in the current filtered queryset
+                - isLoading: Boolean indicating if IDs are being refreshed
+                - isDisabled: Computed property, true when loading or no selection
+                - addAll(): Select all items in current queryset
+                - removeAll(): Deselect all items in current queryset
+            */
             Alpine.store('checkboxHandler', {
                 /*
                     Checkboxes can have confusing behavior due to their state change handling.

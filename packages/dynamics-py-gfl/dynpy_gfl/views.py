@@ -362,28 +362,18 @@ class BulkCheckboxGFLMixin:
 
     Setup Requirements:
         1. Set `bulk_action_hx_name` to the name of the HxRequest that handles the bulk action
-        2. (Optional) Override `refresh_all_ids_hx_name` if using a custom ID refresh endpoint
-        3. (Optional) Adjust `max_bulk_amount` to change the selection limit (default: 10,000)
+        2. Use `BaseBulkHxRequestMixin` in your bulk action HxRequest for convenient ID parsing
+        3. (Optional) Override `refresh_all_ids_hx_name` if excluding items from selection
+           (e.g., when conditionally hiding checkboxes via `row_checkbox_td` template block)
+        4. (Optional) Adjust `max_bulk_amount` to change the selection limit (default: 10,000)
 
     Template Usage:
-        Templates extending `bulk_checkbox_gfl.html` should override `table_row_content`
-        to define the row cells (the checkbox column is automatically included):
+        Override `table_row_content` to define row cells (checkbox column is automatic):
 
             {% block table_row_content %}
                 <td>{{ item.name }}</td>
                 <td>{{ item.status }}</td>
             {% endblock table_row_content %}
-
-        For conditional checkbox rendering (e.g., some rows shouldn't be selectable),
-        override `row_checkbox_td` instead:
-
-            {% block row_checkbox_td %}
-                <td>
-                    {% if item.is_selectable %}
-                        {% block row_checkbox %}{{ block.super }}{% endblock %}
-                    {% endif %}
-                </td>
-            {% endblock row_checkbox_td %}
 
     Available Template Blocks:
         - `bulk_action_btn_text`: Customize the submit button text (default: "Submit")
@@ -392,30 +382,14 @@ class BulkCheckboxGFLMixin:
         - `row_checkbox`: The checkbox input itself
         - `table_row_content`: The row cells after the checkbox column
         - `table_row_suffix`: Hidden HTMX elements (rarely needs override)
-        - `all_ids`: The hidden element that triggers ID refresh on filter changes
-
-    JavaScript Integration:
-        The Alpine.js store `checkboxHandler` exposes:
-        - `selectedValues`: Array of selected row IDs (integers)
-        - `allQsValues`: Array of all IDs in the current filtered queryset
-        - `isLoading`: Boolean indicating if IDs are being refreshed
-        - `isDisabled`: Computed property, true when loading or no selection
-        - `addAll()`: Select all items in current queryset
-        - `removeAll()`: Deselect all items in current queryset
-
-    Bulk HxRequest Pattern:
-        The bulk action HxRequest receives selected IDs via the `selected_ids` GET/POST
-        parameter as a comma-separated string. Use `BaseBulkHxRequest` (from
-        `dynpy_gfl.hx_requests`) for convenient ID parsing helpers.
 
     Example:
         # views.py
         class MyBulkView(BulkCheckboxGFLMixin, GenericFilterListViewHX):
             bulk_action_hx_name = "my_bulk_action"
-            refresh_all_ids_hx_name = "refresh_all_ids"  # default
 
         # hx_requests.py
-        class MyBulkActionHx(BaseBulkHxRequest, FormModalHxRequest):
+        class MyBulkActionHx(BaseBulkHxRequestMixin, FormModalHxRequest):
             name = "my_bulk_action"
             model = MyModel
 
@@ -432,7 +406,7 @@ class BulkCheckboxGFLMixin:
         bulk_updated_hx_trigger: Event name to trigger table refresh after bulk action
 
     See Also:
-        - `dynpy_gfl.hx_requests.BaseBulkHxRequest`: Base class for bulk HxRequests
+        - `dynpy_gfl.hx_requests.BaseBulkHxRequestMixin`: Mixin for bulk HxRequests
         - `dynpy_gfl.hx_requests.RefreshAllIds`: Default ID refresh implementation
     """
 
