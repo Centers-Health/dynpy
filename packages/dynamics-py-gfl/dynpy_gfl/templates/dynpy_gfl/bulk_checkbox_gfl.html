@@ -68,18 +68,28 @@
     {{ block.super }}
 {% endblock table_head_row %}
 
-{% block row_checkbox %}
-    <div class="form-group mb-0" @click.stop>
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox"
-                   id="row_checkbox_{{ item.pk }}"
-                   class="checkboxinput custom-control-input"
-                   value="{{ item.pk }}"
-                   x-model.number="$store.checkboxHandler.selectedValues">
-            <label for="row_checkbox_{{ item.pk }}" class="custom-control-label"></label>
-        </div>
-    </div>
-{% endblock row_checkbox %}
+{% block table_row_prefix %}
+    {# Checkbox column - override row_checkbox_td for conditional rendering #}
+
+    {% block row_checkbox_td %}
+        <td>
+
+            {% block row_checkbox %}
+                <div class="form-group mb-0" @click.stop>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox"
+                               id="row_checkbox_{{ item.pk }}"
+                               class="checkboxinput custom-control-input"
+                               value="{{ item.pk }}"
+                               x-model.number="$store.checkboxHandler.selectedValues">
+                        <label for="row_checkbox_{{ item.pk }}" class="custom-control-label"></label>
+                    </div>
+                </div>
+            {% endblock row_checkbox %}
+
+        </td>
+    {% endblock row_checkbox_td %}
+{% endblock table_row_prefix %}
 
 {% block scripts %}
     {{ block.super }}

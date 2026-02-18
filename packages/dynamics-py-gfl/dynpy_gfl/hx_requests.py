@@ -237,6 +237,107 @@ class RefreshAllIds(BaseHxRequest):
 
     def get_all_ids(self, **kwargs):
         """
-        Hook to get the full queryset of ids.
+        Hook to get the full queryset of IDs for the "select all" checkbox.
+
+        This method provides the IDs used by the header checkbox to select all filtered
+        items at once, even when pagination means not all rows are currently rendered.
+
+        Override this method to exclude items that shouldn't be bulk-selectable. This is
+        useful when you're conditionally hiding checkboxes for certain rows via the
+        `row_checkbox_td` template block - ensure the exclusion logic here matches your
+        template logic to keep them in sync.
+
+        Note:
+            If the returned queryset exceeds `max_bulk_amount`, the "select all" checkbox
+            will be disabled and show a "too many items" tooltip.
+
+        Returns:
+            QuerySet: The filtered queryset whose PKs will populate the "select all" list.
         """
         return self.view.filterset.qs
+
+
+class BaseBulkHxRequest:
+    """
+    Base mixin for HxRequests that handle bulk operations on selected items.
+
+    Provides standardized methods for parsing the `selected_ids` parameter that is
+    sent by BulkCheckboxGFLMixin views. Selected IDs are passed as a comma-separated
+    string in either GET or POST parameters.
+
+    Usage:
+        Inherit from this mixin along with your desired HxRequest base class.
+        Place BaseBulkHxRequest FIRST in the inheritance chain:
+
+            from dynpy_gfl.hx_requests import BaseBulkHxRequest
+
+            class MyBulkActionHx(BaseBulkHxRequest, FormModalHxRequest):
+                name = "my_bulk_action"
+                model = MyModel  # Optional: enables get_selected_queryset()
+
+                def get_context_data(self, **kwargs):
+                    context = super().get_context_data(**kwargs)
+                    context["selected_count"] = len(self.selected_ids_list)
+                    context["items"] = self.get_selected_queryset()
+                    return context
+
+    Properties:
+        selected_ids (str): Raw comma-separated string of selected IDs
+        selected_ids_list (list[int]): Parsed list of integer IDs
+
+    Methods:
+        get_selected_queryset(): Returns queryset filtered to selected IDs.
+            Requires `model` attribute to be set on the class.
+
+    Note:
+        This is a mixin class - always inherit from it FIRST (leftmost) in MRO
+        so its methods are available to other base classes.
+
+    See Also:
+        - `dynpy_gfl.views.BulkCheckboxGFLMixin`: View mixin that sends selected_ids
+        - `dynpy_gfl.hx_requests.RefreshAllIds`: Fetches all IDs for "select all" feature
+    """
+
+    model = None  # Override in subclass for get_selected_queryset()
+
+    @property
+    def selected_ids(self) -> str:
+        """
+        Return selected IDs as a comma-separated string.
+
+        Reads from POST if this is a POST request, otherwise from GET.
+        Returns empty string if parameter is not present.
+        """
+        request_data = self.request.POST if self.is_post_request else self.request.GET
+        return request_data.get("selected_ids", "")
+
+    @property
+    def selected_ids_list(self) -> list[int]:
+        """
+        Return selected IDs as a list of integers.
+
+        Filters out empty strings and non-numeric values.
+        Returns empty list if no valid IDs.
+        """
+        if not self.selected_ids:
+            return []
+        return [int(id_) for id_ in self.selected_ids.split(",") if id_]
+
+    def get_selected_queryset(self):
+        """
+        Return a queryset of model instances for the selected IDs.
+
+        Requires the `model` class attribute to be set. Override this method
+        for custom queryset logic (e.g., adding select_related, prefetch_related).
+
+        Returns:
+            QuerySet filtered to selected IDs
+
+        Raises:
+            NotImplementedError: If `model` is not set and method is not overridden
+        """
+        if self.model is None:
+            raise NotImplementedError(
+                f"{self.__class__.__name__} must set `model` attribute or override get_selected_queryset()"
+            )
+        return self.model.objects.filter(pk__in=self.selected_ids_list)

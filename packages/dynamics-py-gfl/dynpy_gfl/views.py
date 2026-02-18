@@ -353,13 +353,94 @@ class GFLCardSplitViewHX(GFLSplitViewHX):
 
 
 class BulkCheckboxGFLMixin:
-    template_name = "dynpy_gfl/bulk_checkbox_gfl.html"
-    bulk_action_hx_name = None  # To be set in subclass
-    refresh_all_ids_hx_name = "refresh_all_ids"  # HxRequest Must put `all_row_ids` into context
-    max_bulk_amount = 10_000  # Max number of items that can be selected for bulk actions
+    """
+    Mixin that adds bulk selection checkbox functionality to a GFL (Generic Filter List) view.
 
-    # Refreshes the table when a bulk action is completed, set on the bulk action HxRequest
-    bulk_updated_hx_trigger = "bulk_updated"
+    This mixin enables selecting multiple rows via checkboxes and performing bulk actions
+    on the selected items. Selection state is managed client-side via an Alpine.js store
+    (`checkboxHandler`) that persists across filter changes.
+
+    Setup Requirements:
+        1. Set `bulk_action_hx_name` to the name of the HxRequest that handles the bulk action
+        2. (Optional) Override `refresh_all_ids_hx_name` if using a custom ID refresh endpoint
+        3. (Optional) Adjust `max_bulk_amount` to change the selection limit (default: 10,000)
+
+    Template Usage:
+        Templates extending `bulk_checkbox_gfl.html` should override `table_row_content`
+        to define the row cells (the checkbox column is automatically included):
+
+            {% block table_row_content %}
+                <td>{{ item.name }}</td>
+                <td>{{ item.status }}</td>
+            {% endblock table_row_content %}
+
+        For conditional checkbox rendering (e.g., some rows shouldn't be selectable),
+        override `row_checkbox_td` instead:
+
+            {% block row_checkbox_td %}
+                <td>
+                    {% if item.is_selectable %}
+                        {% block row_checkbox %}{{ block.super }}{% endblock %}
+                    {% endif %}
+                </td>
+            {% endblock row_checkbox_td %}
+
+    Available Template Blocks:
+        - `bulk_action_btn_text`: Customize the submit button text (default: "Submit")
+        - `table_row_prefix`: Contains the checkbox (override `row_checkbox_td` for conditional logic)
+        - `row_checkbox_td`: The <td> containing the checkbox (override for conditional rendering)
+        - `row_checkbox`: The checkbox input itself
+        - `table_row_content`: The row cells after the checkbox column
+        - `table_row_suffix`: Hidden HTMX elements (rarely needs override)
+        - `all_ids`: The hidden element that triggers ID refresh on filter changes
+
+    JavaScript Integration:
+        The Alpine.js store `checkboxHandler` exposes:
+        - `selectedValues`: Array of selected row IDs (integers)
+        - `allQsValues`: Array of all IDs in the current filtered queryset
+        - `isLoading`: Boolean indicating if IDs are being refreshed
+        - `isDisabled`: Computed property, true when loading or no selection
+        - `addAll()`: Select all items in current queryset
+        - `removeAll()`: Deselect all items in current queryset
+
+    Bulk HxRequest Pattern:
+        The bulk action HxRequest receives selected IDs via the `selected_ids` GET/POST
+        parameter as a comma-separated string. Use `BaseBulkHxRequest` (from
+        `dynpy_gfl.hx_requests`) for convenient ID parsing helpers.
+
+    Example:
+        # views.py
+        class MyBulkView(BulkCheckboxGFLMixin, GenericFilterListViewHX):
+            bulk_action_hx_name = "my_bulk_action"
+            refresh_all_ids_hx_name = "refresh_all_ids"  # default
+
+        # hx_requests.py
+        class MyBulkActionHx(BaseBulkHxRequest, FormModalHxRequest):
+            name = "my_bulk_action"
+            model = MyModel
+
+            def get_context_data(self, **kwargs):
+                context = super().get_context_data(**kwargs)
+                context["items"] = self.get_selected_queryset()
+                return context
+
+    Attributes:
+        template_name: Template extending bulk_checkbox_gfl.html
+        bulk_action_hx_name: Required. Name of bulk action HxRequest
+        refresh_all_ids_hx_name: HxRequest that returns all IDs for current filter
+        max_bulk_amount: Maximum selectable items (default: 10,000)
+        bulk_updated_hx_trigger: Event name to trigger table refresh after bulk action
+
+    See Also:
+        - `dynpy_gfl.hx_requests.BaseBulkHxRequest`: Base class for bulk HxRequests
+        - `dynpy_gfl.hx_requests.RefreshAllIds`: Default ID refresh implementation
+    """
+
+    template_name = "dynpy_gfl/bulk_checkbox_gfl.html"
+    bulk_action_hx_name: str | None = None
+    refresh_all_ids_hx_name: str = "refresh_all_ids"
+    max_bulk_amount: int = 10_000
+    bulk_updated_hx_trigger: str = "bulk_updated"
 
     def get(self, request, *args, **kwargs):
         if not self.bulk_action_hx_name:

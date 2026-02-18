@@ -200,11 +200,19 @@
                                     >
 
                                     {% block table_row %}
-                                        {% for column in view.get_columns %}
-                                            {% with column|get_dict_value:"field_name" as field_name %}
-                                                <td>{{ item|get_obj_attr:field_name }}</td>
-                                            {% endwith %}
-                                        {% endfor %}
+                                        {% block table_row_prefix %}
+                                        {% endblock table_row_prefix %}
+
+                                        {% block table_row_content %}
+                                            {% for column in view.get_columns %}
+                                                {% with column|get_dict_value:"field_name" as field_name %}
+                                                    <td>{{ item|get_obj_attr:field_name }}</td>
+                                                {% endwith %}
+                                            {% endfor %}
+                                        {% endblock table_row_content %}
+
+                                        {% block table_row_suffix %}
+                                        {% endblock table_row_suffix %}
                                     {% endblock table_row %}
 
                                 </tr>
