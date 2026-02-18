@@ -203,6 +203,8 @@
                                         {% block table_row_prefix %}
                                         {% endblock table_row_prefix %}
 
+                                        {# Override this block to render table cells for each row. #}
+
                                         {% block table_row_content %}
                                             {% for column in view.get_columns %}
                                                 {% with column|get_dict_value:"field_name" as field_name %}
