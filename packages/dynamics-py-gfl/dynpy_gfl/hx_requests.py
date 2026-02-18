@@ -257,21 +257,20 @@ class RefreshAllIds(BaseHxRequest):
         return self.view.filterset.qs
 
 
-class BaseBulkHxRequest:
+class BaseBulkHxRequestMixin:
     """
-    Base mixin for HxRequests that handle bulk operations on selected items.
+    Mixin for HxRequests that handle bulk operations on selected items.
 
     Provides standardized methods for parsing the `selected_ids` parameter that is
     sent by BulkCheckboxGFLMixin views. Selected IDs are passed as a comma-separated
     string in either GET or POST parameters.
 
     Usage:
-        Inherit from this mixin along with your desired HxRequest base class.
-        Place BaseBulkHxRequest FIRST in the inheritance chain:
+        Inherit from this mixin along with your desired HxRequest base class:
 
-            from dynpy_gfl.hx_requests import BaseBulkHxRequest
+            from dynpy_gfl.hx_requests import BaseBulkHxRequestMixin
 
-            class MyBulkActionHx(BaseBulkHxRequest, FormModalHxRequest):
+            class MyBulkActionHx(BaseBulkHxRequestMixin, FormModalHxRequest):
                 name = "my_bulk_action"
                 model = MyModel  # Optional: enables get_selected_queryset()
 
@@ -288,10 +287,6 @@ class BaseBulkHxRequest:
     Methods:
         get_selected_queryset(): Returns queryset filtered to selected IDs.
             Requires `model` attribute to be set on the class.
-
-    Note:
-        This is a mixin class - always inherit from it FIRST (leftmost) in MRO
-        so its methods are available to other base classes.
 
     See Also:
         - `dynpy_gfl.views.BulkCheckboxGFLMixin`: View mixin that sends selected_ids
@@ -321,7 +316,7 @@ class BaseBulkHxRequest:
         """
         if not self.selected_ids:
             return []
-        return [int(id_) for id_ in self.selected_ids.split(",") if id_]
+        return [int(id_) for id_ in self.selected_ids.split(",") if id_ and id_.isdigit()]
 
     def get_selected_queryset(self):
         """
