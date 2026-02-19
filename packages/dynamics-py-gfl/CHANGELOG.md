@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v20.3.2 (2026-02-19)
+### Fix
+- Allow hx_name override without requiring filter_hx_name ([`eb7c8cc`](https://github.com/Centers-health/dynpy/commit/eb7c8cc749cb348f772da64f87765bbb1c9d5a0c))
+
+
 ## v20.3.1 (2026-02-18)
 ### Fix
 - Apply table row block structure to generic gfl_table tempalte ([`af6635f`](https://github.com/Centers-health/dynpy/commit/af6635fde7e525886ca7af520f1ec7138badf251))
