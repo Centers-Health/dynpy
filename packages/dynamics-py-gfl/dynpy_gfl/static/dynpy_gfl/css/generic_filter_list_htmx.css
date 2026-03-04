@@ -10,6 +10,10 @@
 	display: inline;
 }
 
+.gfl-tabs .nav-link {
+	white-space: nowrap;
+}
+
 #filtersToggle {
 	width: 5.65rem;
 }
