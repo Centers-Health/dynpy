@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v20.4.0 (2026-03-04)
+### Feature
+- Add white space no wrap to tabs ([`06e90cb`](https://github.com/Centers-health/dynpy/commit/06e90cb56458b3768c13c8398f9ea49a901909a6))
+
+
 ## v20.3.2 (2026-02-19)
 ### Fix
 - Allow hx_name override without requiring filter_hx_name ([`eb7c8cc`](https://github.com/Centers-health/dynpy/commit/eb7c8cc749cb348f772da64f87765bbb1c9d5a0c))
