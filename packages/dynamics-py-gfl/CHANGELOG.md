@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v21.0.0 (2026-03-13)
+### Breaking
+- Update dynpy_gfl to use hx-requests 0.41.0 ([`2022ce8`](https://github.com/Centers-health/dynpy/commit/2022ce8c9dffa0983928dd23c3857234af1bc318))
+### Fix
+- Update tests to work with hx version that requires authentication ([`2697ef6`](https://github.com/Centers-health/dynpy/commit/2697ef61624acf86ad9efb3482c8cd97a8a286e9))
+
+
 ## v20.4.0 (2026-03-04)
 ### Feature
 - Add white space no wrap to tabs ([`06e90cb`](https://github.com/Centers-health/dynpy/commit/06e90cb56458b3768c13c8398f9ea49a901909a6))
