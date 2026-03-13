@@ -79,7 +79,7 @@ class Pagination(BaseHxRequest):
 
 
 class BaseSidePanel(BaseHxRequest):
-    def get_hx_object(self, request):
+    def get_hx_object(self, request, **kwargs):
         object_id = request.GET.get("object_id")
         if object_id:
             model = self.view.filterset._meta.model
@@ -109,7 +109,7 @@ class RefreshRow(BaseHxRequest):
     name = "refresh_row"
     GET_block = "table_row_outer"
 
-    def get_hx_object(self, request):
+    def get_hx_object(self, request, **kwargs):
         """
         If an 'object' was passed in, deserialize it.
         If the object does not exist, return None (this happens when

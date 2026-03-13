@@ -678,13 +678,13 @@ files = [
 
 [[package]]
 name = "hx-requests"
-version = "0.36.1"
+version = "0.41.0"
 description = "Facilitates the usage of HTMX with Django"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "hx_requests-0.36.1-py3-none-any.whl", hash = "sha256:c285d08dcc4f035b056d5414553cafb009d97e5a55e8f5e4f57bc90940219d4f"},
-    {file = "hx_requests-0.36.1.tar.gz", hash = "sha256:1234b936d870a34d1b70c8d1dcc81738955a8e031773dc4bc4eea035b6c8bdd3"},
+    {file = "hx_requests-0.41.0-py3-none-any.whl", hash = "sha256:ca95ea56d5fe7c669282bf31306b27c114a7d41fa10a36dc55088617e4306f89"},
+    {file = "hx_requests-0.41.0.tar.gz", hash = "sha256:b0e2d6c90d1b68c093bb48e4c758c284013640e20b542514aae3ab237a8b7d3c"},
 ]
 
 [package.dependencies]
