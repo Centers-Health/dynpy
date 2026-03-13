@@ -61,3 +61,8 @@ STATICFILES_DIRS = [
 ]  # Where our static files live in the codebase
 
 SECRET_KEY = "django-insecure-)9hmvjz_nxa=r2a3dv@upzlvbcm6fu1yej28sn6%3"
+
+# Disable same-app enforcement for tests because test view classes defined
+# inline in test files don't have a Django app label, which would cause
+# is_hx_allowed() to fail even for legitimate hx_requests from dynpy_gfl.
+HX_REQUESTS_ENFORCE_SAME_APP = False
