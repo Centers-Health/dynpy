@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v21.0.1 (2026-04-21)
+### Fix
+- Clear selected values after bulk update settles ([`81b4faa`](https://github.com/Centers-health/dynpy/commit/81b4faa48b5d1b9f9a8197b507c51c0c663dc00e))
+
+
 ## v21.0.0 (2026-03-13)
 ### Breaking
 - Update dynpy_gfl to use hx-requests 0.41.0 ([`2022ce8`](https://github.com/Centers-health/dynpy/commit/2022ce8c9dffa0983928dd23c3857234af1bc318))
