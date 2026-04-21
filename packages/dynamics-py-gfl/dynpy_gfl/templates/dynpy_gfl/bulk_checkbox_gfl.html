@@ -109,7 +109,7 @@
               hx-include="#basicFilters"
               hx-indicator='unset'
               hx-on::before-request="Alpine.store('checkboxHandler').isLoading=true;"
-              hx-on::after-settle="Alpine.store('checkboxHandler').allQsValues=JSON.parse(this.textContent); Alpine.store('checkboxHandler').isLoading=false">
+              hx-on::after-settle="Alpine.store('checkboxHandler').allQsValues=JSON.parse(this.textContent); Alpine.store('checkboxHandler').isLoading=false; Alpine.store('checkboxHandler').selectedValues = []">
             {{ all_row_ids|to_list|json_script:"all_row_ids" }}
         </span>
     {% endblock all_ids %}
