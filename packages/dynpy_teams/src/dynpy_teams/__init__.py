@@ -33,21 +33,13 @@ def post_to_teams_channel(
         else:
             body.append(element)
 
-    # Build adaptive card payload
+    # Build adaptive card payload (Workflows webhook format)
     payload = {
-        "type": "message",
-        "attachments": [
-            {
-                "contentType": "application/vnd.microsoft.card.adaptive",
-                "content": {
-                    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-                    "type": "AdaptiveCard",
-                    "version": "1.2",
-                    "body": body,
-                    "actions": actions or [],
-                },
-            }
-        ],
+        "type": "AdaptiveCard",
+        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+        "version": "1.4",
+        "body": body,
+        "actions": actions or [],
     }
 
     # Send request
