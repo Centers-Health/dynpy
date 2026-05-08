@@ -2,7 +2,6 @@ import json
 import os
 
 import requests
-from django.conf import settings
 
 from . import blocks
 
@@ -24,7 +23,11 @@ def post_to_teams_channel(
     :param actions: List of action dictionaries (buttons)
     :param url: The msteams webhook url
     """
-    _url = WEBHOOK_URL or url or settings.DJANGO_ERRONEOUS_TEAMS_CONNECTOR_URL
+    _url = url or WEBHOOK_URL
+    if not _url:
+        raise ValueError(
+            "No webhook URL provided. Pass 'url' parameter or set WEBHOOK_URL environment variable."
+        )
     # Construct body
     body = [blocks.title(title)]
     for element in body_elements:
@@ -33,12 +36,12 @@ def post_to_teams_channel(
         else:
             body.append(element)
 
-    # Build adaptive card payload
     payload = {
         "type": "message",
         "attachments": [
             {
                 "contentType": "application/vnd.microsoft.card.adaptive",
+                "contentUrl": None,
                 "content": {
                     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
                     "type": "AdaptiveCard",
