@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v21.6.0 (2026-05-26)
+### Feature
+- Add htmxloginrequiredmiddleware for htmx session timeout handling ([`ed8f7d8`](https://github.com/Centers-health/dynpy/commit/ed8f7d802701d0d2520c2038980c00fb53c97ae5))
+
+
 ## v21.5.0 (2025-09-12)
 ### Feature
 - Add to_list template tag to dynpy_tags ([`9f81b22`](https://github.com/Centers-health/dynpy/commit/9f81b22ae4de44f8e267cf1dbfadd16423dc2aca))
