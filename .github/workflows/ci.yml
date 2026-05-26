@@ -19,13 +19,13 @@ jobs:
     runs-on: [self-hosted, ciplus]
     steps:
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.DOCKER_PKG_TOKEN }}
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Build image
         run: $DOCKER_CMD build --pull
@@ -34,7 +34,7 @@ jobs:
     runs-on: [self-hosted, ciplus]
     needs: [Build]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Run ci
         run: $DOCKER_CMD run --rm dev make precommit
 
@@ -42,16 +42,16 @@ jobs:
     runs-on: [self-hosted, ciplus]
     needs: [Build]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Run ci
         run: $DOCKER_CMD run --rm dev make test
 
   ConventionalCommit:
     runs-on: [self-hosted, ciplus]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Verify conventional commits
-        uses: taskmedia/action-conventional-commits@v1.1.0
+        uses: taskmedia/action-conventional-commits@v1.1.26
         with:
           types: "feat|fix|ci|docs|perf|refactor|build|test|chore"
 
@@ -60,7 +60,7 @@ jobs:
     needs: [Tests, PreCommit]
     if: always()
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Clean up docker env
         if: always()
         run: $DOCKER_CMD down -v
