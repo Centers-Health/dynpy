@@ -34,6 +34,7 @@ class Codename(models.TextChoices):
     HMO_BILLING_ADMIN = ("ext_hmo_billing_admin", _("HMO Billing Admin"))
     HMO_BILLING_EDITOR = ("ext_hmo_billing_editor", _("HMO Billing Editor"))
     HMO_BILLING_USER = ("ext_hmo_billing_user", _("HMO Billing User"))
+    HMO_BILLING_PHARMACY_USER = ("ext_hmo_billing_pharmacy_user", _("HMO Billing Pharmacy User"))
     MEDICAID_ADMIN = ("ext_medicaid_admin", _("Medicaid Admin"))
     MEDICAID_EDITOR = ("ext_medicaid_editor", _("Medicaid Editor"))
     MEDICAID_USER = ("ext_medicaid_user", _("Medicaid User"))
