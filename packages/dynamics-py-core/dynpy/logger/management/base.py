@@ -4,13 +4,11 @@ import traceback
 from collections import defaultdict
 from typing import Any, Optional
 
-from django.conf import settings
-from django.core.mail import EmailMessage
 from django.core.management.base import BaseCommand, CommandError, CommandParser
 
 from dynpy.logger.base import BaseErrorLogger, BaseLogger
 from dynpy.logger.enums import LogStatus
-from dynpy.logger.models import Log, Watcher
+from dynpy.logger.models import Log
 from dynpy.logger.module import get_app_name_from_module
 from dynpy.logger.signals import logging_command_completed
 from dynpy.logger.stdout import tee_stdout
@@ -43,6 +41,8 @@ class LoggingCommand(BaseCommand):
     service_name: Optional[str] = None
     log_model: Log
     status: str
+    post_status_to_team: bool = True
+    send_status_watcher_emails: bool = True
 
     def __init__(self):
         super().__init__()
@@ -161,15 +161,14 @@ class LoggingCommand(BaseCommand):
         self.print_end_message()
         if self.is_logging:
             self.log()
-        if self.status == LogStatus.WARN:
-            self.send_logger_watchers_email(f"Job Finished with Status of WARN: {self.service_name}")
-
         # Dispatch end of command signal
         logging_command_completed.send(
             sender=self.__class__,
             log_instance=self.log_model,
             service_name=self.service_name,
             status=self.status,
+            post_status_to_team=self.post_status_to_team,
+            send_status_watcher_emails=self.send_status_watcher_emails,
         )
 
     def log(self):
@@ -213,22 +212,6 @@ class LoggingCommand(BaseCommand):
         """
         self.update_status(LogStatus.FAIL)
         print(traceback.format_exc())
-
-        self.send_logger_watchers_email(f"Failed Job: {self.service_name}")
-
-    def send_logger_watchers_email(self, subject: str):
-        to_addresses = [watcher.email for watcher in Watcher.objects.all()]
-        if not to_addresses:
-            return
-
-        email_body = f"...{str(self.body.getvalue())[-1000:]}"
-        email = EmailMessage(
-            subject=subject,
-            body=email_body,
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            to=to_addresses,
-        )
-        email.send()
 
     def handle_interrupt(self) -> None:
         """
