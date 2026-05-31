@@ -29,6 +29,7 @@ packaging = "^23.1"
 typing-extensions = "^4.5.0"
 djangorestframework = "^3.12.4"
 hx-requests = "*"                     # Starred even though breaking changes in minor versions because let the application decide when to upgrade
+dynpy-teams = "*"
 
 [tool.poetry.group.dev.dependencies]
 asgiref = ">=3.3.2,<4"

@@ -41,8 +41,8 @@ class LoggingCommand(BaseCommand):
     service_name: Optional[str] = None
     log_model: Log
     status: str
-    post_status_to_team: bool = True
-    send_status_watcher_emails: bool = True
+    post_status_to_team: list[str] = [LogStatus.WARN, LogStatus.FAIL]
+    send_status_watcher_emails: list[str] = [LogStatus.WARN, LogStatus.FAIL]
 
     def __init__(self):
         super().__init__()
