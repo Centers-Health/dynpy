@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v9.7.0 (2026-06-07)
+### Feature
+- Add hmo_billing_pharmacy_user permission codename ([`241886b`](https://github.com/Centers-health/dynpy/commit/241886bb8c22500d2003a679301676fdb5068537))
+
+
 ## v9.0.0 (2025-08-19)
 ### Breaking
 - Update strawberry_graphql ([`f6baa67`](https://github.com/Centers-health/dynpy/commit/f6baa6708352f92b9aa4747c5c4b70d2bc555dc2))
