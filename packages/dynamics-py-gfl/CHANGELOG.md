@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v21.2.0 (2026-06-10)
+### Feature
+- Remove close side panel tooltip ([`51d0be1`](https://github.com/Centers-health/dynpy/commit/51d0be143ffff39063adcc43b49e80587e61d6b9))
+
+
 ## v21.0.1 (2026-04-21)
 ### Fix
 - Clear selected values after bulk update settles ([`81b4faa`](https://github.com/Centers-health/dynpy/commit/81b4faa48b5d1b9f9a8197b507c51c0c663dc00e))
