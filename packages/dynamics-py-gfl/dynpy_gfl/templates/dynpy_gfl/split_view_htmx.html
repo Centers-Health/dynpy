@@ -142,7 +142,6 @@
             {% if view.side_panel_is_closable %}
                 <span class="cursor-pointer text-dark close-btn btn btn-sm btn-light p-1"
                       style="z-index: 10"
-                      title="Close panel (Esc)"
                       data-toggle="tooltip"
                       @click="$store.splitView.closeSidePanel()"
                       @keydown.window="if ($event.key === 'Escape') $store.splitView.closeSidePanel()"
