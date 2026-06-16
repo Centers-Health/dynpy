@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v10.1.1 (2026-06-16)
+### Fix
+- Formset total count when deleting saved forms ([`a5e8f86`](https://github.com/Centers-health/dynpy/commit/a5e8f866ff3856ad66fc77c753e12bf274194500))
+
+
 ## v10.0.3 (2025-10-22)
 ### Fix
 - Bug causing groupaware filter to fail on post requests ([`ecd1c9c`](https://github.com/Centers-health/dynpy/commit/ecd1c9cbed49fc445c447a010992c43c85a13348))
