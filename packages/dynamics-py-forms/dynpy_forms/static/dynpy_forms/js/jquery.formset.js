@@ -263,16 +263,27 @@
 					callback: (result) => {
 						if (result === true) {
 							if (del.length) {
-								// We're dealing with an inline formset.
-								// Rather than remove this form from the DOM, we'll mark it as deleted
-								// and hide it, then let Django handle the deleting:
-								del.val("on");
-								row.hide();
-								forms = $(`.${options.formCssClass}`, wrapper).not(":hidden");
-								// If hiding last form, then can't subtract from totalForms.
-								// If subtract, it won't delete it.
-								if (!removeLastAddForm) {
-									totalForms.val(forms.length);
+								const id = row.find(
+									'input:hidden[id $= "-id"], input:hidden[name $= "-id"]',
+								);
+								const isSavedForm = id.length && id.val();
+
+								if (isSavedForm) {
+									// Saved inline forms must stay in TOTAL_FORMS so Django
+									// receives their id and DELETE flag.
+									del.val("on");
+									row.hide();
+									forms = $(`.${options.formCssClass}`, wrapper).not(":hidden");
+								} else {
+									// Unsaved inline forms have no database row to delete, so
+									// remove them from the submitted form count.
+									row.remove();
+									forms = $(`.${options.formCssClass}`, wrapper).not(
+										":hidden, .formset-custom-template",
+									);
+									if (!removeLastAddForm) {
+										totalForms.val(forms.length);
+									}
 								}
 							} else {
 								row.remove();
@@ -466,7 +477,7 @@
 		formCssClass: "dynamic-form", // CSS class applied to each form in a formset
 		extraClasses: [], // Additional CSS classes, which will be applied to each form in turn
 		keepFieldValues: "", // jQuery selector for fields whose values should be kept when the form is cloned
-		added: null, // Function called each time a new form is added, can be a function or string of function name
+		added: null, // Function called each time a form is added, can be a function or string of function name
 		removed: null, // Function called each time a form is deleted, can be a function or string of function name
 		removeLastAddForm: false, // When set to true, removes last empty add form
 		removeLastAddFormUnlessIsOnlyForm: false, // When set to true, removes last empty add form, unless it's the only form
