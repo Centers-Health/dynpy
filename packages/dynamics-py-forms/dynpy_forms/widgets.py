@@ -54,6 +54,43 @@ class MonthPickerLastDay(MonthPicker):
         return f"{monthyear}-{last_day}"
 
 
+class _NormalizedMonthPickerValueMixin:
+    """Normalize typeable month-picker submissions before the widget parses them.
+
+    This accepts a value in MM/YYYY format that the visible text field can send,
+    preserves already-valid YYYY-MM values, and leaves malformed input alone so
+    Django's normal field validation can report it instead of crashing.
+    """
+
+    def value_from_datadict(self, data, files, name):
+        normalized_data = data.copy()
+        normalized_data[name] = self._normalize_month_picker_value(data.get(name, ""))
+        return super().value_from_datadict(normalized_data, files, name)
+
+    def _normalize_month_picker_value(value: Any) -> Any:
+        if not isinstance(value, str) or not value:
+            return value
+
+        if value.count("/") != 1:
+            return value
+
+        month, year = value.split("/")
+        if month.isdigit() and year.isdigit() and len(year) == 4:
+            month_number = int(month)
+            if 1 <= month_number <= 12:
+                return f"{year}-{month_number:02d}"
+
+        return value
+
+
+class MonthTypeableWidget(_NormalizedMonthPickerValueMixin, MonthPicker):
+    pass
+
+
+class MonthTypeableLastDayWidget(_NormalizedMonthPickerValueMixin, MonthPickerLastDay):
+    pass
+
+
 class BootstrapSelect(widgets.Select):
     template_name = "dynpy_forms/widgets/multiselect.html"
 
