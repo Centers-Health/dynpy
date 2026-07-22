@@ -64,9 +64,10 @@ class _NormalizedMonthPickerValueMixin:
 
     def value_from_datadict(self, data, files, name):
         normalized_data = data.copy()
-        normalized_data[name] = self._normalize_month_picker_value(data.get(name, ""))
+        normalized_data[name] = self._normalize_month_picker_value(data.get(name))
         return super().value_from_datadict(normalized_data, files, name)
 
+    @staticmethod
     def _normalize_month_picker_value(value: Any) -> Any:
         if not isinstance(value, str) or not value:
             return value
@@ -75,7 +76,7 @@ class _NormalizedMonthPickerValueMixin:
             return value
 
         month, year = value.split("/")
-        if month.isdigit() and year.isdigit() and len(year) == 4:
+        if month.isdigit() and year.isdigit() and len(month) == 2 and len(year) == 4:
             month_number = int(month)
             if 1 <= month_number <= 12:
                 return f"{year}-{month_number:02d}"
