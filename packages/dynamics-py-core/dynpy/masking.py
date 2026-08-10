@@ -14,28 +14,38 @@ APIs), real PHI must not land in the local database. This module provides:
   mask via a ``mask_fields`` mapping and call ``apply_masking()`` on fetched
   rows.
 
-Determinism contract: these strategies intentionally replicate the SQL
-masking used by the chc-cli seed command: same salt, same 48-bit md5 hash,
-and the same frozen value pools (dynpy.masking_pools). A database seeded
-from a masked dump and rows masked here therefore produce IDENTICAL fakes
-for the same real value — resident matching by name/DOB keeps working
-against seeded data. Do not change the salt, the hash, or the pools without
-changing them everywhere.
+Determinism: every strategy derives its output from md5(salt + value), so
+the same real value maps to the same fake within and across runs on the
+same machine. Identifier-shaped strategies (ssn, cin, medicare, digit IDs)
+are pure hash arithmetic — those are the only masked values any matching
+logic touches. Name/street/city pools are generated with seeded Faker, so
+they are stable per Faker version; nothing matches on them (imports match
+residents on System_No, which is never masked).
 
 All strategies preserve ``None`` and empty strings.
+
+Faker is a dev-group dependency and is only imported when a pool-backed
+strategy actually runs (which requires DJANGO_ENV == "dev"), so production
+images never import it.
 """
 
 import hashlib
 from collections.abc import Callable, Iterable
 from datetime import date, datetime, time
+from functools import lru_cache
 from typing import Any
 
 from django.conf import settings
 
-from dynpy import masking_pools
-
 MASKING_SALT_SETTING = "MASKING_SALT"
 DEFAULT_MASKING_SALT = "chc-mask-v1"
+
+_POOL_SEED = 20260810
+_NY_COUNTIES = (
+    "Albany", "Bronx", "Broome", "Dutchess", "Erie", "Kings", "Monroe", "Nassau",
+    "New York", "Niagara", "Oneida", "Onondaga", "Orange", "Putnam", "Queens",
+    "Richmond", "Rockland", "Suffolk", "Ulster", "Westchester",
+)  # fmt: skip
 
 
 def masking_enabled() -> bool:
@@ -68,13 +78,31 @@ def _letter(n: int) -> str:
     return chr(65 + (n % 26))
 
 
-_POOLS: dict[str, tuple[str, ...]] = {
-    "first_names": masking_pools.FIRST_NAMES,
-    "last_names": masking_pools.LAST_NAMES,
-    "streets": masking_pools.STREETS,
-    "cities": masking_pools.CITIES,
-    "counties": masking_pools.COUNTIES,
-}
+@lru_cache(maxsize=1)
+def _pools() -> dict[str, list[str]]:
+    """Fake value pools, generated once per process with seeded Faker."""
+    from faker import Faker  # dev-group dependency; see module docstring
+
+    fake = Faker("en_US")
+    fake.seed_instance(_POOL_SEED)
+
+    def unique_pool(generate: Callable[[], str], count: int) -> list[str]:
+        values: list[str] = []
+        seen: set[str] = set()
+        while len(values) < count:
+            value = generate()
+            if value not in seen:
+                seen.add(value)
+                values.append(value)
+        return values
+
+    return {
+        "first_names": unique_pool(fake.first_name, 60),
+        "last_names": unique_pool(fake.last_name, 60),
+        "streets": unique_pool(fake.street_name, 40),
+        "cities": unique_pool(fake.city, 40),
+        "counties": list(_NY_COUNTIES),
+    }
 
 
 def _skip(value: Any) -> bool:
@@ -83,7 +111,7 @@ def _skip(value: Any) -> bool:
 
 
 def _pick(value: Any, pool_name: str) -> str:
-    pool = _POOLS[pool_name]
+    pool = _pools()[pool_name]
     return pool[_h(value) % len(pool)]
 
 
