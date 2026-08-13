@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v9.8.0 (2026-08-13)
+### Feature
+- Add insurance options permission codenames ([`6db73ef`](https://github.com/Centers-health/dynpy/commit/6db73efb83bd6fa9797c7e4ce7b7d55216f96858))
+
+
 ## v9.7.0 (2026-06-07)
 ### Feature
 - Add hmo_billing_pharmacy_user permission codename ([`241886b`](https://github.com/Centers-health/dynpy/commit/241886bb8c22500d2003a679301676fdb5068537))

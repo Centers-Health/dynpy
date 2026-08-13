@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dynpy_cas"
-version = "9.7.0"
+version = "9.8.0"
 description = ""
 authors = ["Team Dynamics"]
 
