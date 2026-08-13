@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v4.0.1 (2026-08-13)
+### Fix
+- Make copyable idempotent and cover htmx-swapped content ([`27fa9ed`](https://github.com/Centers-health/dynpy/commit/27fa9ede2dd198b3e197b32d5e4392a3176e98fb))
+
+
 ## v3.0.1 (2025-09-09)
 ### Fix
 - Replace rem with px for fixed width on app switcher ([`fba3ef1`](https://github.com/Centers-health/dynpy/commit/fba3ef16ba9de4d6d7138b7e6e3e15d6676af5fe))
