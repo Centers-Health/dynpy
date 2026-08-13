@@ -64,6 +64,40 @@ def describe_filter_counts_hx():
         assert inactive_span.text == "1"
 
     @pytest.mark.django_db
+    @pytest.mark.parametrize("selected_tab", [None, "active", "inactive"])
+    def it_does_not_call_view_get_and_preserves_rendered_counts(django_user_model, selected_tab, mocker):
+        class FiltersetWithTabs(TestFilterset):
+            tabs_filter = TabFilter(
+                choices=[("active", "Active"), ("inactive", "Inactive")],
+                method="filter_by_status",
+                empty_label=None,
+            )
+
+            def filter_by_status(self, queryset, name, value):
+                if value == "active":
+                    return queryset.filter(is_active=True)
+                if value == "inactive":
+                    return queryset.filter(is_active=False)
+                return queryset
+
+        class ViewWithTabs(TestHxView):
+            filterset_class = FiltersetWithTabs
+
+        django_user_model.objects.create(username="active1", is_active=True)
+        django_user_model.objects.create(username="active2", is_active=True)
+        django_user_model.objects.create(username="inactive1", is_active=False)
+
+        get_params = {"tabs_filter": selected_tab} if selected_tab else None
+        view_get = mocker.spy(ViewWithTabs, "get")
+        response = hx_get(FilterCountsHx, ViewWithTabs, get_params=get_params)
+
+        assert not view_get.called
+        assert response.content.decode() == (
+            '\n    \n<span hx-swap-oob="true" id="tabs_filter__active__count">2</span>\n'
+            '\n\n    \n<span hx-swap-oob="true" id="tabs_filter__inactive__count">1</span>\n\n\n'
+        )
+
+    @pytest.mark.django_db
     def it_returns_counts_for_quick_filters(django_user_model):
         class FiltersetWithQuickFilters(TestFilterset):
             quick_filters = ["is_staff"]

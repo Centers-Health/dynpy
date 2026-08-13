@@ -183,6 +183,7 @@ class FilterCountsHx(BaseHxRequest):
     """
 
     name = "filter_counts"
+    get_views_context = False
 
     def get_filters_to_count(self) -> list[str]:
         """Return list of filter names to compute counts for."""
@@ -194,6 +195,7 @@ class FilterCountsHx(BaseHxRequest):
         return filters
 
     def get_response_html(self, **kwargs) -> str:
+        self.view.setup_filterset()
         counts = []
         filterset_class = self.view.get_filterset_class()
         # Use request.GET (raw QueryDict) instead of cleaned_data to avoid passing

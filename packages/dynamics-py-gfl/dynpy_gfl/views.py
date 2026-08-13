@@ -79,6 +79,14 @@ class GenericFilterListView(CustomFilterView):
     fixed_header: bool = False
     freeze_columns: int = 0
 
+    def setup_filterset(self):
+        """
+        Set up the filterset for requests that need filter context without the full view.
+        """
+        filterset_class = self.get_filterset_class()
+        self.filterset = self.get_filterset(filterset_class)
+        self.object_list = self.filterset._meta.model.objects.none()
+
     def get_columns(self) -> list[dict]:
         """
         A method that returns a list of the column definitions.
@@ -243,15 +251,6 @@ class GFLSplitView(GenericFilterListView):
 
         context["close_side_panel"] = self.is_open_by_default is False and not self.object_pk
         return context
-
-    def setup_filterset(self):
-        """
-        For the ajax call that loads the side panel to load the
-        filterset.
-        """
-        filterset_class = self.get_filterset_class()
-        self.filterset = self.get_filterset(filterset_class)
-        self.object_list = self.filterset._meta.model.objects.none()
 
     def get_object(self):
         model = self.filterset._meta.model
