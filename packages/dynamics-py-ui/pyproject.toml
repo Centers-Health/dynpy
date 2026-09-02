@@ -27,6 +27,10 @@ pytest-xdist = "*"
 pytest-mock = "*"
 beautifulsoup4 = "^4.11.1"
 pytest-testmon = "^1.0.3"
+# pytest-testmon imports pkg_resources at load. Poetry 2.x no longer seeds
+# setuptools into the venv, so it has to be a real dependency. Capped below 81,
+# the release that dropped pkg_resources.
+setuptools = "<81"
 pdbpp = "*"
 pytest-flakefinder = "^1.0.0"
 django-types = "^0.16.0"
