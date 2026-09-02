@@ -8,10 +8,8 @@ REPO_ROOT := $(PWD)
 
 define INSTALL_PACKAGES
 	@for PACKAGE in $(PACKAGES); do \
-		(cd $$PACKAGE && \
-			echo ">> $$PACKAGE"&& \
-			poetry --directory $$PACKAGE install \
-		); \
+		echo ">> $$PACKAGE" && \
+		poetry --directory $$PACKAGE install || exit 1; \
 	done
 endef
 
