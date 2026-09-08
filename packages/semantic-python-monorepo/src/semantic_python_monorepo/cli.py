@@ -83,6 +83,12 @@ def main():  # noqa: C901
     cq.execute(CL.calculate_version_bumps(pr, commits))
 
     packages_with_bumps = pr.sorted_packages_with_bumps
+    if not packages_with_bumps:
+        console.print(
+            "[bold yellow]Nothing to release: no commit since the last release bumps a version"
+        )
+        fail_fast(0)
+
     console.print(f"{len(packages_with_bumps)} packages found with bumps")
     for p in packages_with_bumps:
         console.print(Padding(f"- {p.package}", (0, 4)))

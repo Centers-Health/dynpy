@@ -123,7 +123,8 @@ class CommandLibrary:
             name="Calculate Version Bumps",
             apply=lambda: calculate_version_bumps_to_apply(pr, commits),
             rollback=None,
-            validate=lambda: len(pr.sorted_packages_with_bumps) > 0,
+            # Finding no bumps is a valid result, handled by the caller.
+            validate=lambda: True,
         )
 
     @staticmethod
