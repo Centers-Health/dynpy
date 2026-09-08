@@ -32,14 +32,14 @@ jobs:
 
       - name: Install SPM and poetry
         run: |
-          pip install poetry==1.8.3
+          pip install poetry==2.4.0
           pip install --force-reinstall packages/semantic-python-monorepo
 
       - name: Install Poetry Plugins
         run: |
-          # 0.4.0 requires poetry >=2, and this job pins poetry to 1.8.3
-          poetry self add 'poetry-bumpversion<0.4'
-          poetry self add 'poetry-plugin-mono-repo-deps<0.4'
+          # pinned so a plugin major cannot land unannounced, as 0.4.0 did
+          poetry self add 'poetry-bumpversion<0.5'
+          poetry self add 'poetry-plugin-mono-repo-deps<0.5'
           # reset this back, since 20.31.x has a breaking change
           pip install virtualenv==20.30.0
 
