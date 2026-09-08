@@ -143,7 +143,7 @@ class CommandLibrary:
             name="Update Package Lock Files",
             apply=lambda: [
                 log_run(
-                    ["poetry", "lock", "--no-update"],
+                    ["poetry", "lock"],
                     cwd=f"packages/{package.package}",
                 )
                 for package in packages_with_bumps
