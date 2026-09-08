@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v10.2.0 (2026-09-08)
+### Other
+- Fix package installation and restore pkg_resources ([`d44ca44`](https://github.com/Centers-health/dynpy/commit/d44ca44e704700d88d435be38f2bf319edd665d1))
+
+
 ## v10.1.1 (2026-06-16)
 ### Fix
 - Formset total count when deleting saved forms ([`a5e8f86`](https://github.com/Centers-health/dynpy/commit/a5e8f866ff3856ad66fc77c753e12bf274194500))

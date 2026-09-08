@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v21.3.0 (2026-09-08)
+### Other
+- Fix package installation and restore pkg_resources ([`d44ca44`](https://github.com/Centers-health/dynpy/commit/d44ca44e704700d88d435be38f2bf319edd665d1))
+
+
 ## v21.2.0 (2026-06-10)
 ### Feature
 - Remove close side panel tooltip ([`51d0be1`](https://github.com/Centers-health/dynpy/commit/51d0be143ffff39063adcc43b49e80587e61d6b9))

@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v10.2.0 (2026-09-08)
+### Other
+- Fix package installation and restore pkg_resources ([`d44ca44`](https://github.com/Centers-health/dynpy/commit/d44ca44e704700d88d435be38f2bf319edd665d1))
+
+
 ## v10.0.0 (2025-10-16)
 ### Fix
 - Ensure actions can load html with inline script modules ([`8ec60bb`](https://github.com/Centers-health/dynpy/commit/8ec60bb0a3cdcb3048588f4be1080568e1394113))

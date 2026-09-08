@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v21.7.0 (2026-09-08)
+### Feature
+- Restore the external host behind a reverse proxy ([`ece71eb`](https://github.com/Centers-health/dynpy/commit/ece71eb296f27c86f59febb18a7372f7214caba1))
+### Other
+- Fix package installation and restore pkg_resources ([`d44ca44`](https://github.com/Centers-health/dynpy/commit/d44ca44e704700d88d435be38f2bf319edd665d1))
+
+
 ## v21.6.0 (2026-05-26)
 ### Feature
 - Add htmxloginrequiredmiddleware for htmx session timeout handling ([`ed8f7d8`](https://github.com/Centers-health/dynpy/commit/ed8f7d802701d0d2520c2038980c00fb53c97ae5))

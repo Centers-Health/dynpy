@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v9.9.0 (2026-09-08)
+### Other
+- Fix package installation and restore pkg_resources ([`d44ca44`](https://github.com/Centers-health/dynpy/commit/d44ca44e704700d88d435be38f2bf319edd665d1))
+
+
 ## v9.8.0 (2026-08-13)
 ### Feature
 - Add insurance options permission codenames ([`6db73ef`](https://github.com/Centers-health/dynpy/commit/6db73efb83bd6fa9797c7e4ce7b7d55216f96858))
