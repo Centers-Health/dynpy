@@ -7,7 +7,7 @@ from hx_requests.utils import serialize, serialize_kwargs
 
 
 def add_middleware_to_request(request):
-    request.session = "session"
+    request.session = {}
     messages = FallbackStorage(request)
     request._messages = messages
 
