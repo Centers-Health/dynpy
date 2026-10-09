@@ -47,7 +47,7 @@ def display_action(
     action_kwargs = action_kwargs or {}
 
     # Add message middleware
-    request.session = "session"
+    request.session = {}
     messages = FallbackStorage(request)
     request._messages = messages
 
@@ -158,7 +158,7 @@ def handle_action(
     request = request_factory.post(form_action, data=form_data)
 
     # Add message middleware
-    request.session = "session"
+    request.session = {}
     messages = FallbackStorage(request)
     request._messages = messages
 
