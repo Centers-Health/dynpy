@@ -551,7 +551,7 @@ files = [
 
 [[package]]
 name = "dynpy"
-version = "21.7.1"
+version = "21.7.2"
 description = ""
 optional = false
 python-versions = "^3.11"
@@ -581,7 +581,7 @@ url = "../dynamics-py-core"
 
 [[package]]
 name = "dynpy-actions"
-version = "10.2.1"
+version = "10.2.2"
 description = ""
 optional = false
 python-versions = "^3.11"
@@ -601,7 +601,7 @@ url = "../dynamics-py-actions"
 
 [[package]]
 name = "dynpy-forms"
-version = "10.2.1"
+version = "10.2.2"
 description = ""
 optional = false
 python-versions = "^3.11"

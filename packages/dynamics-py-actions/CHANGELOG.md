@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v10.2.2 (2026-10-09)
+### Fix
+- Give every test request helper a readable session ([`345bbb0`](https://github.com/Centers-health/dynpy/commit/345bbb0f5558fba1f5788cafc38ce5a483eb8961))
+
+
 ## v10.2.0 (2026-09-08)
 ### Other
 - Fix package installation and restore pkg_resources ([`d44ca44`](https://github.com/Centers-health/dynpy/commit/d44ca44e704700d88d435be38f2bf319edd665d1))

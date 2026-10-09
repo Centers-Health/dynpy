@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v21.7.2 (2026-10-09)
+### Fix
+- Give every test request helper a readable session ([`345bbb0`](https://github.com/Centers-health/dynpy/commit/345bbb0f5558fba1f5788cafc38ce5a483eb8961))
+
+
 ## v21.7.1 (2026-10-09)
 ### Fix
 - Give hx test requests a readable session ([`f5083bc`](https://github.com/Centers-health/dynpy/commit/f5083bc6d43a91af62e533544695e4203ff3edcc))
