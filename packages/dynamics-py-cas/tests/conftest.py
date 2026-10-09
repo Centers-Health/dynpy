@@ -31,7 +31,7 @@ def test_ext_perm(django_user_model):
 @pytest.fixture
 def add_middleware_to_request():
     def _add_middleware_to_request(request):
-        request.session = "session"
+        request.session = {}
         messages = FallbackStorage(request)
         request._messages = messages
 
