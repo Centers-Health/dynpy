@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v0.10.7 (2026-10-09)
+### Fix
+- Exit cleanly when there is nothing to release ([`06008f5`](https://github.com/Centers-health/dynpy/commit/06008f576ad3eba0f70bc8100f1c50e147d9cc50))
+### Other
+- Upgrade the release job to poetry 2 ([`6ff9663`](https://github.com/Centers-health/dynpy/commit/6ff96630e8abff2981fc5bc8e6f2a441a00b4846))
+
+
 ## v0.10.6 (2025-09-16)
 ### Fix
 - Breaks when package is dict but missing keys ([`8eb2bf5`](https://github.com/Centers-health/dynpy/commit/8eb2bf522599ba522738413dfd205c65c5122260))

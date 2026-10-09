@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v21.7.1 (2026-10-09)
+### Fix
+- Give hx test requests a readable session ([`f5083bc`](https://github.com/Centers-health/dynpy/commit/f5083bc6d43a91af62e533544695e4203ff3edcc))
+
+
 ## v21.7.0 (2026-09-08)
 ### Feature
 - Restore the external host behind a reverse proxy ([`ece71eb`](https://github.com/Centers-health/dynpy/commit/ece71eb296f27c86f59febb18a7372f7214caba1))
